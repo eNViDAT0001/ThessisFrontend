@@ -1,10 +1,8 @@
+import { MainRoute } from "./routing/MainRoute";
 
-import MainRoute from "./routing/MainRoute";
-
-import "./App.css";
 function App() {
   return (
-          <MainRoute />
+    <MainRoute />
   );
 }
 
