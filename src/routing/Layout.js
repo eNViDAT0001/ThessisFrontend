@@ -6,7 +6,6 @@ import { HeaderUser } from "../components/Common/HeaderUser";
 export const LoginLayOut = () => {
   return (
     <div>
-      <Header />
       <Outlet></Outlet>
       <Footer />
     </div>
