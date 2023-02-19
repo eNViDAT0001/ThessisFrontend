@@ -3,31 +3,30 @@ import { Link } from "react-router-dom";
 import { Box, Divider, TextField } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { useNavigate } from "react-router-dom";
 import LoginBody from "../../app/models/Create/Auth/LoginBody";
-import { Login, LoginHook } from "../../app/hook/AuthHook";
+import { loginHook } from "../../app/hook/AuthHook";
 
 
 export const LoginForm = () => {
-  const navigate = useNavigate();
 
   const [username,setUsername] = useState("")
   const [password,setPassword] = useState("")
   
-
-  
+  localStorage.setItem("a",2)
   const handleChangePassword = (e) => {
     setPassword(e.target.value);
 
   };
+  console.log(localStorage.getItem("a"))
   const handleChangeUsername = (e) => {
     setUsername(e.target.value)
   };
   
   const handleLoginButton = async (event) => {
     const body = new LoginBody(username,password)
-    LoginHook(body)
+    loginHook(body)
   };
+  
   const loginWithEnter = async (event) => {
     if (event.key === "Enter") {
       handleLoginButton();

@@ -1,4 +1,7 @@
-import React from 'react'
+import React from "react";
+import StorefrontIcon from '@mui/icons-material/Storefront';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 
 export const HeaderUser = () => {
   return (
@@ -7,25 +10,17 @@ export const HeaderUser = () => {
         <div className="flex justify-between items-center">
           <div className="font-['Inter'] font-bold text-[#131313] text-lg uppercase ">
             <div className="flex flex-row space-x-[30px]">
-              <h1 className="hover:underline underline-offset-8 hover:cursor-pointer">
-                Home
-              </h1>
-              <h1 className="hover:underline underline-offset-8 hover:cursor-pointer">
-                Category
-              </h1>
-              <h1 className="hover:underline underline-offset-8 hover:cursor-pointer">
-                Order
-              </h1>
-              <h1 className="hover:underline underline-offset-8 hover:cursor-pointer">
-                Contact
-              </h1>
-
-              
+              <h1 className="hover:underline underline-offset-8 hover:cursor-pointer">Home</h1>
+              <h1 className="hover:underline underline-offset-8 hover:cursor-pointer">Category</h1>
+              <h1 className="hover:underline underline-offset-8 hover:cursor-pointer">Order</h1>
+              <h1 className="hover:underline underline-offset-8 hover:cursor-pointer">Contact</h1>
             </div>
           </div>
-
+          <div className="hover:cursor-pointer ">
+            <StorefrontIcon />
+          </div>     
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

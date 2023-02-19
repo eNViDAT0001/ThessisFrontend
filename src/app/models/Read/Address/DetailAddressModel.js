@@ -12,7 +12,7 @@ class DetailAddressModel {
         this.province = province;
         this.district = district;
         this.ward = ward;
-        this.ward = street;
+        this.street = street;
     }
 }
 

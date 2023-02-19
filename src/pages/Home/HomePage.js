@@ -1,7 +1,12 @@
 import React from 'react'
+import { Banner } from '../../components/Home/Banner';
+
 
 export const HomePage = () => {
+
   return (
-    <div className='p-4'>HomePage</div>
+    <div className='py-2'>
+      <Banner />
+    </div>
   )
 }

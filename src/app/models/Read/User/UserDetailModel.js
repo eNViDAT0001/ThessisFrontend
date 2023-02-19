@@ -1,7 +1,7 @@
 class UserDetailModel {
-    constructor(ID, username, name, birthday, gender, email, phone, avatar,type)
+    constructor(id, username, name, birthday, gender, email, phone, avatar,type)
     {
-        this.ID = ID;
+        this.id = id;
         this.username = username;
         this.name = name;
         this.birthday = birthday;
