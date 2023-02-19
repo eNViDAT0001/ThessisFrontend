@@ -1,4 +1,4 @@
-class ListBannerModel {
+class BannerModel {
     constructor(id, created_at, updated_at, deleted_at, user_id, title, collection, discount,image,endTime)
     {
         this.id = id;
@@ -27,4 +27,4 @@ class ListBannerModel {
     }
 }
 
-export default ListBannerModel
+export default BannerModel

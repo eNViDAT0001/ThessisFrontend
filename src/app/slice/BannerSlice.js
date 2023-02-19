@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import BannerDetailModel from "../models/Read/Banner/BannerDetailModel";
+import BannerModel from "../models/Read/Banner/BannerModel";
 
 const initialState = {
   listBanner: [],

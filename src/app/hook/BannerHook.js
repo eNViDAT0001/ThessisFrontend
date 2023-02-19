@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ProductApi } from "../../api/ProductApi";
 import BannerDetailModel from "../models/Read/Banner/BannerDetailModel";
-import ListBannerModel from "../models/Read/Banner/ListBannerModel";
+import BannerModel from "../models/Read/Banner/BannerModel";
 import { setListBanner } from "../slice/BannerSlice";
 
-export const useListBanner = () =>
-  useSelector((state) => state.banner.listBanner);
+export const useListBanner = () => useSelector((state) => state.banner.listBanner);
+
 
 export const useBannerDetail = () =>
   useSelector((state) => state.banner.bannerDetail);
@@ -17,7 +17,7 @@ export const fetchListBanner = () => async (dispatch) => {
     //logic transform
     const res = []
     response.data.data.map(data =>{
-        const transform = new ListBannerModel()
+        const transform = new BannerModel()
         transform.transformToModel(data)
         res.push(transform)
     })

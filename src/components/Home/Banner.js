@@ -7,7 +7,7 @@ export const Banner = () => {
   const [indexBanner, setIndexBanner] = useState(0);
 
   const listBanner = useListBanner();
-  console.log(listBanner[0])
+  console.log(listBanner)
   useFetchListBanner();
 
   const onPrevClickHandler = (e) =>{
