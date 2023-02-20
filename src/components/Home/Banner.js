@@ -4,11 +4,10 @@ import { useFetchListBanner, useListBanner } from "../../app/hook/BannerHook";
 import { AiOutlineVerticalLeft, AiOutlineVerticalRight } from "react-icons/ai";
 
 export const Banner = () => {
+
   const [indexBanner, setIndexBanner] = useState(0);
 
   const listBanner = useListBanner();
-  console.log(listBanner)
-  useFetchListBanner();
 
   const onPrevClickHandler = (e) =>{
     if(indexBanner > 0) setIndexBanner(indexBanner-1)

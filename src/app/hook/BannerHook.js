@@ -1,15 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ProductApi } from "../../api/ProductApi";
-import BannerDetailModel from "../models/Read/Banner/BannerDetailModel";
 import BannerModel from "../models/Read/Banner/BannerModel";
 import { setListBanner } from "../slice/BannerSlice";
 
 export const useListBanner = () => useSelector((state) => state.banner.listBanner);
-
-
-export const useBannerDetail = () =>
-  useSelector((state) => state.banner.bannerDetail);
+export const useBannerDetail = () => useSelector((state) => state.banner.bannerDetail);
 
 export const fetchListBanner = () => async (dispatch) => {
   try {
