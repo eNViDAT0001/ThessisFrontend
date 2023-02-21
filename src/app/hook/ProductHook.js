@@ -3,18 +3,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { ProductApi } from "../../api/ProductApi";
 import { setListBanner } from "../slice/BannerSlice";
 import { setCategoryRoot } from "../slice/CategorySlice";
-import { setProductInHome } from "../slice/ProductSlice";
+import {
+  setDescriptionProduct,
+  setImageProduct,
+  setProductDetail,
+  setProductInHome,
+  setSpecificationProduct,
+} from "../slice/ProductSlice";
 
-export const useProductInHome = () => useSelector(state=>state.product.productInHome)
+export const useProductInHome = () =>
+  useSelector((state) => state.product.productInHome);
+export const useImageProduct = () =>
+  useSelector((state) => state.product.imageProduct);
+export const useDescriptionProduct = () =>
+  useSelector((state) => state.product.descriptionProduct);
+export const useSpecificaionProduct = () =>
+  useSelector((state) => state.product.specificationProduct);
 
-export const useFetchInHomePage = ()  => {
+export const useFetchInHomePage = async() => {
   const dispatch = useDispatch();
-  useEffect(() => {
+  await useEffect(() => {
     dispatch(fetchInHomePage());
   }, []);
 };
 
-export const fetchInHomePage = () => async (dispatch) => {
+const fetchInHomePage = () => async (dispatch) => {
   try {
     const promises = [
       ProductApi.GetBanners(),
@@ -22,12 +35,33 @@ export const fetchInHomePage = () => async (dispatch) => {
       ProductApi.GetProductPreview(),
     ];
     await Promise.all(promises).then((res) => {
-        dispatch(setListBanner(res?.[0].data.data))
-        dispatch(setCategoryRoot(res?.[1].data.data))
-        dispatch(setProductInHome(res?.[2].data.data))
-
+      dispatch(setListBanner(res[0].data.data));
+      dispatch(setCategoryRoot(res[1].data.data));
+      dispatch(setProductInHome(res[2].data.data));
     });
   } catch (err) {}
 };
 
+export const useFetchInProductDetail = async (id) => {
+  const dispatch = useDispatch();
+  await useEffect(() => {
+    dispatch(fetchInProductDetailPage(id));
+  }, []);
+};
 
+const fetchInProductDetailPage = (id) => async (dispatch) => {
+  try {
+    const promises = [
+      ProductApi.GetDetailProduct(id),
+      ProductApi.GetMedia(id),
+      ProductApi.GetDescriptionFromProduct(id),
+      ProductApi.GetSpecification(id),
+    ];
+    await Promise.all(promises).then((res) => {
+      dispatch(setProductDetail(res[0].data.data));
+      dispatch(setImageProduct(res?.[1].data.data));
+      dispatch(setDescriptionProduct(res?.[2].data.data));
+      dispatch(setSpecificationProduct(res[3].data.data));
+    });
+  } catch (error) {}
+};

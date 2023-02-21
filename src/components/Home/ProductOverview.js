@@ -1,9 +1,10 @@
 import React from "react";
 import { useProductInHome } from "../../app/hook/ProductHook";
+import { Link } from 'react-router-dom'
 
 export const ProductOverview = () => {
   const productInHome = useProductInHome();
-  const goToProductDetail = (e) => {};
+
   return (
     <div>
       {productInHome.length !== 0 ? (
@@ -15,9 +16,9 @@ export const ProductOverview = () => {
 
             <div className="flex flex-row justify-start flex-wrap my-[50px] ">
               {productInHome.map((data) => (
-                <div
+                <Link
                   id={data.id}
-                  onClick={goToProductDetail}
+                  to={`product/${data.id}`}
                   className=" w-[20%] h-[300px] border my-5 mx-5 mb-10 hover:scale-105 p-2 hover:border hover:shadow-2xl hover:rounded-xl hover:cursor-pointer  "
                 >
                   {data.media ? (
@@ -52,7 +53,7 @@ export const ProductOverview = () => {
                       </h1>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

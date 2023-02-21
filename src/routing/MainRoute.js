@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { LoginPage } from "../pages/AuthPage/LoginPage";
 import { RegisterPage } from "../pages/AuthPage/RegisterPage";
 import { HomePage } from "../pages/Home/HomePage";
+import { ProductDetailPage } from "../pages/ProductDetailPage/ProductDetailPage";
 import { AdminLayOut, LoginLayOut, UserLayout } from "./Layout";
 
 export const MainRoute = () => {
@@ -13,6 +14,7 @@ export const MainRoute = () => {
         <Route element={<AdminLayOut />}></Route>
         <Route element={<UserLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/product/:id" element={<ProductDetailPage />} />
         </Route>
         <Route element={<LoginLayOut />}>
           <Route path="/login" element={<LoginPage />} />
