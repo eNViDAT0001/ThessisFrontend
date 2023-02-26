@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useImageProduct } from "../../../../hook/ProductHook";
+import { useImageProduct } from "../../app/hook/ProductHook";
+
 const imgNotFound =
   "https://t3.ftcdn.net/jpg/04/62/93/66/360_F_462936689_BpEEcxfgMuYPfTaIAOC1tCDurmsno7Sp.jpg";
 export const ImageProduct = () => {
-  const listMedia = useImageProduct();
+  const listMedia = useImageProduct() || [];
     const [imageBig,setImageBig] = useState()
 
   const handleClickImage = (e) =>{

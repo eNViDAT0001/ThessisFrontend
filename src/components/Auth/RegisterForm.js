@@ -58,7 +58,6 @@ export const RegisterForm = () => {
       phone,
       type
     );
-    localStorage.setItem("bodyRegister",JSON.stringify(body))
     registerHook(body)
   };
 

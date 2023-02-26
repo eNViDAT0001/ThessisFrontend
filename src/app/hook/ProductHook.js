@@ -15,6 +15,8 @@ export const useProductInHome = () =>
   useSelector((state) => state.product.productInHome);
 export const useImageProduct = () =>
   useSelector((state) => state.product.imageProduct);
+export const useProductDetail = () =>
+useSelector(state=>state.product.productDetail)
 export const useDescriptionProduct = () =>
   useSelector((state) => state.product.descriptionProduct);
 export const useSpecificaionProduct = () =>
