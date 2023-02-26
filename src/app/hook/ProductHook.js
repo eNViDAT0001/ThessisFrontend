@@ -6,6 +6,7 @@ import { setCategoryRoot } from "../slice/CategorySlice";
 import {
   setDescriptionProduct,
   setImageProduct,
+  setOptionHandle,
   setProductDetail,
   setProductInHome,
   setSpecificationProduct,
@@ -16,13 +17,21 @@ export const useProductInHome = () =>
 export const useImageProduct = () =>
   useSelector((state) => state.product.imageProduct);
 export const useProductDetail = () =>
-useSelector(state=>state.product.productDetail)
+  useSelector((state) => state.product.productDetail);
 export const useDescriptionProduct = () =>
   useSelector((state) => state.product.descriptionProduct);
 export const useSpecificaionProduct = () =>
   useSelector((state) => state.product.specificationProduct);
+export const useOptionHandle = () =>
+  useSelector((state) => state.product.optionHandle);
 
-export const useFetchInHomePage = async() => {
+export const useSetOptionHandle = (option) => {
+  const dispatch = useDispatch()
+  dispatch(setOptionHandle(option))
+}
+
+
+export const useFetchInHomePage = async () => {
   const dispatch = useDispatch();
   await useEffect(() => {
     dispatch(fetchInHomePage());

@@ -4,7 +4,10 @@ const baseURL = "http://localhost:8082/api/v1";
 
 const axiosClient = axios.create({
   baseURL,
-
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  },
 });
 const ResetToken = async () => {
   await axios
