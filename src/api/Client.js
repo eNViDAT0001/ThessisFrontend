@@ -6,8 +6,8 @@ const axiosClient = axios.create({
   baseURL,
   headers: { 
     "Content-Type" : "application/json",
-    Accept: 'application/json',
-    "Access-Control-Allow-Origin": "*",
+    Accept: '*/*',
+   "Access-Control-Allow-Origin": "*",
   },
 });
 const ResetToken = async () => {

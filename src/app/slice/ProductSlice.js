@@ -7,7 +7,12 @@ const initialState = {
   imageProduct:[],
   descriptionProduct:[],
   specificationProduct:[],
-  optionHandle:{},
+  optionHandle:{
+    id:0,
+    name:"",
+    price:0,
+    quantity:0,
+  },
 };
 
 const productSlice = createSlice({
@@ -35,7 +40,10 @@ const productSlice = createSlice({
         },
         setOptionHandle:(state,action) =>{
             state.optionHandle = action.payload
-        }
+        },
+        setQuantityHandle:(state,action)=>{
+            state.quantityHandle = action.payload
+        },
     }
 });
 
@@ -47,7 +55,7 @@ export const {
     setDescriptionProduct,
     setSpecificationProduct,
     reset,
-    setOptionHandle
+    setOptionHandle,
 } = productSlice.actions;
 
 export default productSlice.reducer;
