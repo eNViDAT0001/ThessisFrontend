@@ -1,6 +1,6 @@
 import React from "react";
 import { BasicInformation } from "./BasicInformation";
-import { ImageProduct } from "./ImageProduct";
+import { ImageProduct } from "./BasicInformation/ImageProduct";
 
 export const ProductDetail = (props) => {
   return (
