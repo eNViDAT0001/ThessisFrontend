@@ -3,6 +3,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { LoginPage } from "../pages/AuthPage/LoginPage";
 import { RegisterPage } from "../pages/AuthPage/RegisterPage";
+import { BrandPage } from "../pages/BrandPage/BrandPage";
 import { HomePage } from "../pages/Home/HomePage";
 import { ProductDetailPage } from "../pages/ProductDetailPage/ProductDetailPage";
 import { NotFound } from "../pages/SpecialPage/NotFound";
@@ -15,7 +16,9 @@ export const MainRoute = () => {
         <Route element={<AdminLayOut />}></Route>
         <Route element={<UserLayout />}>
           <Route path="/" element={<HomePage />} />
+          
           <Route path="/product/:id" element={<ProductDetailPage />} />
+          <Route path="/shop" element={<BrandPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route element={<LoginLayOut />}>
