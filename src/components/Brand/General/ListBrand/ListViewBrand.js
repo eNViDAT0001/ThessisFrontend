@@ -5,6 +5,7 @@ import FilterIcon from "@mui/icons-material/Filter";
 import { Link } from "react-router-dom";
 import { convertDate } from "../../../../app/hook/CommonHook";
 import { FilterFormBrand } from "./FilterFormBrand";
+import { useListBrand } from "../../../../app/hook/BrandHook";
 
 const VARIANT = {
   contained: "contained",
@@ -13,8 +14,8 @@ const VARIANT = {
 
 export const ListViewBrand = () => {
     const [variant, setVariant] = useState(VARIANT.contained);
-    const listBrand = []
-
+    const listBrand = useListBrand() || []
+    console.log(listBrand)
     const handleButtonFilter = (e) =>{
 
     }
@@ -31,7 +32,7 @@ export const ListViewBrand = () => {
           </Button>
         </div>
         {variant === VARIANT.contained ? <div></div> : <FilterFormBrand />}
-        <div className="my-10 pl-10 border flex flex-row bg-gradient-to-r from-[#ffafbd] to-[#ffc3a0] rounded-2xl shadow-lg">
+        <div className="my-10 pl-10 border flex flex-row bg-[#F1F3FA]">
           {listBrand.length==0 ? (
             <h1 className=" text-xl uppercase">you don't have a brand</h1>
           ) : (
@@ -44,16 +45,14 @@ export const ListViewBrand = () => {
                   <div className="flex justify-center">
                     <h1 className=" text-base font-bold my-2">{data.name}</h1>
                   </div>
-                  <Divider />
+             
                   <div className="flex flex-col">
                     <img
                       src={data.image_path}
                       alt="Anh brand"
-                      className="w-full h-[200px] p-2"
+                      className="w-full h-[200px] p-2  rounded-2xl"
                     />
-                    <div className="mt-4">
-                      <Divider />
-                    </div>
+                
                     <div className="flex justify-center">
                       <h1 className=" text-base text-[#B1B5B5] items-center">
                         Create at: {convertDate(data.created_at)}

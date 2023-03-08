@@ -3,6 +3,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { LoginPage } from "../pages/AuthPage/LoginPage";
 import { RegisterPage } from "../pages/AuthPage/RegisterPage";
+import { BrandDetailPage } from "../pages/BrandPage/BrandDetailPage";
 import { BrandPage } from "../pages/BrandPage/BrandPage";
 import { HomePage } from "../pages/Home/HomePage";
 import { ProductDetailPage } from "../pages/ProductDetailPage/ProductDetailPage";
@@ -19,6 +20,8 @@ export const MainRoute = () => {
           
           <Route path="/product/:id" element={<ProductDetailPage />} />
           <Route path="/shop" element={<BrandPage />} />
+          <Route path="/brand-detail/:id" element={<BrandDetailPage />} />
+
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route element={<LoginLayOut />}>

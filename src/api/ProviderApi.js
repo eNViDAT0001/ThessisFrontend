@@ -1,7 +1,7 @@
 import axiosClient from "./Client";
 export const ProviderApi = {
   GetListBrand: (id,filters) => {
-    const url = (filters) ? `/providers/user/${id}?${filters}` : `/providers/user/${id}`;
+    const url = `/providers/user/${id}?${filters}`;
     return axiosClient.get(url);
   },
   AddNewBrand:(id,body)=>{
