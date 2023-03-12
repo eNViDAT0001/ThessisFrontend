@@ -11,7 +11,6 @@ const categorySlice = createSlice({
         setCategoryRoot:(state,action) => {
             state.categoryRoot = action.payload
         },
-
     }
 });
 

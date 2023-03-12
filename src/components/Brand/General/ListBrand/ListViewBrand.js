@@ -40,7 +40,7 @@ export const ListViewBrand = () => {
               {listBrand.map((data) => (
                 <Link
                   to={`/brand-detail/${data.id}`}
-                  className="w-[20%] min-h-[320px] max-h-[400px] border rounded-2xl shadow-xl my-5 mx-5 bg-white hover:scale-105"
+                  className="w-[20%] min-w-[100px] min-h-[270px] max-h-[400px] border rounded-2xl shadow-xl my-5 mx-5 bg-white hover:scale-105"
                 >
                   <div className="flex justify-center">
                     <h1 className=" text-base font-bold my-2">{data.name}</h1>

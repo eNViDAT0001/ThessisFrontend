@@ -60,7 +60,6 @@ export const FormAddBrand = () => {
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append("files", file);
-    
     UploadFile(formData)
   };
   const handleButtonAdd = (e) => {};

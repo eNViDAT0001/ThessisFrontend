@@ -6,8 +6,6 @@ import { CategoryRoof } from '../../components/Home/CategoryRoof';
 
 export const HomePage = () => {
   useFetchInHomePage()
-  const product = useProductDetail()
-  console.log(product)
   return (
     <div className='py-2'>
       <Banner />

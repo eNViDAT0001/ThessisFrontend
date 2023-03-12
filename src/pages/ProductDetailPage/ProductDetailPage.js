@@ -8,7 +8,6 @@ import { ProductDetail } from "../../components/ProductDetail/ProductDetail";
 
 export const ProductDetailPage = () => {
   const { id } = useParams();
-
   useFetchInProductDetail(id);
 
   useEffect(() => {

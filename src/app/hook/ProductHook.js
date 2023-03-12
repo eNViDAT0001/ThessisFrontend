@@ -23,9 +23,8 @@ export const useSpecificaionProduct = () =>
   useSelector((state) => state.product.specificationProduct);
 export const useOptionHandle = () =>
   useSelector((state) => state.product.optionHandle);
-export const useQuantityHandle = () => 
+export const useQuantityHandle = () =>
   useSelector((state) => state.product.quantityHandle);
-
 
 export const useFetchInHomePage = async () => {
   const dispatch = useDispatch();
@@ -36,12 +35,11 @@ export const useFetchInHomePage = async () => {
 
 const fetchInHomePage = () => async (dispatch) => {
   try {
-    const promises = [
+    await Promise.all([
       ProductApi.GetBanners(),
       ProductApi.GetCategoriesRoof(),
       ProductApi.GetProductPreview(),
-    ];
-    await Promise.all(promises).then((res) => {
+    ]).then((res) => {
       dispatch(setListBanner(res[0].data.data));
       dispatch(setCategoryRoot(res[1].data.data));
       dispatch(setProductInHome(res[2].data.data));
@@ -58,13 +56,12 @@ export const useFetchInProductDetail = async (id) => {
 
 const fetchInProductDetailPage = (id) => async (dispatch) => {
   try {
-    const promises = [
+    await Promise.all([
       ProductApi.GetDetailProduct(id),
       ProductApi.GetMedia(id),
       ProductApi.GetDescriptionFromProduct(id),
       ProductApi.GetSpecification(id),
-    ];
-    await Promise.all(promises).then((res) => {
+    ]).then((res) => {
       dispatch(setProductDetail(res[0].data.data));
       dispatch(setImageProduct(res?.[1].data.data));
       dispatch(setDescriptionProduct(res?.[2].data.data));

@@ -1,11 +1,15 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useFetchOrderInProvider } from "../../app/hook/OrderHook";
 import { GeneralBrandDetail } from "../../components/Brand/Detail/GeneralBrandDetail/GeneralBrandDetail";
 import { OrderInDetailBrand } from "../../components/Brand/Detail/OrderInDetailBrand/OrderInDetailBrand";
 import { ProductInDetailBrand } from "../../components/Brand/Detail/ProductInDetailBrand/ProductInDetailBrand";
 
 export const BrandDetailPage = () => {
     const {id} = useParams()
+
+    useFetchOrderInProvider(id)
+    
       useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
