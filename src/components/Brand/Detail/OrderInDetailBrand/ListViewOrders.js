@@ -124,7 +124,7 @@ export const ListViewOrders = () => {
                     </StyledTableCell>
                     <StyledTableCell align="left">
                       <Autocomplete
-                        id={row.ID}
+                        id={row.id}
                         options={listStatus}
                         size="small"
                         defaultValue={row.status}

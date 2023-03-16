@@ -69,3 +69,6 @@ const fetchInProductDetailPage = (id) => async (dispatch) => {
     });
   } catch (error) {}
 };
+
+
+//add Product
