@@ -13,24 +13,29 @@ export const AddImage = () => {
   const [displayUpload, setDisplayUpload] = useState([]);
 
   const UseApiUploadPicture = async (body) => {
-    await FileApi.UploadNewPicture(body).then((res) => {
-      toast("Up ảnh thành công", {
-        type: "success",
-        autoClose: 1000,
+    if (body) {
+      await FileApi.UploadNewPicture(body).then((res) => {
+        console.log(res);
+        toast("Up ảnh thành công", {
+          type: "success",
+          autoClose: 1000,
+        });
+        displayUpload.push(res.data.data[0].url);
       });
-      displayUpload.push(res.data.data[0].url);
-    });
+    }
   };
 
   const handleButtonUploadFile = (e) => {
-    const file = e.target.files[0];
+    console.log(e.target.files)
+    const file = e.target.files;
+    if (file) {
+      dispatch(addFileInMedia(file));
 
-    dispatch(addFileInMedia(file))
+      const formDataDisplayImage = new FormData();
+      formDataDisplayImage.append("files", file);
 
-    const formDataDisplayImage = new FormData();
-    formDataDisplayImage.append("files", file);
-
-    UseApiUploadPicture(formDataDisplayImage);
+      //UseApiUploadPicture(formDataDisplayImage);
+    }
   };
   return (
     <div className="p-10 border rounded-2xl space-y-6">

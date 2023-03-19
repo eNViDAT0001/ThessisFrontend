@@ -15,7 +15,6 @@ const VARIANT = {
 export const ListViewBrand = () => {
     const [variant, setVariant] = useState(VARIANT.contained);
     const listBrand = useListBrand() || []
-    console.log(listBrand)
     const handleButtonFilter = (e) =>{
 
     }

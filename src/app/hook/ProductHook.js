@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ProductApi } from "../../api/ProductApi";
 import { setListBanner } from "../slice/BannerSlice";
@@ -28,9 +28,12 @@ export const useQuantityHandle = () =>
 
 export const useFetchInHomePage = async () => {
   const dispatch = useDispatch();
-  await useEffect(() => {
+  const loadDataHome = useCallback(async () => {
     dispatch(fetchInHomePage());
-  }, []);
+  });
+  useEffect(() => {
+    loadDataHome();
+  }, [loadDataHome]);
 };
 
 const fetchInHomePage = () => async (dispatch) => {
@@ -49,9 +52,12 @@ const fetchInHomePage = () => async (dispatch) => {
 
 export const useFetchInProductDetail = async (id) => {
   const dispatch = useDispatch();
-  await useEffect(() => {
+  const loadDataProduct = useCallback(async () => {
     dispatch(fetchInProductDetailPage(id));
-  }, []);
+  });
+  await useEffect(() => {
+    loadDataProduct();
+  }, [loadDataProduct]);
 };
 
 const fetchInProductDetailPage = (id) => async (dispatch) => {
@@ -69,6 +75,5 @@ const fetchInProductDetailPage = (id) => async (dispatch) => {
     });
   } catch (error) {}
 };
-
 
 //add Product

@@ -5,17 +5,15 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import { ToastContainer, toast } from "react-toastify";
-
+import { ToastContainer } from "react-toastify";
+import { uploadFile } from "../../../../app/hook/FileHook";
 import { PhotoCamera } from "@mui/icons-material";
-import { useAddFormBrand } from "../../../../app/hook/BrandHook";
+import { useAddFormBrand, logicAddNewBrand, useAddNewElementInListBrand } from "../../../../app/hook/BrandHook";
 import { useDispatch } from "react-redux";
 import {
   setFileUploadInAddForm,
   setNameInAddForm,
 } from "../../../../app/slice/BrandSlice";
-import { UploadFile } from "../../../../app/hook/FileHook";
-import { FileApi } from "../../../../api/FileApi";
 
 const OPTION = {
   input: "input",
@@ -25,45 +23,48 @@ const OPTION = {
 export const FormAddBrand = () => {
   const dispatch = useDispatch();
 
+  const userID = localStorage.getItem("UserID")
   const [optionButton, setOptionButton] = useState(OPTION.input);
   const addFormBrand = useAddFormBrand();
+  const addNewElementInListBrand = useAddNewElementInListBrand()
 
-  const resetImagePath = () => {
-    dispatch(setFileUploadInAddForm(""));
-  };
   const handleNameText = (e) => {
     dispatch(setNameInAddForm(e.target.value));
   };
+
   const handleButtonInput = (e) => {
     setOptionButton(e.target.value);
-    resetImagePath();
   };
+
   const handleButtonUpload = (e) => {
     setOptionButton(e.target.value);
-    resetImagePath();
   };
 
   const handleTextImage = (e) => {
     dispatch(setFileUploadInAddForm(e.target.value));
   };
 
-  const UploadFile = async (body) => {
-    await FileApi.UploadNewPicture(body).then((res) => {
-      toast("Up ảnh thành công", {
-        type: "success",
-        autoClose: 1000,
-      });
-      dispatch(setFileUploadInAddForm(res.data.data[0].url));
-    });
-  };
   const handleButtonUploadFile = (e) => {
     const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("files", file);
-    UploadFile(formData)
+    if (file) {
+      const formData = new FormData();
+      formData.append("files", file, file.name);
+      uploadFile(formData).then(res=>{
+        dispatch(setFileUploadInAddForm(res.data[0].url));
+      })
+    }
   };
-  const handleButtonAdd = (e) => {};
-  console.log(addFormBrand);
+  console.log("Debug add form brand" + JSON.stringify(addFormBrand))
+
+  const handleButtonAdd = (e) => {
+    const body={
+      user_id: userID,
+      name: addFormBrand.name,
+      image_path: addFormBrand.image_path
+    }
+    console.log(body)
+    addNewElementInListBrand(logicAddNewBrand(userID,body))
+  };
   return (
     <div className="flex flex-col space-y-5 px-5 w-full min-w-[350px] my-10">
       <ToastContainer position="top-right" newestOnTop />
