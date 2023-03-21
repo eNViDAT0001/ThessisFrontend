@@ -8,7 +8,7 @@ import FormLabel from "@mui/material/FormLabel";
 import { ToastContainer } from "react-toastify";
 import { uploadFile } from "../../../../app/hook/FileHook";
 import { PhotoCamera } from "@mui/icons-material";
-import { useAddFormBrand, logicAddNewBrand, useAddNewElementInListBrand } from "../../../../app/hook/BrandHook";
+import { useAddFormBrand, addNewBrand } from "../../../../app/hook/BrandHook";
 import { useDispatch } from "react-redux";
 import {
   setFileUploadInAddForm,
@@ -26,7 +26,6 @@ export const FormAddBrand = () => {
   const userID = localStorage.getItem("UserID")
   const [optionButton, setOptionButton] = useState(OPTION.input);
   const addFormBrand = useAddFormBrand();
-  const addNewElementInListBrand = useAddNewElementInListBrand()
 
   const handleNameText = (e) => {
     dispatch(setNameInAddForm(e.target.value));
@@ -54,7 +53,6 @@ export const FormAddBrand = () => {
       })
     }
   };
-  console.log("Debug add form brand" + JSON.stringify(addFormBrand))
 
   const handleButtonAdd = (e) => {
     const body={
@@ -62,8 +60,7 @@ export const FormAddBrand = () => {
       name: addFormBrand.name,
       image_path: addFormBrand.image_path
     }
-    console.log(body)
-    addNewElementInListBrand(logicAddNewBrand(userID,body))
+    addNewBrand(userID,body)
   };
   return (
     <div className="flex flex-col space-y-5 px-5 w-full min-w-[350px] my-10">

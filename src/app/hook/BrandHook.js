@@ -29,20 +29,16 @@ export const fetchListBrand = (id, filter) => async (dispatch) => {
   }
 };
 
-export const useAddNewElementInListBrand = (res?,userId?) => {
-  const dispatch = useDispatch();
-  const listBrand = useListBrand() || [];
-  const newBrandFake = new BrandModel(res.id, userId, res.name,res.image_path);
-  const newListBrand = [...listBrand, newBrandFake];
-  dispatch(setListBrand(newListBrand));
-};
-export const logicAddNewBrand = (userId, body) => (useAddNewElementInListBrand) => {
+export const addNewBrand = (userId, body) => {
+  console.log(body)
   return ProviderApi.AddNewBrand(userId, body).then((res) => {
-    console.log("status add new brand");
+    console.log("Status add new brand");
     toast("Add new Brand Success", {
       type: "success",
       autoClose: 1000,
+      onClose: setTimeout(() => {
+        window.location.reload();
+      }, 2000)
     });
-    useAddNewElementInListBrand(res.data.data,userId)
   });
 };
