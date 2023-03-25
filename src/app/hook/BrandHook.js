@@ -30,7 +30,6 @@ export const fetchListBrand = (id, filter) => async (dispatch) => {
 };
 
 export const addNewBrand = (userId, body) => {
-  console.log(body)
   return ProviderApi.AddNewBrand(userId, body).then((res) => {
     console.log("Status add new brand");
     toast("Add new Brand Success", {

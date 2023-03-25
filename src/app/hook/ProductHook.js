@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ProductApi } from "../../api/ProductApi";
 import { setListBanner } from "../slice/BannerSlice";

@@ -56,7 +56,6 @@ export const FormAddBrand = () => {
 
   const handleButtonAdd = (e) => {
     const body={
-      user_id: userID,
       name: addFormBrand.name,
       image_path: addFormBrand.image_path
     }

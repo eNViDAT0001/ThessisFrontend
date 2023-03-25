@@ -3,7 +3,7 @@ import { useProductInHome } from "../../app/hook/ProductHook";
 import { Link } from 'react-router-dom'
 
 export const ProductOverview = () => {
-  const productInHome = useProductInHome();
+  const productInHome = useProductInHome() || [];
 
   return (
     <div>

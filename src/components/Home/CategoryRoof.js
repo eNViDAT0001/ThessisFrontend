@@ -2,7 +2,7 @@ import React from "react";
 import { useCategoryRoof } from "../../app/hook/CategoryHook";
 
 export const CategoryRoof = () => {
-  const categoryRoof = useCategoryRoof();
+  const categoryRoof = useCategoryRoof() || [];
 
   const handleClickCategory = (e) => {};
 
