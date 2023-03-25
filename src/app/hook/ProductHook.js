@@ -77,3 +77,18 @@ const fetchInProductDetailPage = (id) => async (dispatch) => {
 };
 
 //add Product
+export const useName = () => useSelector((state) => state.addProduct.name);
+export const useCategoryId = () =>
+  useSelector((state) => state.addProduct.category_id);
+export const usePrice = () => useSelector((state) => state.addProduct.price);
+export const useDiscount = () =>
+  useSelector((state) => state.addProduct.discount);
+export const useMedia = () => useSelector((state) => state.addProduct.media);
+export const useOptions = () =>
+  useSelector((state) => state.addProduct.options);
+export const useSpecificationName = () =>
+  useSelector((state) => state.addProduct.specification_name);
+export const useDescriptionName = () =>
+  useSelector((state) => state.addProduct.description_name);
+export const useDescriptionMD = () =>
+  useSelector((state) => state.addProduct.description_md);

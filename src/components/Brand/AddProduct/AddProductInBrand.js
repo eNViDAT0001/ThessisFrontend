@@ -14,21 +14,30 @@ import { useParams } from "react-router-dom";
 import { ProductApi } from "../../../api/ProductApi";
 import { AddDescriptions } from "./AddDescriptions";
 import DescriptionIcon from "@mui/icons-material/Description";
+import {
+  useCategoryId,
+  useDescriptionMD,
+  useDescriptionName,
+  useDiscount,
+  useMedia,
+  useName,
+  useOptions,
+  usePrice,
+  useSpecificationName,
+} from "../../../app/hook/ProductHook";
 
 export const AddProductInBrand = () => {
   const { id } = useParams(); //provider
   const [openButon, setOpenButton] = useState(true);
-  const name = useSelector((state) => state.addProduct.name);
-  const category_id = useSelector((state) => state.addProduct.category_id);
-  const price = useSelector((state) => state.addProduct.price);
-  const discount = useSelector((state) => state.addProduct.discount);
-  const media = useSelector((state) => state.addProduct.media);
-  const options = useSelector((state) => state.addProduct.options);
-  const specification_name = useSelector((state) => state.addProduct.specification_name);
-  const description_name = useSelector((state)=>state.addProduct.description_name)
-  const description_md = useSelector((state)=>state.addProduct.description_md)
-
-  console.log(price);
+  const name = useName();
+  const category_id = useCategoryId();
+  const price = usePrice();
+  const discount = useDiscount();
+  const media = useMedia();
+  const options = useOptions();
+  const specification_name = useSpecificationName();
+  const description_name = useDescriptionName();
+  const description_md = useDescriptionMD();
 
   const AddSpecificationProduct = async (idProduct, body) => {
     await ProductApi.AddSpecificationTreeInProduct(idProduct, body)
@@ -60,7 +69,7 @@ export const AddProductInBrand = () => {
             },
             options: options,
           };
-          console.log(body)
+          console.log(body);
           const response = JSON.parse(JSON.stringify(res.data.data));
           console.log(response);
           AddSpecificationProduct(response.ProductID, body);
@@ -101,45 +110,37 @@ export const AddProductInBrand = () => {
         type: "warning",
         autoClose: 1000,
       });
-    } 
-    else if((description_name!="") && (description_md.length==0)){
-        toast("Need upload file md ", {
-          type: "warning",
-          autoClose: 1000,
+    } else if (description_name != "" && description_md.length == 0) {
+      toast("Need upload file md ", {
+        type: "warning",
+        autoClose: 1000,
+      });
+    } else {
+      const dataform = new FormData();
+      setOpenButton(false);
+      dataform.append("category_id", parseInt(category_id));
+      dataform.append("name", name);
+      dataform.append("price", parseInt(price));
+
+      if (discount != 0) dataform.append("discount", parseInt(discount));
+      if (media.length !== 0) {
+        media.map((data) => {
+          dataform.append("media", data);
         });
       }
-    else
-    {
-        const dataform = new FormData();
-        setOpenButton(false);
-        dataform.append("category_id", parseInt(category_id));
-        dataform.append("name", name);
-        dataform.append("price", parseInt(price));
-  
-        if (discount != 0) dataform.append("discount", parseInt(discount));
-        if (media.length !== 0) {
-          media.map((data) => {
-            dataform.append("media", data);
-          });
-        }
-        if(description_name=="") { 
-          dataform.append("descriptions_name", description_name)
-          description_md.map(data=>{
-            dataform.append("descriptions_md",data)
-          })
-        
-        }
-        AddBasicProduct(id, localStorage.getItem("UserID"), dataform);
+      if (description_name == "") {
+        dataform.append("descriptions_name", description_name);
+        description_md.map((data) => {
+          dataform.append("descriptions_md", data);
+        });
       }
-    }  
-    
-      
-  
-  
+      AddBasicProduct(id, localStorage.getItem("UserID"), dataform);
+    }
+  };
+
   return (
     <div className="flex justify-center bg-[#F5F5F5] font-[Montserrat]">
       <ToastContainer position="top-right" newestOnTop />
-
       <div className="w-[65%] my-10 p-10 border rounded-2xl shadow-xl bg-white space-y-6">
         <div className="flex flex-col justify-center items-center space-y-4">
           <h1 className=" text-2xl font-bold">ADD YOUR PRODUCT</h1>
@@ -164,7 +165,7 @@ export const AddProductInBrand = () => {
           <h1 className="text-xl font-bold">Specification :</h1>
         </div>
         <Divider />
-        <AddSpecification />    
+        <AddSpecification />
         <div className="flex flex-row space-x-5">
           <DescriptionIcon />
           <h1 className="text-xl font-bold">Description :</h1>
@@ -184,4 +185,4 @@ export const AddProductInBrand = () => {
       </div>
     </div>
   );
-  }
+};
