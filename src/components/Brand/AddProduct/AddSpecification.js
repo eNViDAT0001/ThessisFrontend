@@ -57,7 +57,6 @@ export const AddSpecification = () => {
     const temp = JSON.parse(JSON.stringify(options))
     temp[id].quantity=parseInt(quantityValue)
     dispatch(setDataOption([...temp]))
-
   }
   
   return (

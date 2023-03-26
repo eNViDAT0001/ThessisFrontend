@@ -15,6 +15,9 @@ import { ProductApi } from "../../../api/ProductApi";
 import { AddDescriptions } from "./AddDescriptions";
 import DescriptionIcon from "@mui/icons-material/Description";
 import {
+  addProduct,
+  checkValidAdd,
+  convertBody,
   useCategoryId,
   useDescriptionMD,
   useDescriptionName,
@@ -39,102 +42,33 @@ export const AddProductInBrand = () => {
   const description_name = useDescriptionName();
   const description_md = useDescriptionMD();
 
-  const AddSpecificationProduct = async (idProduct, body) => {
-    await ProductApi.AddSpecificationTreeInProduct(idProduct, body)
-      .then((res) => {
-        if (res.status == 200) {
-          toast("Add new Product Success", {
-            type: "success",
-            autoClose: 1000,
-          });
-        }
-        setOpenButton(true);
-      })
-      .catch((err) => {
-        toast("Error add product in specification", {
-          type: "error",
-          autoClose: 1000,
-        });
-        setOpenButton(true);
-      });
-  };
-
-  const AddBasicProduct = async (idProvider, idUser, body) => {
-    await ProductApi.AddNewProduct(idProvider, idUser, body)
-      .then((res) => {
-        if (res.status == 200) {
-          const body = {
-            specification: {
-              properties: specification_name,
-            },
-            options: options,
-          };
-          console.log(body);
-          const response = JSON.parse(JSON.stringify(res.data.data));
-          console.log(response);
-          AddSpecificationProduct(response.ProductID, body);
-        }
-      })
-      .catch((err) => {
-        toast("Error add product", {
-          type: "error",
-          autoClose: 1000,
-        });
-        setOpenButton(true);
-      });
-  };
-
   const addNewProduct = (e) => {
-    if (name == "") {
-      toast("Missing name", {
-        type: "warning",
-        autoClose: 1000,
-      });
-    } else if (category_id == 0) {
-      toast("Missing category", {
-        type: "warning",
-        autoClose: 1000,
-      });
-    } else if (price == "") {
-      toast("Missing price", {
-        type: "warning",
-        autoClose: 1000,
-      });
-    } else if (specification_name == "") {
-      toast("Missing name specification", {
-        type: "warning",
-        autoClose: 1000,
-      });
-    } else if (media.length == 0) {
-      toast("Missing media", {
-        type: "warning",
-        autoClose: 1000,
-      });
-    } else if (description_name != "" && description_md.length == 0) {
-      toast("Need upload file md ", {
-        type: "warning",
-        autoClose: 1000,
-      });
+    if (
+      checkValidAdd(
+        name,
+        category_id,
+        price,
+        specification_name,
+        media,
+        description_name,
+        description_md
+      )
+    ) {
+      const body = convertBody(
+        category_id,
+        name,
+        discount,
+        price,
+        media,
+        specification_name,
+        options,
+        description_name,
+        description_md
+      );
+      console.log(body)
+      addProduct(id, localStorage.getItem("UserID"), {});
     } else {
-      const dataform = new FormData();
-      setOpenButton(false);
-      dataform.append("category_id", parseInt(category_id));
-      dataform.append("name", name);
-      dataform.append("price", parseInt(price));
-
-      if (discount != 0) dataform.append("discount", parseInt(discount));
-      if (media.length !== 0) {
-        media.map((data) => {
-          dataform.append("media", data);
-        });
-      }
-      if (description_name == "") {
-        dataform.append("descriptions_name", description_name);
-        description_md.map((data) => {
-          dataform.append("descriptions_md", data);
-        });
-      }
-      AddBasicProduct(id, localStorage.getItem("UserID"), dataform);
+      console.log("invalid");
     }
   };
 

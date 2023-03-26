@@ -4,7 +4,6 @@ import { ProviderApi } from "../../api/ProviderApi";
 import { setListBrand } from "../slice/BrandSlice";
 import { transformFilters } from "./CommonHook";
 import { toast } from "react-toastify";
-import BrandModel from "../models/Read/Brand/BrandModel";
 
 export const useListBrand = () => useSelector((state) => state.brand.listBrand);
 export const useFilterBrand = () =>

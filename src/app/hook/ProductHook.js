@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ProductApi } from "../../api/ProductApi";
 import { setListBanner } from "../slice/BannerSlice";
 import { setCategoryRoot } from "../slice/CategorySlice";
+import { toast } from "react-toastify";
 import {
   setDescriptionProduct,
   setImageProduct,
@@ -92,3 +93,106 @@ export const useDescriptionName = () =>
   useSelector((state) => state.addProduct.description_name);
 export const useDescriptionMD = () =>
   useSelector((state) => state.addProduct.description_md);
+
+const convertMediaToBody = (media) => {
+  const listMedia = [];
+  media.map((data) => {
+    const newData = {
+      public_id: data.public_id,
+      media_path: data.url,
+      media_type: "IMAGE",
+    };
+    listMedia.push(newData);
+  });
+  return listMedia;
+};
+
+export const convertBody = (
+  category_id,
+  name,
+  discount,
+  price,
+  media,
+  specification_name,
+  options,
+  description_name,
+  description_md
+) => {
+  const body = {
+    category_id: category_id,
+    name: name,
+    discount: discount,
+    price: price,
+    media: convertMediaToBody(media),
+    specifications: [
+      {
+        specification: {
+          properties: specification_name,
+        },
+        options: options,
+      },
+    ],
+  };
+  return body;
+};
+
+export const addProduct = async (idProvider, userID, body) => {
+  await ProductApi.AddNewProduct(idProvider, userID, body).then((res) => {
+    toast("Add New Product Success", {
+      type: "success",
+      autoClose: 1000,
+      onClose: setTimeout(() => {
+        window.location.reload();
+      }, 2000),
+    });
+  });
+};
+
+export const checkValidAdd = (
+  name,
+  category_id,
+  price,
+  specification_name,
+  media,
+  description_name,
+  description_md
+) => {
+  if (name == "") {
+    toast("Missing name", {
+      type: "warning",
+      autoClose: 1000,
+    });
+    return false;
+  } else if (category_id == 0) {
+    toast("Missing category", {
+      type: "warning",
+      autoClose: 1000,
+    });
+    return false;
+  } else if (price == "") {
+    toast("Missing price", {
+      type: "warning",
+      autoClose: 1000,
+    });
+    return false;
+  } else if (specification_name == "") {
+    toast("Missing name specification", {
+      type: "warning",
+      autoClose: 1000,
+    });
+    return false;
+  } else if (media.length == 0) {
+    toast("Missing media", {
+      type: "warning",
+      autoClose: 1000,
+    });
+  } else if (description_name != "" && description_md.length == 0) {
+    toast("Need upload file md ", {
+      type: "warning",
+      autoClose: 1000,
+    });
+    return false;
+  } else {
+    return true;
+  }
+};

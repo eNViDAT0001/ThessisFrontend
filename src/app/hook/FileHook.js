@@ -7,7 +7,7 @@ export const uploadFile = async (body) => {
       body: body,
     });
     const data = await response.json();
-    toast("Up ảnh thành công", {
+    toast("Upload File Success", {
       type: "success",
       autoClose: 1000,
     });

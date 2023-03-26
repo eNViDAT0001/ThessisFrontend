@@ -1,46 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import { FileApi } from "../../../api/FileApi";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useMedia } from "../../../app/hook/ProductHook";
+import { uploadFile } from "../../../app/hook/FileHook";
+import { useDispatch } from "react-redux";
 import { addFileInMedia } from "../../../app/slice/AddProductSlice";
 export const AddImage = () => {
-  const dispatch = useDispatch();
-
-  const imageSelector = useSelector((state) => state.addProduct.media);
-  const [displayUpload, setDisplayUpload] = useState([]);
-
-  const UseApiUploadPicture = async (body) => {
-    if (body) {
-      await FileApi.UploadNewPicture(body).then((res) => {
-        console.log(res);
-        toast("Up ảnh thành công", {
-          type: "success",
-          autoClose: 1000,
-        });
-        displayUpload.push(res.data.data[0].url);
-      });
-    }
-  };
+  const listMedia = useMedia()
+  const dispatch = useDispatch()
 
   const handleButtonUploadFile = (e) => {
-    console.log(e.target.files)
-    const file = e.target.files;
+    const file = e.target.files[0];  
     if (file) {
-      dispatch(addFileInMedia(file));
-
-      const formDataDisplayImage = new FormData();
-      formDataDisplayImage.append("files", file);
-
-      //UseApiUploadPicture(formDataDisplayImage);
+      const formData = new FormData();
+      formData.append("files", file, file.name);
+      uploadFile(formData).then(res=>{
+        dispatch(addFileInMedia(res.data[0]))
+      })
     }
   };
   return (
     <div className="p-10 border rounded-2xl space-y-6">
       <ToastContainer position="top-right" newestOnTop />
-
       <div className="flex flex-row justify-start space-x-4 items-center">
         <h1 className="font-semibold">Upload Your Image:</h1>
         <IconButton
@@ -54,10 +37,10 @@ export const AddImage = () => {
         </IconButton>
       </div>
       <div className="flex justify-start space-x-2">
-        {displayUpload.length !== 0 ? (
-          displayUpload.map((data) => (
+        {listMedia.length !== 0 ? (
+          listMedia.map((data) => (
             <img
-              src={data}
+              src={data.url}
               alt="anh comment"
               className="w-[150px] h-[150px]"
             ></img>
