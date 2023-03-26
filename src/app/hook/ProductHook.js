@@ -137,6 +137,7 @@ export const convertBody = (
 };
 
 export const addProduct = async (idProvider, userID, body) => {
+  console.log(body)
   await ProductApi.AddNewProduct(idProvider, userID, body).then((res) => {
     toast("Add New Product Success", {
       type: "success",

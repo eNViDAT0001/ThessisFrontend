@@ -9,9 +9,7 @@ import ListIcon from "@mui/icons-material/List";
 import Button from "@mui/material/Button";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { ProductApi } from "../../../api/ProductApi";
 import { AddDescriptions } from "./AddDescriptions";
 import DescriptionIcon from "@mui/icons-material/Description";
 import {
@@ -65,8 +63,7 @@ export const AddProductInBrand = () => {
         description_name,
         description_md
       );
-      console.log(body)
-      addProduct(id, localStorage.getItem("UserID"), {});
+      addProduct(id, localStorage.getItem("UserID"), body);
     } else {
       console.log("invalid");
     }
