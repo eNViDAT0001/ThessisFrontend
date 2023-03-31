@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 
 import { ToastContainer } from "react-toastify";
@@ -14,7 +14,7 @@ import { TextField } from "@mui/material";
 
 export const AddDescriptions = () => {
   const dispatch = useDispatch();
-
+  const [text, setText] = useState("ahihi");
   const descriptionNameSelector = useSelector(
     (state) => state.addProduct.description_name
   );

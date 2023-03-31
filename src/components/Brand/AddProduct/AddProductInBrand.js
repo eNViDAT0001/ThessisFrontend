@@ -42,30 +42,10 @@ export const AddProductInBrand = () => {
 
   const addNewProduct = (e) => {
     if (
-      checkValidAdd(
-        name,
-        category_id,
-        price,
-        specification_name,
-        media,
-        description_name,
-        description_md
-      )
+      checkValidAdd(name,category_id,price,specification_name,media,description_name,description_md)
     ) {
-      const body = convertBody(
-        category_id,
-        name,
-        discount,
-        price,
-        media,
-        specification_name,
-        options,
-        description_name,
-        description_md
-      );
+    const body = convertBody(category_id,name,discount,price,media,specification_name,options,description_name,description_md);
       addProduct(id, localStorage.getItem("UserID"), body);
-    } else {
-      console.log("invalid");
     }
   };
 

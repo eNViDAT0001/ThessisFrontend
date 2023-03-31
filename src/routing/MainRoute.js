@@ -2,6 +2,7 @@ import React from "react";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AddProductInBrand } from "../components/Brand/AddProduct/AddProductInBrand";
+import AccountDetailPage from "../pages/AccountPage/AccountDetailPage";
 import { LoginPage } from "../pages/AuthPage/LoginPage";
 import { RegisterPage } from "../pages/AuthPage/RegisterPage";
 import { BrandDetailPage } from "../pages/BrandPage/BrandDetailPage";
@@ -22,6 +23,8 @@ export const MainRoute = () => {
           <Route path="/product/:id" element={<ProductDetailPage />} />
           <Route path="/shop" element={<BrandPage />} />
           <Route path="/brand-detail/:id" element={<BrandDetailPage />} />
+          <Route path="/account-detail/:id" element={<AccountDetailPage />} />
+
           <Route
             path="/add-product-in-brand/:id"
             element={<AddProductInBrand />}

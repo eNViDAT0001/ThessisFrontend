@@ -43,10 +43,12 @@ const fetchInHomePage = () => async (dispatch) => {
       ProductApi.GetBanners(),
       ProductApi.GetCategoriesRoof(),
       ProductApi.GetProductPreview(),
+      //api thu 4
     ]).then((res) => {
       dispatch(setListBanner(res[0].data.data));
       dispatch(setCategoryRoot(res[1].data.data));
       dispatch(setProductInHome(res[2].data.data));
+      //set thu 4
     });
   } catch (err) {}
 };
@@ -124,20 +126,17 @@ export const convertBody = (
     discount: discount,
     price: price,
     media: convertMediaToBody(media),
-    specifications: [
-      {
-        specification: {
-          properties: specification_name,
-        },
-        options: options,
-      },
-    ],
+    specification: {
+      properties: specification_name,
+    },
+    options: options,
   };
+
   return body;
 };
 
 export const addProduct = async (idProvider, userID, body) => {
-  console.log(body)
+  console.log(body);
   await ProductApi.AddNewProduct(idProvider, userID, body).then((res) => {
     toast("Add New Product Success", {
       type: "success",
