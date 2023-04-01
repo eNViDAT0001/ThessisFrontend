@@ -1,7 +1,9 @@
 import React from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
+  const userID = localStorage.getItem("UserID")
   return (
     <div className="w-full bg-[#081B15] flex justify-center border-b">
       <div className="w-[80%] py-[10px]">
@@ -14,9 +16,9 @@ export const Header = () => {
             
             </div>
           </div>
-          <div className="hover:cursor-pointer">
+          <Link to={`account-detail/${userID}`} className="hover:cursor-pointer">
             <AccountCircleIcon   sx={{ color: "#FFFFFF", width:30, height: 30 }} />
-          </div>
+          </Link>
         </div>
       </div>
     </div>
