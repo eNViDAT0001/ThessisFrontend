@@ -5,13 +5,13 @@ import "react-toastify/ReactToastify.min.css";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { convertDate } from "../../../app/hook/CommonHook";
 import { uploadFile } from "../../../app/hook/FileHook";
-import { updateUser } from "../../../app/hook/UserHook";
+import { updateUser, useUserDetail } from "../../../app/hook/UserHook";
 
 const CustomerInformation = (props) => {
-  const UserDetail = JSON.parse(localStorage.getItem("UserInWeb"));
+  const userDetail = useUserDetail()
   
-  const [birthday, setBirthday] = useState(convertDate(UserDetail.birthday));
-  const [avatar, setAvatar] = useState(UserDetail.avatar);
+  const [birthday, setBirthday] = useState(convertDate(userDetail.birthday));
+  const [avatar, setAvatar] = useState(userDetail.avatar);
   const [isChange, setIsChange] = useState(false);
   
   const handleChangeDataPicker = (e) => {
@@ -75,7 +75,7 @@ const CustomerInformation = (props) => {
           <TextField
             id="standard-read-only-input"
             label="Full name"
-            defaultValue={UserDetail.name}
+            defaultValue={userDetail.name}
             InputProps={{
               readOnly: true,
             }}
@@ -84,7 +84,7 @@ const CustomerInformation = (props) => {
           <TextField
             id="standard-read-only-input"
             label="Nick name"
-            defaultValue={UserDetail.username}
+            defaultValue={userDetail.username}
             InputProps={{
               readOnly: true,
             }}
@@ -107,7 +107,7 @@ const CustomerInformation = (props) => {
           <TextField
             id="standard-read-only-input"
             label="Phone"
-            defaultValue={UserDetail.phone}
+            defaultValue={userDetail.phone}
             InputProps={{
               readOnly: true,
             }}
@@ -116,7 +116,7 @@ const CustomerInformation = (props) => {
           <TextField
             id="standard-read-only-input"
             label="Gender"
-            defaultValue={changeGender(UserDetail.gender)}
+            defaultValue={changeGender(userDetail.gender)}
             InputProps={{
               readOnly: true,
             }}

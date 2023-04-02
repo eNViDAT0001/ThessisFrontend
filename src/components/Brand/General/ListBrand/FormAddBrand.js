@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, IconButton, TextField } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 import {
   setFileUploadInAddForm,
   setNameInAddForm,
-} from "../../../../app/slice/BrandSlice";
+} from "../../../../app/slices/BrandSlice";
 
 const OPTION = {
   input: "input",

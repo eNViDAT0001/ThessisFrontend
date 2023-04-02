@@ -1,9 +1,10 @@
 import React from 'react'
-import { CreateAddressForm } from '../../components/Account/AddressDetail/CreateAddressForm'
 import HeaderBar from '../../../Common/HeaderBar'
 import ChangeBarInformation from '../../ChangeBarInformation'
+import { CreateAddressForm } from './CreateAddressForm'
 
 const CreateAddressPage = () => {
+  
   return (
     <div>
         <HeaderBar name1="Home . Account . Address" name2=" . Detail"/>

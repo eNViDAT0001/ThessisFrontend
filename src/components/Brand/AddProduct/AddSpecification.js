@@ -1,7 +1,7 @@
 import { Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setDataOption, setSpecificationName } from "../../../app/slice/AddProductSlice";
+import { setDataOption, setSpecificationName } from "../../../app/slices/AddProductSlice";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export const AddSpecification = () => {

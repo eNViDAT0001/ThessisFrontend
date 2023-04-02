@@ -6,7 +6,7 @@ import "react-toastify/ReactToastify.min.css";
 import { useMedia } from "../../../app/hook/ProductHook";
 import { uploadFile } from "../../../app/hook/FileHook";
 import { useDispatch } from "react-redux";
-import { addFileInMedia } from "../../../app/slice/AddProductSlice";
+import { addFileInMedia } from "../../../app/slices/AddProductSlice";
 export const AddImage = () => {
   const listMedia = useMedia()
   const dispatch = useDispatch()

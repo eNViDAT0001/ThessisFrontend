@@ -5,6 +5,10 @@ import { UserApi } from "../../api/UserApi";
 export const useUserInformation = () =>
   useSelector((state) => state.user.userInformation);
 
+export const useUserID = () => JSON.parse(localStorage.getItem("UserID"));
+
+export const useUserDetail = () => JSON.parse(localStorage.getItem("UserInWeb"));
+
 export const updateUser = async (userID, body, birthday, avatar) => {
   await UserApi.UpdateUser(userID, body).then((res) => {
     var userTemp = JSON.parse(localStorage.getItem("UserInWeb"));

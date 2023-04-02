@@ -3,7 +3,7 @@ export const currencyFormat = (num) => {
 };
 
 export const checkObjectEmpty = (object) => {
-  return Object.keys(object).length === 0;
+  return !object || Object.keys(object).length === 0;
 };
 
 export const convertDate = (date) => {
@@ -12,11 +12,22 @@ export const convertDate = (date) => {
 };
 
 export const transformFilters = (filters) => {
-   if(filters==undefined) return ""
-   var result = Object.keys(filters)
-     .map((key) => {
-       return "" + key + "=" + filters[key]; // line break for wrapping only
-     })
-     .join("&");
-   return result;
- };
+  if (filters == undefined) return "";
+  var result = Object.keys(filters)
+    .map((key) => {
+      return "" + key + "=" + filters[key]; // line break for wrapping only
+    })
+    .join("&");
+  return result;
+};
+
+export const changeAttributeForOption = (data) => {
+  if (Array.isArray(data)) {
+    const result = data.map(({ name: label, code: id, ...rest }) => ({
+      label,
+      id,
+      ...rest,
+    }));
+    return result;
+  }
+};

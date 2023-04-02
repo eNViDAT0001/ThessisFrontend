@@ -1,8 +1,8 @@
-import React, { useCallback, useLayoutEffect, useState } from "react";
+import React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from '@mui/material/Autocomplete';
 import { useDispatch } from "react-redux";
-import { setCategoryID, setDiscount, setName, setPrice } from "../../../app/slice/AddProductSlice";
+import { setCategoryID, setDiscount, setName, setPrice } from "../../../app/slices/AddProductSlice";
 const categoryArray = [
     {
         "id": 1,

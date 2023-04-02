@@ -1,8 +1,9 @@
 import { Autocomplete, Button, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { changeAttributeForOption, saveNewAddress, useDistrict, useProvince, useWard } from "../../../../app/hook/AddressHook";
+import { saveNewAddress, useDistrict, useProvince, useWard } from "../../../../app/hook/AddressHook";
+import { changeAttributeForOption } from "../../../../app/hook/CommonHook";
 export const CreateAddressForm = () => {
   const id = localStorage.getItem("UserID");
   const [provinceID, setProvinceID] = useState("");
@@ -49,9 +50,6 @@ export const CreateAddressForm = () => {
     setWardName(value.label);
   };
 
-  
-
- 
   const onChangeGender = (e, value) => {
     setGender(value.id === 1);
   };

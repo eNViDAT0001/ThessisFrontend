@@ -13,6 +13,8 @@ import { NotFound } from "../pages/SpecialPage/NotFound";
 import { AdminLayOut, LoginLayOut, UserLayout } from "./Layout";
 import { ContactPage } from "../pages/Contact/ContactPage";
 import { AccountAddressPage } from "../pages/AccountPage/AccountAddressPage";
+import CreateAddressPage from "../components/Account/Address/CreateNewAddress";
+import { CartPage } from "../pages/Shopping/CartPage";
 
 export const MainRoute = () => {
   return (
@@ -25,9 +27,10 @@ export const MainRoute = () => {
           <Route path="/product/:id" element={<ProductDetailPage />} />
           <Route path="/shop" element={<BrandPage />} />
           <Route path="/brand-detail/:id" element={<BrandDetailPage />} />
+          <Route path="/cart/:id" element={<CartPage />} />
           <Route path="/account-detail/:id" element={<AccountDetailPage />} />
           <Route path="/account-address/:id" element={<AccountAddressPage />} />
-
+          <Route path="/account-address/create" element={<CreateAddressPage />} />
           <Route path="/contact" element={<ContactPage />} />
 
           <Route

@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ProductApi } from "../../api/ProductApi";
-import { setListBanner } from "../slice/BannerSlice";
-import { setCategoryRoot } from "../slice/CategorySlice";
+import { setListBanner } from "../slices/BannerSlice";
+import { setCategoryRoot } from "../slices/CategorySlice";
 import { toast } from "react-toastify";
 import {
   setDescriptionProduct,
@@ -10,7 +10,7 @@ import {
   setProductDetail,
   setProductInHome,
   setSpecificationProduct,
-} from "../slice/ProductSlice";
+} from "../slices/ProductSlice";
 
 export const useProductInHome = () =>
   useSelector((state) => state.product.productInHome);

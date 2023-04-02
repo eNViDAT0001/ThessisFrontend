@@ -8,14 +8,14 @@ import { FormControl, Input, InputAdornment, InputLabel } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { updateEmailUser, updatePhoneUser } from "../../../app/hook/UserHook";
+import { updateEmailUser, updatePhoneUser, useUserDetail } from "../../../app/hook/UserHook";
 
 const PhoneAndEmail = (props) => {
   const [isUpdatePhone, setIsUpdatePhone] = useState(false);
   const [isUpdateEmail, setIsUpdateEmail] = useState(false);
-  const UserDetail = JSON.parse(localStorage.getItem("UserInWeb"));
-  const [phoneInformation, setPhoneInformation] = useState(UserDetail.phone);
-  const [email, setEmail] = useState(UserDetail.email);
+  const userDetail = useUserDetail()
+  const [phoneInformation, setPhoneInformation] = useState(userDetail.phone);
+  const [email, setEmail] = useState(userDetail.email);
 
   const handleChangePhone = (e) => {
     setPhoneInformation(e.target.value);

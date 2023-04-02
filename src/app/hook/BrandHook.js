@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ProviderApi } from "../../api/ProviderApi";
-import { setListBrand } from "../slice/BrandSlice";
+import { setListBrand } from "../slices/BrandSlice";
 import { transformFilters } from "./CommonHook";
 import { toast } from "react-toastify";
 

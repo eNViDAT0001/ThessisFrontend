@@ -49,12 +49,6 @@ const fetchListAddress = (userID) => async (dispatch) => {
   } catch (err) {}
 };
 
-export const changeAttributeForOption = (data)=>{
-    const result = data.map(
-        ({ name: label, code: id, ...rest }) => ({ label, id, ...rest })
-    )
-    return result
-}
 
 export const saveNewAddress = (
   user_id,

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useFetchInProductDetail } from "../../app/hook/ProductHook";
-import { reset } from "../../app/slice/ProductSlice";
+import { reset } from "../../app/slices/ProductSlice";
 import { Comment } from "../../components/ProductDetail/Comment/Comment";
 import { TabDescription } from "../../components/ProductDetail/Description/TabDescription";
 import { ProductDetail } from "../../components/ProductDetail/ProductDetail";

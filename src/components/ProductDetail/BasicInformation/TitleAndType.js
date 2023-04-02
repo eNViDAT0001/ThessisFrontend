@@ -6,7 +6,7 @@ import {
   useSpecificaionProduct,
 } from "../../../app/hook/ProductHook";
 import { checkObjectEmpty, currencyFormat } from "../../../app/hook/CommonHook";
-import { setOptionHandle } from "../../../app/slice/ProductSlice";
+import { setOptionHandle } from "../../../app/slices/ProductSlice";
 import { useDispatch } from "react-redux";
 
 export const TitleAndType = () => {

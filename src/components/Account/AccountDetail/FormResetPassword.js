@@ -46,7 +46,7 @@ export const FormResetPassword = (props) => {
             autoClose: 1000,
             Close: setTimeout(() => window.location.reload(), 1000),
           });
-      }
+        }
     });
   };
   return (

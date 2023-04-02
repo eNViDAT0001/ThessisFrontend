@@ -7,14 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addFileInDescription,
   setDescriptionName,
-} from "../../../app/slice/AddProductSlice";
+} from "../../../app/slices/AddProductSlice";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { TextField } from "@mui/material";
 
 export const AddDescriptions = () => {
   const dispatch = useDispatch();
-  const [text, setText] = useState("ahihi");
   const descriptionNameSelector = useSelector(
     (state) => state.addProduct.description_name
   );

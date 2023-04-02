@@ -4,6 +4,7 @@ import Address from "../../asset/Address.png";
 import LogOut from "../../asset/LogOut.png";
 import { Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useUserDetail } from "../../app/hook/UserHook";
 
 const slideBarData = [
   {
@@ -33,12 +34,11 @@ const slideBarData = [
 ];
 const ChangeBarInformation = (props) => {
   const userID = props.id;
-
-  const UserDetail = JSON.parse(localStorage.getItem("UserInWeb"));
+  const userDetail = useUserDetail()
 
   const userInfo = {
-    nickName: UserDetail.username,
-    fullName: UserDetail.name,
+    nickName: userDetail.username,
+    fullName: userDetail.name,
   };
 
   const ResetToken = (e) => {
@@ -48,9 +48,9 @@ const ChangeBarInformation = (props) => {
   return (
     <div className="flex flex-col w-[214px] mt-6 font-['Josefin_Sans']">
       <div className="ml-5 w-44 flex flex-row flex-nowrap mb-10">
-        {(UserDetail.avatar) ? (
+        {(userDetail.avatar) ? (
           <img
-            src={UserDetail.avatar}
+            src={userDetail.avatar}
             alt="avatar"
             className="w-[55px] h-[55px] rounded-full"
           ></img>

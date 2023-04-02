@@ -41,7 +41,7 @@ export const TableAddress = (props) => {
   const addressSave = useListAddress();
 
   const handleCreateNewAddress = (e) => {
-    window.location.replace("/address-create");
+    window.location.replace("create");
   };
   const handleButtonDelete = (e) => {
     const addressID = parseInt(e.currentTarget.id);
