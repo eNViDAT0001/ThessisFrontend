@@ -1,19 +1,20 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { IconButton, TextField } from "@mui/material";
 import { UserApi } from "../../../api/UserApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { FileApi } from "../../../api/FileApi";
 import { convertDate } from "../../../app/hook/CommonHook";
-
-
+import { uploadFile } from "../../../app/hook/FileHook";
+import { updateUser } from "../../../app/hook/UserHook";
 
 const CustomerInformation = (props) => {
   const UserDetail = JSON.parse(localStorage.getItem("UserInWeb"));
+  
   const [birthday, setBirthday] = useState(convertDate(UserDetail.birthday));
-  const [avatar,setAvatar] = useState(UserDetail.avatar)
+  const [avatar, setAvatar] = useState(UserDetail.avatar);
   const [isChange, setIsChange] = useState(false);
+  
   const handleChangeDataPicker = (e) => {
     setBirthday(e.target.value);
     setIsChange(true);
@@ -24,43 +25,28 @@ const CustomerInformation = (props) => {
     else return "Female";
   };
 
-  const UpdateUser = async (userID, body) => {
-    await UserApi.UpdateUser(userID, body).then((res) => {
-      var userTemp = JSON.parse(localStorage.getItem("UserInWeb"));
-      userTemp["birthday"] = birthday;
-      userTemp["avatar"] = avatar;
-
-      localStorage.removeItem("UserInWeb");
-      localStorage.setItem("UserInWeb", JSON.stringify(userTemp));
-      toast("Update User Success", {
-        type: "success",
-        autoClose: 1000,
-        Close: setTimeout(() => window.location.reload(), 1000),
-      });
-    });
-  };
+  
   const handleButtonConfirm = (e) => {
     if (isChange) {
       const body = {
         birthday: birthday,
         avatar: avatar,
       };
-      UpdateUser(props.id, body);
+      updateUser(props.id, body,birthday,avatar);
     }
   };
 
-  const UploadAvatar = async(body)=>{
-    await FileApi.UploadNewPicture(body).then((res) => {
-      setAvatar(res.data.data[0].url)
-    });
-  }
-  const handleUploadFile=(e)=>{
-    const file = e.target.files[0]
-    const formData= new FormData()
-    formData.append('files',file)
-    setIsChange(true);
 
-    UploadAvatar(formData)
+  const handleUploadFile = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("files", file, file.name);
+      uploadFile(formData).then(res=>{
+        setAvatar(res.data[0].url);
+        setIsChange(true)
+      })
+    }
   }
   return (
     <div className="flex flex-col p-10">
@@ -75,7 +61,15 @@ const CustomerInformation = (props) => {
             onChange={handleUploadFile}
           >
             <input hidden accept="image/*" type="file" />
-            {(avatar) ? (<img src={avatar} alt="Avatar" className="w-[120px] h-[120px] rounded-full"></img>) : <AccountCircleIcon sx={{width:120,height:120}}/>}
+            {(avatar)? (
+              <img
+                src={avatar}
+                alt="Avatar"
+                className="w-[120px] h-[120px] rounded-full"
+              ></img>
+            ) : (
+              <AccountCircleIcon sx={{ width: 120, height: 120 }} />
+            )}
           </IconButton>
         </div>
         <div className="flex flex-col mt-4 ml-2 space-y-4">

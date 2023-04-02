@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import Lock from "../../../asset/Lock.png";
 import Popup from "reactjs-popup";
@@ -6,9 +6,9 @@ import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { FormResetPassword } from "./FormResetPassword";
 import { FormControl, Input, InputAdornment, InputLabel } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
-import { UserApi } from "../../../api/UserApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
+import { updateEmailUser, updatePhoneUser } from "../../../app/hook/UserHook";
 
 const PhoneAndEmail = (props) => {
   const [isUpdatePhone, setIsUpdatePhone] = useState(false);
@@ -17,35 +17,7 @@ const PhoneAndEmail = (props) => {
   const [phoneInformation, setPhoneInformation] = useState(UserDetail.phone);
   const [email, setEmail] = useState(UserDetail.email);
 
-  useEffect(()=>{
 
-  },[phoneInformation,email])
-  const UpdatePhoneUser = async (userID, body) => {
-    await UserApi.UpdateUser(userID, body).then((res) => {
-      var userTemp = JSON.parse(localStorage.getItem("UserInWeb"));
-      userTemp["phone"] = phoneInformation;
-      localStorage.removeItem("UserInWeb");
-      localStorage.setItem("UserInWeb", JSON.stringify(userTemp));
-      toast("Cập nhật phone thành công", {
-        type: "success",
-        autoClose: 1000,
-        Close: setTimeout(() => window.location.reload(), 1000),
-      });
-    });
-  };
-  const UpdateEmailUser = async (userID, body) => {
-    await UserApi.UpdateUser(userID, body).then((res) => {
-      var userTemp = JSON.parse(localStorage.getItem("UserInWeb"));
-      userTemp["email"] = email;
-      localStorage.removeItem("UserInWeb");
-      localStorage.setItem("UserInWeb", JSON.stringify(userTemp));
-      toast("Cập nhật email thành công", {
-        type: "success",
-        autoClose: 1000,
-        Close: setTimeout(() => window.location.reload(), 1000),
-      });
-    });
-  };
   const handleChangePhone = (e) => {
     setPhoneInformation(e.target.value);
   };
@@ -59,7 +31,7 @@ const PhoneAndEmail = (props) => {
       const body = {
         Phone: phoneInformation,
       };
-      UpdatePhoneUser(props.id, body);
+      updatePhoneUser(props.id,body,phoneInformation)
     }
   };
 
@@ -70,7 +42,7 @@ const PhoneAndEmail = (props) => {
       const body = {
         email: email,
       };
-      UpdateEmailUser(props.id, body);
+      updateEmailUser(props.id,body,email)
     }
   };
   return (

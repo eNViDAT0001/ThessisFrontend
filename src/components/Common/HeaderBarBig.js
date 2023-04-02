@@ -2,7 +2,7 @@ import React from 'react'
 
 const HeaderBarBig = (props) => {
   return (
-    <div className="w-full h-[286px] bg-gray-header flex justify-center">
+    <div className="w-full h-[286px] bg-[#F6F5FF] flex justify-center">
         <div className="min-w-[200px] w-[65%] flex justify-center flex-col">
             <h1 className=' text-[#101075] text-4xl font-normal'>{props.nameTitle}</h1>
             <div className='flex flex-row mt-3'>

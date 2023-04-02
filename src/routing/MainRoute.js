@@ -11,6 +11,7 @@ import { HomePage } from "../pages/Home/HomePage";
 import { ProductDetailPage } from "../pages/ProductDetailPage/ProductDetailPage";
 import { NotFound } from "../pages/SpecialPage/NotFound";
 import { AdminLayOut, LoginLayOut, UserLayout } from "./Layout";
+import { ContactPage } from "../pages/Contact/ContactPage";
 
 export const MainRoute = () => {
   return (
@@ -24,6 +25,7 @@ export const MainRoute = () => {
           <Route path="/shop" element={<BrandPage />} />
           <Route path="/brand-detail/:id" element={<BrandDetailPage />} />
           <Route path="/account-detail/:id" element={<AccountDetailPage />} />
+          <Route path="/contact" element={<ContactPage />} />
 
           <Route
             path="/add-product-in-brand/:id"

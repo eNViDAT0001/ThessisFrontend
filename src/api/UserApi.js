@@ -7,7 +7,7 @@ export const UserApi = {
     return axiosClient.get(url);
   },
   UpdateUser: (id, body) => {
-    const url = `users/${id}`;
+    const url = `users/${id}/info`;
     return axiosClient.patch(url, { ...body });
   },
   UpdateNewPassword: (id, body) => {
