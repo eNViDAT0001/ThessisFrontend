@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import bannerReducer from "./slice/BannerSlice";
-import productReducer from "./slice/ProductSlice";
-import categoryReducer from "./slice/CategorySlice";
-import brandReducer from "./slice/BrandSlice";
-import orderReducer from "./slice/OrderSlice";
-import AddProductReducer from './slice/AddProductSlice'
+import bannerReducer from "./slices/BannerSlice";
+import productReducer from "./slices/ProductSlice";
+import categoryReducer from "./slices/CategorySlice";
+import brandReducer from "./slices/BrandSlice";
+import orderReducer from "./slices/OrderSlice";
+import AddProductReducer from './slices/AddProductSlice'
+import AddressReducer from './slices/AddressSlice'
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
     category: categoryReducer,
     brand: brandReducer,
     order: orderReducer,
-    addProduct: AddProductReducer
+    addProduct: AddProductReducer,
+    address: AddressReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

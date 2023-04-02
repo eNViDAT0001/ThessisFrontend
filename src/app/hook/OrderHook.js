@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { OrderApi } from "../../api/OrderApi";
-import { setListOrderInProvider } from "../slice/OrderSlice";
+import { setListOrderInProvider } from "../slices/OrderSlice";
 import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 

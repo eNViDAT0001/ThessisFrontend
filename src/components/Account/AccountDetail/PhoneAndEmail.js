@@ -6,7 +6,7 @@ import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { FormResetPassword } from "./FormResetPassword";
 import { FormControl, Input, InputAdornment, InputLabel } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import { updateEmailUser, updatePhoneUser } from "../../../app/hook/UserHook";
 
@@ -16,7 +16,6 @@ const PhoneAndEmail = (props) => {
   const UserDetail = JSON.parse(localStorage.getItem("UserInWeb"));
   const [phoneInformation, setPhoneInformation] = useState(UserDetail.phone);
   const [email, setEmail] = useState(UserDetail.email);
-
 
   const handleChangePhone = (e) => {
     setPhoneInformation(e.target.value);

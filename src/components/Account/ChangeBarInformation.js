@@ -4,14 +4,13 @@ import Address from "../../asset/Address.png";
 import LogOut from "../../asset/LogOut.png";
 import { Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useState } from "react";
 
 const slideBarData = [
   {
     id: 1,
     title: "Account",
     img: Account,
-    url: "/detail",
+    url: "/account-detail",
   },
   // {
   //   id: 2,
@@ -29,7 +28,7 @@ const slideBarData = [
     id: 4,
     title: "Address",
     img: Address,
-    url: "/address-detail",
+    url: "/account-address",
   },
 ];
 const ChangeBarInformation = (props) => {
