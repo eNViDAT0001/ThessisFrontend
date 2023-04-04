@@ -52,7 +52,7 @@ export const TableAddress = (props) => {
     deleteAddressSelect(userID,body);
   };
   const handleButtonFix = (e) => {
-    window.location.replace(`/address-fix/${e.currentTarget.id}`);
+    window.location.replace(`/account-address/${e.currentTarget.id}/edit`);
   };
   return (
     <div>

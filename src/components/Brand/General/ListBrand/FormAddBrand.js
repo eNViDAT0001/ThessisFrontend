@@ -14,6 +14,7 @@ import {
   setFileUploadInAddForm,
   setNameInAddForm,
 } from "../../../../app/slices/BrandSlice";
+import { useUserID } from "../../../../app/hook/UserHook";
 
 const OPTION = {
   input: "input",
@@ -23,7 +24,7 @@ const OPTION = {
 export const FormAddBrand = () => {
   const dispatch = useDispatch();
 
-  const userID = localStorage.getItem("UserID")
+  const userID = useUserID()
   const [optionButton, setOptionButton] = useState(OPTION.input);
   const addFormBrand = useAddFormBrand();
 

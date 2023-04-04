@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     userAddress:[],
+    addressDetail:{},
     province:[],
     ward:[],
     district:[],
+    
     //phục vu cho address trong shopping order
     nameInFormCreate:"",
     phoneInFormCreate:"",
@@ -20,6 +22,9 @@ const AddressSlice = createSlice({
 
     reducers:
     {
+        setAddressDetail: (state,action)=>{
+            state.addressDetail = action.payload
+        },
         setFormAddressSelected: (state,action)=>{
             state.formAddressSelected = action.payload
         },
@@ -57,6 +62,7 @@ const AddressSlice = createSlice({
 })
 
 export const {
+    setAddressDetail,
     setFormAddressSelected,
     setNameInFormCreate,
     setPhoneInFormCreate,

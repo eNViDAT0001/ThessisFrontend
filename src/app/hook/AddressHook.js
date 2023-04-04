@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { AddressApi } from "../../api/AddressApi";
-import { setUserAddress } from "../slices/AddressSlice";
+import { setAddressDetail, setDistrict, setProvince, setUserAddress, setWard } from "../slices/AddressSlice";
 import { useCallback, useEffect } from "react";
 
 export const useListAddress = () =>
@@ -12,6 +12,9 @@ export const useDistrict = () =>
   useSelector((state) => state.address.district);
 export const useWard = () =>
   useSelector((state) => state.address.ward);
+export const useAddressDetail = () =>
+  useSelector((state) => state.address.addressDetail);
+
 
 export const deleteAddressSelect = async (userID, body) => {
   console.log(body);
@@ -31,6 +34,16 @@ export const deleteAddressSelect = async (userID, body) => {
     });
 };
 
+export const useFetchAddressDetail = async (addressID,userID) =>{
+  const dispatch = useDispatch();
+  const loadAddressDetail = useCallback(async () => {
+    dispatch(fetchAddressDetail(addressID,userID));
+  });
+  useEffect(() => {
+    loadAddressDetail();
+  }, [loadAddressDetail]);
+}
+
 export const useFetchListAddress = async (userID) => {
   const dispatch = useDispatch();
   const loadDataAddress = useCallback(async () => {
@@ -41,6 +54,44 @@ export const useFetchListAddress = async (userID) => {
   }, [loadDataAddress]);
 };
 
+export const useFetchProvince = async () => {
+  const dispatch = useDispatch();
+  const loadDataProvince = useCallback(async () => {
+    dispatch(fetchListProvince());
+  });
+  useEffect(() => {
+    loadDataProvince();
+  }, [loadDataProvince]);
+};
+
+export const useFetchDistrict = async (provinceID) => {
+  const dispatch = useDispatch();
+  const loadDataDistrict = useCallback(async () => {
+    dispatch(fetchListDistrict(provinceID));
+  },[dispatch, provinceID]);
+  useEffect(() => {
+    loadDataDistrict();
+  }, [loadDataDistrict]);
+};
+
+export const useFetchWard = async (districtID) => {
+  const dispatch = useDispatch();
+  const loadDataWard = useCallback(async () => {
+    dispatch(fetchListWard(districtID));
+  },[dispatch, districtID]);
+  useEffect(() => {
+    loadDataWard();
+  }, [loadDataWard]);
+};
+
+const fetchAddressDetail = (addressID,userID) => async(dispatch) =>{
+  try {
+    await AddressApi.DetailByUserID(addressID,userID).then((res) => {
+      dispatch(setAddressDetail(res.data.data));
+    });
+  } catch (err) {}
+}
+
 const fetchListAddress = (userID) => async (dispatch) => {
   try {
     await AddressApi.GetListAddressByUserID(userID).then((res) => {
@@ -49,7 +100,29 @@ const fetchListAddress = (userID) => async (dispatch) => {
   } catch (err) {}
 };
 
+const fetchListProvince = () => async(dispatch) =>{
+  try {
+    await AddressApi.ReadAllProvince().then((res) => {
+      dispatch(setProvince(res.data.data));
+    });
+  } catch (err) {}
+}
 
+const fetchListDistrict = (provinceID) => async(dispatch) =>{
+  try {
+    await AddressApi.ReadAllDistrict(provinceID).then((res) => {
+      dispatch(setDistrict(res.data.data));
+    });
+  } catch (err) {}
+}
+
+const fetchListWard = (districtID) => async(dispatch) =>{
+  try {
+    await AddressApi.ReadAllWard(districtID).then((res) => {
+      dispatch(setWard(res.data.data));
+    });
+  } catch (err) {}
+}
 export const saveNewAddress = (
   user_id,
   name,
@@ -78,6 +151,7 @@ export const saveNewAddress = (
       ward_code: wardID,
       street: street,
     };
+    console.log(body)
     AddressApi.AddSaveAddress(user_id, body)
       .then((res) => {
         toast("Add new address successful", {
@@ -93,11 +167,8 @@ export const saveNewAddress = (
         toast("Add new address fail", {
           type: "error",
           autoClose: 1000,
-          Close: setTimeout(
-            () => window.location.replace(`/address-detail/${user_id}`),
-            1000
-          ),
         });
       });
   }
 };
+

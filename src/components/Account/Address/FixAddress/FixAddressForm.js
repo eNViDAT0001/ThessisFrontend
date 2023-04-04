@@ -1,22 +1,31 @@
 import { Autocomplete, Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useAddressDetail } from "../../../../app/hook/AddressHook";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { saveNewAddress, useDistrict, useFetchDistrict, useFetchWard, useProvince, useWard } from "../../../../app/hook/AddressHook";
+import {
+  useDistrict,
+  useFetchDistrict,
+  useFetchWard,
+  useProvince,
+  useWard,
+} from "../../../../app/hook/AddressHook";
 import { changeAttributeForOption } from "../../../../app/hook/CommonHook";
 import { useUserID } from "../../../../app/hook/UserHook";
-import { useDispatch } from "react-redux";
-export const CreateAddressForm = () => {
-  const id = useUserID()
-  const dispatch = useDispatch()
+
+export const FixAddressForm = () => {
+  const id = useUserID();
+  const addressDetail = useAddressDetail();
+  
   const [provinceID, setProvinceID] = useState("");
+  const [provinceName, setProvinceName] = useState("");
   const [districtID, setDistrictID] = useState("");
   const [districtName, setDistrictName] = useState("");
   const [wardName, setWardName] = useState("");
   const [wardID, setWardID] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [gender, setGender] = useState(true);
+  const [gender, setGender] = useState("");
   const [street, setStreet] = useState("");
 
   const dataProvince = useProvince()
@@ -26,7 +35,7 @@ export const CreateAddressForm = () => {
   const newDataProvince = changeAttributeForOption(dataProvince)
   const newDataDistrict = changeAttributeForOption(dataDistrict)
   const newDataWard = changeAttributeForOption(dataWard)
-  
+
   useFetchDistrict(provinceID)
   useFetchWard(districtID)
 
@@ -60,20 +69,25 @@ export const CreateAddressForm = () => {
     setGender(value.id === 1);
   };
 
-  const handleButtonConfirm = (e) => {
-    saveNewAddress(
-      id,
-      name,
-      gender,
-      phone,
-      provinceID,
-      districtID,
-      wardID,
-      street,
-      districtName,
-      wardName
-    );
-  };
+  const handleButtonConfirm = (e) =>{
+
+  }
+  
+  useEffect(() => {
+    if (addressDetail) {
+      setName(addressDetail.name);
+      setProvinceName(addressDetail.province);
+      setProvinceID(addressDetail.province_code);
+      setDistrictName(addressDetail.district);
+      setDistrictID(addressDetail.district_code);
+      setWardName(addressDetail.ward);
+      setWardID(addressDetail.ward_code);
+      setPhone(addressDetail.phone);
+      setGender(addressDetail.gender);
+      setStreet(addressDetail.street);
+    }
+  }, [addressDetail]);
+
   return (
     <div className="mt-10 ml-10 space-y-10  w-[60%] p-10 py-10 mb-32 border shadow-md w-min-[200px]">
       <ToastContainer position="top-right" newestOnTop />
@@ -85,6 +99,7 @@ export const CreateAddressForm = () => {
         required
         id="outlined-required"
         label="Name"
+        value={name}
         onChange={handleNameText}
         sx={{ width: 1 }}
       />
@@ -94,6 +109,7 @@ export const CreateAddressForm = () => {
           id="outlined-required"
           onChange={handlePhoneText}
           label="Phone number"
+          value={phone}
           sx={{ width: 1 }}
         />
         <Autocomplete

@@ -1,5 +1,3 @@
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
 import { useDispatch } from "react-redux";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
@@ -12,14 +10,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { CartShoppingApi } from "../../api/CartShopping";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { useState } from "react";
-import {
-  changeAttributeForOption,
-  checkObjectEmpty,
-  currencyFormat,
-} from "../../app/hook/CommonHook";
-import { useListCart, useSelectedCart } from "../../app/hook/CartHook";
-import { setSelectedCart } from "../../app/slices/CartSlice";
+import Checkbox from "@mui/material/Checkbox";
+
+import { currencyFormat } from "../../app/hook/CommonHook";
+import { useListCart } from "../../app/hook/CartHook";
+import { setListCart } from "../../app/slices/CartSlice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -40,15 +35,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const ListCart = () => {
   const dispatch = useDispatch();
-  const listCart = useListCart() || [];
-  const selectedCart = useSelectedCart();
-  const optionListCart = changeAttributeForOption(listCart);
+  const listCart = useListCart();
 
-  const handleChangeComboBox = (e, value) => {
-    dispatch(setSelectedCart(value));
-  };
-
-  const DeleteCartShopping = async (idCart, idItemCart) => {
+  const deleteCartShopping = async (idCart, idItemCart) => {
     await CartShoppingApi.DeleteItemInCart(idCart, idItemCart).then((res) => {
       if (res.status == 200) {
         toast("Delete Item success", {
@@ -62,107 +51,77 @@ const ListCart = () => {
     });
   };
 
-  const handleDeleteButton = (e) => {
-    DeleteCartShopping(selectedCart.ID, e.currentTarget.id);
+  const changeListCartFromCheckName = (listCart,id) =>{
+    const result = listCart.map((data) => {
+        if (data.id == id) {
+          if (!data.isSelected) {
+            return {
+              ...data,
+              isSelected: true,
+            };
+          } else {
+            return {
+              ...data,
+              isSelected: false,
+            };
+          }
+        }
+        return data;
+      });
+      return result
+  }
+  const handleDeleteButton = (e) => {};
+  const handleCheck = (e) => {
+    const id = e.target.getAttribute('id');
+    const result = changeListCartFromCheckName(listCart,id)
+
+    console.log(result)
+    dispatch(setListCart(...result))
   };
 
-  const UpdateCartQuantity = async (idCart, idItemCart, body) => {
-    console.log(body);
-    await CartShoppingApi.UpdateCartQuantity(idCart, idItemCart, body).then(
-      (res) => {}
-    );
-  };
-
-  const handleDescreaseQuantity = (e) => {
-    const idHandle = parseInt(e.currentTarget.id);
-    const arrayItemsHandle = [...selectedCart.Items];
-    const indexCartItemFilter = arrayItemsHandle.findIndex(
-      (object) => object.id == idHandle
-    );
-    const cartItemFilter = arrayItemsHandle[indexCartItemFilter];
-    const cartID = selectedCart.ID;
-    const cartItemID = cartItemFilter.id;
-
-    const quantityDesrease = Math.max(1, cartItemFilter.quantity - 1);
-
-    const body = {
-      "quantity ": quantityDesrease,
-    };
-
-    UpdateCartQuantity(cartID, cartItemID, body);
-  };
-
-  const handleIncreaseQuantity = (e) => {
-    const idHandle = parseInt(e.currentTarget.id);
-    const arrayItemsHandle = [...selectedCart.Items];
-    const indexCartItemFilter = arrayItemsHandle.findIndex(
-      (object) => object.id == idHandle
-    );
-    const cartItemFilter = arrayItemsHandle[indexCartItemFilter];
-
-    const cartID = selectedCart.ID;
-    const cartItemID = cartItemFilter.id;
-
-    const quantityIncrease = cartItemFilter.quantity + 1;
-
-    const body = {
-      "quantity ": quantityIncrease,
-    };
-    UpdateCartQuantity(cartID, cartItemID, body);
-  };
   return (
     <div>
-      <div className=" w-[65%]">
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={optionListCart}
-          onChange={handleChangeComboBox}
-          sx={{ width: 300 }}
-          renderInput={(params) => (
-            <TextField {...params} label="Select your Provider" />
-          )}
-        />
-      </div>
-      <div>
-        {!checkObjectEmpty(selectedCart) ? (
-          <div className="space-y-3">
-            <h1 className="font-bold text-xl my-4">Your select:</h1>
-            <div>
-              {/* 
-              <div className="h-[100px] border flex justify-between items-center px-[10%] shadow-xl ">
-                <input
-                  type="text"
-                  className="w-[25%] h-[45px] min-w-[50px] border rounded-3xl text-center"
-                  placeholder="Coupon code"
-                ></input>
-                <button className="w-[25%] min-w-[50px] border h-[45px] rounded-2xl bg-[#e6e6e6] hover:bg-[#717fe0] hover:text-white">
-                  APPLY COUPON
-                </button>
+      <div className=" w-full ">
+        <h1 className="font-bold text-xl my-4">Your select:</h1>
+        {listCart.map((data) => (
+          <div key={data.id}>
+            <div className="border mb-10 ">
+              <div className="flex flex-row space-x-5 mx-4">
+                <Checkbox
+                  id={data.id}
+                  checked={data.isSelected}
+                  onClick={handleCheck}
+                  defaultChecked
+                />
+                <h1 className="font-bold text-xl my-3">{data.name}</h1>
               </div>
-              */}
-              <TableContainer component={Paper}>
-                <ToastContainer position="top-right" newestOnTop />
-
-                <Table sx={{ minWidth: 400 }} aria-label="customized table">
-                  <TableHead>
-                    <TableRow>
-                      <StyledTableCell>Image</StyledTableCell>
-                      <StyledTableCell align="center">Name </StyledTableCell>
-                      <StyledTableCell align="center">Price</StyledTableCell>
-                      <StyledTableCell align="center">Quantity</StyledTableCell>
-                      <StyledTableCell align="center">Discount</StyledTableCell>
-                      <StyledTableCell align="center">Option</StyledTableCell>
-                      <StyledTableCell align="center">Total</StyledTableCell>
-                      <StyledTableCell align="center">Action</StyledTableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {selectedCart.items.length === 0 ? (
-                      <div></div>
-                    ) : (
-                      selectedCart.items.map((row) => (
+              <div>
+                <TableContainer component={Paper}>
+                  <ToastContainer position="top-right" newestOnTop />
+                  <Table sx={{ minWidth: 400 }} aria-label="customized table">
+                    <TableHead>
+                      <TableRow>
+                        <StyledTableCell>Select</StyledTableCell>
+                        <StyledTableCell>Image</StyledTableCell>
+                        <StyledTableCell align="center">Name </StyledTableCell>
+                        <StyledTableCell align="center">Price</StyledTableCell>
+                        <StyledTableCell align="center">
+                          Quantity
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          Discount
+                        </StyledTableCell>
+                        <StyledTableCell align="center">Option</StyledTableCell>
+                        <StyledTableCell align="center">Total</StyledTableCell>
+                        <StyledTableCell align="center">Action</StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {data.items.map((row) => (
                         <StyledTableRow key={row.id}>
+                          <StyledTableCell id={row.id} align="center">
+                            <Checkbox defaultChecked />
+                          </StyledTableCell>
                           <StyledTableCell
                             component="th"
                             scope="row"
@@ -174,26 +133,16 @@ const ListCart = () => {
                               className="w-[100px] h-[100px]"
                             ></img>
                           </StyledTableCell>
-                          <StyledTableCell align="center">
+                          <StyledTableCell
+                            align="center"
+                            sx={{ width: 100, padding: 1 }}
+                          >
                             {row.name}
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             {currencyFormat(row.price)}
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            {/*<div className="flex flex-row">
-                              <div 
-                              id={row.id}
-                              className="px-2 border hover:cursor-pointer"
-                              onClick={handleDescreaseQuantity}
-                              >-</div>
-                              <div className="px-3 border">{row.quantity}</div>
-                              <div
-                              id={row.id}
-                              className="px-2 border hover:cursor-pointer"
-                              onClick={handleIncreaseQuantity}
-                              >+</div>
-                      </div>*/}
                             {row.quantity}
                           </StyledTableCell>
                           <StyledTableCell align="center">
@@ -214,7 +163,6 @@ const ListCart = () => {
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             <IconButton
-                              id={row.id}
                               color="primary"
                               aria-label="upload picture"
                               component="label"
@@ -224,17 +172,16 @@ const ListCart = () => {
                             </IconButton>
                           </StyledTableCell>
                         </StyledTableRow>
-                      ))
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </div>
             </div>
           </div>
-        ) : (
-          <div></div>
-        )}
+        ))}
       </div>
+      <div></div>
     </div>
   );
 };
