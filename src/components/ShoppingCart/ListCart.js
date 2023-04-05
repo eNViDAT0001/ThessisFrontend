@@ -13,7 +13,7 @@ import "react-toastify/ReactToastify.min.css";
 import Checkbox from "@mui/material/Checkbox";
 
 import { currencyFormat } from "../../app/hook/CommonHook";
-import { useListCart } from "../../app/hook/CartHook";
+import { changeListCartFromCheck, useListCart } from "../../app/hook/CartHook";
 import { setListCart } from "../../app/slices/CartSlice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -51,32 +51,12 @@ const ListCart = () => {
     });
   };
 
-  const changeListCartFromCheckName = (listCart,id) =>{
-    const result = listCart.map((data) => {
-        if (data.id == id) {
-          if (!data.isSelected) {
-            return {
-              ...data,
-              isSelected: true,
-            };
-          } else {
-            return {
-              ...data,
-              isSelected: false,
-            };
-          }
-        }
-        return data;
-      });
-      return result
-  }
   const handleDeleteButton = (e) => {};
-  const handleCheck = (e) => {
-    const id = e.target.getAttribute('id');
-    const result = changeListCartFromCheckName(listCart,id)
 
-    console.log(result)
-    dispatch(setListCart(...result))
+  const handleCheckProduct = (e) => {
+    const id = e.target.getAttribute("id");
+    const result = changeListCartFromCheck(listCart, id);
+    dispatch(setListCart(result))
   };
 
   return (
@@ -87,12 +67,6 @@ const ListCart = () => {
           <div key={data.id}>
             <div className="border mb-10 ">
               <div className="flex flex-row space-x-5 mx-4">
-                <Checkbox
-                  id={data.id}
-                  checked={data.isSelected}
-                  onClick={handleCheck}
-                  defaultChecked
-                />
                 <h1 className="font-bold text-xl my-3">{data.name}</h1>
               </div>
               <div>
@@ -120,7 +94,12 @@ const ListCart = () => {
                       {data.items.map((row) => (
                         <StyledTableRow key={row.id}>
                           <StyledTableCell id={row.id} align="center">
-                            <Checkbox defaultChecked />
+                            <Checkbox
+                              id={row.id}
+                              checked={row.isSelected}
+                              onClick={handleCheckProduct}
+                              defaultChecked
+                            />
                           </StyledTableCell>
                           <StyledTableCell
                             component="th"

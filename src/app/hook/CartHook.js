@@ -3,6 +3,7 @@ import { CartShoppingApi } from "../../api/CartShopping";
 import { toast } from "react-toastify";
 import { useCallback, useEffect } from "react";
 import { setListCart } from "../slices/CartSlice";
+import { checkObjectEmpty } from "./CommonHook";
 
 export const useListCart = () => useSelector((state) => state.cart.listCart);
 
@@ -58,4 +59,55 @@ export const defaultListCart = (listCart) => {
     };
   });
   return result;
+};
+
+export const changeListCartFromCheck = (listCart, id) => {
+  const result = listCart.map((data) => {
+    const updatedData = {
+      ...data,
+      items: data.items.map((item) => {
+        if (item.id == id) {
+          return {
+            ...item,
+            isSelected: !item.isSelected,
+          };
+        }
+        return item;
+      }),
+    };
+    return updatedData;
+  });
+  return result;
+};
+
+export const getCostFromListCart = (listCart) => {
+  var sum = 0;
+  listCart.map((data) => {
+    data.items.map((item) => {
+      if (item.isSelected) {
+        sum += (item.price * item.quantity * (100 - item.discount)) / 100;
+      }
+    });
+  });
+  return sum;
+};
+
+const getListInfoFromListCartToOrder = (listCart) => {
+  const result = [];
+  listCart.forEach((data) => {
+    data.items.forEach((item) => {
+      if (item.isSelected) {
+        const obj = item
+        result.push(obj);
+      }
+    });
+  });
+  return result;
+};
+
+
+
+export const addCartToOrder = async (listCart, userID) => {
+  const info = getListInfoFromListCartToOrder(listCart);
+  localStorage.setItem("itemInOrder",JSON.stringify(info))
 };

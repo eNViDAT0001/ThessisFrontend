@@ -1,46 +1,31 @@
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { checkObjectEmpty, currencyFormat } from "../../app/hook/CommonHook";
-import { useSelectedCart } from "../../app/hook/CartHook";
-const CartTotal = () => {
-  const selectedCart = useSelectedCart()
-  const getTotalPriceAndQuantity = () => {
-    if (checkObjectEmpty(selectedCart)) return { price: 0, quantity: 0 };
-    else {
-      var resultPrice = 0;
-      var resultQuantity = 0;
-      selectedCart.items.map((data) => {
-        resultPrice +=
-          (data.price * data.quantity * (100 - data.discount)) / 100;
-        resultQuantity += data.quantity;
-      });
-      return { price: resultPrice, quantity: resultQuantity };
-    }
-  };
-  const handleButtonProcessToCheckOut = (e) => {
-    if (checkObjectEmpty(selectedCart)) {
-      toast("You need select the shopping cart", {
-        type: "warning",
-        autoClose: 1000,
-      });
-    } else {
-      toast("You save shopping cart Successful", {
-        type: "success",
-        autoClose: 1000,
-      });
-      localStorage.removeItem("SaveCart");
-      localStorage.setItem("SaveCart", JSON.stringify(selectedCart));
-      localStorage.removeItem("TotalPrice");
-      localStorage.setItem("TotalPrice", getTotalPriceAndQuantity().price);
-      localStorage.removeItem("TotalQuantity");
-      localStorage.setItem(
-        "TotalQuantity",
-        getTotalPriceAndQuantity().quantity
-      );
-    }
-  };
+import { useEffect, useState } from "react";
+import { addCartToOrder, getCostFromListCart, useListCart } from "../../app/hook/CartHook";
+import { currencyFormat } from "../../app/hook/CommonHook";
+import { useUserID } from "../../app/hook/UserHook";
 
+const CartTotal = () => {
+  const userID = useUserID()
+  const listCart = useListCart()
+
+  const [totalPrice,setTotalPrice] = useState(0)
+
+  useEffect(()=>{
+    const sum = getCostFromListCart(listCart)
+    setTotalPrice(sum)
+  },[listCart])
+
+  const handleClickButtonProcessToCheckout = (e) =>{
+    if(totalPrice==0){
+      toast("You don't select any item", {
+        type: "warning",
+        autoClose: 2000,
+      });
+    }
+    else addCartToOrder(listCart,userID)
+  }
   return (
     <div className="w-[30%] border flex flex-col px-[40px] pt-[30px] pb-[40px]">
       <h1 className=" text-xl font-extrabold">CART TOTALS</h1>
@@ -84,11 +69,11 @@ const CartTotal = () => {
       <div className="mt-8 flex flex-row">
         <h1>Total</h1>
         <h1 className="ml-8">
-          {currencyFormat(getTotalPriceAndQuantity().price)}đ
+          {currencyFormat(totalPrice)}đ
         </h1>
       </div>
       <button
-        onClick={handleButtonProcessToCheckOut}
+        onClick={handleClickButtonProcessToCheckout}
         className="mt-8 w-[100%] h-[45px] bg-[#212529] text-white rounded-3xl"
       >
         PROCESS TO CHECKOUT
