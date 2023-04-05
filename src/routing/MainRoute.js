@@ -16,6 +16,7 @@ import { AccountAddressPage } from "../pages/AccountPage/AccountAddressPage";
 import CreateAddressPage from "../components/Account/Address/CreateNewAddress";
 import { CartPage } from "../pages/Shopping/CartPage";
 import { FixAddressPage } from "../components/Account/Address/FixAddress";
+import ShoppingOrderPage from "../pages/ShoppingOrderPage/ShoppingOrderPage";
 
 export const MainRoute = () => {
   return (
@@ -29,6 +30,7 @@ export const MainRoute = () => {
           <Route path="/shop" element={<BrandPage />} />
           <Route path="/brand-detail/:id" element={<BrandDetailPage />} />
           <Route path="/cart/:id" element={<CartPage />} />
+          <Route path="/shopping-order/:id" element={<ShoppingOrderPage />} />
           <Route path="/account-detail/:id" element={<AccountDetailPage />} />
           <Route path="/account-address/:id" element={<AccountAddressPage />} />
           <Route path="/account-address/create" element={<CreateAddressPage />} />

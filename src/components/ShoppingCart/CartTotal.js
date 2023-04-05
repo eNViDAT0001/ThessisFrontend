@@ -24,7 +24,7 @@ const CartTotal = () => {
         autoClose: 2000,
       });
     }
-    else addCartToOrder(listCart,userID)
+    else addCartToOrder(listCart,totalPrice,userID)
   }
   return (
     <div className="w-[30%] border flex flex-col px-[40px] pt-[30px] pb-[40px]">

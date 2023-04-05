@@ -3,13 +3,12 @@ import { CartShoppingApi } from "../../api/CartShopping";
 import { toast } from "react-toastify";
 import { useCallback, useEffect } from "react";
 import { setListCart } from "../slices/CartSlice";
-import { checkObjectEmpty } from "./CommonHook";
 
 export const useListCart = () => useSelector((state) => state.cart.listCart);
-
+export const useTotalPrice = () => JSON.parse(localStorage.getItem("totalPrice"))
 export const useSelectedCart = () =>
   useSelector((state) => state.cart.selectedCart);
-
+export const useListItemInCartSelected = () => JSON.parse(localStorage.getItem("itemInOrder"))
 export const addToCart = async (productID, providerID, userID, body) => {
   await CartShoppingApi.AddNewCartShopping(
     productID,
@@ -107,7 +106,9 @@ const getListInfoFromListCartToOrder = (listCart) => {
 
 
 
-export const addCartToOrder = async (listCart, userID) => {
+export const addCartToOrder = async (listCart,totalPrice,userID) => {
   const info = getListInfoFromListCartToOrder(listCart);
   localStorage.setItem("itemInOrder",JSON.stringify(info))
+  localStorage.setItem("totalPrice",totalPrice)
+  window.location.replace(`/shopping-order/${userID}`)
 };

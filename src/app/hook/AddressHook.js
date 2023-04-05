@@ -1,20 +1,43 @@
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { AddressApi } from "../../api/AddressApi";
-import { setAddressDetail, setDistrict, setProvince, setUserAddress, setWard } from "../slices/AddressSlice";
+import {
+  setFormAddressSelected,
+  setStreetInFormCreate,
+  setWardInFormCreate,
+  setDistrictInFormCreate,
+  setProvinceInFormCreate,
+  setPhoneInFormCreate,
+  setAddressDetail,
+  setDistrict,
+  setNameInFormCreate,
+  setProvince,
+  setUserAddress,
+  setWard,
+} from "../slices/AddressSlice";
 import { useCallback, useEffect } from "react";
 
 export const useListAddress = () =>
   useSelector((state) => state.address.userAddress);
-export const useProvince = () =>
-  useSelector((state) => state.address.province);
-export const useDistrict = () =>
-  useSelector((state) => state.address.district);
-export const useWard = () =>
-  useSelector((state) => state.address.ward);
+export const useProvince = () => useSelector((state) => state.address.province);
+export const useDistrict = () => useSelector((state) => state.address.district);
 export const useAddressDetail = () =>
   useSelector((state) => state.address.addressDetail);
-
+export const useWard = () => useSelector((state) => state.address.ward);
+export const useNameInFormCreate = () =>
+  useSelector((state) => state.address.nameInFormCreate);
+export const usePhoneInFormCreate = () =>
+  useSelector((state) => state.address.phoneInFormCreate);
+export const useProvinceInFormCreate = () =>
+  useSelector((state) => state.address.provinceInFormCreate);
+export const useDistrictInFormCreate = () =>
+  useSelector((state) => state.address.districtInFormCreate);
+export const useWardInFormCreate = () =>
+  useSelector((state) => state.address.wardInFormCreate);
+export const useStreetInFormCreate = () =>
+  useSelector((state) => state.address.streetInFormCreate);
+export const useFormAddressSelected = () =>
+  useSelector((state) => state.address.formAddressSelected);
 
 export const deleteAddressSelect = async (userID, body) => {
   console.log(body);
@@ -34,15 +57,15 @@ export const deleteAddressSelect = async (userID, body) => {
     });
 };
 
-export const useFetchAddressDetail = async (addressID,userID) =>{
+export const useFetchAddressDetail = async (addressID, userID) => {
   const dispatch = useDispatch();
   const loadAddressDetail = useCallback(async () => {
-    dispatch(fetchAddressDetail(addressID,userID));
+    dispatch(fetchAddressDetail(addressID, userID));
   });
   useEffect(() => {
     loadAddressDetail();
   }, [loadAddressDetail]);
-}
+};
 
 export const useFetchListAddress = async (userID) => {
   const dispatch = useDispatch();
@@ -68,7 +91,7 @@ export const useFetchDistrict = async (provinceID) => {
   const dispatch = useDispatch();
   const loadDataDistrict = useCallback(async () => {
     dispatch(fetchListDistrict(provinceID));
-  },[dispatch, provinceID]);
+  }, [dispatch, provinceID]);
   useEffect(() => {
     loadDataDistrict();
   }, [loadDataDistrict]);
@@ -78,19 +101,19 @@ export const useFetchWard = async (districtID) => {
   const dispatch = useDispatch();
   const loadDataWard = useCallback(async () => {
     dispatch(fetchListWard(districtID));
-  },[dispatch, districtID]);
+  }, [dispatch, districtID]);
   useEffect(() => {
     loadDataWard();
   }, [loadDataWard]);
 };
 
-const fetchAddressDetail = (addressID,userID) => async(dispatch) =>{
+const fetchAddressDetail = (addressID, userID) => async (dispatch) => {
   try {
-    await AddressApi.DetailByUserID(addressID,userID).then((res) => {
+    await AddressApi.DetailByUserID(addressID, userID).then((res) => {
       dispatch(setAddressDetail(res.data.data));
     });
   } catch (err) {}
-}
+};
 
 const fetchListAddress = (userID) => async (dispatch) => {
   try {
@@ -100,29 +123,29 @@ const fetchListAddress = (userID) => async (dispatch) => {
   } catch (err) {}
 };
 
-const fetchListProvince = () => async(dispatch) =>{
+const fetchListProvince = () => async (dispatch) => {
   try {
     await AddressApi.ReadAllProvince().then((res) => {
       dispatch(setProvince(res.data.data));
     });
   } catch (err) {}
-}
+};
 
-const fetchListDistrict = (provinceID) => async(dispatch) =>{
+const fetchListDistrict = (provinceID) => async (dispatch) => {
   try {
     await AddressApi.ReadAllDistrict(provinceID).then((res) => {
       dispatch(setDistrict(res.data.data));
     });
   } catch (err) {}
-}
+};
 
-const fetchListWard = (districtID) => async(dispatch) =>{
+const fetchListWard = (districtID) => async (dispatch) => {
   try {
     await AddressApi.ReadAllWard(districtID).then((res) => {
       dispatch(setWard(res.data.data));
     });
   } catch (err) {}
-}
+};
 export const saveNewAddress = (
   user_id,
   name,
@@ -151,7 +174,7 @@ export const saveNewAddress = (
       ward_code: wardID,
       street: street,
     };
-    console.log(body)
+    console.log(body);
     AddressApi.AddSaveAddress(user_id, body)
       .then((res) => {
         toast("Add new address successful", {
@@ -172,3 +195,14 @@ export const saveNewAddress = (
   }
 };
 
+export const resetForm = () => (dispatch) => {
+  dispatch(setNameInFormCreate(""));
+  dispatch(setPhoneInFormCreate(""));
+  dispatch(setProvinceInFormCreate(""));
+  dispatch(setDistrictInFormCreate(""));
+  dispatch(setWardInFormCreate(""));
+  dispatch(setStreetInFormCreate(""));
+};
+export const resetAddressSelected = () => (dispatch) => {
+  dispatch(setFormAddressSelected({}));
+};
