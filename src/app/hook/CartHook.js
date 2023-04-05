@@ -96,15 +96,16 @@ const getListInfoFromListCartToOrder = (listCart) => {
   listCart.forEach((data) => {
     data.items.forEach((item) => {
       if (item.isSelected) {
-        const obj = item
+        const obj = {
+          ...item,
+          provider_id: data.provider_id
+        }
         result.push(obj);
       }
     });
   });
   return result;
 };
-
-
 
 export const addCartToOrder = async (listCart,totalPrice,userID) => {
   const info = getListInfoFromListCartToOrder(listCart);

@@ -1,14 +1,37 @@
-import React from 'react'
+import React from "react";
 import { ToastContainer } from "react-toastify";
 import { Button } from "@mui/material";
 import "react-toastify/ReactToastify.min.css";
-import { currencyFormat } from '../../../app/hook/CommonHook';
-import { useTotalPrice } from '../../../app/hook/CartHook';
+import { checkObjectEmpty, currencyFormat } from "../../../app/hook/CommonHook";
+import {
+  useListItemInCartSelected,
+  useTotalPrice,
+} from "../../../app/hook/CartHook";
+import { useFormAddressSelected } from "../../../app/hook/AddressHook";
+import { useUserID } from "../../../app/hook/UserHook";
+import { changePropListItem } from "../../../app/hook/OrderHook";
 export const Bill = () => {
-  const totalPrice = useTotalPrice()
-  const handleButtonPayment = (e) =>{
+  const userID = useUserID();
+  const listItem = useListItemInCartSelected();
+  const addressForm = useFormAddressSelected();
+  const totalPrice = useTotalPrice();
 
-  }
+  const handleButtonPayment = (e) => {
+    if (!checkObjectEmpty(addressForm)) {
+      const body = {
+        user_id: userID,
+        name: addressForm.name,
+        gender: addressForm.gender,
+        phone: addressForm.phone,
+        province: addressForm.province,
+        district: addressForm.district,
+        ward: addressForm.ward,
+        street: addressForm.street,
+        total: totalPrice,
+        items: changePropListItem(listItem)
+      };
+    }
+  };
   return (
     <div className=" bg-[#F4F4FC] p-6 space-y-10">
       <ToastContainer position="top-right" newestOnTop />
@@ -31,5 +54,5 @@ export const Bill = () => {
         Process To Checkout
       </Button>
     </div>
-  )
-}
+  );
+};

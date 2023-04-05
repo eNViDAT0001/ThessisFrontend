@@ -1,7 +1,6 @@
 import React from "react";
 import contact from "../../asset/contact.svg";
 import imgContact from "../../asset/imgContact.svg";
-import HeaderBarBig from "../../components/Common/HeaderBarBig";
 
 export const ContactPage = () => {
   return (

@@ -39,3 +39,23 @@ const fetchOrderInProvider = (id, filters) => async (dispatch) => {
     console.log(err);
   }
 };
+
+export const changePropListItem = (listItem) =>{
+  const result = [];
+  listItem.forEach((data) => {
+    const obj = {
+      category_id: 1,
+      product_id: data.product_id,
+      product_option_id: data.product_option_id,
+      provider_id: data.provider_id,
+      price: data.price,
+      quantity: data.quantity,
+      option: "Spec: Option",
+      discount: data.discount,
+      image: data.media_path
+    }
+    result.push(obj);
+  });
+  console.log(result)
+  return result;
+}

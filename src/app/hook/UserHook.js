@@ -5,7 +5,7 @@ import { UserApi } from "../../api/UserApi";
 export const useUserInformation = () =>
   useSelector((state) => state.user.userInformation);
 
-export const useUserID = () => JSON.parse(localStorage.getItem("UserID"));
+export const useUserID = () => String(JSON.parse(localStorage.getItem("UserID")));
 
 export const useUserDetail = () => JSON.parse(localStorage.getItem("UserInWeb"));
 

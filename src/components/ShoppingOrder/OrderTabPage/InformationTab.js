@@ -101,6 +101,7 @@ export const InformationTab = () => {
   const selectTheAddress = (e, value) => {
     dispatch(setFormAddressSelected(value));
   };
+  
   console.log(formAddressSelected)
   return (
     <div className="w-full space-y-8 bg-[#F7FAFC] p-8">
