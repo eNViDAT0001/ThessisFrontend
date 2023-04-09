@@ -9,7 +9,7 @@ import {
 } from "../../../app/hook/CartHook";
 import { useFormAddressSelected } from "../../../app/hook/AddressHook";
 import { useUserID } from "../../../app/hook/UserHook";
-import { changePropListItem } from "../../../app/hook/OrderHook";
+import { addNewOrder, changePropListItem, getListIDCart } from "../../../app/hook/OrderHook";
 export const Bill = () => {
   const userID = useUserID();
   const listItem = useListItemInCartSelected();
@@ -28,8 +28,11 @@ export const Bill = () => {
         ward: addressForm.ward,
         street: addressForm.street,
         total: totalPrice,
-        items: changePropListItem(listItem)
+        discount:0,
+        items: changePropListItem(listItem),
+        cart_items_ids: getListIDCart(listItem)
       };
+      addNewOrder(body)
     }
   };
   return (

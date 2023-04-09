@@ -1,18 +1,55 @@
 import React from "react";
-import { useProductInHome } from "../../app/hook/ProductHook";
-import { Link } from 'react-router-dom'
+import { useFilterProductInHome, useProductInHome } from "../../app/hook/ProductHook";
+import { Link } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
+import InputBase from "@mui/material/InputBase";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import { setNameSearchInProductInHome } from "../../app/slices/QuerySlice";
+import { useDispatch } from "react-redux";
 
 export const ProductOverview = () => {
+  const dispatch = useDispatch()
+
+  const filter = useFilterProductInHome()
   const productInHome = useProductInHome() || [];
+
+  const handleChangeSearchText = (e) =>{
+    dispatch(setNameSearchInProductInHome(e.target.value))
+  }
 
   return (
     <div>
       {productInHome.length !== 0 ? (
         <div className="flex justify-center my-[100px]">
           <div className="min-w-[80%] w-[80%] border p-10 bg-white rounded-2xl">
-            <h1 className=" text-xl font-['Poppins_Bold'] font-extrabold text-[#000000] uppercase">
-              New product launch
-            </h1>
+            <div className="flex flex-row justify-between items-center">
+              <h1 className=" text-xl font-['Poppins_Bold'] font-extrabold text-[#000000] uppercase">
+                New product launch
+              </h1>
+              <Paper
+                component="form"
+                sx={{
+                  p: "2px 4px",
+                  display: "flex",
+                  alignItems: "center",
+                  width: 400,
+                }}
+              >
+                <InputBase
+                  sx={{ ml: 1, flex: 1 }}
+                  onChange={handleChangeSearchText}
+                  placeholder="Search product"
+                />
+                <IconButton
+                  type="button"
+                  sx={{ p: "10px" }}
+                  aria-label="search"
+                >
+                  <SearchIcon />
+                </IconButton>
+              </Paper>
+            </div>
 
             <div className="flex flex-row justify-start flex-wrap my-[50px] ">
               {productInHome.map((data) => (

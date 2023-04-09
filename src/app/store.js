@@ -7,6 +7,7 @@ import orderReducer from "./slices/OrderSlice";
 import AddProductReducer from './slices/AddProductSlice'
 import AddressReducer from './slices/AddressSlice'
 import CartReducer from './slices/CartSlice'
+import QueryReducer from './slices/QuerySlice'
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     addProduct: AddProductReducer,
     address: AddressReducer,
     cart: CartReducer,
+    query: QueryReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

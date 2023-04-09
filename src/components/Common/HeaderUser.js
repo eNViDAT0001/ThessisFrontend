@@ -12,10 +12,6 @@ const LinkInHeader = [
     link: "/category",
   },
   {
-    name: "Order",
-    link: "/order",
-  },
-  {
     name: "Contact",
     link: "/contact",
   },

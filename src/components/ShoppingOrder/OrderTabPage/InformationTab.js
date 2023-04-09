@@ -94,6 +94,7 @@ export const InformationTab = () => {
     label:
       data.street + "," + data.ward + "," + data.district + "," + data.province,
   }));
+  
   const newDataProvince = changeAttributeForOption(dataProvince);
   const newDataDistrict = changeAttributeForOption(dataDistrict);
   const newDataWard = changeAttributeForOption(dataWard);

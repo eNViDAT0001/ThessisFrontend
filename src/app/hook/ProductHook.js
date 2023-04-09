@@ -26,6 +26,9 @@ export const useOptionHandle = () =>
   useSelector((state) => state.product.optionHandle);
 export const useQuantityHandle = () =>
   useSelector((state) => state.product.quantityHandle);
+export const useFilterProductInHome = () =>
+  useSelector((state) => state.query.productInHome);
+
 
 export const useFetchInHomePage = async () => {
   const dispatch = useDispatch();
@@ -53,6 +56,17 @@ const fetchInHomePage = () => async (dispatch) => {
   } catch (err) {}
 };
 
+
+
+
+
+
+
+
+
+
+
+//Product detail
 export const useFetchInProductDetail = async (id) => {
   const dispatch = useDispatch();
   const loadDataProduct = useCallback(async () => {
@@ -78,6 +92,10 @@ const fetchInProductDetailPage = (id) => async (dispatch) => {
     });
   } catch (error) {}
 };
+
+
+
+
 
 //add Product
 export const useName = () => useSelector((state) => state.addProduct.name);
