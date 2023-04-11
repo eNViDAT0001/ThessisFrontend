@@ -4,15 +4,22 @@ import { useFetchOrderInProvider } from "../../app/hook/OrderHook";
 import { GeneralBrandDetail } from "../../components/Brand/Detail/GeneralBrandDetail/GeneralBrandDetail";
 import { OrderInDetailBrand } from "../../components/Brand/Detail/OrderInDetailBrand/OrderInDetailBrand";
 import { ProductInDetailBrand } from "../../components/Brand/Detail/ProductInDetailBrand/ProductInDetailBrand";
-import { useFetchListProductInBrandDetail } from "../../app/hook/BrandHook";
+import { useFetchListProductInBrandDetail, useFilterInProductInBrandDetail } from "../../app/hook/BrandHook";
+import { useDispatch } from "react-redux";
+import { setProviderIDInProductInDetailBrand } from "../../app/slices/QuerySlice";
 
 export const BrandDetailPage = () => {
   const { id } = useParams();
+  const dispatch = useDispatch()
+
+  const filter = useFilterInProductInBrandDetail()
 
   useFetchOrderInProvider(id);
-  useFetchListProductInBrandDetail(id);
+  useFetchListProductInBrandDetail(filter);
 
   useEffect(() => {
+    dispatch(setProviderIDInProductInDetailBrand(id))
+    
     window.scrollTo(0, 0);
   }, []);
   return (

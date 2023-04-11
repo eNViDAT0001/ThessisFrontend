@@ -11,7 +11,7 @@ const initialState = {
       value: 1,
     },
     limit: {
-      type: "limit",
+      type: null,
       value: 8,
     },
   },
@@ -22,20 +22,19 @@ const initialState = {
       type: "search[]",
       value: "",
     },
-    page: {
-      type: "fields[]",
-      value: 1,
-    },
     limit: {
-      type: "limit",
+      type: null,
       value: 8,
     },
     provider_id: {
       type: "fields[]",
       value: null,
     },
+    marker: {
+      type: null,
+      value: 6,
+    },
   },
-
 
   filterBrand: {
     name: {
@@ -47,9 +46,10 @@ const initialState = {
       value: 1,
     },
     limit: {
-      type: "fields[]",
+      type: null,
       value: 8,
     },
+
   },
 
 
@@ -67,8 +67,12 @@ const initialState = {
       value: 1,
     },
     limit: {
-      type: "limit",
+      type: null,
       value: 6,
+    },
+    marker: {
+      type: null,
+      value: 1,
     },
   },
 };

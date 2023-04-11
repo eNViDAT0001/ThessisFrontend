@@ -7,7 +7,7 @@ const axiosClient = axios.create({
   headers: {
     "Content-Type": "application/json",
     Accept: "*/*",
-  }
+  },
 });
 const ResetToken = async () => {
   await axios

@@ -138,7 +138,7 @@ export const ListViewOrders = () => {
                     </StyledTableCell>
                     <StyledTableCell align="left">
                       <div className="px-4 py-1 border bg-[#C40201] text-white">
-                        {`${row.Discount}%`}
+                        {`${row.discount}%`}
                       </div>
                     </StyledTableCell>
                   </StyledTableRow>

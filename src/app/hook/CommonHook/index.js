@@ -32,20 +32,22 @@ export const changeAttributeForOption = (data) => {
   }
 };
 
-export const convertObjectToObjectFilter = (object) => {
+export const convertObjectToStringQuery = (object) => {
   if (!checkObjectEmpty(object)) {
     const queryString = Object.keys(object)
       .map((key) => {
         const queryType = object[key].type;
         const queryValue = object[key].value;
 
-        if (queryType) {
-          return `${queryType}=${key}_${queryValue}`;
-        } else {
-          return `${key}=${queryValue}`;
+        if (queryValue) {
+          if (queryType) {
+            return `${queryType}=${key}_${queryValue}`;
+          } else {
+            return `${key}=${queryValue}`;
+          }
         }
       })
       .join("&");
-      return queryString
+    return queryString;
   }
 };

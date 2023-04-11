@@ -28,6 +28,8 @@ export const Bill = () => {
         ward: addressForm.ward,
         street: addressForm.street,
         total: totalPrice,
+        quantity: 30,
+        status_description: "Provider Will call you soon",
         discount:0,
         items: changePropListItem(listItem),
         cart_items_ids: getListIDCart(listItem)
