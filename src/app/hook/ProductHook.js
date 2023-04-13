@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setListBanner } from "../slices/BannerSlice";
@@ -33,74 +33,141 @@ export const useQuantityHandle = () =>
 export const useFilterProductInHome = () =>
   useSelector((state) => state.query.productInHome);
 
-
-export const useFetchInHomePage = async (filter) => {
+export const useFetchListBannerInHomePage = async () => {
   const dispatch = useDispatch();
-  
+
   const loadDataHome = useCallback(async () => {
-    dispatch(fetchInHomePage(filter));
-  },[filter,dispatch]);
+    dispatch(fetchBannerInHomePage());
+  }, [dispatch]);
 
   useEffect(() => {
     loadDataHome();
   }, [loadDataHome]);
 };
 
-const fetchInHomePage = (filter) => async (dispatch) => {
+export const useFetchCategoryRoofInHomePage = async () => {
+  const dispatch = useDispatch();
+
+  const loadDataHome = useCallback(async () => {
+    dispatch(fetchCategoryRoofInHomePage());
+  }, [dispatch]);
+
+  useEffect(() => {
+    loadDataHome();
+  }, [loadDataHome]);
+};
+
+export const useFetchProductInHomePage = async (filter) => {
+  const dispatch = useDispatch();
+
+  const loadDataHome = useCallback(async () => {
+    dispatch(fetchProductInHomePage(filter));
+  }, [filter, dispatch]);
+
+  useEffect(() => {
+    loadDataHome();
+  }, [loadDataHome]);
+};
+
+const fetchProductInHomePage = (filter) => async (dispatch) => {
   try {
-    await Promise.all([
-      ProductApi.GetBanners(),
-      ProductApi.GetCategoriesRoof(),
-      ProductApi.GetProductPreview(filter),
-      //api thu 4
-    ]).then((res) => {
-      dispatch(setListBanner(res[0].data.data));
-      dispatch(setCategoryRoot(res[1].data.data));
-      dispatch(setProductInHome(res[2].data.data));
-      dispatch(setMetaInProductInHome(res[2].data.meta))
-      //set thu 4
+    await ProductApi.GetProductPreview(filter).then((res) => {
+      dispatch(setProductInHome(res.data.data));
+      dispatch(setMetaInProductInHome(res.data.meta));
     });
   } catch (err) {}
 };
 
+const fetchCategoryRoofInHomePage = () => async (dispatch) => {
+  try {
+    await ProductApi.GetCategoriesRoof().then((res) => {
+      dispatch(setCategoryRoot(res.data.data));
+    });
+  } catch (err) {}
+};
 
-
-
-
-
-
-
-
-
+const fetchBannerInHomePage = () => async (dispatch) => {
+  try {
+    await ProductApi.GetBanners().then((res) => {
+      dispatch(setListBanner(res.data.data));
+    });
+  } catch (err) {}
+};
 
 //Product detail
-export const useFetchInProductDetail = async (id) => {
+
+export const useFetchBasicInformationInProductDetail = async (id) => {
   const dispatch = useDispatch();
   const loadDataProduct = useCallback(async () => {
-    dispatch(fetchInProductDetailPage(id));
-  });
+    dispatch(fetchBasicInformationInProductDetailPage(id));
+  },[dispatch,id]);
   await useEffect(() => {
     loadDataProduct();
   }, [loadDataProduct]);
 };
 
-const fetchInProductDetailPage = (id) => async (dispatch) => {
+export const useFetchMediaInProductDetail = async (id) => {
+  const dispatch = useDispatch();
+  const loadDataProduct = useCallback(async () => {
+    dispatch(fetchMediaInProductDetailPage(id));
+  },[dispatch,id]);
+  await useEffect(() => {
+    loadDataProduct();
+  }, [loadDataProduct]);
+};
+
+export const useFetchSpecificationInProductDetail = async (id) => {
+  const dispatch = useDispatch();
+  const loadDataProduct = useCallback(async () => {
+    dispatch(fetchSpecificationInProductDetailPage(id));
+  },[dispatch,id]);
+  await useEffect(() => {
+    loadDataProduct();
+  }, [loadDataProduct]);
+};
+
+export const useFetchDescriptionInProductDetail = async (id) => {
+  const dispatch = useDispatch();
+  const loadDataProduct = useCallback(async () => {
+    dispatch(fetchDescriptionInProductDetailPage(id));
+  },[dispatch,id]);
+
+  await useEffect(() => {
+    loadDataProduct();
+  }, [loadDataProduct]);
+};
+
+const fetchBasicInformationInProductDetailPage = (id) => async (dispatch) => {
   try {
-    await Promise.all([
-      ProductApi.GetDetailProduct(id),
-      ProductApi.GetMedia(id),
-      ProductApi.GetDescriptionFromProduct(id),
-      ProductApi.GetSpecification(id),
-    ]).then((res) => {
-      dispatch(setProductDetail(res[0].data.data));
-      dispatch(setImageProduct(res?.[1].data.data));
-      dispatch(setDescriptionProduct(res?.[2].data.data));
-      dispatch(setSpecificationProduct(res[3].data.data));
+    await ProductApi.GetDetailProduct(id).then((res) => {
+      dispatch(setProductDetail(res.data.data));
     });
   } catch (error) {}
 };
 
+const fetchMediaInProductDetailPage = (id) => async (dispatch) => {
+  try {
+    await ProductApi.GetMedia(id).then((res) => {
+      dispatch(setImageProduct(res.data.data));
+    });
+  } catch (error) {}
+};
 
+const fetchSpecificationInProductDetailPage = (id) => async (dispatch) => {
+  try {
+    await ProductApi.GetSpecification(id).then((res) => {
+      dispatch(setSpecificationProduct(res.data.data));
+    });
+  } catch (error) {}
+};
+
+const fetchDescriptionInProductDetailPage = (id) => async (dispatch) => {
+  try {
+    await ProductApi.GetDescriptionFromProduct(id).then((res) => {
+      dispatch(setDescriptionProduct(res.data.data));
+    });
+  } catch (error) {}
+};
 
 
 

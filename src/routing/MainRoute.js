@@ -17,6 +17,7 @@ import CreateAddressPage from "../components/Account/Address/CreateNewAddress";
 import { CartPage } from "../pages/Shopping/CartPage";
 import { FixAddressPage } from "../components/Account/Address/FixAddress";
 import ShoppingOrderPage from "../pages/ShoppingOrderPage/ShoppingOrderPage";
+import { CategoryPage } from "../pages/CategoryPage/CategoryPage";
 
 export const MainRoute = () => {
   return (
@@ -25,7 +26,7 @@ export const MainRoute = () => {
         <Route element={<AdminLayOut />}></Route>
         <Route element={<UserLayout />}>
           <Route path="/" element={<HomePage />} />
-
+          <Route path="/category" element={<CategoryPage />} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
           <Route path="/shop" element={<BrandPage />} />
           <Route path="/brand-detail/:id" element={<BrandDetailPage />} />
