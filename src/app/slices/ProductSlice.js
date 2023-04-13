@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   productInHome: [],
+  metaInProductInHome:{},
   productInCategory:[],
   productDetail:{},
   imageProduct:[],
@@ -22,6 +23,9 @@ const productSlice = createSlice({
         reset: () => initialState,
         setProductInHome:(state,action) => {
             state.productInHome = action.payload
+        },
+        setMetaInProductInHome:(state,action) => {
+            state.metaInProductInHome = action.payload
         },
         setProductInCategory:(state,action) =>{
             state.productInCategory = action.payload
@@ -49,6 +53,7 @@ const productSlice = createSlice({
 
 export const {
     setProductInHome,
+    setMetaInProductInHome,
     setProductInCategory,
     setProductDetail,
     setImageProduct,

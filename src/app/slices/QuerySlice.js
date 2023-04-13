@@ -6,8 +6,8 @@ const initialState = {
       type: "search[]",
       value: "",
     },
-    page: {
-      type: "fields[]",
+    marker: {
+      type: null,
       value: 1,
     },
     limit: {
@@ -49,7 +49,6 @@ const initialState = {
       type: null,
       value: 8,
     },
-
   },
 
 
@@ -86,7 +85,7 @@ const querySlice = createSlice({
       state.productInHome.name.value = action.payload;
     },
     setPageInProductInHome: (state, action) => {
-      state.productInHome.page.value = action.payload;
+      state.productInHome.marker.value = action.payload;
     },
     setLimitInProductInHome: (state, action) => {
       state.productInHome.limit.value = action.payload;

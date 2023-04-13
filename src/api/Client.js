@@ -51,7 +51,7 @@ axiosClient.interceptors.request.use(async (config) => {
       console.log("Da het han AccessToken");
       ResetToken();
     }
-    config.headers.Authorization = "Bearer " + accessToken;
+    config.headers['Authorization'] = `Bearer ${accessToken}`;
   }
   return config;
 });

@@ -1,0 +1,10 @@
+.slider {
+    height: 500px; /* Set the height of the slider */
+    position: relative;
+  }
+  
+  .slick-slide img {
+    height: 100%; /* Set the height of the images to 100% */
+    object-fit: cover; /* Scale the images to cover the entire slide */
+    object-position: center; /* Center the images within the slide */
+  }

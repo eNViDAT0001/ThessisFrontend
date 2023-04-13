@@ -1,19 +1,23 @@
 import { useCallback, useEffect, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ProductApi } from "../../api/ProductApi";
+
 import { setListBanner } from "../slices/BannerSlice";
 import { setCategoryRoot } from "../slices/CategorySlice";
 import { toast } from "react-toastify";
 import {
   setDescriptionProduct,
   setImageProduct,
+  setMetaInProductInHome,
   setProductDetail,
   setProductInHome,
   setSpecificationProduct,
 } from "../slices/ProductSlice";
+import { ProductApi } from "../../api/ProductApi";
 
 export const useProductInHome = () =>
   useSelector((state) => state.product.productInHome);
+export const useMetaInProductInHome = () =>
+  useSelector((state) => state.product.metaInProductInHome);
 export const useImageProduct = () =>
   useSelector((state) => state.product.imageProduct);
 export const useProductDetail = () =>
@@ -30,27 +34,30 @@ export const useFilterProductInHome = () =>
   useSelector((state) => state.query.productInHome);
 
 
-export const useFetchInHomePage = async () => {
+export const useFetchInHomePage = async (filter) => {
   const dispatch = useDispatch();
+  
   const loadDataHome = useCallback(async () => {
-    dispatch(fetchInHomePage());
-  });
+    dispatch(fetchInHomePage(filter));
+  },[filter,dispatch]);
+
   useEffect(() => {
     loadDataHome();
   }, [loadDataHome]);
 };
 
-const fetchInHomePage = () => async (dispatch) => {
+const fetchInHomePage = (filter) => async (dispatch) => {
   try {
     await Promise.all([
       ProductApi.GetBanners(),
       ProductApi.GetCategoriesRoof(),
-      ProductApi.GetProductPreview(),
+      ProductApi.GetProductPreview(filter),
       //api thu 4
     ]).then((res) => {
       dispatch(setListBanner(res[0].data.data));
       dispatch(setCategoryRoot(res[1].data.data));
       dispatch(setProductInHome(res[2].data.data));
+      dispatch(setMetaInProductInHome(res[2].data.meta))
       //set thu 4
     });
   } catch (err) {}

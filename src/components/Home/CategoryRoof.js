@@ -1,6 +1,16 @@
 import React from "react";
 import { useCategoryRoof } from "../../app/hook/CategoryHook";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+
+const settings={
+  lazyLoad: 'ondemand',
+  slidesToShow: 3,
+  slidesToScroll: 1
+}
+
 export const CategoryRoof = () => {
   const categoryRoof = useCategoryRoof() || [];
 
@@ -16,7 +26,7 @@ export const CategoryRoof = () => {
             <h1 className=" text-xl font-['Poppins_Bold'] font-extrabold uppercase text-[#000000]">
               can interest you
             </h1>
-            <div className="flex flex-row justify-between flex-wrap">
+            <Slider {...settings}>
               {categoryRoof.map((data) => (
                 <div
                   key={data.id}
@@ -34,7 +44,7 @@ export const CategoryRoof = () => {
                   </h1>
                 </div>
               ))}
-            </div>
+            </Slider>
           </div>
         </div>
       )}

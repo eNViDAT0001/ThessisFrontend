@@ -1,4 +1,3 @@
-import { transformFilters } from "../app/hook/CommonHook";
 import axiosClient from "./Client";
 export const ProductApi = {
     GetComment:(id,filters) =>{
@@ -35,6 +34,10 @@ export const ProductApi = {
     },
     GetCategoryChildren:(id)=>{
         const url=`/categories/children/${id}`
+        return  axiosClient.get(url)
+    },
+    GetCategoryList:()=>{
+        const url=`/categories/list`
         return  axiosClient.get(url)
     },
     GetDescriptionFromProduct:(id)=>{
