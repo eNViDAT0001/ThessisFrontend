@@ -65,7 +65,7 @@ export const ProductOverview = () => {
             <div></div>
           ) : (
             <div>
-              <div className="flex flex-row justify-start flex-wrap my-[50px] ">
+              <div className="flex flex-row justify-start flex-wrap mt-[50px] ">
                 {productInHome.map((data) => (
                   <Link
                     id={data.id}
