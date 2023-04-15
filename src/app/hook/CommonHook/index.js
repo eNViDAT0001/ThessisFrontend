@@ -51,3 +51,34 @@ export const convertObjectToStringQuery = (object) => {
     return queryString;
   }
 };
+
+export const buildCategoryTree = (arr) => {
+  let result = [];
+  arr.forEach((item) => {
+    let newItem = {
+      id: item.id,
+      name: item.name,
+      isDisplay: false,
+      children: null,
+    };
+    if (item.category_children) {
+      newItem.children = buildCategoryTree(item.category_children);
+    }
+    result.push(newItem);
+  });
+  return result;
+};
+
+function findNodePath(id, nodes, path = []) {
+  for (let node of nodes) {
+    if (node.id === id) {
+      return [...path, node.id];
+    } else if (node.children) {
+      let childPath = findNodePath(id, node.children, [...path, node.id]);
+      if (childPath) {
+        return childPath;
+      }
+    }
+  }
+  return null;
+}

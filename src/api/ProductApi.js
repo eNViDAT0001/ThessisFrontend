@@ -28,7 +28,7 @@ export const ProductApi = {
         const url=`/products/${id}`
         return axiosClient.get(url)
     },
-    GetCategoriesTree:()=>{
+    GetListCategoriesTree:()=>{
         const url='/categories'
         return axiosClient.get(url)
     },

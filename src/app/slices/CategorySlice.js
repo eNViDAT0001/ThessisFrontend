@@ -2,6 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   categoryRoot: [],
+  listTreeCategory: [],
+  categoryHover:{},
+  categoryHandle:{},
   listProductInCategory: [],
   metaProductInCategory: {},
 };
@@ -19,13 +22,22 @@ const categorySlice = createSlice({
         setMetaProductInCategory:(state,action) => {
             state.metaProductInCategory = action.payload
         },
+        setListTreeCategory: (state,action) =>{
+            state.listTreeCategory = action.payload
+        },
+        setCategoryHandle: (state,action) =>{
+            state.categoryHandle = action.payload
+        },
     }
 });
 
 export const {
     setCategoryRoot,
     setListProductInCategory,
-    setMetaProductInCategory
+    setMetaProductInCategory,
+    setListTreeCategory,
+    setCategoryHandle
+    
 } = categorySlice.actions;
 
 export default categorySlice.reducer;
