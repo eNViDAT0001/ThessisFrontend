@@ -8,6 +8,8 @@ import AddProductReducer from './slices/AddProductSlice'
 import AddressReducer from './slices/AddressSlice'
 import CartReducer from './slices/CartSlice'
 import QueryReducer from './slices/QuerySlice'
+import CommentReducer from './slices/CommentSlice'
+
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +22,7 @@ export const store = configureStore({
     address: AddressReducer,
     cart: CartReducer,
     query: QueryReducer,
+    comment: CommentReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

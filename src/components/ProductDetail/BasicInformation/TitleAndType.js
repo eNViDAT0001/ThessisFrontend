@@ -8,13 +8,14 @@ import {
 import { checkObjectEmpty, currencyFormat } from "../../../app/hook/CommonHook";
 import { setOptionHandle } from "../../../app/slices/ProductSlice";
 import { useDispatch } from "react-redux";
+import { useMetaInComment } from "../../../app/hook/CommentHook";
 
 export const TitleAndType = () => {
   const dispatch = useDispatch();
 
+  const metaInComment = useMetaInComment()
   const optionHandle = useOptionHandle();
   const productDetail = useProductDetail();
-
   const [priceTotal, setPriceTotal] = useState();
 
   const specificationProduct = useSpecificaionProduct() || [];
@@ -36,7 +37,7 @@ export const TitleAndType = () => {
           </h1>
           <div className="flex flex-row space-x-3">
             <div className=" flex flex-row space-x-2 items-center">
-              <h1 className=" underline">0</h1>
+              <h1 className=" underline">{(!checkObjectEmpty(metaInComment))  ? metaInComment.paging.Count : 0}</h1>
               <h1 className=" text-[#767676] hover:underline hover:cursor-pointer">
                 Reviewed
               </h1>
@@ -54,17 +55,17 @@ export const TitleAndType = () => {
           </div>
           <div className="flex flex-row items-center space-x-3">
             <div className="py-5 pl-5 flex flex-row space-x-1 font-[Helvetica] text-[#929292] items-center line-through">
-              <h1 className=" text-xs">đ</h1>
-              {/* if (priceTotal == undefined) => state = productDetail.price.  The discount is same*/}
               <h1 className=" text-base ">{(priceTotal || productDetail.price)}</h1>
+              <h1 className=" text-xs">$</h1>
             </div>
             <div className="py-5 flex flex-row space-x-1 font-[Helvetica] text-[#EE4D2D]">
-              <h1 className=" text-xl">đ</h1>
               <h1 className=" text-2xl">
                 {currencyFormat(
                   ((priceTotal || productDetail.price) * (100 - productDetail.discount)) / 100
                 )}
               </h1>
+              <h1 className=" text-xl">$</h1>
+
             </div>
             <div className=" px-2 bg-[#EE4D2D] flex flex-row space-x-1 font-[Helvetica] text-[#FFFFFF] items-center ">
               <h1 className=" text-sm ">- {productDetail.discount}%</h1>

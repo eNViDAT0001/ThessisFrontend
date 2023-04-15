@@ -1,7 +1,7 @@
 import axiosClient from "./Client";
 export const ProductApi = {
     GetComment:(id,filters) =>{
-        const url = (filters) ? `/comments/product/${id}` : `/comments/product/${id} `
+        const url = `/comments/product/${id}?${filters}`
         return axiosClient.get(url)
     },
     AddNewComment:(idProduct,idUser,body)=>{

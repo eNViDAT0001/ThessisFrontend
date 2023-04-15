@@ -54,7 +54,6 @@ export const TabDescription = () => {
       {listDescription.length === 0 ? (
         <div></div>
       ) : (
-        <div className="px-[170px] bg-[#F5F8FE] py-[50px] my-6 ">
           <div className="border p-10 bg-white">
             {/*
             //First, must render listDescription[0].name
@@ -82,7 +81,6 @@ export const TabDescription = () => {
               ))}
             </TabContext>
           </div>
-        </div>
       )}
     </div>
   );

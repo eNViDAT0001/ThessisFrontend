@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setListBanner } from "../slices/BannerSlice";
@@ -59,7 +59,6 @@ export const useFetchCategoryRoofInHomePage = async () => {
 
 export const useFetchProductInHomePage = async (filter) => {
   const dispatch = useDispatch();
-
   const loadDataHome = useCallback(async () => {
     dispatch(fetchProductInHomePage(filter));
   }, [filter, dispatch]);
@@ -96,46 +95,24 @@ const fetchBannerInHomePage = () => async (dispatch) => {
 
 //Product detail
 
-export const useFetchBasicInformationInProductDetail = async (id) => {
+export const useFetchFullFromProductDetail = async (id) => {
   const dispatch = useDispatch();
-  const loadDataProduct = useCallback(async () => {
-    dispatch(fetchBasicInformationInProductDetailPage(id));
-  },[dispatch,id]);
-  await useEffect(() => {
-    loadDataProduct();
-  }, [loadDataProduct]);
-};
-
-export const useFetchMediaInProductDetail = async (id) => {
-  const dispatch = useDispatch();
-  const loadDataProduct = useCallback(async () => {
-    dispatch(fetchMediaInProductDetailPage(id));
-  },[dispatch,id]);
-  await useEffect(() => {
-    loadDataProduct();
-  }, [loadDataProduct]);
-};
-
-export const useFetchSpecificationInProductDetail = async (id) => {
-  const dispatch = useDispatch();
-  const loadDataProduct = useCallback(async () => {
-    dispatch(fetchSpecificationInProductDetailPage(id));
-  },[dispatch,id]);
-  await useEffect(() => {
-    loadDataProduct();
-  }, [loadDataProduct]);
-};
-
-export const useFetchDescriptionInProductDetail = async (id) => {
-  const dispatch = useDispatch();
-  const loadDataProduct = useCallback(async () => {
-    dispatch(fetchDescriptionInProductDetailPage(id));
-  },[dispatch,id]);
-
-  await useEffect(() => {
-    loadDataProduct();
-  }, [loadDataProduct]);
-};
+  useLayoutEffect(() => {
+    dispatch(fetchBasicInformationInProductDetailPage(id))
+      .then(() => {
+        return dispatch(fetchMediaInProductDetailPage(id));
+      })
+      .then(() => {
+        return dispatch(fetchSpecificationInProductDetailPage(id));
+      })
+      .then(() => {
+        return dispatch(fetchDescriptionInProductDetailPage(id));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id,dispatch]);
+}
 
 const fetchBasicInformationInProductDetailPage = (id) => async (dispatch) => {
   try {

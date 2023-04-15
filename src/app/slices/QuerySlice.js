@@ -52,7 +52,7 @@ const initialState = {
   },
 
 
-  filterComment: {
+  filterCommentInProductDetail: {
     name: {
       type: "search[]",
       value: "",
@@ -61,17 +61,13 @@ const initialState = {
       type: "fields[]",
       value: null,
     },
-    page: {
-      type: "fields[]",
+    marker: {
+      type: null,
       value: 1,
     },
     limit: {
       type: null,
       value: 6,
-    },
-    marker: {
-      type: null,
-      value: 1,
     },
   },
 };
@@ -104,16 +100,16 @@ const querySlice = createSlice({
 
     //comment
     setNameSearchInComment: (state, action) => {
-      state.productInHome.name.value = action.payload;
+      state.filterCommentInProductDetail.name.value = action.payload;
     },
     setStarInComment: (state, action) => {
-      state.filterComment.star.value = action.payload;
+      state.filterCommentInProductDetail.star.value = action.payload;
     },
     setPageInComment: (state, action) => {
-      state.filterComment.page.value = action.payload;
+      state.filterCommentInProductDetail.marker.value = action.payload;
     },
     setLimitInComment: (state, action) => {
-      state.filterComment.limit.value = action.payload;
+      state.filterCommentInProductDetail.limit.value = action.payload;
     },
 
     //productInDetailBrand

@@ -9,6 +9,7 @@ export const HomePage = () => {
   const filter = useFilterProductInHome()
   
   console.log(convertObjectToStringQuery(filter))
+  
   useFetchListBannerInHomePage()
   useFetchCategoryRoofInHomePage()
   useFetchProductInHomePage(convertObjectToStringQuery(filter))
