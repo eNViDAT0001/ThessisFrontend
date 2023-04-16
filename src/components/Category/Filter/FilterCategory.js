@@ -6,7 +6,6 @@ import { CategoryTree } from "./CategoryTree";
 export const FilterCategory = () => {
   const listTreeCategory = useListTreeCategory() || [];
 
-  console.log(listTreeCategory)
   return (
     <div className="flex flex-col">
       <div className="flex flex-row space-x-5">

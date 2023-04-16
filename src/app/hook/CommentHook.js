@@ -32,7 +32,7 @@ export const useFetchListCommentInProductDetail = async (id,filter) => {
 }  
 
 
-const fetchCommentInProductDetail = (id,filter) => async (dispatch) => {
+export const fetchCommentInProductDetail = (id,filter) => async (dispatch) => {
     try {
       await ProductApi.GetComment(id,filter).then((res) => {
         dispatch(setListComment(res.data.data));

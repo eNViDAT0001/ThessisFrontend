@@ -9,7 +9,7 @@ import {
   useFetchFullFromProductDetail,
 
 } from "../../app/hook/ProductHook";
-import { useFetchListCommentInProductDetail, useFilterInCommentInProductDetail } from "../../app/hook/CommentHook";
+import { useFilterInCommentInProductDetail } from "../../app/hook/CommentHook";
 import { convertObjectToStringQuery } from "../../app/hook/CommonHook";
 
 export const ProductDetailPage = () => {
@@ -17,12 +17,11 @@ export const ProductDetailPage = () => {
 
   const filter = useFilterInCommentInProductDetail()
   
-  useFetchFullFromProductDetail(id);
-  useFetchListCommentInProductDetail(id,convertObjectToStringQuery(filter))
-
+  useFetchFullFromProductDetail(id,convertObjectToStringQuery(filter));
   useEffect(() => {
+    window.scroll(0,0)
     return () => {
-      reset();
+      reset(); 
     };
   }, []);
 
