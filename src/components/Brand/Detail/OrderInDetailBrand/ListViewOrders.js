@@ -69,7 +69,6 @@ export const ListViewOrders = () => {
       ) : (
         <div className="space-y-3">
           <ToastContainer position="top-right" newestOnTop />
-          <h1 className="font-bold text-xl">Table orders:</h1>
           <TableContainer component={Paper}>
             <Table
               sx={{
@@ -120,7 +119,7 @@ export const ListViewOrders = () => {
                       {row.quantity}{" "}
                     </StyledTableCell>
                     <StyledTableCell align="left">
-                      {currencyFormat(row.total)}đ
+                      {currencyFormat(row.total)}$
                     </StyledTableCell>
                     <StyledTableCell align="left">
                       <Autocomplete

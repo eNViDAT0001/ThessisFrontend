@@ -1,5 +1,9 @@
 import axiosClient from "./Client";
 export const ProviderApi = {
+  GetAllBrand: ()=>{
+    const url = `/providers`;
+    return axiosClient.get(url);
+  },
   GetListBrand: (id,filters) => {
     const url = `/providers/user/${id}?${filters}`;
     return axiosClient.get(url);
@@ -8,5 +12,4 @@ export const ProviderApi = {
     const url= `/providers/user/${id}`
     return axiosClient.post(url,body)
   }
-
 };

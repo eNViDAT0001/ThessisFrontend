@@ -65,7 +65,7 @@ export const ListComment = () => {
                     data.media.map((media) => (
                       <div>
                         <img
-                          src={media.media_path}
+                          src={media.mediaPath}
                           alt="Anh san pham"
                           className="max-w-[200px] max-h-[200px]"
                         ></img>

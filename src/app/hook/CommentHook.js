@@ -1,8 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { setListBanner } from "../slices/BannerSlice";
-import { setCategoryRoot } from "../slices/CategorySlice";
 import { toast } from "react-toastify";
 
 import { ProductApi } from "../../api/ProductApi";
@@ -16,8 +13,6 @@ export const useFilterInCommentInProductDetail = () =>
   useSelector((state) => state.query.filterCommentInProductDetail);
 export const useFilesInAddCommentInProductDetail = () =>
   useSelector((state) => state.comment.addCommentForm.files);
-export const useNameInAddCommentInProductDetail = () =>
-  useSelector((state) => state.comment.addCommentForm.name);
 export const useDescriptionsInAddCommentInProductDetail = () =>
   useSelector((state) => state.comment.addCommentForm.descriptions);
 
@@ -39,4 +34,17 @@ export const fetchCommentInProductDetail = (id,filter) => async (dispatch) => {
         dispatch(setMetaInComment(res.data.meta));
       });
     } catch (err) {}
+  };
+
+  export const addNewComment = (productID, userID, body) => {
+    return ProductApi.AddNewComment(productID, userID, body).then(() => {
+      console.log("Status add new brand");
+      toast("Add new Brand Success", {
+        type: "success",
+        autoClose: 1000,
+        onClose: setTimeout(() => {
+          window.location.reload();
+        }, 2000),
+      });
+    });
   };

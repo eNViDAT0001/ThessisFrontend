@@ -24,6 +24,10 @@ export const ProductApi = {
         const url=`/products/preview?${filters}`
         return axiosClient.get(url)
     },
+    GetProductPreviewFromCategory: (categoryID, filters) =>{
+        const url=`/products/category/${categoryID}/preview?${filters}`
+        return axiosClient.get(url)
+    },
     GetDetailProduct:(id)=>{
         const url=`/products/${id}`
         return axiosClient.get(url)

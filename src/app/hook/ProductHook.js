@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setListBanner } from "../slices/BannerSlice";
@@ -34,7 +34,7 @@ export const useQuantityHandle = () =>
 export const useFilterProductInHome = () =>
   useSelector((state) => state.query.productInHome);
 
-  
+
 export const useFetchFullFromHomePage = async(filter) =>{
   const dispatch = useDispatch();
   const prevFilterRef = useRef(filter);
@@ -168,7 +168,7 @@ export const useDescriptionName = () =>
 export const useDescriptionMD = () =>
   useSelector((state) => state.addProduct.description_md);
 
-const convertMediaToBody = (media) => {
+export const convertMediaToBody = (media) => {
   const listMedia = [];
   media.map((data) => {
     const newData = {

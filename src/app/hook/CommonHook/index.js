@@ -69,16 +69,17 @@ export const buildCategoryTree = (arr) => {
   return result;
 };
 
-function findNodePath(id, nodes, path = []) {
-  for (let node of nodes) {
-    if (node.id === id) {
-      return [...path, node.id];
-    } else if (node.children) {
-      let childPath = findNodePath(id, node.children, [...path, node.id]);
-      if (childPath) {
-        return childPath;
-      }
-    }
-  }
-  return null;
+export const checkTextPassword = (text) =>{
+  const regex = /^(?=.*[A-Z]).{8,}$/;
+  return regex.test(text)
+}
+
+export const checkTextPhone = (text) =>{
+  const regex = /^\d{10}$/;
+  return regex.test(text)
+}
+
+export const checkEmailFormat = (text) =>{
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(text)
 }

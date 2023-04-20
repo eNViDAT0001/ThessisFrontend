@@ -7,8 +7,9 @@ import "react-toastify/ReactToastify.min.css";
 import { uploadFile } from "../../../app/hook/FileHook";
 import { useUserID } from "../../../app/hook/UserHook";
 import { useDispatch } from "react-redux";
-import { addFileInCommentFormInProductDetail, setNameInCommentAddFormInProductDetail } from "../../../app/slices/CommentSlice";
-import { useFilesInAddCommentInProductDetail } from "../../../app/hook/CommentHook";
+import { addFileInCommentFormInProductDetail, setDescriptionsInCommentAddFormInProductDetail } from "../../../app/slices/CommentSlice";
+import { useFilesInAddCommentInProductDetail,useDescriptionsInAddCommentInProductDetail, addNewComment } from "../../../app/hook/CommentHook";
+import { convertMediaToBody } from "../../../app/hook/ProductHook";
 
 const labels = {
   1: "Very bad",
@@ -20,17 +21,18 @@ const labels = {
 const getLabelText = (valueRating) => {
   return labels[valueRating];
 };
-export const AddComment = () => {
+export const AddComment = (props) => {
   const dispatch = useDispatch()
 
   const [disableButton, setDisableButton] = useState(false);
   const userID = useUserID()
   const [valueRating, setValueRating] = useState(0);
   const [hover, setHover] = useState(-1);
-  const listImageInAddForm = useFilesInAddCommentInProductDetail()
+  const description = useDescriptionsInAddCommentInProductDetail()
+  const files = useFilesInAddCommentInProductDetail() || []
 
   const handleTextComment = (e) => {
-    dispatch(setNameInCommentAddFormInProductDetail(e.currentTarget.value))
+    dispatch(setDescriptionsInCommentAddFormInProductDetail(e.currentTarget.value))
   };
 
   const handleButtonUploadFile = (e) => {
@@ -45,7 +47,13 @@ export const AddComment = () => {
   };
 
   const handleButtonSend = (e) => {
-
+    const body={
+      "rating": valueRating,
+      "description": description,
+      "media": convertMediaToBody(files)
+    }
+    const productID = props.id
+    addNewComment(productID,userID,body)
   };
   return (
     <div className="flex flex-col space-y-5 px-5 w-full min-w-[350px] my-10">
@@ -106,16 +114,13 @@ export const AddComment = () => {
           </IconButton>
         </div>
         <div className="flex justify-start space-x-2">
-          {listImageInAddForm.length !== 0 ? (
-            listImageInAddForm.map((data) => (
+          {(files.map((data) => (
               <img
-                src={data}
+                src={data.url}
                 alt="anh comment"
                 className="w-[150px] h-[150px]"
               ></img>
             ))
-          ) : (
-            <div></div>
           )}
         </div>
         <div className="flex flex-row-reverse">

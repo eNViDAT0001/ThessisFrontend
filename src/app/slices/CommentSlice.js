@@ -6,7 +6,6 @@ const initialState = {
     metaInComment:{},
     addCommentForm:{
         files:[],
-        name:"",
         descriptions:""
     }
 }
@@ -24,10 +23,7 @@ const CommentSlice = createSlice({
             state.metaInComment = action.payload
         },
         addFileInCommentFormInProductDetail:(state,action)=>{
-            state.addCommentForm.append(action.payload)
-        },
-        setNameInCommentAddFormInProductDetail:(state,action)=>{
-            state.addCommentForm.name = action.payload
+            state.addCommentForm.files.push(action.payload)
         },
         setDescriptionsInCommentAddFormInProductDetail:(state,action)=>{
             state.addCommentForm.descriptions = action.payload
@@ -37,7 +33,6 @@ const CommentSlice = createSlice({
 
 export const {
     addFileInCommentFormInProductDetail,
-    setNameInCommentAddFormInProductDetail,
     setDescriptionsInCommentAddFormInProductDetail,
     
     setListComment,

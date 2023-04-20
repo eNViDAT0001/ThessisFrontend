@@ -75,7 +75,7 @@ export const AddBasicInformation = () => {
       onChange={handleSelectCategory}
       options={categoryArray}
       sx={{ width: 300 }}
-      renderInput={(params) => <TextField {...params} label="Select product's Categoy" />}
+      renderInput={(params) => <TextField {...params} label="Select product's Category" />}
     />
       </div>
       <div className="flex flex-row justify-between space-x-4 items-center">

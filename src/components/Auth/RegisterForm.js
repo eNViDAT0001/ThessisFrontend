@@ -11,6 +11,7 @@ import { TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { registerHook } from "../../app/hook/AuthHook";
 import RegisterBody from "../../app/models/Create/Auth/RegisterBody";
+import { checkEmailFormat, checkTextPassword, checkTextPhone } from "../../app/hook/CommonHook";
 
 export const RegisterForm = () => {
   const [username, setUsername] = useState("");
@@ -22,6 +23,10 @@ export const RegisterForm = () => {
   const type = "BUYER";
   const [email, setEmail] = useState("");
 
+  const [isValidPassword, setIsValidPassword] = useState(false);
+  const [isValidPhone, setIsValidPhone] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(false);
+
   const handleChangeDataPicker = (event) => {
     setDate(event.target.value);
   };
@@ -30,35 +35,47 @@ export const RegisterForm = () => {
     setGender(event.target.value);
   };
   const handleChangePassword = (event) => {
-    setPassword(event.target.value);
+    const password = event.target.value;
+    setIsValidPassword(checkTextPassword(password));
+    setPassword(password);
   };
 
   const handleChangeUsername = (event) => {
     setUsername(event.target.value);
   };
   const handleChangePhone = (event) => {
-    setPhone(event.target.value);
+    const phone = event.target.value;
+    setIsValidPhone(checkTextPhone(phone));
+    setPhone(phone);
   };
   const handleChangeName = (event) => {
     setName(event.target.value);
   };
 
   const handleChangeEmail = (event) => {
-    setEmail(event.target.value);
+    const email = event.target.value;
+    setIsValidEmail(checkEmailFormat(email));
+    setEmail(email);
+  };
+
+  const checkIsValidForm = () => {
+    return isValidPassword && isValidPhone;
   };
 
   const handleButtonRegister = (event) => {
-    const body = new RegisterBody(
-      username,
-      password,
-      name,
-      date,
-      trueGender(gender),
-      email,
-      phone,
-      type
-    );
-    registerHook(body)
+    if (checkIsValidForm()) {
+      const body = new RegisterBody(
+        username,
+        password,
+        name,
+        date,
+        trueGender(gender),
+        email,
+        phone,
+        type
+      );
+      registerHook(body);
+    }
   };
 
   const signUpWithEnter = (event) => {
@@ -70,6 +87,7 @@ export const RegisterForm = () => {
     if (gender === "1") return true;
     else return false;
   };
+
   return (
     <div className="w-[60%] w-max-[200px] shadow-lg border p-[50px] min-w-[300px]">
       <ToastContainer position="top-right" newestOnTop />
@@ -104,6 +122,8 @@ export const RegisterForm = () => {
         >
           <TextField
             fullWidth
+            error={!isValidPassword && password}
+            helperText="Least 8 characters and contains at least one uppercase"
             label="Password"
             type="password"
             id="outlined-required"
@@ -120,6 +140,8 @@ export const RegisterForm = () => {
         >
           <TextField
             fullWidth
+            error={!isValidEmail && email}
+            helperText="Follow email format"
             label="Email"
             id="outlined-required"
             size="small"
@@ -152,6 +174,8 @@ export const RegisterForm = () => {
           >
             <TextField
               fullWidth
+              error={!isValidPhone && phone}
+              helperText="Contains only numbers with length 10"
               label="Phone"
               id="outlined-required"
               size="small"

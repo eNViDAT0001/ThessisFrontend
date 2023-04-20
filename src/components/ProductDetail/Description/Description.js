@@ -1,27 +1,25 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { ReactMarkdown } from "react-markdown/lib/react-markdown";
-import remarkGfm from 'remark-gfm'
-
+import MDEditor from "@uiw/react-md-editor";
 
 export const Description = (props) => {
   const dataDescription = props.description;
   const [textDescription, setTextDescription] = useState("");
-  
+
   useEffect(() => {
     const fetchFile = async () => {
-      await axios
-        .get(dataDescription.descriptions_path)
-        .then((res) => {
-          setTextDescription(res.data)
-        });
+      await axios.get(dataDescription.descriptions_path).then((res) => {
+        setTextDescription(res.data);
+      });
     };
     fetchFile();
   }, [dataDescription]);
-  return( 
-  <div>
-    <ReactMarkdown children={textDescription} remarkPlugins={[remarkGfm]}>
-    </ReactMarkdown>
-  </div>
+  return (
+    <div>
+      <MDEditor.Markdown
+        source={textDescription}
+        style={{ whiteSpace: "pre-wrap" }}
+      />
+    </div>
   );
 };

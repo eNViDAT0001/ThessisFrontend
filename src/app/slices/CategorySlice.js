@@ -7,6 +7,7 @@ const initialState = {
   categoryHandle:{},
   listProductInCategory: [],
   metaProductInCategory: {},
+  listBrandInFilterCategory:[],
 };
 
 const categorySlice = createSlice({
@@ -28,6 +29,9 @@ const categorySlice = createSlice({
         setCategoryHandle: (state,action) =>{
             state.categoryHandle = action.payload
         },
+        setListBrandInFilterCategory: (state,action) =>{
+            state.listBrandInFilterCategory = action.payload
+        },
     }
 });
 
@@ -36,7 +40,8 @@ export const {
     setListProductInCategory,
     setMetaProductInCategory,
     setListTreeCategory,
-    setCategoryHandle
+    setCategoryHandle,
+    setListBrandInFilterCategory
     
 } = categorySlice.actions;
 
