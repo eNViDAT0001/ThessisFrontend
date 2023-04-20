@@ -40,10 +40,10 @@ export const ListProductInCategory = (props) => {
                   }
                 />
               </div>
-              {/* <h1 className="text-[#9295AA]">
+              <h1 className="text-[#9295AA]">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna
                 in est adipiscing in phasellus non in justo.
-              </h1> */}
+              </h1>
             </div>
           </div>
         </div>

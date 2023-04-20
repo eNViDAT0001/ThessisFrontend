@@ -1,9 +1,16 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-export const CategoryTree = ({ data }) => {
+export const CategoryTree = ({ data, idHandle }) => {
   const [expanded, setExpanded] = useState([]);
+  const navigate = useNavigate();
 
-  const handleTreeClick = (id) => {
+  const handleTreeClickSpan = (id) => {
+    navigate(`/category/${id}`); // Update the URL with the clicked item's ID
+  };
+
+  const handleTreeClickDiv = (id) => {
     if (expanded.includes(id)) {
       setExpanded((prevExpanded) => prevExpanded.filter((item) => item !== id));
     } else {
@@ -19,12 +26,19 @@ export const CategoryTree = ({ data }) => {
     return treeData.map((treeItem) => (
       <div key={treeItem.id}>
         <div
+          onClick={() => handleTreeClickDiv(treeItem.id)}
           className="flex items-center p-2 cursor-pointer hover:bg-gray-100"
-          onClick={() => handleTreeClick(treeItem.id)}
           style={{ paddingLeft: `${level * 16}px` }} // Add left padding
         >
           <div className=" hover:text-pink-500">
-            <span>{treeItem.name}</span>
+            <span
+              onClick={(e) => {
+                e.stopPropagation();
+                handleTreeClickSpan(treeItem.id);
+              }}
+            >
+              {treeItem.name}
+            </span>
           </div>
           {treeItem.children && (
             <span
@@ -41,6 +55,27 @@ export const CategoryTree = ({ data }) => {
       </div>
     ));
   };
+
+  // Expand the tree until the ID of the clicked item is reached
+  useEffect(() => {
+    if (idHandle) {
+      const findItemById = (treeData, id) => {
+        if (!treeData) {
+          return null;
+        }
+        for (let i = 0; i < treeData.length; i++) {
+          if (treeData[i].id === id) {
+            setExpanded((prevExpanded) => [...prevExpanded, id]);
+            return;
+          }
+          if (treeData[i].children) {
+            findItemById(treeData[i].children, id);
+          }
+        }
+      };
+      findItemById(data, idHandle);
+    }
+  }, [idHandle, data]);
 
   return (
     <div className="w-full">

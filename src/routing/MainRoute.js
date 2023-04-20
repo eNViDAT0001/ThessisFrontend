@@ -26,7 +26,7 @@ export const MainRoute = () => {
         <Route element={<AdminLayOut />}></Route>
         <Route element={<UserLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/category" element={<CategoryPage />} />
+          <Route path="/category/:id" element={<CategoryPage />} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
           <Route path="/shop" element={<BrandPage />} />
           <Route path="/brand-detail/:id" element={<BrandDetailPage />} />

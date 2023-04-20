@@ -4,9 +4,13 @@ import { ListProductInCategory } from "../../components/Category/ListProductInCa
 import { FilterCategory } from "../../components/Category/Filter/FilterCategory";
 import { useFetchAllInCategory } from "../../app/hook/CategoryHook";
 import { TopFilter } from "../../components/Category/Filter/TopFilter";
+import { useParams } from "react-router-dom";
 
 export const CategoryPage = () => {
-  useFetchAllInCategory(1, null);
+  const {id} = useParams()
+  const queryString = window.location.search.substring(1);
+
+  useFetchAllInCategory(id, queryString);
 
   return (
     <div>
@@ -16,7 +20,7 @@ export const CategoryPage = () => {
           <TopFilter />
           <div className="flex flex-row justify-between my-[100px] space-x-10 w-full">
             <div className="flex flex-col w-[30%]">
-              <FilterCategory />
+              <FilterCategory id={id}/>
             </div>
             <div className="w-full">
               <ListProductInCategory />

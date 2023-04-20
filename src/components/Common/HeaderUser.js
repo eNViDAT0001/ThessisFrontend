@@ -9,7 +9,7 @@ const LinkInHeader = [
   },
   {
     name: "Category",
-    link: "/category",
+    link: "/category/1",
   },
   {
     name: "Contact",

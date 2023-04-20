@@ -5,10 +5,12 @@ import { useCallback, useEffect } from "react";
 import { setListCart } from "../slices/CartSlice";
 
 export const useListCart = () => useSelector((state) => state.cart.listCart);
-export const useTotalPrice = () => JSON.parse(localStorage.getItem("totalPrice"))
+export const useTotalPrice = () =>
+  JSON.parse(localStorage.getItem("totalPrice"));
 export const useSelectedCart = () =>
   useSelector((state) => state.cart.selectedCart);
-export const useListItemInCartSelected = () => JSON.parse(localStorage.getItem("itemInOrder"))
+export const useListItemInCartSelected = () =>
+  JSON.parse(localStorage.getItem("itemInOrder"));
 export const addToCart = async (productID, providerID, userID, body) => {
   await CartShoppingApi.AddNewCartShopping(
     productID,
@@ -98,8 +100,8 @@ const getListInfoFromListCartToOrder = (listCart) => {
       if (item.isSelected) {
         const obj = {
           ...item,
-          provider_id: data.provider_id
-        }
+          provider_id: data.provider_id,
+        };
         result.push(obj);
       }
     });
@@ -107,9 +109,9 @@ const getListInfoFromListCartToOrder = (listCart) => {
   return result;
 };
 
-export const addCartToOrder = async (listCart,totalPrice,userID) => {
+export const addCartToOrder = async (listCart, totalPrice, userID) => {
   const info = getListInfoFromListCartToOrder(listCart);
-  localStorage.setItem("itemInOrder",JSON.stringify(info))
-  localStorage.setItem("totalPrice",totalPrice)
-  window.location.replace(`/shopping-order/${userID}`)
+  localStorage.setItem("itemInOrder", JSON.stringify(info));
+  localStorage.setItem("totalPrice", totalPrice);
+  window.location.replace(`/shopping-order/${userID}`);
 };

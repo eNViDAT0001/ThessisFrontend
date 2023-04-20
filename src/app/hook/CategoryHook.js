@@ -1,7 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { ProductApi } from "../../api/ProductApi";
 import {
+  setCategoryHandle,
   setListBrandInFilterCategory,
   setListTreeCategory,
   setMetaProductInCategory,
@@ -25,23 +26,40 @@ export const useListBrandInFilterCategory = () =>
 
 export const useFetchAllInCategory = async (categoryID, filter) => {
   const dispatch = useDispatch();
+  const prevFilterRef = useRef(filter);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await dispatch(fetchListTreeCategory())
-          .then(() => {
-            return dispatch(fetchBrandFilterCategory());
-          })
-          .then(() => {
-            return dispatch(fetchProductInCategory(categoryID, filter));
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        if (filter !== prevFilterRef.current) {
+          await dispatch(fetchProductInCategory(categoryID, filter));
+        } else {
+          await dispatch(fetchListTreeCategory())
+            .then(() => {
+              return dispatch(fetchBrandFilterCategory());
+            })
+            .then(() => {
+              return dispatch(fetchProductInCategory(categoryID, filter));
+            })
+            .then(() => {
+              return dispatch(fetchCategoryChildren(categoryID));
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
       } catch (err) {}
     };
     fetchData();
-  }, [dispatch, filter,categoryID]);
+  }, [dispatch, filter, categoryID]);
+};
+
+const fetchCategoryChildren = (categoryID) => async (dispatch) => {
+  try {
+    await ProductApi.GetCategoryChildren(categoryID).then((res) => {
+      dispatch(setCategoryHandle(res.data.data));
+    });
+  } catch (err) {}
 };
 
 const fetchBrandFilterCategory = () => async (dispatch) => {
@@ -54,9 +72,11 @@ const fetchBrandFilterCategory = () => async (dispatch) => {
 
 const fetchProductInCategory = (categoryID, filter) => async (dispatch) => {
   try {
-    await ProductApi.GetProductPreviewFromCategory(categoryID, filter).then((res) => {
-      dispatch(setListProductInCategory(res.data.data));
-    });
+    await ProductApi.GetProductPreviewFromCategory(categoryID, filter).then(
+      (res) => {
+        dispatch(setListProductInCategory(res.data.data));
+      }
+    );
   } catch (err) {}
 };
 
@@ -64,14 +84,14 @@ const fetchListTreeCategory = () => async (dispatch) => {
   try {
     await ProductApi.GetListCategoriesTree().then((res) => {
       const treeBuild = buildCategoryTree(res.data.data);
-      const result = []
-      const newTree={
+      const result = [];
+      const newTree = {
         id: 0,
-        name:"All",
-        children: treeBuild
-      }
-      result.push(newTree)
-      dispatch(setListTreeCategory(result));
+        name: "All",
+        children: treeBuild,
+      };
+      result.push(newTree);
+      dispatch(setListTreeCategory(treeBuild));
     });
   } catch (err) {}
 };

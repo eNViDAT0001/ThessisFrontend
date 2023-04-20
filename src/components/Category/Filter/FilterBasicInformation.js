@@ -8,7 +8,6 @@ const RatingCheckbox = (props) => {
   return (
     <Box
       sx={{
-        width: 200,
         display: "flex",
         alignItems: "center",
       }}
@@ -31,10 +30,5 @@ export const FilterBasicInformation = () => {
   for (let i = 1; i <= 5; i++) {
     rating.push(<RatingCheckbox star={i} />);
   }
-  return (
-    <div className="flex flex-col">
-      <h1 className=" underline">Rating Item:</h1>
-      <div>{rating}</div>
-    </div>
-  );
+  return <div className="flex flex-row flex-wrap">{rating}</div>;
 };

@@ -8,10 +8,11 @@ import { useListBrandInFilterCategory } from "../../../app/hook/CategoryHook";
 export const FilterBrand = () => {
   const listBrand = useListBrandInFilterCategory();
   return (
-    <FormControl>
+    <FormControl size="small">
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
         name="radio-buttons-group"
+        
       >
         {listBrand.map((data) => (
           <FormControlLabel
