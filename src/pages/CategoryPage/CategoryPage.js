@@ -11,10 +11,13 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { convertObjectToStringQuery } from "../../app/hook/CommonHook";
 import debounce from "lodash.debounce";
+import { useDispatch } from "react-redux";
+import { resetFilterInCategory } from "../../app/slices/QuerySlice";
 
 export const CategoryPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const queryString = window.location.search.substring(1);
   const location = useLocation();
   const filter = useFilterCategory();
@@ -37,8 +40,14 @@ export const CategoryPage = () => {
     window.scroll(0, 0);
   }, []);
 
+  useEffect(() => {
+    return () => {
+      dispatch(resetFilterInCategory());
+    };
+  }, [dispatch]);
+  
   useFetchAllInCategory(id, queryString);
-
+  
   return (
     <div>
       <HeaderBar name1="Home .Products ." name2="All" />

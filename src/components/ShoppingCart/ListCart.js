@@ -51,7 +51,11 @@ const ListCart = () => {
     });
   };
 
-  const handleDeleteButton = (e) => {};
+  const handleDeleteButton = (e) => {
+    const cartID = e.currentTarget.getAttribute("cartID");
+    const itemID = e.currentTarget.id
+    deleteCartShopping(cartID,itemID)
+  };
 
   const handleCheckProduct = (e) => {
     const id = e.target.getAttribute("id");
@@ -142,6 +146,8 @@ const ListCart = () => {
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             <IconButton
+                              id={row.id}
+                              cartID={data.id}
                               color="primary"
                               aria-label="upload picture"
                               component="label"

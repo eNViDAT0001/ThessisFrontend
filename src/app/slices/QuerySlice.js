@@ -70,13 +70,17 @@ const initialState = {
   },
 
   filterInCategoryPage: {
+    name:{
+      type:"search[]",
+      value:null,
+    },
     provider_id: {
       type: "fields[]",
-      value: 1,
+      value: null,
     },
     rating: {
       type: "fields[]",
-      value: [],
+      value: null,
     },
     marker: {
       type: null,
@@ -84,7 +88,7 @@ const initialState = {
     },
     type:{
       type: null,
-      value: "cursor"
+      value: null
     },
     limit: {
       type: null,
@@ -97,6 +101,7 @@ const querySlice = createSlice({
   name: "query",
   initialState,
   reducers: {
+    resetFilterInCategory: () => initialState,
     //product
     setNameSearchInProductInHome: (state, action) => {
       state.productInHome.name.value = action.payload;
@@ -157,16 +162,8 @@ const querySlice = createSlice({
     setLimitInFilterCategory: (state, action) => {
       state.filterInCategoryPage.limit.value = action.payload;
     },
-    addRatingFilterCategory: (state, action) => {
-      state.filterInCategoryPage.rating.value.push(action.payload);
-    },
-    removeRatingFilterCategory: (state, action) => {
-      const indexToRemove = state.filterInCategoryPage.rating.value.indexOf(
-        action.payload
-      ); // Find index of element to remove
-      if (indexToRemove !== -1) {
-        state.filterInCategoryPage.rating.value.splice(indexToRemove, 1); // Remove element at specified index
-      }
+    setRatingInFilterCategory: (state, action) => {
+      state.filterInCategoryPage.rating.value = action.payload;
     },
   },
 });
@@ -189,11 +186,11 @@ export const {
   setLimitInProductInDetailBrand,
   setProviderIDInProductInDetailBrand,
 
+  resetFilterInCategory,
   setProviderIDInFilterCategory,
   setMarkerInFilterCategory,
   setLimitInFilterCategory,
-  addRatingFilterCategory,
-  removeRatingFilterCategory
+  setRatingInFilterCategory
 } = querySlice.actions;
 
 export default querySlice.reducer;

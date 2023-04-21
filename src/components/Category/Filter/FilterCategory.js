@@ -4,8 +4,8 @@ import { useListTreeCategory } from "../../../app/hook/CategoryHook";
 import { CategoryTree } from "./CategoryTree";
 import { FilterBrand } from "./FilterBrand";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
-import FilterIcon from "@mui/icons-material/Filter";
 import { FilterBasicInformation } from "./FilterBasicInformation";
+import GradeIcon from '@mui/icons-material/Grade'
 
 export const FilterCategory = (props) => {
   const listTreeCategory = useListTreeCategory() || [];
@@ -18,7 +18,7 @@ export const FilterCategory = (props) => {
       </div>
       <CategoryTree data={listTreeCategory} idHandle={props.id} />
       <div className="flex flex-row space-x-5">
-        <FilterIcon />
+        <GradeIcon />
         <h1 className="text-xl font-bold ">Rating</h1>
       </div>
       <FilterBasicInformation />
