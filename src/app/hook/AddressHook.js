@@ -40,7 +40,6 @@ export const useFormAddressSelected = () =>
   useSelector((state) => state.address.formAddressSelected);
 
 export const deleteAddressSelect = async (userID, body) => {
-  console.log(body);
   await AddressApi.DeleteAddress(userID, body)
     .then((res) => {
       toast("Delete address successful", {
@@ -174,7 +173,6 @@ export const saveNewAddress = (
       ward_code: wardID,
       street: street,
     };
-    console.log(body);
     AddressApi.AddSaveAddress(user_id, body)
       .then((res) => {
         toast("Add new address successful", {

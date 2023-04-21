@@ -3,7 +3,6 @@ import axiosClient from "./Client";
 export const OrderApi = {
   AddNewOrder: (body) => {
     const url = `/orders`;
-    console.log(body)
     return axiosClient.post(url,body);
   },
   GetFullOrder: () => {
@@ -20,7 +19,6 @@ export const OrderApi = {
   },
   UpdateStatus:(id,body)=>{
     const url = `/orders/${id}`
-    console.log(body)
     return axiosClient.patch(url,body)
   },
   GetOrderItems:(id)=>{

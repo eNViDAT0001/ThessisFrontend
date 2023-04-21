@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const CategoryTree = ({ data, idHandle }) => {
   const [expanded, setExpanded] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation()
 
   const handleTreeClickSpan = (id) => {
-    navigate(`/category/${id}`); // Update the URL with the clicked item's ID
+    const searchParams = new URLSearchParams(location.search);
+    const queryString = searchParams.toString();
+
+    const pathname = `/category/${id}`
+    navigate({ pathname: pathname, search: queryString });
   };
 
   const handleTreeClickDiv = (id) => {

@@ -4,24 +4,21 @@ import { reset } from "../../app/slices/ProductSlice";
 import { Comment } from "../../components/ProductDetail/Comment/Comment";
 import { TabDescription } from "../../components/ProductDetail/Description/TabDescription";
 import { ProductDetail } from "../../components/ProductDetail/ProductDetail";
-import {
-
-  useFetchFullFromProductDetail,
-
-} from "../../app/hook/ProductHook";
+import { useFetchFullFromProductDetail } from "../../app/hook/ProductHook";
 import { useFilterInCommentInProductDetail } from "../../app/hook/CommentHook";
 import { convertObjectToStringQuery } from "../../app/hook/CommonHook";
+import { ProductForyou } from "../../components/ProductDetail/ProductForyou";
 
 export const ProductDetailPage = () => {
   const { id } = useParams();
 
-  const filter = useFilterInCommentInProductDetail()
-  
-  useFetchFullFromProductDetail(id,convertObjectToStringQuery(filter));
+  const filter = useFilterInCommentInProductDetail();
+
+  useFetchFullFromProductDetail(id, convertObjectToStringQuery(filter));
   useEffect(() => {
-    window.scroll(0,0)
+    window.scroll(0, 0);
     return () => {
-      reset(); 
+      reset();
     };
   }, []);
 
@@ -35,6 +32,11 @@ export const ProductDetailPage = () => {
           <div className="px-[170px] bg-[#F5F8FE] py-[50px] my-6 ">
             <TabDescription id={id} />
             <Comment id={id} />
+          </div>
+          <div className="flex justify-center font-['Josefin_Sans'] ">
+            <div className="w-[75%] mb-[200px]  ">
+              <ProductForyou />
+            </div>
           </div>
         </div>
       </div>

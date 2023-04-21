@@ -38,8 +38,7 @@ export const fetchCommentInProductDetail = (id,filter) => async (dispatch) => {
 
   export const addNewComment = (productID, userID, body) => {
     return ProductApi.AddNewComment(productID, userID, body).then(() => {
-      console.log("Status add new brand");
-      toast("Add new Brand Success", {
+      toast("Add new Comment Success", {
         type: "success",
         autoClose: 1000,
         onClose: setTimeout(() => {

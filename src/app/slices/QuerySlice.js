@@ -16,7 +16,6 @@ const initialState = {
     },
   },
 
-
   productInDetailBrand: {
     name: {
       type: "search[]",
@@ -51,7 +50,6 @@ const initialState = {
     },
   },
 
-
   filterCommentInProductDetail: {
     name: {
       type: "search[]",
@@ -68,6 +66,29 @@ const initialState = {
     limit: {
       type: null,
       value: 6,
+    },
+  },
+
+  filterInCategoryPage: {
+    provider_id: {
+      type: "fields[]",
+      value: 1,
+    },
+    rating: {
+      type: "fields[]",
+      value: [],
+    },
+    marker: {
+      type: null,
+      value: null,
+    },
+    type:{
+      type: null,
+      value: "cursor"
+    },
+    limit: {
+      type: null,
+      value: null,
     },
   },
 };
@@ -125,6 +146,28 @@ const querySlice = createSlice({
     setProviderIDInProductInDetailBrand: (state, action) => {
       state.productInDetailBrand.provider_id.value = action.payload;
     },
+
+    //filter category
+    setProviderIDInFilterCategory: (state, action) => {
+      state.filterInCategoryPage.provider_id.value = action.payload;
+    },
+    setMarkerInFilterCategory: (state, action) => {
+      state.filterInCategoryPage.marker.value = action.payload;
+    },
+    setLimitInFilterCategory: (state, action) => {
+      state.filterInCategoryPage.limit.value = action.payload;
+    },
+    addRatingFilterCategory: (state, action) => {
+      state.filterInCategoryPage.rating.value.push(action.payload);
+    },
+    removeRatingFilterCategory: (state, action) => {
+      const indexToRemove = state.filterInCategoryPage.rating.value.indexOf(
+        action.payload
+      ); // Find index of element to remove
+      if (indexToRemove !== -1) {
+        state.filterInCategoryPage.rating.value.splice(indexToRemove, 1); // Remove element at specified index
+      }
+    },
   },
 });
 
@@ -144,7 +187,13 @@ export const {
   setNameSearchInProductInDetailBrand,
   setPageInProductInDetailBrand,
   setLimitInProductInDetailBrand,
-  setProviderIDInProductInDetailBrand
+  setProviderIDInProductInDetailBrand,
+
+  setProviderIDInFilterCategory,
+  setMarkerInFilterCategory,
+  setLimitInFilterCategory,
+  addRatingFilterCategory,
+  removeRatingFilterCategory
 } = querySlice.actions;
 
 export default querySlice.reducer;

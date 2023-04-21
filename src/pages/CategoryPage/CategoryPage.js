@@ -2,13 +2,40 @@ import React from "react";
 import HeaderBar from "../../components/Common/HeaderBar";
 import { ListProductInCategory } from "../../components/Category/ListProductInCategory";
 import { FilterCategory } from "../../components/Category/Filter/FilterCategory";
-import { useFetchAllInCategory } from "../../app/hook/CategoryHook";
+import {
+  useFetchAllInCategory,
+  useFilterCategory,
+} from "../../app/hook/CategoryHook";
 import { TopFilter } from "../../components/Category/Filter/TopFilter";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { convertObjectToStringQuery } from "../../app/hook/CommonHook";
+import debounce from "lodash.debounce";
 
 export const CategoryPage = () => {
-  const {id} = useParams()
+  const { id } = useParams();
+  const navigate = useNavigate();
   const queryString = window.location.search.substring(1);
+  const location = useLocation();
+  const filter = useFilterCategory();
+
+  useEffect(() => {
+    const debouncedNavigate = debounce(() => {
+      navigate({
+        pathname: location.pathname,
+        search: convertObjectToStringQuery(filter),
+      });
+    }, 500);
+    debouncedNavigate();
+
+    return () => {
+      debouncedNavigate.cancel();
+    };
+  }, [filter, navigate, location]);
+
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
 
   useFetchAllInCategory(id, queryString);
 
@@ -20,7 +47,7 @@ export const CategoryPage = () => {
           <TopFilter />
           <div className="flex flex-row justify-between my-[100px] space-x-10 w-full">
             <div className="flex flex-col w-[30%]">
-              <FilterCategory id={id}/>
+              <FilterCategory id={id} />
             </div>
             <div className="w-full">
               <ListProductInCategory />

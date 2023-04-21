@@ -35,18 +35,26 @@ export const changeAttributeForOption = (data) => {
 export const convertObjectToStringQuery = (object) => {
   if (!checkObjectEmpty(object)) {
     const queryString = Object.keys(object)
+      .sort()
       .map((key) => {
         const queryType = object[key].type;
         const queryValue = object[key].value;
 
-        if (queryValue) {
+        if (queryValue !== null && queryValue !== undefined && queryValue !== '') {
           if (queryType) {
-            return `${queryType}=${key}_${queryValue}`;
+            if (Array.isArray(queryValue) ) {
+              return queryValue
+                .map((val) => `${queryType}=${key}_${val}`)
+                .join("&");
+            } else {
+              return `${queryType}=${key}_${queryValue}`;
+            }
           } else {
             return `${key}=${queryValue}`;
           }
         }
       })
+      .filter((str) => str !== undefined && str !== null && str !== "")
       .join("&");
     return queryString;
   }
@@ -69,17 +77,17 @@ export const buildCategoryTree = (arr) => {
   return result;
 };
 
-export const checkTextPassword = (text) =>{
+export const checkTextPassword = (text) => {
   const regex = /^(?=.*[A-Z]).{8,}$/;
-  return regex.test(text)
-}
+  return regex.test(text);
+};
 
-export const checkTextPhone = (text) =>{
+export const checkTextPhone = (text) => {
   const regex = /^\d{10}$/;
-  return regex.test(text)
-}
+  return regex.test(text);
+};
 
-export const checkEmailFormat = (text) =>{
+export const checkEmailFormat = (text) => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(text)
-}
+  return regex.test(text);
+};

@@ -10,6 +10,7 @@ import {
 import { buildCategoryTree } from "./CommonHook";
 import { ProviderApi } from "../../api/ProviderApi";
 import { setListProductInCategory } from "../slices/CategorySlice";
+import { useLayoutEffect } from "react";
 
 export const useCategoryRoof = () =>
   useSelector((state) => state.category.categoryRoot);
@@ -23,12 +24,14 @@ export const useCategoryHandle = () =>
   useSelector((state) => state.category.categoryHandle);
 export const useListBrandInFilterCategory = () =>
   useSelector((state) => state.category.listBrandInFilterCategory);
+export const useFilterCategory = () =>
+  useSelector((state) => state.query.filterInCategoryPage);
 
 export const useFetchAllInCategory = async (categoryID, filter) => {
   const dispatch = useDispatch();
   const prevFilterRef = useRef(filter);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const fetchData = async () => {
       try {
         if (filter !== prevFilterRef.current) {

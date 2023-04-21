@@ -13,7 +13,6 @@ export const ListComment = () => {
   const listComment = useListComment() || [];
 
 
-  console.log(listComment)
   const handleChangePage = (e,value) => {
     dispatch(setPageInComment(value))
   };

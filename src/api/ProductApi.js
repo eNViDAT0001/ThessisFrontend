@@ -26,7 +26,6 @@ export const ProductApi = {
     },
     GetProductPreviewFromCategory: (categoryID, filters) =>{
         const url=`/products/category/${categoryID}/preview?${filters}`
-        console.log(url)
         return axiosClient.get(url)
     },
     GetDetailProduct:(id)=>{

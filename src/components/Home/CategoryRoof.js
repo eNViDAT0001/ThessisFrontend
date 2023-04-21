@@ -4,6 +4,7 @@ import { useCategoryRoof } from "../../app/hook/CategoryHook";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import { Link } from "react-router-dom";
 
 const settings={
   lazyLoad: 'ondemand',
@@ -13,8 +14,6 @@ const settings={
 
 export const CategoryRoof = () => {
   const categoryRoof = useCategoryRoof() || [];
-
-  const handleClickCategory = (e) => {};
 
   return (
     <div>
@@ -28,9 +27,9 @@ export const CategoryRoof = () => {
             </h1>
             <Slider {...settings}>
               {categoryRoof.map((data) => (
-                <div
+                <Link
+                  to={`/category/${data.id}`}
                   key={data.id}
-                  onClick={handleClickCategory}
                   id={data.id}
                   className="hover:shadow-xl hover:cursor-pointer border w-[325px] flex flex-row justify-between bg-white"
                 >
@@ -42,7 +41,7 @@ export const CategoryRoof = () => {
                   <h1 className="mt-6 mr-8 font-[Cursive] font-bold text-xl">
                     {data.name}
                   </h1>
-                </div>
+                </Link>
               ))}
             </Slider>
           </div>

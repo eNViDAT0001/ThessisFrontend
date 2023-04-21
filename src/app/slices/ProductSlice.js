@@ -5,6 +5,7 @@ const initialState = {
   metaInProductInHome:{},
   productInCategory:[],
   productDetail:{},
+  productForyou:[],
   imageProduct:[],
   descriptionProduct:[],
   specificationProduct:[],
@@ -48,6 +49,9 @@ const productSlice = createSlice({
         setQuantityHandle:(state,action)=>{
             state.quantityHandle = action.payload
         },
+        setProductForYou:(state,action)=>{
+            state.productForyou = action.payload
+        },
     }
 });
 
@@ -61,6 +65,7 @@ export const {
     setSpecificationProduct,
     reset,
     setOptionHandle,
+    setProductForYou
 } = productSlice.actions;
 
 export default productSlice.reducer;

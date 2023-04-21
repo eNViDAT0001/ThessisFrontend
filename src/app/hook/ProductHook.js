@@ -9,6 +9,7 @@ import {
   setImageProduct,
   setMetaInProductInHome,
   setProductDetail,
+  setProductForYou,
   setProductInHome,
   setSpecificationProduct,
 } from "../slices/ProductSlice";
@@ -33,7 +34,8 @@ export const useQuantityHandle = () =>
   useSelector((state) => state.product.quantityHandle);
 export const useFilterProductInHome = () =>
   useSelector((state) => state.query.productInHome);
-
+export const useProductForyou = () =>
+  useSelector((state) => state.product.productForyou);
 
 export const useFetchFullFromHomePage = async(filter) =>{
   const dispatch = useDispatch();
@@ -78,6 +80,8 @@ const fetchCategoryRoofInHomePage = () => async (dispatch) => {
   } catch (err) {}
 };
 
+
+
 const fetchBannerInHomePage = () => async (dispatch) => {
   try {
     await ProductApi.GetBanners().then((res) => {
@@ -109,6 +113,9 @@ export const useFetchFullFromProductDetail = async (id, filter) => {
             .then(() => {
               return dispatch(fetchCommentInProductDetail(id, filter));
             })
+            .then(() => {
+              return dispatch(fetchProductForyou());
+            })
             .catch((error) => {
               console.log(error);
             });
@@ -125,6 +132,14 @@ const fetchBasicInformationInProductDetailPage = (id) => async (dispatch) => {
       dispatch(setProductDetail(res.data.data));
     });
   } catch (error) {}
+};
+
+const fetchProductForyou = () => async (dispatch) => {
+  try {
+    await ProductApi.GetProductPreview("limit=4").then((res) => {
+      dispatch(setProductForYou(res.data.data));
+    });
+  } catch (err) {}
 };
 
 const fetchMediaInProductDetailPage = (id) => async (dispatch) => {
