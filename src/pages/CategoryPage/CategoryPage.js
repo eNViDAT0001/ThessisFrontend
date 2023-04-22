@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import HeaderBar from "../../components/Common/HeaderBar";
 import { ListProductInCategory } from "../../components/Category/ListProductInCategory";
 import { FilterCategory } from "../../components/Category/Filter/FilterCategory";
 import {
+  useCategoryHandle,
   useFetchAllInCategory,
   useFilterCategory,
 } from "../../app/hook/CategoryHook";
@@ -18,9 +19,10 @@ export const CategoryPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  const queryString = window.location.search.substring(1);
+  const [queryString,setQueryString] = useState(window.location.search.substring(1));
   const location = useLocation();
   const filter = useFilterCategory();
+  const categoryHandle = useCategoryHandle()
 
   useEffect(() => {
     const debouncedNavigate = debounce(() => {
@@ -28,7 +30,10 @@ export const CategoryPage = () => {
         pathname: location.pathname,
         search: convertObjectToStringQuery(filter),
       });
+      
+      setQueryString(convertObjectToStringQuery(filter))
     }, 500);
+
     debouncedNavigate();
 
     return () => {
@@ -47,10 +52,10 @@ export const CategoryPage = () => {
   }, [dispatch]);
   
   useFetchAllInCategory(id, queryString);
-  
+
   return (
     <div>
-      <HeaderBar name1="Home .Products ." name2="All" />
+      <HeaderBar name1="Home .Products ." name2={categoryHandle.name} />
       <div className="flex justify-center font-['Josefin_Sans'] ">
         <div className="w-[78%]">
           <TopFilter />

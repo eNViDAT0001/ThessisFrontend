@@ -30,11 +30,12 @@ export const useFilterCategory = () =>
 export const useFetchAllInCategory = async (categoryID, filter) => {
   const dispatch = useDispatch();
   const prevFilterRef = useRef(filter);
+  const prevIDRef = useRef(categoryID);
 
   useLayoutEffect(() => {
     const fetchData = async () => {
       try {
-        if (filter !== prevFilterRef.current) {
+        if ((filter !== prevFilterRef.current) || (categoryID !== prevIDRef.current)) {
           await dispatch(fetchProductInCategory(categoryID, filter));
         } else {
           await dispatch(fetchListTreeCategory())
