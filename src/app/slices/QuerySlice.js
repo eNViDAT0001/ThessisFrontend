@@ -38,10 +38,10 @@ const initialState = {
   filterBrand: {
     name: {
       type: "search[]",
-      value: "",
+      value: null,
     },
-    page: {
-      type: "fields[]",
+    marker: {
+      type: null,
       value: 1,
     },
     limit: {
@@ -70,9 +70,9 @@ const initialState = {
   },
 
   filterInCategoryPage: {
-    name:{
+    name: {
       type:"search[]",
-      value:null,
+      value: null
     },
     provider_id: {
       type: "fields[]",
@@ -94,6 +94,13 @@ const initialState = {
       type: null,
       value: null,
     },
+
+    filterBrandInCategoryPage: {
+      name: {
+        type: "search[]",
+        value: null,
+      },
+    }
   },
 };
 
@@ -118,7 +125,7 @@ const querySlice = createSlice({
       state.filterBrand.name.value = action.payload;
     },
     setPageInFilterBrand: (state, action) => {
-      state.filterBrand.page.value = action.payload;
+      state.filterBrand.marker.value = action.payload;
     },
     setLimitInFilterBrand: (state, action) => {
       state.filterBrand.limit.value = action.payload;
@@ -165,6 +172,14 @@ const querySlice = createSlice({
     setRatingInFilterCategory: (state, action) => {
       state.filterInCategoryPage.rating.value = action.payload;
     },
+    setNameInFilterCategory: (state, action) => {
+      state.filterInCategoryPage.name.value = action.payload;
+    },
+
+    //filter brnad in category
+    setSearchInBrandInFilterCategory: (state, action) => {
+      state.filterBrandInCategoryPage.name.value = action.payload;
+    },
   },
 });
 
@@ -187,10 +202,13 @@ export const {
   setProviderIDInProductInDetailBrand,
 
   resetFilterInCategory,
+  setNameInFilterCategory,
   setProviderIDInFilterCategory,
   setMarkerInFilterCategory,
   setLimitInFilterCategory,
-  setRatingInFilterCategory
+  setRatingInFilterCategory,
+
+  setSearchInBrandInFilterCategory
 } = querySlice.actions;
 
 export default querySlice.reducer;

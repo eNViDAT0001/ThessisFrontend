@@ -8,7 +8,7 @@ const initialState = {
         image_path:"",
     },
     listProductInBrandDetail:[],
-    filterBrand:{}
+    metaInListBrand:{},
 };
 
 const brandSlice = createSlice({
@@ -30,6 +30,9 @@ const brandSlice = createSlice({
         setListProductInBrandDetail:(state,action)=>{
             state.listProductInBrandDetail = action.payload
         },
+        setMetaInListBrand:(state,action)=>{
+            state.metaInListBrand = action.payload
+        },
     }
 });
 
@@ -39,6 +42,7 @@ export const {
     setNameInAddForm,
     setFileUploadInAddForm,
     setListProductInBrandDetail,
+    setMetaInListBrand
 } = brandSlice.actions;
 
 export default brandSlice.reducer;

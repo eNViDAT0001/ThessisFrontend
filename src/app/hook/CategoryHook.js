@@ -5,12 +5,12 @@ import {
   setCategoryHandle,
   setListBrandInFilterCategory,
   setListTreeCategory,
-  setMetaProductInCategory,
 } from "../slices/CategorySlice";
 import { buildCategoryTree } from "./CommonHook";
 import { ProviderApi } from "../../api/ProviderApi";
 import { setListProductInCategory } from "../slices/CategorySlice";
 import { useLayoutEffect } from "react";
+import { useCallback } from "react";
 
 export const useCategoryRoof = () =>
   useSelector((state) => state.category.categoryRoot);
@@ -26,6 +26,8 @@ export const useListBrandInFilterCategory = () =>
   useSelector((state) => state.category.listBrandInFilterCategory);
 export const useFilterCategory = () =>
   useSelector((state) => state.query.filterInCategoryPage);
+export const useFilterBrand = () =>
+  useSelector((state) => state.query.filterBrandInCategoryPage);
 
 export const useFetchAllInCategory = async (categoryID, filter) => {
   const dispatch = useDispatch();
@@ -35,13 +37,15 @@ export const useFetchAllInCategory = async (categoryID, filter) => {
   useLayoutEffect(() => {
     const fetchData = async () => {
       try {
-        if ((filter !== prevFilterRef.current) || (categoryID !== prevIDRef.current)) {
-          await dispatch(fetchProductInCategory(categoryID, filter));
+        if (
+          filter !== prevFilterRef.current ||
+          categoryID !== prevIDRef.current
+        ) {
+          await dispatch(fetchCategoryChildren(categoryID)).then(() => {
+            return dispatch(fetchProductInCategory(categoryID, filter));
+          });
         } else {
           await dispatch(fetchListTreeCategory())
-            .then(() => {
-              return dispatch(fetchBrandFilterCategory());
-            })
             .then(() => {
               return dispatch(fetchProductInCategory(categoryID, filter));
             })
@@ -52,11 +56,16 @@ export const useFetchAllInCategory = async (categoryID, filter) => {
               console.log(error);
             });
         }
+        prevFilterRef.current = filter;
+        prevIDRef.current = categoryID;
       } catch (err) {}
     };
     fetchData();
-  }, [dispatch, filter, categoryID]);
+  }, [dispatch, categoryID, filter]);
 };
+
+
+
 
 const fetchCategoryChildren = (categoryID) => async (dispatch) => {
   try {
@@ -66,9 +75,9 @@ const fetchCategoryChildren = (categoryID) => async (dispatch) => {
   } catch (err) {}
 };
 
-const fetchBrandFilterCategory = () => async (dispatch) => {
+export const fetchBrandFilterCategory = (filter) => async (dispatch) => {
   try {
-    await ProviderApi.GetAllBrand().then((res) => {
+    await ProviderApi.GetAllBrand(filter).then((res) => {
       dispatch(setListBrandInFilterCategory(res.data.data));
     });
   } catch (err) {}

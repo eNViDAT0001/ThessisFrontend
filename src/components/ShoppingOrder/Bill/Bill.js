@@ -27,7 +27,7 @@ export const Bill = () => {
         district: addressForm.district,
         ward: addressForm.ward,
         street: addressForm.street,
-        total: totalPrice,
+        total: parseInt(totalPrice),
         quantity: 30,
         status_description: "Provider Will call you soon",
         discount:0,

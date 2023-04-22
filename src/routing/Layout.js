@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import  { Footer }  from "../components/Common/Footer/Footer";
+import { Footer } from "../components/Common/Footer/Footer";
 import { Header } from "../components/Common/Header";
 import { HeaderUser } from "../components/Common/HeaderUser";
 
@@ -14,8 +14,11 @@ export const LoginLayOut = () => {
 export const UserLayout = () => {
   return (
     <div>
-      <Header />
-      <HeaderUser />
+      <div className="sticky top-0 z-50 ">
+        <Header />
+        <HeaderUser />
+      </div>
+
       <Outlet></Outlet>
       <Footer />
     </div>
@@ -24,7 +27,10 @@ export const UserLayout = () => {
 export const AdminLayOut = () => {
   return (
     <div>
-      <Header />
+      <div className="sticky top-0 z-50 ">
+        <Header />
+      </div>
+
       <Outlet></Outlet>
       <Footer />
     </div>

@@ -1,29 +1,42 @@
 import React from "react";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import { useListBrandInFilterCategory } from "../../../app/hook/CategoryHook";
+
+import SearchIcon from "@mui/icons-material/Search";
+import InputBase from "@mui/material/InputBase";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
 
 export const FilterBrand = () => {
-  const listBrand = useListBrandInFilterCategory();
+  const listBrand = []
+
+  const handleInputChange = () =>{
+
+  }
+  
   return (
-    <FormControl size="small">
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        name="radio-buttons-group"
-        
+    <div>
+      <Paper
+        component="form"
+        sx={{
+          p: "2px 4px",
+          display: "flex",
+          alignItems: "center",
+          width: 1,
+        }}
       >
-        {listBrand.map((data) => (
-          <FormControlLabel
-            key={data.id}
-            id={data.id}
-            value={data.name}
-            control={<Radio />}
-            label={data.name}
-          />
-        ))}
-      </RadioGroup>
-    </FormControl>
+        <InputBase
+          sx={{ ml: 1, flex: 1 }}
+          onChange={handleInputChange}
+          placeholder="Search brand"
+        />
+        <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+          <SearchIcon />
+        </IconButton>
+      </Paper>
+      {listBrand.map(data=>(
+        <div>
+          {data.name}
+        </div>
+      ))}
+    </div>
   );
 };

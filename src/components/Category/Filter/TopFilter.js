@@ -3,11 +3,24 @@ import {
   useCategoryHandle,
   useListProductInCategory,
 } from "../../../app/hook/CategoryHook";
+import { useDispatch } from "react-redux";
+import { setLimitInFilterCategory} from "../../../app/slices/QuerySlice";
 
 export const TopFilter = () => {
   const categoryHandle = useCategoryHandle();
   const listProduct = useListProductInCategory() || [];
-  
+  const dispatch = useDispatch()
+
+  const handleChangePage = (e) =>{
+    dispatch(setLimitInFilterCategory(e.currentTarget.value))
+  }
+
+  const handleKeyPress = (e) => {
+    const charCode = e.which ? e.which : e.keyCode;
+    if (charCode < 48 || charCode > 57) {
+      e.preventDefault();
+    }
+  }
   return (
     <div className="my-10 flex flex-row justify-between items-center">
       <div className="flex flex-col space-y-4">
@@ -21,6 +34,8 @@ export const TopFilter = () => {
           <h1 className=" text-[#151875] text-base">Per page:</h1>
           <input
             type="text"
+            onKeyPress={handleKeyPress}
+            onChange={handleChangePage}
             className=" border-2 w-[55px] h-[25px] px-2 py-1"
           ></input>
         </div>

@@ -1,16 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
-  useFilterProductInHome,
   useMetaInProductInHome,
   useProductInHome,
 } from "../../app/hook/ProductHook";
 import { Link } from "react-router-dom";
-import SearchIcon from "@mui/icons-material/Search";
-import InputBase from "@mui/material/InputBase";
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
+
 import {
-  setNameSearchInProductInHome,
   setPageInProductInHome,
 } from "../../app/slices/QuerySlice";
 import { useDispatch } from "react-redux";
@@ -19,17 +14,9 @@ import { currencyFormat } from "../../app/hook/CommonHook";
 
 export const ProductOverview = () => {
   const dispatch = useDispatch();
-  let timeoutId;
 
   const metaInProductInHome = useMetaInProductInHome();
   const productInHome = useProductInHome() || [];
-
-  const handleChangeSearchText = (e) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      dispatch(setNameSearchInProductInHome(e.target.value));
-    }, 200);
-  };
 
   const handleChangePage = (e, value) => {
     dispatch(setPageInProductInHome(value));
@@ -43,24 +30,6 @@ export const ProductOverview = () => {
             <h1 className=" text-xl font-['Poppins_Bold'] font-extrabold text-[#000000] uppercase">
               New product launch
             </h1>
-            <Paper
-              component="form"
-              sx={{
-                p: "2px 4px",
-                display: "flex",
-                alignItems: "center",
-                width: 400,
-              }}
-            >
-              <InputBase
-                sx={{ ml: 1, flex: 1 }}
-                onChange={handleChangeSearchText}
-                placeholder="Search product"
-              />
-              <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-                <SearchIcon />
-              </IconButton>
-            </Paper>
           </div>
           {productInHome.length == 0 ? (
             <div></div>

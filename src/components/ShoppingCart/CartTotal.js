@@ -43,7 +43,7 @@ const CartTotal = () => {
               There are no shipping methods available. Please double check your
               address, or contact us if you need any help.
             </h1>
-            <h1 className="mt-2 text-sm">CALCULATE SHIPPING</h1>
+            {/* <h1 className="mt-2 text-sm">CALCULATE SHIPPING</h1>
 
             <select className=" w-[90%] h-7 border text-center text-xs text-gray-text-in-select">
               <option value="0">USA</option>
@@ -62,7 +62,7 @@ const CartTotal = () => {
 
             <button className="w-[95%] border h-[45px] rounded-3xl bg-[#e6e6e6] hover:bg-[#717fe0] hover:text-white">
               UPDATE TOTALS
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

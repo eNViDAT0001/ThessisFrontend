@@ -46,6 +46,20 @@ const fetchListCart = (userID) => async (dispatch) => {
   } catch (err) {}
 };
 
+export const deleteCartShopping = async (idCart, idItemCart) => {
+  await CartShoppingApi.DeleteItemInCart(idCart, idItemCart).then((res) => {
+    if (res.status == 200) {
+      toast("Delete Item success", {
+        type: "success",
+        autoClose: 1000,
+        onClose: setTimeout(() => {
+          window.location.reload();
+        }, 1500),
+      });
+    }
+  });
+};
+
 export const defaultListCart = (listCart) => {
   const result = listCart.map((data) => {
     return {
@@ -91,6 +105,44 @@ export const getCostFromListCart = (listCart) => {
     });
   });
   return sum;
+};
+
+export const increaseQuantity = (listCart, itemId) => {
+  const result = listCart.map((data) => {
+    const updatedData = {
+      ...data,
+      items: data.items.map((item) => {
+        if (item.id == itemId) {
+          return {
+            ...item,
+            quantity: item.quantity+1,
+          };
+        }
+        return item;
+      }),
+    };
+    return updatedData;
+  });
+  return result;
+};
+
+export const decreaseQuantity = (listCart, itemId) => {
+  const result = listCart.map((data) => {
+    const updatedData = {
+      ...data,
+      items: data.items.map((item) => {
+        if (item.id == itemId) {
+          return {
+            ...item,
+            quantity: Math.max(1,item.quantity-1)
+          };
+        }
+        return item;
+      }),
+    };
+    return updatedData;
+  });
+  return result;
 };
 
 const getListInfoFromListCartToOrder = (listCart) => {

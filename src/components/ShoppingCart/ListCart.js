@@ -11,9 +11,11 @@ import { CartShoppingApi } from "../../api/CartShopping";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import Checkbox from "@mui/material/Checkbox";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 import { currencyFormat } from "../../app/hook/CommonHook";
-import { changeListCartFromCheck, useListCart } from "../../app/hook/CartHook";
+import { changeListCartFromCheck, decreaseQuantity, deleteCartShopping, increaseQuantity, useListCart } from "../../app/hook/CartHook";
 import { setListCart } from "../../app/slices/CartSlice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -37,32 +39,32 @@ const ListCart = () => {
   const dispatch = useDispatch();
   const listCart = useListCart();
 
-  const deleteCartShopping = async (idCart, idItemCart) => {
-    await CartShoppingApi.DeleteItemInCart(idCart, idItemCart).then((res) => {
-      if (res.status == 200) {
-        toast("Delete Item success", {
-          type: "success",
-          autoClose: 1000,
-          onClose: setTimeout(() => {
-            window.location.reload();
-          }, 1500),
-        });
-      }
-    });
-  };
 
   const handleDeleteButton = (e) => {
     const cartID = e.currentTarget.getAttribute("cartID");
-    const itemID = e.currentTarget.id
-    deleteCartShopping(cartID,itemID)
+    const itemID = e.currentTarget.id;
+    deleteCartShopping(cartID, itemID);
   };
 
   const handleCheckProduct = (e) => {
-    const id = e.target.getAttribute("id");
+    const id =  e.target.getAttribute("id");
     const result = changeListCartFromCheck(listCart, id);
-    dispatch(setListCart(result))
+    dispatch(setListCart(result));
   };
 
+  const handleAddQuantity = (e) =>{
+    const id = e.currentTarget.id
+    const newListCart = increaseQuantity(listCart,id)
+    dispatch(setListCart(newListCart));
+  }
+
+  const handleRemoveQuantity = (e) =>{
+    const id = e.currentTarget.id
+    const newListCart = decreaseQuantity(listCart ,id)
+    dispatch(setListCart(newListCart));
+  }
+
+  console.log(listCart)
   return (
     <div>
       <div className=" w-full ">
@@ -126,7 +128,28 @@ const ListCart = () => {
                             {currencyFormat(row.price)}
                           </StyledTableCell>
                           <StyledTableCell align="center">
+                            <IconButton
+                            id={row.id}
+                              color="primary"
+                              aria-label="upload picture"
+                              component="label"
+                              onClick={handleRemoveQuantity}
+
+                            >
+                              <RemoveIcon fontSize="small" />
+                            </IconButton>
                             {row.quantity}
+                            <IconButton
+                              id={row.id}
+                              color="primary"
+                              aria-label="upload picture"
+                              component="label"
+                              onClick={handleAddQuantity}
+
+                            >
+                              <AddIcon fontSize="small" 
+                              />
+                            </IconButton>
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             <div className="px-3 py-1 border border-[#D80001] text-[#D80001]">
