@@ -9,7 +9,7 @@ import TablePagination from "@mui/material/TablePagination";
 
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
-import { IconButton, Pagination, Paper, TableHead } from "@mui/material";
+import { IconButton, Paper, TableHead } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import TextField from "@mui/material/TextField";
@@ -17,12 +17,9 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { useDispatch } from "react-redux";
 import {
   updateStatusInAccount,
-  useFilterOrderInAccount,
   useListOrderInAccountDetail,
   useMetaInOrderInAccount,
 } from "../../../app/hook/OrderHook";
-import { useUserID } from "../../../app/hook/UserHook";
-import { useEffect } from "react";
 import {
   setLimitInOrderInAccount,
   setPageInOrderInAccount,
@@ -63,10 +60,14 @@ export const OrderTable = (props) => {
     dispatch(setStatusInOrderInAccount(props.status));
   }, [props, dispatch]);
 
+
+  useLayoutEffect(()=>{
+    dispatch(setPageInOrderInAccount(page+1))
+  },[page,dispatch])
   const handleButtonDetail = (e) => {};
 
   const handleChangeStatus = (e) => {
-    const idHandle = e.currentTarget.id.split('-')[0]
+    const idHandle = e.currentTarget.id.split("-")[0];
     const body = {
       status: e.currentTarget.textContent,
     };
@@ -77,12 +78,10 @@ export const OrderTable = (props) => {
   const handleChangePage = (e, newPage) => {
     const nextPage = newPage;
     setPage(nextPage);
-
-    dispatch(setPageInOrderInAccount(nextPage+1));
   };
 
   const handleChangeRowsPerPage = (e) => {
-    setPage(0)
+    setPage(0);
     dispatch(setPageInOrderInAccount(1));
     dispatch(setLimitInOrderInAccount(e.target.value));
   };
@@ -175,9 +174,6 @@ export const OrderTable = (props) => {
           </Table>
         </TableContainer>
       )}
-      <div>
-
-      </div>
       {!checkObjectEmpty(metaInOrderInAccount) && (
         <TablePagination
           rowsPerPageOptions={[4, 8, 12, 16, 20]}

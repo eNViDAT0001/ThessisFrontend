@@ -2,10 +2,9 @@ import React from 'react'
 import HeaderBar from '../../../Common/HeaderBar'
 import ChangeBarInformation from '../../ChangeBarInformation'
 import { CreateAddressForm } from './CreateAddressForm'
-import { useFetchProvince } from '../../../../app/hook/AddressHook'
 
 const CreateAddressPage = () => {
-  useFetchProvince()
+  
   return (
     <div>
         <HeaderBar name1="Home . Account . Address" name2=" . Detail"/>

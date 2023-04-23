@@ -3,7 +3,6 @@ import { Bill } from "../../components/ShoppingOrder/Bill/Bill";
 import { OrderTabPage } from "../../components/ShoppingOrder/OrderTabPage/OrderTabPage";
 import {
   useFetchListAddress,
-  useFetchProvince,
 } from "../../app/hook/AddressHook";
 import { useParams } from "react-router-dom";
 import HeaderBarBig from "../../components/Common/HeaderBarBig";
@@ -11,7 +10,6 @@ import HeaderBarBig from "../../components/Common/HeaderBarBig";
 const ShoppingOrderPage = () => {
   const { id } = useParams();
   useFetchListAddress(id);
-  useFetchProvince();
   
   return (
     <div>

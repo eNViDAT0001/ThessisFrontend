@@ -7,8 +7,7 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import { IconButton, Paper, TableHead } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { CartShoppingApi } from "../../api/CartShopping";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import Checkbox from "@mui/material/Checkbox";
 import AddIcon from "@mui/icons-material/Add";
@@ -64,7 +63,6 @@ const ListCart = () => {
     dispatch(setListCart(newListCart));
   }
 
-  console.log(listCart)
   return (
     <div>
       <div className=" w-full ">

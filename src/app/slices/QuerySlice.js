@@ -198,9 +198,6 @@ const querySlice = createSlice({
     //filter order in account
     setStatusInOrderInAccount: (state, action) => {
       state.filterOrderInAccountPage.status.value = action.payload;
-      state.filterOrderInAccountPage.limit.value = 4;
-      state.filterOrderInAccountPage.marker.value = 1;
-
     },
     setLimitInOrderInAccount: (state, action) => {
       state.filterOrderInAccountPage.limit.value = action.payload;

@@ -1,8 +1,8 @@
 import { Autocomplete, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { saveNewAddress, useDistrict, useFetchDistrict, useFetchWard, useProvince, useWard } from "../../../../app/hook/AddressHook";
+import { saveNewAddress, useDistrict, useFetchInformationInAddAddress,  useProvince, useWard } from "../../../../app/hook/AddressHook";
 import { changeAttributeForOption } from "../../../../app/hook/CommonHook";
 import { useUserID } from "../../../../app/hook/UserHook";
 import { useDispatch } from "react-redux";
@@ -26,9 +26,6 @@ export const CreateAddressForm = () => {
   const newDataProvince = changeAttributeForOption(dataProvince)
   const newDataDistrict = changeAttributeForOption(dataDistrict)
   const newDataWard = changeAttributeForOption(dataWard)
-  
-  useFetchDistrict(provinceID)
-  useFetchWard(districtID)
 
   const handleNameText = (e) => {
     setName(e.target.value);
@@ -74,6 +71,9 @@ export const CreateAddressForm = () => {
       wardName
     );
   };
+
+  useFetchInformationInAddAddress(provinceID,districtID)
+
   return (
     <div className="mt-10 ml-10 space-y-10  w-[60%] p-10 py-10 mb-32 border shadow-md w-min-[200px]">
       <ToastContainer position="top-right" newestOnTop />

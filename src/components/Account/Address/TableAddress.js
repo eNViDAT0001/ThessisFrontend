@@ -7,15 +7,17 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import DeleteIcon from "@mui/icons-material/Delete";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { Button, IconButton, Pagination } from "@mui/material";
+import { IconButton } from "@mui/material";
 import {
-  deleteAddressSelect,
+  selectAddress,
   useListAddress,
 } from "../../../app/hook/AddressHook";
+import Checkbox from "@mui/material/Checkbox";
+import { setUserAddress } from "../../../app/slices/AddressSlice";
+import { useDispatch } from "react-redux";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -39,20 +41,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export const TableAddress = (props) => {
   const addressSave = useListAddress();
+  const dispatch = useDispatch();
 
-  const handleCreateNewAddress = (e) => {
-    window.location.replace("create");
-  };
-  const handleButtonDelete = (e) => {
-    const addressID = parseInt(e.currentTarget.id);
-    const userID = props.id;
-
-    const body = [addressID]
-    
-    deleteAddressSelect(userID,body);
-  };
   const handleButtonFix = (e) => {
     window.location.replace(`/account-address/${e.currentTarget.id}/edit`);
+  };
+
+  const handleCheckAddress = (addressID) => {
+    const newAddress = selectAddress(addressSave, addressID);
+    dispatch(setUserAddress(newAddress));
   };
   return (
     <div>
@@ -62,6 +59,7 @@ export const TableAddress = (props) => {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
+              <StyledTableCell>Select</StyledTableCell>
               <StyledTableCell>Full name</StyledTableCell>
               <StyledTableCell align="right">Address</StyledTableCell>
               <StyledTableCell align="right">Province</StyledTableCell>
@@ -76,6 +74,13 @@ export const TableAddress = (props) => {
             ) : (
               addressSave.map((row) => (
                 <StyledTableRow key={row.id}>
+                  <StyledTableCell id={row.id} align="center">
+                    <Checkbox
+                      id={row.id}
+                      checked={row.isSelected}
+                      onClick={() => handleCheckAddress(row.id)}
+                    />
+                  </StyledTableCell>
                   <StyledTableCell component="th" scope="row">
                     {row.name}
                   </StyledTableCell>
@@ -96,14 +101,6 @@ export const TableAddress = (props) => {
                     >
                       <SettingsRoundedIcon fontSize="inherit" />
                     </IconButton>
-                    <IconButton
-                      id={row.id}
-                      aria-label="delete"
-                      size="small "
-                      onClick={handleButtonDelete}
-                    >
-                      <DeleteIcon fontSize="inherit" />
-                    </IconButton>
                   </StyledTableCell>
                 </StyledTableRow>
               ))
@@ -111,19 +108,6 @@ export const TableAddress = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
-
-      <div className="flex justify-center my-8">
-        <Pagination count={1} showFirstButton showLastButton />
-      </div>
-      <div className="flex flex-row-reverse mt-5">
-        <Button
-          variant="contained"
-          size="large"
-          onClick={handleCreateNewAddress}
-        >
-          + Add new address
-        </Button>
-      </div>
     </div>
   );
 };

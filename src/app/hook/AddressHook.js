@@ -15,7 +15,7 @@ import {
   setUserAddress,
   setWard,
 } from "../slices/AddressSlice";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 export const useListAddress = () =>
   useSelector((state) => state.address.userAddress);
@@ -41,14 +41,14 @@ export const useFormAddressSelected = () =>
 
 export const deleteAddressSelect = async (userID, body) => {
   await AddressApi.DeleteAddress(userID, body)
-    .then((res) => {
+    .then(() => {
       toast("Delete address successful", {
         type: "success",
         autoClose: 2000,
         Close: setTimeout(() => window.location.reload(), 2000),
       });
     })
-    .catch((error) => {
+    .catch(() => {
       toast("Delete address failed", {
         type: "error",
         autoClose: 2000,
@@ -60,7 +60,7 @@ export const useFetchAddressDetail = async (addressID, userID) => {
   const dispatch = useDispatch();
   const loadAddressDetail = useCallback(async () => {
     dispatch(fetchAddressDetail(addressID, userID));
-  });
+  },[dispatch,addressID,userID]);
   useEffect(() => {
     loadAddressDetail();
   }, [loadAddressDetail]);
@@ -70,40 +70,36 @@ export const useFetchListAddress = async (userID) => {
   const dispatch = useDispatch();
   const loadDataAddress = useCallback(async () => {
     dispatch(fetchListAddress(userID));
-  });
+  },[dispatch,userID]);
   useEffect(() => {
     loadDataAddress();
   }, [loadDataAddress]);
 };
 
-export const useFetchProvince = async () => {
+export const useFetchInformationInAddAddress = async (
+  provinceID,
+  districtID
+) => {
   const dispatch = useDispatch();
-  const loadDataProvince = useCallback(async () => {
-    dispatch(fetchListProvince());
-  });
-  useEffect(() => {
-    loadDataProvince();
-  }, [loadDataProvince]);
-};
+  const prevProvince = useRef(provinceID);
+  const prevDistrict = useRef(districtID);
 
-export const useFetchDistrict = async (provinceID) => {
-  const dispatch = useDispatch();
-  const loadDataDistrict = useCallback(async () => {
-    dispatch(fetchListDistrict(provinceID));
-  }, [dispatch, provinceID]);
   useEffect(() => {
-    loadDataDistrict();
-  }, [loadDataDistrict]);
-};
-
-export const useFetchWard = async (districtID) => {
-  const dispatch = useDispatch();
-  const loadDataWard = useCallback(async () => {
-    dispatch(fetchListWard(districtID));
-  }, [dispatch, districtID]);
-  useEffect(() => {
-    loadDataWard();
-  }, [loadDataWard]);
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchListProvince()).then(()=>{
+          if (districtID !== prevDistrict.current) {
+            return dispatch(fetchListWard(districtID));
+          } else if (provinceID !== prevProvince.current) {
+            return dispatch(fetchListDistrict(provinceID));
+          }
+        })
+        prevProvince.current = provinceID;
+        prevDistrict.current = districtID;
+      } catch (error) {}
+    };
+    fetchData();
+  }, [dispatch, provinceID, districtID]);
 };
 
 const fetchAddressDetail = (addressID, userID) => async (dispatch) => {
@@ -117,7 +113,13 @@ const fetchAddressDetail = (addressID, userID) => async (dispatch) => {
 const fetchListAddress = (userID) => async (dispatch) => {
   try {
     await AddressApi.GetListAddressByUserID(userID).then((res) => {
-      dispatch(setUserAddress(res.data.data));
+      const listAddress =
+        res.data.data &&
+        res.data.data.map((data) => {
+          return { ...data, isSelected: false };
+        });
+
+      dispatch(setUserAddress(listAddress));
     });
   } catch (err) {}
 };
@@ -145,6 +147,7 @@ const fetchListWard = (districtID) => async (dispatch) => {
     });
   } catch (err) {}
 };
+
 export const saveNewAddress = (
   user_id,
   name,
@@ -164,7 +167,7 @@ export const saveNewAddress = (
     });
   } else {
     const body = {
-      user_id: user_id,
+      user_id: String(user_id),
       name: name,
       gender: gender,
       phone: phone,
@@ -203,4 +206,27 @@ export const resetForm = () => (dispatch) => {
 };
 export const resetAddressSelected = () => (dispatch) => {
   dispatch(setFormAddressSelected({}));
+};
+
+export const selectAddress = (arr, addressID) => {
+  if (arr.length === 0) return;
+  return arr.map((address) => {
+    if (address.id === addressID) {
+      return {
+        ...address,
+        isSelected: !address.isSelected,
+      };
+    }
+    return address;
+  });
+};
+
+export const getSelectedIds = (arr) => {
+  const selectedIds = [];
+  for (const obj of arr) {
+    if (obj.isSelected) {
+      selectedIds.push(obj.id);
+    }
+  }
+  return selectedIds;
 };

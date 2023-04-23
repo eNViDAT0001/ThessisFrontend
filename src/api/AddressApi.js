@@ -26,7 +26,6 @@ export const AddressApi = {
     return axiosClient.get(url);
   },
   GetListAddressByUserID: (id) => {
-
     const url = `/addresses/user/${id}`;
     return axiosClient.get(url);
   },
@@ -38,8 +37,8 @@ export const AddressApi = {
     const url = `/addresses/${idAddress}/user/${idUser}`;
     return axiosClient.patch(url, { ...body });
   },
-  DeleteAddress: (idUser,body) => {
-    const url = `/user/${idUser}`;
-    return axiosClient.delete(url,...body);
+  DeleteAddress: (idUser, body) => {
+    const url = `/addresses/user/${idUser}`;
+    return axiosClient.delete(url, { data: body });
   },
 };

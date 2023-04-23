@@ -3,7 +3,6 @@ import HeaderBar from "../../../Common/HeaderBar";
 import ChangeBarInformation from "../../ChangeBarInformation";
 import {
   useFetchAddressDetail,
-  useFetchProvince,
 } from "../../../../app/hook/AddressHook";
 import { useUserID } from "../../../../app/hook/UserHook";
 import { useParams } from "react-router-dom";
@@ -14,7 +13,6 @@ export const FixAddressPage = () => {
   const { id } = useParams();
 
   useFetchAddressDetail(id, userID);
-  useFetchProvince();
   return (
     <div>
       <HeaderBar name1="Home . Account . Address" name2=" . Detail" />

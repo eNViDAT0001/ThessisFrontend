@@ -5,8 +5,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import {
   useDistrict,
-  useFetchDistrict,
-  useFetchWard,
   useProvince,
   useWard,
 } from "../../../../app/hook/AddressHook";
@@ -36,8 +34,6 @@ export const FixAddressForm = () => {
   const newDataDistrict = changeAttributeForOption(dataDistrict)
   const newDataWard = changeAttributeForOption(dataWard)
 
-  useFetchDistrict(provinceID)
-  useFetchWard(districtID)
 
   const handleNameText = (e) => {
     setName(e.target.value);
