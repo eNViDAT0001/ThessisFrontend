@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { OrderApi } from "../../api/OrderApi";
-import { setListOrderInProvider } from "../slices/OrderSlice";
+import { setListOrderInAccount, setListOrderInProvider, setMetaInOrderInAccount } from "../slices/OrderSlice";
 import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 
 export const useListOrderInProvider = () =>
   useSelector((state) => state.order.listOrderInProvider);
 export const useListOrderInAccountDetail = () =>
-  useSelector((state) => state.order.listOrderInAccountDetail);
+  useSelector((state) => state.order.listOrderInAccount);
 
 export const updateStatus = async (idOrder, body) => {
   await OrderApi.UpdateStatus(idOrder, body).then((res) => {
@@ -52,6 +52,7 @@ const fetchOrderInProvider = (id, filters) => async (dispatch) => {
   }
 };
 
+
 export const changePropListItem = (listItem) =>{
   const result = [];
   listItem.forEach((data) => {
@@ -79,3 +80,41 @@ export const getListIDCart= (listItem) =>{
   })
   return result
 }
+
+
+//Account
+export const useFilterOrderInAccount = () =>
+  useSelector((state) => state.query.filterOrderInAccountPage);
+export const useMetaInOrderInAccount = () =>
+  useSelector((state) => state.order.metaInOrderInAccount);
+
+export const updateStatusInAccount = async (idHandle, body) => {
+  await OrderApi.UpdateStatus(idHandle, body).then((res) => {
+    if (res.status == 200) {
+      toast("Update order success", {
+        type: "success",
+        autoClose: 1000,
+        onClose: setTimeout(() => {
+          window.location.reload();
+        }, 1000),
+      });
+    }
+  });
+};
+
+export const useFetchOrderInAccount = async (userId, filters) => {
+  const dispatch = useDispatch();
+  await useEffect(() => {
+    dispatch(fetchOrderInAccount(userId, filters));
+  }, [dispatch,filters,userId]);
+};
+
+const fetchOrderInAccount = (userID, filters) => async (dispatch) => {
+  try {
+    const response = await OrderApi.GetOrderFromUser(userID,filters);
+    dispatch(setListOrderInAccount(response.data.data));
+    dispatch(setMetaInOrderInAccount(response.data.meta))
+  } catch (err) {
+    console.log(err);
+  }
+};

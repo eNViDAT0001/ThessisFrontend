@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import { useMetaInListBrand } from "../../../app/hook/BrandHook";
 import { checkObjectEmpty } from "../../../app/hook/CommonHook";
+
 export const TotalBrand = () => {
   const metaInListBrand = useMetaInListBrand();
   return (

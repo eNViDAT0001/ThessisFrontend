@@ -71,8 +71,8 @@ const initialState = {
 
   filterInCategoryPage: {
     name: {
-      type:"search[]",
-      value: null
+      type: "search[]",
+      value: null,
     },
     provider_id: {
       type: "fields[]",
@@ -86,21 +86,35 @@ const initialState = {
       type: null,
       value: null,
     },
-    type:{
+    type: {
       type: null,
-      value: null
+      value: null,
     },
     limit: {
       type: null,
       value: null,
     },
+  },
+  filterBrandInCategoryPage: {
+    name: {
+      type: "search[]",
+      value: null,
+    },
+  },
 
-    filterBrandInCategoryPage: {
-      name: {
-        type: "search[]",
-        value: null,
-      },
-    }
+  filterOrderInAccountPage: {
+    status: {
+      type: "fields[]",
+      value: null,
+    },
+    limit: {
+      type: null,
+      value: 4,
+    },
+    marker: {
+      type: null,
+      value: 1,
+    },
   },
 };
 
@@ -176,9 +190,23 @@ const querySlice = createSlice({
       state.filterInCategoryPage.name.value = action.payload;
     },
 
-    //filter brnad in category
+    //filter brand in category
     setSearchInBrandInFilterCategory: (state, action) => {
       state.filterBrandInCategoryPage.name.value = action.payload;
+    },
+
+    //filter order in account
+    setStatusInOrderInAccount: (state, action) => {
+      state.filterOrderInAccountPage.status.value = action.payload;
+      state.filterOrderInAccountPage.limit.value = 4;
+      state.filterOrderInAccountPage.marker.value = 1;
+
+    },
+    setLimitInOrderInAccount: (state, action) => {
+      state.filterOrderInAccountPage.limit.value = action.payload;
+    },
+    setPageInOrderInAccount: (state, action) => {
+      state.filterOrderInAccountPage.marker.value = action.payload;
     },
   },
 });
@@ -208,7 +236,11 @@ export const {
   setLimitInFilterCategory,
   setRatingInFilterCategory,
 
-  setSearchInBrandInFilterCategory
+  setSearchInBrandInFilterCategory,
+
+  setStatusInOrderInAccount,
+  setPageInOrderInAccount,
+  setLimitInOrderInAccount
 } = querySlice.actions;
 
 export default querySlice.reducer;

@@ -37,14 +37,14 @@ export const useFilterProductInHome = () =>
 export const useProductForyou = () =>
   useSelector((state) => state.product.productForyou);
 
-export const useFetchFullFromHomePage = async(filter) =>{
+export const useFetchFullFromHomePage = async (filter) => {
   const dispatch = useDispatch();
   const prevFilterRef = useRef(filter);
   useLayoutEffect(() => {
     const fetchData = async () => {
       try {
         if (filter !== prevFilterRef.current) {
-          await dispatch(fetchProductInHomePage(filter))
+          await dispatch(fetchProductInHomePage(filter));
         } else {
           await dispatch(fetchBannerInHomePage())
             .then(() => {
@@ -59,9 +59,9 @@ export const useFetchFullFromHomePage = async(filter) =>{
         }
       } catch (err) {}
     };
-    fetchData()
-  }, [dispatch, filter,prevFilterRef]);
-}
+    fetchData();
+  }, [dispatch, filter, prevFilterRef]);
+};
 
 const fetchProductInHomePage = (filter) => async (dispatch) => {
   try {
@@ -80,8 +80,6 @@ const fetchCategoryRoofInHomePage = () => async (dispatch) => {
   } catch (err) {}
 };
 
-
-
 const fetchBannerInHomePage = () => async (dispatch) => {
   try {
     await ProductApi.GetBanners().then((res) => {
@@ -90,7 +88,6 @@ const fetchBannerInHomePage = () => async (dispatch) => {
   } catch (err) {}
 };
 
-
 export const useFetchFullFromProductDetail = async (id, filter) => {
   const dispatch = useDispatch();
   const prevFilterRef = useRef(filter);
@@ -98,7 +95,7 @@ export const useFetchFullFromProductDetail = async (id, filter) => {
     const fetchData = async () => {
       try {
         if (filter !== prevFilterRef.current) {
-          await dispatch(fetchCommentInProductDetail(id, filter))
+          await dispatch(fetchCommentInProductDetail(id, filter));
         } else {
           await dispatch(fetchBasicInformationInProductDetailPage(id))
             .then(() => {
@@ -120,10 +117,11 @@ export const useFetchFullFromProductDetail = async (id, filter) => {
               console.log(error);
             });
         }
+        prevFilterRef.current = filter;
       } catch (err) {}
     };
-    fetchData()
-  }, [id, dispatch, filter,prevFilterRef]);
+    fetchData();
+  }, [id, dispatch, filter, prevFilterRef]);
 };
 
 const fetchBasicInformationInProductDetailPage = (id) => async (dispatch) => {

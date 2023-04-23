@@ -10,11 +10,11 @@ export const OrderApi = {
     return axiosClient.get(url);
   },
   GetOrderFromUser: (id,filter) =>{
-    const url = `/orders/user/${id}?${transformFilters(filter)}`
+    const url = `/orders/user/${id}?${filter}`
     return axiosClient.get(url)
   },
   GetOrderFromProvider:(id,filter)=>{
-    const url = `/orders/provider/${id}?${transformFilters(filter)}`
+    const url = `/orders/provider/${id}?${filter}`
     return axiosClient.get(url)
   },
   UpdateStatus:(id,body)=>{

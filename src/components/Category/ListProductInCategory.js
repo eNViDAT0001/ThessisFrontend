@@ -3,6 +3,7 @@ import { useListProductInCategory } from "../../app/hook/CategoryHook";
 import { currencyFormat } from "../../app/hook/CommonHook";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
+import { Link } from "react-router-dom";
 
 const imageNotAvailable =
   "https://st4.depositphotos.com/14953852/22772/v/600/depositphotos_227725020-stock-illustration-image-available-icon-flat-vector.jpg";
@@ -11,7 +12,7 @@ export const ListProductInCategory = (props) => {
   return (
     <div>
       {listProduct.map((data) => (
-        <div className="w-full border my-5 p-4">
+        <Link to={`/product/${data.id}`} className="w-full my-5 p-4">
           <div className="flex flex-row">
             <img
               src={data.media ? data.media[0].mediaPath : imageNotAvailable}
@@ -46,7 +47,7 @@ export const ListProductInCategory = (props) => {
               </h1>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

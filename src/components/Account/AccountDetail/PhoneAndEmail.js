@@ -8,40 +8,59 @@ import { FormControl, Input, InputAdornment, InputLabel } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { updateEmailUser, updatePhoneUser, useUserDetail } from "../../../app/hook/UserHook";
+import {
+  updateEmailUser,
+  updatePhoneUser,
+  useUserDetail,
+} from "../../../app/hook/UserHook";
+import { checkEmailFormat, checkTextPhone } from "../../../app/hook/CommonHook";
+import { useEffect } from "react";
 
 const PhoneAndEmail = (props) => {
   const [isUpdatePhone, setIsUpdatePhone] = useState(false);
   const [isUpdateEmail, setIsUpdateEmail] = useState(false);
-  const userDetail = useUserDetail()
+  const userDetail = useUserDetail();
   const [phoneInformation, setPhoneInformation] = useState(userDetail.phone);
   const [email, setEmail] = useState(userDetail.email);
 
+  const [isValidPhone, setIsValidPhone] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(false);
+
   const handleChangePhone = (e) => {
-    setPhoneInformation(e.target.value);
+    const phone = e.target.value;
+    setIsValidPhone(checkTextPhone(phone));
+    setPhoneInformation(phone);
   };
   const handleChangeEmail = (e) => {
-    setEmail(e.target.value);
+    const email = e.target.value;
+    setIsValidEmail(checkEmailFormat(email));
+    setEmail(email);
   };
   const handleButtonUpdatePhone = (e) => {
     if (!isUpdatePhone) {
+      setIsValidPhone(true)
       setIsUpdatePhone(true);
     } else {
-      const body = {
-        Phone: phoneInformation,
-      };
-      updatePhoneUser(props.id,body,phoneInformation)
+      if (isValidPhone) {
+        const body = {
+          Phone: phoneInformation,
+        };
+        updatePhoneUser(props.id, body, phoneInformation);
+      }
     }
   };
 
   const handleButtonUpdateEmail = (e) => {
     if (!isUpdateEmail) {
+      setIsValidEmail(true)
       setIsUpdateEmail(true);
     } else {
-      const body = {
-        email: email,
-      };
-      updateEmailUser(props.id,body,email)
+      if (isValidEmail) {
+        const body = {
+          email: email,
+        };
+        updateEmailUser(props.id, body, email);
+      }
     }
   };
   return (
@@ -52,11 +71,15 @@ const PhoneAndEmail = (props) => {
         <h1 className="text-xl text-[#1D1378]">Phone number and email</h1>
         <div>
           <div className="flex flex-row justify-between mt-3">
-            <FormControl variant="standard">
+            <FormControl
+              helperText="Contains only numbers with length 10"
+              variant="standard"
+            >
               <InputLabel htmlFor="input-with-icon-adornment">Phone</InputLabel>
               <Input
                 id="input-with-icon-adornment"
                 disabled={!isUpdatePhone}
+                error={isUpdatePhone && !isValidPhone}
                 onChange={handleChangePhone}
                 defaultValue={phoneInformation}
                 startAdornment={
@@ -76,11 +99,12 @@ const PhoneAndEmail = (props) => {
           </div>
 
           <div className="flex flex-row justify-between mt-3">
-            <FormControl variant="standard">
+            <FormControl helperText="Follow email format" variant="standard">
               <InputLabel htmlFor="input-with-icon-adornment">Email</InputLabel>
               <Input
                 id="input-with-icon-adornment"
-                disabled={!isUpdateEmail}
+                disabled={isUpdateEmail && !isValidEmail}
+                error={!isValidEmail}
                 onChange={handleChangeEmail}
                 defaultValue={email}
                 startAdornment={

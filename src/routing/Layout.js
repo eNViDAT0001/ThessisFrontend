@@ -14,10 +14,8 @@ export const LoginLayOut = () => {
 export const UserLayout = () => {
   return (
     <div>
-      <div className="sticky top-0 z-50 ">
-        <Header />
-        <HeaderUser />
-      </div>
+      <Header />
+      <HeaderUser />
 
       <Outlet></Outlet>
       <Footer />
@@ -27,10 +25,7 @@ export const UserLayout = () => {
 export const AdminLayOut = () => {
   return (
     <div>
-      <div className="sticky top-0 z-50 ">
-        <Header />
-      </div>
-
+      <Header />
       <Outlet></Outlet>
       <Footer />
     </div>

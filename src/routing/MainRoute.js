@@ -18,6 +18,7 @@ import { CartPage } from "../pages/Shopping/CartPage";
 import { FixAddressPage } from "../components/Account/Address/FixAddress";
 import ShoppingOrderPage from "../pages/ShoppingOrderPage/ShoppingOrderPage";
 import { CategoryPage } from "../pages/CategoryPage/CategoryPage";
+import { AccountOrderPage } from "../pages/AccountPage/AccountOrderPage";
 
 export const MainRoute = () => {
   return (
@@ -36,7 +37,7 @@ export const MainRoute = () => {
           <Route path="/account-address/:id" element={<AccountAddressPage />} />
           <Route path="/account-address/create" element={<CreateAddressPage />} />
           <Route path="/account-address/:id/edit" element={<FixAddressPage />} />
-
+          <Route path="/account-order/:id" element={<AccountOrderPage />} />
           <Route path="/contact" element={<ContactPage />} />
 
           <Route

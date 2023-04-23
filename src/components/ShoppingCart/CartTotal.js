@@ -30,11 +30,6 @@ const CartTotal = () => {
     <div className="w-[30%] border flex flex-col px-[40px] pt-[30px] pb-[40px]">
       <h1 className=" text-xl font-extrabold">CART TOTALS</h1>
       <ToastContainer position="top-right" newestOnTop />
-
-      <div className="flex flex-row mt-8 ">
-        <h1 className="text-sm">Subtotal: </h1>
-        <h1 className=" text-lg ml-8 mt-[-4px]"> 0đ</h1>
-      </div>
       <div className="border-t-2 border-b-2 border-dashed mt-6">
         <div className="flex flex-row mt-6 mb-6">
           <h1 className="text-sm "> Shipping: </h1>
@@ -69,7 +64,7 @@ const CartTotal = () => {
       <div className="mt-8 flex flex-row">
         <h1>Total</h1>
         <h1 className="ml-8">
-          {currencyFormat(totalPrice)}đ
+          {currencyFormat(totalPrice)}$
         </h1>
       </div>
       <button

@@ -80,7 +80,7 @@ export const HeaderUser = () => {
 
   return (
     <div className="w-full bg-[#FFFFFF] flex justify-center border-b">
-      <div className="w-[80%] py-[30px]">
+      <div className="w-[80%] py-2">
         <div className="flex justify-between items-center">
           <div className="font-['Inter'] font-bold text-[#131313] text-lg uppercase ">
             <div className="flex flex-row space-x-[30px]">
