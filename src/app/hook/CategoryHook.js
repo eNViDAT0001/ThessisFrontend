@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { ProductApi } from "../../api/ProductApi";
 import {
   setCategoryHandle,
@@ -10,7 +10,6 @@ import { buildCategoryTree } from "./CommonHook";
 import { ProviderApi } from "../../api/ProviderApi";
 import { setListProductInCategory } from "../slices/CategorySlice";
 import { useLayoutEffect } from "react";
-import { useCallback } from "react";
 
 export const useCategoryRoof = () =>
   useSelector((state) => state.category.categoryRoot);

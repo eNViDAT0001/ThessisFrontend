@@ -42,7 +42,7 @@ export const ListViewBrand = () => {
         </Button>
       </div>
       {variant === VARIANT.contained ? <div></div> : <FilterFormBrand />}
-      <div className="my-10 pl-10 border flex flex-row bg-[#F1F3FA]">
+      <div className="my-10 pl-10 border flex flex-row ">
         {listBrand.length == 0 ? (
           <h1 className=" text-xl uppercase">you don't have a brand</h1>
         ) : (

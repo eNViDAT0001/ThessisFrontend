@@ -9,7 +9,6 @@ import GradeIcon from '@mui/icons-material/Grade'
 
 export const FilterCategory = (props) => {
   const listTreeCategory = useListTreeCategory() || [];
-
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex flex-row space-x-5">

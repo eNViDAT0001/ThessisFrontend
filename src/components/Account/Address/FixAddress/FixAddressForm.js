@@ -99,94 +99,105 @@ export const FixAddressForm = (props) => {
   useFetchInformationInAddAddress(provinceID, districtID);
 
   return (
-    <div className="mt-10 ml-10 space-y-10  w-[60%] p-10 py-10 mb-32 border shadow-md w-min-[200px]">
-      <ToastContainer position="top-right" newestOnTop />
+    <div>
+      {addressDetail && (
+        <div className="mt-10 ml-10 space-y-10  w-[60%] p-10 py-10 mb-32 border shadow-md w-min-[200px]">
+          <ToastContainer position="top-right" newestOnTop />
 
-      <h1 className="ml-4 text-xl text-[#1D3178] font-semibold">
-        Address Detail
-      </h1>
-      <TextField
-        required
-        id="outlined-required"
-        label="Name"
-        value={name}
-        onChange={handleNameText}
-        sx={{ width: 1 }}
-      />
-      <div className="flex flex-row space-x-4">
-        <TextField
-          required
-          id="outlined-required"
-          onChange={handlePhoneText}
-          label="Phone number"
-          value={phone}
-          sx={{ width: 1 }}
-        />
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={[
-            { id: 1, label: "Male" },
-            { id: 0, label: "Female" },
-          ]}
-          onChange={onChangeGender}
-          value={gender ? "Male" : "Female"}
-          isOptionEqualToValue={(option, value) => option.id === value.id}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="Gender" />}
-        />
-      </div>
-      <TextField
-        required
-        id="outlined-required"
-        value={street}
-        onChange={handleAddressText}
-        label="Address"
-        sx={{ width: 1 }}
-      />
-      <div className="flex flex-row space-x-4">
-        {newDataProvince && (
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            value={provinceName}
-            options={newDataProvince}
-            onChange={onChangeProvince}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
-            sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Province" />}
+          <h1 className="ml-4 text-xl text-[#1D3178] font-semibold">
+            Address Detail
+          </h1>
+          <TextField
+            required
+            id="outlined-required"
+            label="Name"
+            value={name}
+            onChange={handleNameText}
+            sx={{ width: 1 }}
           />
-        )}
-        {newDataDistrict && (
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={newDataDistrict}
-            value={districtName}
-            onChange={onChangeDistrict}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
-            sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="District" />}
+          <div className="flex flex-row space-x-4">
+            <TextField
+              required
+              id="outlined-required"
+              onChange={handlePhoneText}
+              label="Phone number"
+              value={phone}
+              sx={{ width: 1 }}
+            />
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={[
+                { id: 1, label: "Male" },
+                { id: 0, label: "Female" },
+              ]}
+              onChange={onChangeGender}
+              value={gender ? "Male" : "Female"}
+              sx={{ width: 300 }}
+              renderInput={(params) => <TextField {...params} label="Gender" />}
+            />
+          </div>
+          <TextField
+            required
+            id="outlined-required"
+            value={street}
+            onChange={handleAddressText}
+            label="Address"
+            sx={{ width: 1 }}
           />
-        )}
-        {newDataWard && (
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            value={wardName}
-            onChange={onChangeWard}
-            options={newDataWard}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
-            sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Ward" />}
-          />
-        )}
-      </div>
-      <div className="flex flex-row-reverse mt-5">
-        <Button variant="contained" size="large" onClick={handleButtonConfirm}>
-          Confirm
-        </Button>
-      </div>
+          <div className="flex flex-row space-x-4">
+            {newDataProvince && (
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                value={provinceName}
+                options={newDataProvince}
+                onChange={onChangeProvince}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                sx={{ width: 300 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Province" />
+                )}
+              />
+            )}
+            {newDataDistrict && (
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={newDataDistrict}
+                value={districtName}
+                onChange={onChangeDistrict}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                sx={{ width: 300 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="District" />
+                )}
+              />
+            )}
+            {newDataWard && (
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                value={wardName}
+                onChange={onChangeWard}
+                options={newDataWard}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                sx={{ width: 300 }}
+                renderInput={(params) => <TextField {...params} label="Ward" />}
+              />
+            )}
+          </div>
+          <div className="flex flex-row-reverse mt-5">
+            <Button
+              variant="contained"
+              size="large"
+              onClick={handleButtonConfirm}
+            >
+              Confirm
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

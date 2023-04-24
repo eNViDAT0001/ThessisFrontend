@@ -100,6 +100,10 @@ const initialState = {
       type: "search[]",
       value: null,
     },
+    limit: {
+      type: null,
+      value: 5,
+    },
   },
 
   filterOrderInAccountPage: {
