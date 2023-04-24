@@ -19,7 +19,7 @@ export const FixAddressPage = () => {
       <div className="flex justify-center">
         <div className="w-[85%] h-full flex flex-row ">
           <ChangeBarInformation id={userID} />
-          <FixAddressForm />
+          <FixAddressForm id={id} userID={userID} />
         </div>
       </div>
     </div>

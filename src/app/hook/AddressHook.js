@@ -196,6 +196,29 @@ export const saveNewAddress = (
   }
 };
 
+export const updateAddress = async(addressID,userID, body) =>{
+  await AddressApi.UpdateAddress(addressID, userID, body)
+  .then(() => {
+    toast("Update address successful", {
+      type: "success",
+      autoClose: 2000,
+      Close: setTimeout(
+        () => window.location.replace(`/account-detail/${userID}`),
+        2000
+      ),
+    });
+  })
+  .catch(() => {
+    toast("Update address fail", {
+      type: "error",
+      autoClose: 2000,
+      Close: setTimeout(
+        () => window.location.replace(`/account-detail/${userID}`),
+        2000
+      ),
+    });
+  });
+}
 export const resetForm = () => (dispatch) => {
   dispatch(setNameInFormCreate(""));
   dispatch(setPhoneInFormCreate(""));
@@ -209,7 +232,7 @@ export const resetAddressSelected = () => (dispatch) => {
 };
 
 export const selectAddress = (arr, addressID) => {
-  if (arr.length === 0) return;
+  if(!Array.isArray(arr)) return []
   return arr.map((address) => {
     if (address.id === addressID) {
       return {
@@ -222,7 +245,8 @@ export const selectAddress = (arr, addressID) => {
 };
 
 export const getSelectedIds = (arr) => {
-  const selectedIds = [];
+  if(!Array.isArray(arr)) return []
+  const selectedIds = []
   for (const obj of arr) {
     if (obj.isSelected) {
       selectedIds.push(obj.id);
@@ -230,3 +254,5 @@ export const getSelectedIds = (arr) => {
   }
   return selectedIds;
 };
+
+

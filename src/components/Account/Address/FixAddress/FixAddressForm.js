@@ -1,7 +1,11 @@
 import { Autocomplete, Button, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useAddressDetail } from "../../../../app/hook/AddressHook";
-import { ToastContainer, toast } from "react-toastify";
+import {
+  updateAddress,
+  useAddressDetail,
+  useFetchInformationInAddAddress,
+} from "../../../../app/hook/AddressHook";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import {
   useDistrict,
@@ -9,12 +13,10 @@ import {
   useWard,
 } from "../../../../app/hook/AddressHook";
 import { changeAttributeForOption } from "../../../../app/hook/CommonHook";
-import { useUserID } from "../../../../app/hook/UserHook";
 
-export const FixAddressForm = () => {
-  const id = useUserID();
+export const FixAddressForm = (props) => {
   const addressDetail = useAddressDetail();
-  
+
   const [provinceID, setProvinceID] = useState("");
   const [provinceName, setProvinceName] = useState("");
   const [districtID, setDistrictID] = useState("");
@@ -23,17 +25,16 @@ export const FixAddressForm = () => {
   const [wardID, setWardID] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState(false);
   const [street, setStreet] = useState("");
 
-  const dataProvince = useProvince()
-  const dataDistrict = useDistrict()
-  const dataWard = useWard()
+  const dataProvince = useProvince();
+  const dataDistrict = useDistrict();
+  const dataWard = useWard();
 
-  const newDataProvince = changeAttributeForOption(dataProvince)
-  const newDataDistrict = changeAttributeForOption(dataDistrict)
-  const newDataWard = changeAttributeForOption(dataWard)
-
+  const newDataProvince = changeAttributeForOption(dataProvince);
+  const newDataDistrict = changeAttributeForOption(dataDistrict);
+  const newDataWard = changeAttributeForOption(dataWard);
 
   const handleNameText = (e) => {
     setName(e.target.value);
@@ -65,10 +66,21 @@ export const FixAddressForm = () => {
     setGender(value.id === 1);
   };
 
-  const handleButtonConfirm = (e) =>{
+  const handleButtonConfirm = (e) => {
+    const addressID = props.id;
+    const userID = props.userID;
+    const body = {
+      name: name,
+      gender: gender,
+      phone: phone,
+      province_code: provinceID,
+      district_code: districtID,
+      ward_code: wardID,
+      street: street,
+    };
+    updateAddress(addressID, userID, body);
+  };
 
-  }
-  
   useEffect(() => {
     if (addressDetail) {
       setName(addressDetail.name);
@@ -83,6 +95,8 @@ export const FixAddressForm = () => {
       setStreet(addressDetail.street);
     }
   }, [addressDetail]);
+
+  useFetchInformationInAddAddress(provinceID, districtID);
 
   return (
     <div className="mt-10 ml-10 space-y-10  w-[60%] p-10 py-10 mb-32 border shadow-md w-min-[200px]">
@@ -116,6 +130,7 @@ export const FixAddressForm = () => {
             { id: 0, label: "Female" },
           ]}
           onChange={onChangeGender}
+          value={gender ? "Male" : "Female"}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           sx={{ width: 300 }}
           renderInput={(params) => <TextField {...params} label="Gender" />}
@@ -124,40 +139,48 @@ export const FixAddressForm = () => {
       <TextField
         required
         id="outlined-required"
+        value={street}
         onChange={handleAddressText}
         label="Address"
         sx={{ width: 1 }}
       />
       <div className="flex flex-row space-x-4">
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={newDataProvince}
-          onChange={onChangeProvince}
-          isOptionEqualToValue={(option, value) => option.id === value.id}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="Province" />}
-        />
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={newDataDistrict}
-          value={districtName}
-          onChange={onChangeDistrict}
-          isOptionEqualToValue={(option, value) => option.id === value.id}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="District" />}
-        />
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          value={wardName}
-          onChange={onChangeWard}
-          options={newDataWard}
-          isOptionEqualToValue={(option, value) => option.id === value.id}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="Ward" />}
-        />
+        {newDataProvince && (
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            value={provinceName}
+            options={newDataProvince}
+            onChange={onChangeProvince}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="Province" />}
+          />
+        )}
+        {newDataDistrict && (
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={newDataDistrict}
+            value={districtName}
+            onChange={onChangeDistrict}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="District" />}
+          />
+        )}
+        {newDataWard && (
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            value={wardName}
+            onChange={onChangeWard}
+            options={newDataWard}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="Ward" />}
+          />
+        )}
       </div>
       <div className="flex flex-row-reverse mt-5">
         <Button variant="contained" size="large" onClick={handleButtonConfirm}>
