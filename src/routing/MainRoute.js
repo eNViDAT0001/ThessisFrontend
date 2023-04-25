@@ -26,7 +26,7 @@ export const MainRoute = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<AdminLayOut />}>
-          <Route path="/admin/:id" element={<AdminPage />} />
+          <Route path="/admin/*" element={<AdminPage />} />
         </Route>
         <Route element={<UserLayout />}>
           <Route path="/" element={<HomePage />} />

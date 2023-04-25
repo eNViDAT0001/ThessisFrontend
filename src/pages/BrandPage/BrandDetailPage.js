@@ -19,9 +19,8 @@ export const BrandDetailPage = () => {
 
   useEffect(() => {
     dispatch(setProviderIDInProductInDetailBrand(id))
-    
     window.scrollTo(0, 0);
-  }, []);
+  }, [dispatch,id]);
   return (
     <div className=" w-screen bg-gradient-to-r from-[#29323c] to-[#485563] p-10 ">
       <div className="flex flex-col space-y-9">

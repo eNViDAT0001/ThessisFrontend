@@ -103,8 +103,8 @@ const PhoneAndEmail = (props) => {
               <InputLabel htmlFor="input-with-icon-adornment">Email</InputLabel>
               <Input
                 id="input-with-icon-adornment"
-                disabled={isUpdateEmail && !isValidEmail}
-                error={!isValidEmail}
+                disabled={!isUpdateEmail}
+                error={isUpdateEmail && !isValidEmail}
                 onChange={handleChangeEmail}
                 defaultValue={email}
                 startAdornment={

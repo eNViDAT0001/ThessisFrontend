@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import HeaderBar from "../../components/Common/HeaderBar";
 import { ListProductInCategory } from "../../components/Category/ListProductInCategory";
 import { FilterCategory } from "../../components/Category/Filter/FilterCategory";

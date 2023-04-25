@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useUserDetail, useUserID } from "../../app/hook/UserHook";
 import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 export const Header = () => {
   const userID = useUserID();
@@ -15,28 +16,33 @@ export const Header = () => {
         <div className="flex justify-between items-center">
           <div className="flex flex-row space-x-10 font-['Inter'] font-normal text-[#FFFFFF] text-sm uppercase ">
             <div className="flex flex-row space-x-2 items-center">
-              <EmailIcon fontSize="small"/>
+              <EmailIcon fontSize="small" />
               <h1 className="">{userDetail.email}</h1>
             </div>
             <div className="flex flex-row space-x-2 items-center">
-              <LocalPhoneIcon fontSize="small"/>
+              <LocalPhoneIcon fontSize="small" />
               <h1 className="">{userDetail.phone}</h1>
             </div>
           </div>
-          <Link
-            to={`account-detail/${userID}`}
-            className="hover:cursor-pointer"
-          >
-            {userDetail.avatar ? (
-              <img
-                src={userDetail.avatar}
-                alt="avatar"
-                className="w-[30px] h-[30px] rounded-full"
-              ></img>
-            ) : (
-              <AccountCircleIcon sx={{ width: 30, height: 30 }} />
-            )}
-          </Link>
+          <div className="flex flex-row space-x-4">
+            <Link to={`admin/${userID}`} className="hover:cursor-pointer">
+              <AdminPanelSettingsIcon sx={{ color: "white" }}/>
+            </Link>
+            <Link
+              to={`account-detail/${userID}`}
+              className="hover:cursor-pointer"
+            >
+              {userDetail.avatar ? (
+                <img
+                  src={userDetail.avatar}
+                  alt="avatar"
+                  className="w-[30px] h-[30px] rounded-full"
+                ></img>
+              ) : (
+                <AccountCircleIcon sx={{ width: 30, height: 30, color: "white" }} />
+              )}
+            </Link>
+          </div>
         </div>
       </div>
     </div>
