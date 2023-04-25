@@ -1,6 +1,8 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { UserApi } from "../../api/UserApi";
+import { setListUserInAdmin } from "../slices/UserSlice";
+import { useEffect } from "react";
 
 export const useUserInformation = () =>
   useSelector((state) => state.user.userInformation);
@@ -8,6 +10,27 @@ export const useUserInformation = () =>
 export const useUserID = () => JSON.parse(localStorage.getItem("UserID")) - 0;
 
 export const useUserDetail = () => JSON.parse(localStorage.getItem("UserInWeb"));
+
+export const useListUser = () =>  useSelector((state) => state.user.listUserInAdmin);
+
+
+export const useFetchListUser = async (filters) => {
+  const dispatch = useDispatch();
+  
+  await useEffect(() => {
+    dispatch(fetchListUser(filters));
+  }, [dispatch,filters]);
+};
+
+export const fetchListUser = (filters) => async(dispatch) =>{
+  try {
+    const response = await UserApi.GetListUser(filters);
+    console.log(response.data.data)
+    dispatch(setListUserInAdmin(response.data.data));
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 export const updateUser = async (userID, body, birthday, avatar) => {
   await UserApi.UpdateUser(userID, body).then((res) => {

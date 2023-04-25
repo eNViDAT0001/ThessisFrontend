@@ -7,6 +7,9 @@ import StorefrontIcon from "@mui/icons-material/Storefront";
 import CategoryIcon from "@mui/icons-material/Category";
 import AdUnitsIcon from "@mui/icons-material/AdUnits";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { UserTab } from "./UserTab";
+import { OrderTab } from "./OrderTab";
+import { ProductTab } from "./ProductTab";
 
 export const Layout = () => {
   const [activeTab, setActiveTab] = useState(null);
@@ -20,19 +23,19 @@ export const Layout = () => {
       id: 1,
       title: "User",
       img: <PersonIcon />,
-      component: <div>Tab 1 content</div>,
+      component: <UserTab />,
     },
     {
       id: 2,
       title: "Order",
       img: <MonetizationOnIcon />,
-      component: <div>Tab 2 content</div>,
+      component: <OrderTab />,
     },
     {
       id: 3,
       title: "Product",
       img: <InventoryIcon />,
-      component: <div>Tab 3 content</div>,
+      component: <ProductTab />,
     },
     {
       id: 4,
@@ -61,15 +64,15 @@ export const Layout = () => {
   ];
 
   return (
-    <div className="flex h-screen space-x-4">
-      <div className="w-[20%] rounded-2xl bg-white">
+    <div className="flex space-x-4">
+      <div className="w-[20%] bg-white">
         <Navigation
           tabs={tabs}
           activeTab={activeTab}
           onTabClick={handleTabClick}
         />
       </div>
-      <div className="w-full bg-white rounded-2xl">
+      <div className="w-full bg-white rounded-xl">
         {activeTab && activeTab.component}
       </div>
     </div>
@@ -91,7 +94,7 @@ const NavItem = ({ tab, active, onClick }) => {
   
     return (
       <button
-        className={`flex justify-start py-2 px-4 my-2 rounded-xl ${activeStyles} w-full`}
+        className={`flex justify-start py-2 px-4 my-2 rounded-md ${activeStyles} w-full`}
         onClick={handleClick}
       >
         <div className="flex flex-row space-x-4 ">
@@ -104,7 +107,7 @@ const NavItem = ({ tab, active, onClick }) => {
 
 const Navigation = ({ tabs, activeTab, onTabClick }) => {
   return (
-    <div className="pt-4">
+    <div className="p-4">
       {tabs.map((tab) => (
         <NavItem
           key={tab.id}

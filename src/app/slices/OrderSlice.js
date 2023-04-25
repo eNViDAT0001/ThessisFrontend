@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     listOrderInProvider:[],
     listOrderInAccount:[],
+    listOrderInAdmin:[],
     metaInOrderInAccount:{},
 };
 
@@ -16,6 +17,9 @@ const orderSlice = createSlice({
     setListOrderInAccount: (state,action) =>{
       state.listOrderInAccount = action.payload;
     },
+    setListOrderInAdmin: (state,action) =>{
+      state.listOrderInAdmin = action.payload;
+    },
     setMetaInOrderInAccount: (state,action) =>{
       state.metaInOrderInAccount= action.payload
     }
@@ -25,7 +29,8 @@ const orderSlice = createSlice({
 export const {
     setListOrderInProvider,
     setListOrderInAccount,
-    setMetaInOrderInAccount
+    setListOrderInAdmin,
+    setMetaInOrderInAccount,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

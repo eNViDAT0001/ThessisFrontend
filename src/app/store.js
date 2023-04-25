@@ -9,6 +9,7 @@ import AddressReducer from './slices/AddressSlice'
 import CartReducer from './slices/CartSlice'
 import QueryReducer from './slices/QuerySlice'
 import CommentReducer from './slices/CommentSlice'
+import UserReducer from './slices/UserSlice'
 
 
 export const store = configureStore({
@@ -23,6 +24,7 @@ export const store = configureStore({
     cart: CartReducer,
     query: QueryReducer,
     comment: CommentReducer,
+    user: UserReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

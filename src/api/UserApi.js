@@ -2,6 +2,10 @@ import axiosClient from "./Client";
 
 
 export const UserApi = {
+  GetListUser: (filter) =>{
+    const url = `users?${filter}`
+    return axiosClient.get(url)
+  },
   DetailUser: (id) => {
     const url = `users/${id}`;
     return axiosClient.get(url);

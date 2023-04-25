@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 
 const initialState = {
-    userInformation:{}
+    userInformation:{},
+    listUserInAdmin:[],
 }
 
 const userSlice = createSlice({
@@ -12,11 +13,15 @@ const userSlice = createSlice({
       setUserInformation: (state, action) => {
         state.userInformation = action.payload;
       },
+      setListUserInAdmin: (state, action) => {
+        state.listUserInAdmin = action.payload;
+      },
     },
 })
 
 export const {
-    setUserInformation
+    setUserInformation,
+    setListUserInAdmin
 } = userSlice.actions
 
 export default userSlice.reducer

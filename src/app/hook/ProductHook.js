@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import {
   setDescriptionProduct,
   setImageProduct,
+  setListProductInAdmin,
   setMetaInProductInHome,
   setProductDetail,
   setProductForYou,
@@ -15,6 +16,7 @@ import {
 } from "../slices/ProductSlice";
 import { ProductApi } from "../../api/ProductApi";
 import { fetchCommentInProductDetail } from "./CommentHook";
+import { useEffect } from "react";
 
 export const useProductInHome = () =>
   useSelector((state) => state.product.productInHome);
@@ -280,4 +282,27 @@ export const checkValidAdd = (
   } else {
     return true;
   }
+};
+
+
+
+//admin
+
+export const useListProductInAdmin = () =>
+  useSelector((state) => state.product.listProductInAdmin);
+
+export const useFetchProductInAdmin = async (filter) => {
+  const dispatch = useDispatch();
+  
+  await useEffect(() => {
+    dispatch(fetchProductInAdmin(filter));
+  }, [dispatch,filter]);
+};
+
+const fetchProductInAdmin = (filter) => async (dispatch) => {
+  try {
+    await ProductApi.GetProductPreview(filter).then((res) => {
+      dispatch(setListProductInAdmin(res.data.data));
+    });
+  } catch (err) {}
 };

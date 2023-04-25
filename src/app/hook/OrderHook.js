@@ -10,6 +10,7 @@ export const useListOrderInProvider = () =>
 export const useListOrderInAccountDetail = () =>
   useSelector((state) => state.order.listOrderInAccount);
 
+
 export const updateStatus = async (idOrder, body) => {
   await OrderApi.UpdateStatus(idOrder, body).then((res) => {
     if (res.status == 200) {
@@ -40,7 +41,7 @@ export const useFetchOrderInProvider = async (id, filters) => {
   const dispatch = useDispatch();
   await useEffect(() => {
     dispatch(fetchOrderInProvider(id, filters));
-  }, []);
+  }, [dispatch,id,filters]);
 };
 
 const fetchOrderInProvider = (id, filters) => async (dispatch) => {

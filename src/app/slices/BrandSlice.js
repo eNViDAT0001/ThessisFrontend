@@ -8,6 +8,7 @@ const initialState = {
         image_path:"",
     },
     listProductInBrandDetail:[],
+    listShopInAdmin:[],
     metaInListBrand:{},
 };
 
@@ -33,6 +34,9 @@ const brandSlice = createSlice({
         setMetaInListBrand:(state,action)=>{
             state.metaInListBrand = action.payload
         },
+        setListShopInAdmin:(state,action) =>{
+            state.listShopInAdmin = action.payload
+        }
     }
 });
 
@@ -42,7 +46,8 @@ export const {
     setNameInAddForm,
     setFileUploadInAddForm,
     setListProductInBrandDetail,
-    setMetaInListBrand
+    setMetaInListBrand,
+    setListShopInAdmin
 } = brandSlice.actions;
 
 export default brandSlice.reducer;

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   productInHome: [],
   metaInProductInHome:{},
+  listProductInAdmin:[],
   productInCategory:[],
   productDetail:{},
   productForyou:[],
@@ -52,6 +53,9 @@ const productSlice = createSlice({
         setProductForYou:(state,action)=>{
             state.productForyou = action.payload
         },
+        setListProductInAdmin:(state,action)=>{
+            state.listProductInAdmin = action.payload
+        },
     }
 });
 
@@ -65,7 +69,8 @@ export const {
     setSpecificationProduct,
     reset,
     setOptionHandle,
-    setProductForYou
+    setProductForYou,
+    setListProductInAdmin
 } = productSlice.actions;
 
 export default productSlice.reducer;
