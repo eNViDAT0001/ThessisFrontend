@@ -78,7 +78,7 @@ export const LoginForm = () => {
             </Box>
           </div>
           <Link 
-            to="/reset"
+            to="/forget-password"
             className="flex flex-row-reverse">
             <h1 className="font-[Lato] mt-3 text-[#9096B2] hover:underline">Forgot password ?</h1>
           </Link>

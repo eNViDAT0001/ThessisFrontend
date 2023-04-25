@@ -20,6 +20,8 @@ import ShoppingOrderPage from "../pages/ShoppingOrderPage/ShoppingOrderPage";
 import { CategoryPage } from "../pages/CategoryPage/CategoryPage";
 import { AccountOrderPage } from "../pages/AccountPage/AccountOrderPage";
 import { AdminPage } from "../pages/AdminPage/AdminPage";
+import { ResetPasswordForm } from "../components/Auth/ResetPasswordForm";
+import { ResetPage } from "../pages/AuthPage/ResetPage";
 
 export const MainRoute = () => {
   return (
@@ -38,8 +40,14 @@ export const MainRoute = () => {
           <Route path="/shopping-order/:id" element={<ShoppingOrderPage />} />
           <Route path="/account-detail/:id" element={<AccountDetailPage />} />
           <Route path="/account-address/:id" element={<AccountAddressPage />} />
-          <Route path="/account-address/create" element={<CreateAddressPage />} />
-          <Route path="/account-address/:id/edit" element={<FixAddressPage />} />
+          <Route
+            path="/account-address/create"
+            element={<CreateAddressPage />}
+          />
+          <Route
+            path="/account-address/:id/edit"
+            element={<FixAddressPage />}
+          />
           <Route path="/account-order/:id" element={<AccountOrderPage />} />
           <Route path="/contact" element={<ContactPage />} />
 
@@ -51,6 +59,7 @@ export const MainRoute = () => {
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route element={<LoginLayOut />}>
+          <Route path="/forget-password" element={<ResetPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
         </Route>
