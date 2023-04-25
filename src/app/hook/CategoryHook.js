@@ -103,7 +103,7 @@ const fetchListTreeCategory = () => async (dispatch) => {
         children: treeBuild,
       };
       result.push(newTree);
-      dispatch(setListTreeCategory(treeBuild));
+      dispatch(setListTreeCategory(result));
     });
   } catch (err) {}
 };

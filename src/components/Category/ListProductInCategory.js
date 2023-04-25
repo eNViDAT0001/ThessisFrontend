@@ -13,7 +13,9 @@ export const ListProductInCategory = (props) => {
   return (
     <div>
       {listProduct.length === 0 ? (
-        <ProductNotAvailable />
+        <div className="flex justify-center">
+          <ProductNotAvailable />
+        </div>
       ) : (
         <div>
           {listProduct.map((data) => (

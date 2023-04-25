@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ProviderApi } from "../../api/ProviderApi";
 import {
@@ -45,15 +45,13 @@ export const useFetchListProductInBrandDetail = async (filter) => {
   const loadDataListProductInBrandDetail = useCallback(async () => {
     dispatch(fetchListProductInBrandDetail(filter));
   }, [filter, dispatch]);
-  await useEffect(() => {
+  await useLayoutEffect(() => {
     loadDataListProductInBrandDetail();
   }, [loadDataListProductInBrandDetail]);
 };
 
-export const fetchListProductInBrandDetail =
-  (filterRow) => async (dispatch) => {
+export const fetchListProductInBrandDetail = (filter)=> async (dispatch) => {
     try {
-      const filter = convertObjectToStringQuery(filterRow);
       const response = await ProductApi.GetProductPreview(filter);
       dispatch(setListProductInBrandDetail(response.data.data));
     } catch (err) {

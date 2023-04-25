@@ -18,7 +18,7 @@ import { useDispatch } from "react-redux";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#FB2E86",
+    backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -51,7 +51,9 @@ export const TableAddress = (props) => {
   return (
     <div>
       <ToastContainer position="top-right" newestOnTop />
-      {addressSave.length==0 ? (<div>YOU DON'T HAVE ADDRESS</div>) : (
+      {addressSave.length == 0 ? (
+        <div>YOU DON'T HAVE ADDRESS</div>
+      ) : (
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>

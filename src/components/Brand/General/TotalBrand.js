@@ -11,11 +11,11 @@ export const TotalBrand = () => {
         <AssessmentIcon sx={{ width: 40, height: 40 }} />
         <div className="flex flex-col justify-between">
           <h1 className=" text-base text-[#B1B5B5]">Total brand</h1>
-          {!checkObjectEmpty(metaInListBrand) && (
-            <h1 className=" text-3xl font-[Verdana]">
-              {metaInListBrand.paging.Count}
-            </h1>
-          )}
+          <h1 className=" text-3xl font-[Verdana]">
+            {!checkObjectEmpty(metaInListBrand)
+              ? metaInListBrand.paging.Count
+              : 0}
+          </h1>
         </div>
       </div>
     </div>

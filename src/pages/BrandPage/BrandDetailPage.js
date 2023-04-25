@@ -7,6 +7,7 @@ import { ProductInDetailBrand } from "../../components/Brand/Detail/ProductInDet
 import { useFetchListProductInBrandDetail, useFilterInProductInBrandDetail } from "../../app/hook/BrandHook";
 import { useDispatch } from "react-redux";
 import { setProviderIDInProductInDetailBrand } from "../../app/slices/QuerySlice";
+import { convertObjectToStringQuery } from "../../app/hook/CommonHook";
 
 export const BrandDetailPage = () => {
   const { id } = useParams();
@@ -15,7 +16,7 @@ export const BrandDetailPage = () => {
   const filter = useFilterInProductInBrandDetail()
 
   useFetchOrderInProvider(id);
-  useFetchListProductInBrandDetail(filter);
+  useFetchListProductInBrandDetail(convertObjectToStringQuery(filter));
 
   useEffect(() => {
     dispatch(setProviderIDInProductInDetailBrand(id))

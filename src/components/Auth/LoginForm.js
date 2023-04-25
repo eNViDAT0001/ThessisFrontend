@@ -31,10 +31,7 @@ export const LoginForm = () => {
     }
   };
 
-  const handleGmailLoginButton = async(e) =>{
-
-
-  }
+  const handleGmailLoginButton = async (e) => {};
   return (
     <div className="w-[60%] w-max-[200px] shadow-lg border p-[50px] mb-20 min-w-[300px] ">
       <ToastContainer position="top-right" newestOnTop />
@@ -80,6 +77,11 @@ export const LoginForm = () => {
               />
             </Box>
           </div>
+          <Link 
+            to="/reset"
+            className="flex flex-row-reverse">
+            <h1 className="font-[Lato] mt-3 text-[#9096B2] hover:underline">Forgot password ?</h1>
+          </Link>
           <div className="flex flex-row">
             <button
               className="w-full h-[40px] h-max-[70px] bg-[#FF1788] text-white  mt-5 mb-5"
@@ -89,8 +91,7 @@ export const LoginForm = () => {
               Sign in
             </button>
             <Divider orientation="vertical" flexItem />
-            <GoogleLoginButton onClick={handleGmailLoginButton} />
-
+            {/* <GoogleLoginButton onClick={handleGmailLoginButton} /> */}
           </div>
         </div>
         <Divider>Or</Divider>

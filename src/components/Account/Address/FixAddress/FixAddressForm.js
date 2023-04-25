@@ -153,7 +153,7 @@ export const FixAddressForm = (props) => {
                 value={provinceName}
                 options={newDataProvince}
                 onChange={onChangeProvince}
-                isOptionEqualToValue={(option, value) => option.id === value.id}
+                isOptionEqualToValue={(option, value) => (value) && (option) && (option.id === value.id)}
                 sx={{ width: 300 }}
                 renderInput={(params) => (
                   <TextField {...params} label="Province" />

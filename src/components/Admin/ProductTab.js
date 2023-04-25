@@ -26,7 +26,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
@@ -63,8 +62,6 @@ export const ProductTab = () => {
                 <StyledTableCell align="left">Name</StyledTableCell>
                 <StyledTableCell align="left">Price</StyledTableCell>
                 <StyledTableCell align="left">Discount</StyledTableCell>
-                <StyledTableCell align="left">Created at</StyledTableCell>
-                <StyledTableCell align="left">Updated at</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -85,12 +82,12 @@ export const ProductTab = () => {
                   <StyledTableCell align="left">{row.name}</StyledTableCell>
                   <StyledTableCell align="left">{row.price}</StyledTableCell>
                   <StyledTableCell align="left">{row.discount}</StyledTableCell>
-                  <StyledTableCell align="left">
+                  {/* <StyledTableCell align="left">
                     {row.created_at}
                   </StyledTableCell>
                   <StyledTableCell align="left">
                     {row.updated_at}
-                  </StyledTableCell>
+                  </StyledTableCell> */}
                 </StyledTableRow>
               ))}
             </TableBody>

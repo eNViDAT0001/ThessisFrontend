@@ -6,7 +6,7 @@ import {
 import { useDispatch } from "react-redux";
 import { setLimitInFilterCategory} from "../../../app/slices/QuerySlice";
 
-export const TopFilter = () => {
+export const TopFilter = (props) => {
   const categoryHandle = useCategoryHandle();
   const listProduct = useListProductInCategory() || [];
   const dispatch = useDispatch()
@@ -25,7 +25,7 @@ export const TopFilter = () => {
   return (
     <div className="my-10 flex flex-row justify-between items-center">
       <div className="flex flex-col space-y-4">
-        <h1 className=" text-[#151875] text-xl">{categoryHandle.name}</h1>
+        <h1 className=" text-[#151875] text-xl">{((props.id == 0) || !categoryHandle)? "All" : categoryHandle.name}</h1>
         <h1 className=" text-[#8A8FB9] text-base font-['Lato']">
           About {listProduct.length} results
         </h1>

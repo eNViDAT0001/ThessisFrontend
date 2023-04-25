@@ -31,7 +31,7 @@ const initialState = {
     },
     marker: {
       type: null,
-      value: 6,
+      value: null,
     },
   },
 
@@ -168,7 +168,7 @@ const querySlice = createSlice({
       state.productInDetailBrand.name.value = action.payload;
     },
     setPageInProductInDetailBrand: (state, action) => {
-      state.productInDetailBrand.page.value = action.payload;
+      state.productInDetailBrand.marker.value = action.payload;
     },
     setLimitInProductInDetailBrand: (state, action) => {
       state.productInDetailBrand.limit.value = action.payload;
@@ -241,7 +241,7 @@ export const {
 
   setStatusInOrderInAccount,
   setPageInOrderInAccount,
-  setLimitInOrderInAccount
+  setLimitInOrderInAccount,
 } = querySlice.actions;
 
 export default querySlice.reducer;

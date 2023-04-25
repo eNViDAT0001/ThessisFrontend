@@ -19,14 +19,14 @@ export const CategoryPage = () => {
   const queryString = window.location.search.substring(1);
   const location = useLocation();
   const filter = useFilterCategory();
-  const categoryHandle = useCategoryHandle()
+  const categoryHandle = useCategoryHandle();
 
   useEffect(() => {
     const debouncedNavigate = debounce(() => {
       navigate({
         pathname: location.pathname,
         search: convertObjectToStringQuery(filter),
-      });      
+      });
     }, 300);
 
     debouncedNavigate();
@@ -44,10 +44,14 @@ export const CategoryPage = () => {
 
   return (
     <div>
-      <HeaderBar name1="Home .Products ." name2={categoryHandle.name} />
+        <HeaderBar
+          name1="Home .Products ."
+          name2={((id == 0) || !categoryHandle) ? "All" : categoryHandle.name}
+        />
+      
       <div className="flex justify-center font-['Josefin_Sans'] ">
         <div className="w-[78%]">
-          <TopFilter />
+          <TopFilter id={id} />
           <div className="flex flex-row justify-between my-[100px] space-x-10 w-full">
             <div className="flex flex-col w-[30%]">
               <FilterCategory id={id} />

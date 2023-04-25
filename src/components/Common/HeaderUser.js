@@ -22,7 +22,7 @@ const LinkInHeader = [
   },
   {
     name: "Category",
-    link: "/category/1",
+    link: "/category/0",
   },
   {
     name: "Contact",

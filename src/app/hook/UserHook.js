@@ -75,3 +75,30 @@ export const updateEmailUser = async (userID, body, email) => {
     });
   });
 };
+
+export const resetPassword = async (userID, body) => {
+  await UserApi.UpdateNewPassword(userID, body).then((res) => {
+    switch (res.status) {
+      case 200:
+        toast("Change password successfully", {
+          type: "success",
+          autoClose: 1000,
+          Close: setTimeout(() => window.location.reload(), 1000),
+        });
+        break;
+      case 204:
+        toast("Change password failed ", {
+          type: "error",
+          autoClose: 1000,
+          Close: setTimeout(() => window.location.reload(), 1000),
+        });
+        break;
+      default:
+        toast("An unknown error", {
+          type: "error",
+          autoClose: 1000,
+          Close: setTimeout(() => window.location.reload(), 1000),
+        });
+      }
+  });
+};

@@ -42,12 +42,12 @@ export const Bill = () => {
       <ToastContainer position="top-right" newestOnTop />
       <div className=" border-b-2 border-[#E8E6F1] flex justify-between">
         <h1 className=" text-[#1D3178] text-lg">Subtotal :</h1>
-        <h1 className=" text-[#1D3178] text-lg">0đ</h1>
+        <h1 className=" text-[#1D3178] text-lg">0$</h1>
       </div>
       <div className=" border-b-2 border-[#E8E6F1] flex justify-between">
         <h1 className=" text-[#1D3178] text-lg">Total :</h1>
         <h1 className=" text-[#1D3178] text-lg">
-          {currencyFormat(parseInt(totalPrice))}đ
+          {currencyFormat(parseInt(totalPrice))}$
         </h1>
       </div>
       <Button

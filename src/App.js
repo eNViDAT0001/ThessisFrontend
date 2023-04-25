@@ -2,7 +2,9 @@ import { MainRoute } from "./routing/MainRoute";
 
 function App() {
   return (
-    <MainRoute />
+    <div className="bg-white text-black">
+      <MainRoute />
+    </div>
   );
 }
 

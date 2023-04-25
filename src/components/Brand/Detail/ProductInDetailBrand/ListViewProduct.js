@@ -37,81 +37,86 @@ const noImgAvailable =
 
 export const ListViewProduct = () => {
   const listProductInBrand = useListProductInBrandDetail() || [];
-  console.log(listProductInBrand)
-  const handleDeleteButton = (e) => {
-    
-  };
+
+  const handleDeleteButton = (e) => {};
 
   return (
     <div className="space-y-3">
-      <h1 className="font-bold text-xl">Table product:</h1>
-      <div>
-        <ToastContainer position="top-right" newestOnTop />
+      {listProductInBrand.length === 0 ? (
+        <div className=" uppercase">This shop has no products</div>
+      ) : (
+        <div>
+          <h1 className="font-bold text-xl">Table product:</h1>
 
-        <TableContainer component={Paper}>
-          <Table aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>ID</StyledTableCell>
-                <StyledTableCell>Image</StyledTableCell>
-                <StyledTableCell align="center">Name Product</StyledTableCell>
-                <StyledTableCell align="left">Price</StyledTableCell>
-                <StyledTableCell align="center">Discount</StyledTableCell>
-                <StyledTableCell align="center">Action</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {listProductInBrand.length === 0 ? (
-                <div></div>
-              ) : (
-                listProductInBrand.map((row) => (
-                  <StyledTableRow key={row.id}>
-                    <StyledTableCell align="left">{row.id}</StyledTableCell>
+          <div>
+            <ToastContainer position="top-right" newestOnTop />
 
-                    <StyledTableCell
-                      component="th"
-                      scope="row"
-                      sx={{ width: 150, padding: 1 }}
-                    >
-                      <img
-                        src={
-                          !row.media ? noImgAvailable : row.media[0].mediaPath
-                        }
-                        alt="Anh san pham"
-                        className="w-[100px] h-[100px]"
-                      ></img>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">{row.name}</StyledTableCell>
-
-                    <StyledTableCell align="left">
-                      {currencyFormat(row.price)}đ
-                    </StyledTableCell>
-                    <StyledTableCell
-                      align="center"
-                      sx={{ width: 20, padding: 1 }}
-                    >
-                      <div className=" py-1 border border-[#C40201] text-[#C40201]">
-                        {`${row.discount}%`}
-                      </div>
-                    </StyledTableCell>
+            <TableContainer component={Paper}>
+              <Table aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>ID</StyledTableCell>
+                    <StyledTableCell>Image</StyledTableCell>
                     <StyledTableCell align="center">
-                      <IconButton
-                        id={row.id}
-                        color="primary"
-                        aria-label="upload picture"
-                        component="label"
-                        onClick={handleDeleteButton}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
+                      Name Product
                     </StyledTableCell>
-                  </StyledTableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+                    <StyledTableCell align="left">Price</StyledTableCell>
+                    <StyledTableCell align="center">Discount</StyledTableCell>
+                    <StyledTableCell align="center">Action</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {listProductInBrand.map((row) => (
+                    <StyledTableRow key={row.id}>
+                      <StyledTableCell align="left">{row.id}</StyledTableCell>
+
+                      <StyledTableCell
+                        component="th"
+                        scope="row"
+                        sx={{ width: 150, padding: 1 }}
+                      >
+                        <img
+                          src={
+                            !row.media ? noImgAvailable : row.media[0].mediaPath
+                          }
+                          alt="Anh san pham"
+                          className="w-[100px] h-[100px]"
+                        ></img>
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.name}
+                      </StyledTableCell>
+
+                      <StyledTableCell align="left">
+                        {currencyFormat(row.price)}đ
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="center"
+                        sx={{ width: 20, padding: 1 }}
+                      >
+                        <div className=" py-1 border border-[#C40201] text-[#C40201]">
+                          {`${row.discount}%`}
+                        </div>
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        <IconButton
+                          id={row.id}
+                          color="primary"
+                          aria-label="upload picture"
+                          component="label"
+                          onClick={handleDeleteButton}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
