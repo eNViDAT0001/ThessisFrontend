@@ -6,8 +6,6 @@ const initialState = {
   discount: 0,
   price: 0,
   media: [],
-  description_name: "",
-  description_md: [],
   specification_name: "",
   options: [
     {
@@ -15,6 +13,13 @@ const initialState = {
         name: "",
         price: 0,
         quantity: 0,
+    }
+  ],
+  descriptions:[
+    {
+      id: 0,
+      description_name:"",
+      description_md: ""
     }
   ],
 };
@@ -39,23 +44,19 @@ const AddProductSlice = createSlice({
     addFileInMedia: (state, action) => {
       state.media.push(action.payload);
     },
+
     setMedia: (state, action) => {
       state.media = action.payload;
     },
-    addFileInDescription: (state, action) => {
-      state.description_md.push(action.payload);
-    },
-    setDescriptionName: (state, action) => {
-      state.description_name = action.payload;
-    },
-    setDescriptionMD: (state, action) => {
-      state.description_md = action.payload;
-    },
+
     setSpecificationName: (state, action) => {
       state.specification_name = action.payload;
     },
     setDataOption: (state, action) => {
       state.options = action.payload;
+    },
+    setDescriptions:(state, action) => {
+      state.descriptions = action.payload;
     },
   },
 });
@@ -68,10 +69,10 @@ export const {
   setPrice,
   setMedia,
   addFileInMedia,
-  setDescriptionName,
-  setDescriptionMD,
   setSpecificationName,
   addFileInDescription,
   setDataOption,
+  setDescriptions,
+  addDescriptionResponse
 } = AddProductSlice.actions;
 export default AddProductSlice.reducer;

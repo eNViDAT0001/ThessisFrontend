@@ -5,10 +5,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
 import {
   deleteAddressSelect,
-  getSelectedIds,
   useListAddress,
 } from "../../../app/hook/AddressHook";
 import { useEffect } from "react";
+import { getSelectedIds } from "../../../app/hook/CommonHook";
 export const AddressList = (props) => {
   const listAddress = useListAddress();
 
@@ -27,6 +27,7 @@ export const AddressList = (props) => {
 
     deleteAddressSelect(userID, body);
   };
+  
   useEffect(() => {
     if (getSelectedIds(listAddress).length === 0) setDisableButtonDelete(true);
     else setDisableButtonDelete(false);

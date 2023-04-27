@@ -80,7 +80,7 @@ export const ProductOverview = () => {
                             (data.price * (100 - data.discount)) / 100
                           )}
                         </h1>
-                        <h1 className=" text-xl">$</h1>
+                        <h1 className=" text-xl">đ</h1>
                       </div>
                     </div>
                   </Link>

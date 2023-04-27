@@ -37,14 +37,8 @@ export const addNewOrder = (body) => {
   });
 };
 
-export const useFetchOrderInProvider = async (id, filters) => {
-  const dispatch = useDispatch();
-  await useEffect(() => {
-    dispatch(fetchOrderInProvider(id, filters));
-  }, [dispatch,id,filters]);
-};
 
-const fetchOrderInProvider = (id, filters) => async (dispatch) => {
+export const fetchOrderInProvider = (id, filters) => async (dispatch) => {
   try {
     const response = await OrderApi.GetOrderFromProvider(id, filters);
     dispatch(setListOrderInProvider(response.data.data));

@@ -18,4 +18,8 @@ export const UserApi = {
     const url = `users/${id}`;
     return axiosClient.put(url, { ...body });
   },
+  BanListUser: (body) =>{
+    const url = `users`;
+    return axiosClient.delete(url,{ data: body })
+  }
 };

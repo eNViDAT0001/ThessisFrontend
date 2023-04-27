@@ -60,7 +60,7 @@ export const useFetchAddressDetail = async (addressID, userID) => {
   const dispatch = useDispatch();
   const loadAddressDetail = useCallback(async () => {
     dispatch(fetchAddressDetail(addressID, userID));
-  },[dispatch,addressID,userID]);
+  }, [dispatch, addressID, userID]);
   useEffect(() => {
     loadAddressDetail();
   }, [loadAddressDetail]);
@@ -70,7 +70,7 @@ export const useFetchListAddress = async (userID) => {
   const dispatch = useDispatch();
   const loadDataAddress = useCallback(async () => {
     dispatch(fetchListAddress(userID));
-  },[dispatch,userID]);
+  }, [dispatch, userID]);
   useEffect(() => {
     loadDataAddress();
   }, [loadDataAddress]);
@@ -87,13 +87,13 @@ export const useFetchInformationInAddAddress = async (
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await dispatch(fetchListProvince()).then(()=>{
+        await dispatch(fetchListProvince()).then(() => {
           if (districtID !== prevDistrict.current) {
             return dispatch(fetchListWard(districtID));
           } else if (provinceID !== prevProvince.current) {
             return dispatch(fetchListDistrict(provinceID));
           }
-        })
+        });
         prevProvince.current = provinceID;
         prevDistrict.current = districtID;
       } catch (error) {}
@@ -177,7 +177,7 @@ export const saveNewAddress = (
       street: street,
     };
     AddressApi.AddSaveAddress(user_id, body)
-      .then((res) => {
+      .then(() => {
         toast("Add new address successful", {
           type: "success",
           autoClose: 1000,
@@ -196,29 +196,29 @@ export const saveNewAddress = (
   }
 };
 
-export const updateAddress = async(addressID,userID, body) =>{
+export const updateAddress = async (addressID, userID, body) => {
   await AddressApi.UpdateAddress(addressID, userID, body)
-  .then(() => {
-    toast("Update address successful", {
-      type: "success",
-      autoClose: 2000,
-      Close: setTimeout(
-        () => window.location.replace(`/account-detail/${userID}`),
-        2000
-      ),
+    .then(() => {
+      toast("Update address successful", {
+        type: "success",
+        autoClose: 2000,
+        Close: setTimeout(
+          () => window.location.replace(`/account-detail/${userID}`),
+          2000
+        ),
+      });
+    })
+    .catch(() => {
+      toast("Update address fail", {
+        type: "error",
+        autoClose: 2000,
+        Close: setTimeout(
+          () => window.location.replace(`/account-detail/${userID}`),
+          2000
+        ),
+      });
     });
-  })
-  .catch(() => {
-    toast("Update address fail", {
-      type: "error",
-      autoClose: 2000,
-      Close: setTimeout(
-        () => window.location.replace(`/account-detail/${userID}`),
-        2000
-      ),
-    });
-  });
-}
+};
 export const resetForm = () => (dispatch) => {
   dispatch(setNameInFormCreate(""));
   dispatch(setPhoneInFormCreate(""));
@@ -232,7 +232,7 @@ export const resetAddressSelected = () => (dispatch) => {
 };
 
 export const selectAddress = (arr, addressID) => {
-  if(!Array.isArray(arr)) return []
+  if (!Array.isArray(arr)) return [];
   return arr.map((address) => {
     if (address.id === addressID) {
       return {
@@ -243,16 +243,3 @@ export const selectAddress = (arr, addressID) => {
     return address;
   });
 };
-
-export const getSelectedIds = (arr) => {
-  if(!Array.isArray(arr)) return []
-  const selectedIds = []
-  for (const obj of arr) {
-    if (obj.isSelected) {
-      selectedIds.push(obj.id);
-    }
-  }
-  return selectedIds;
-};
-
-

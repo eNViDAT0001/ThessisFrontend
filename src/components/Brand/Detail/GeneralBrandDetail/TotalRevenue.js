@@ -21,7 +21,7 @@ export const TotalRevenue = (props) => {
         <div className="flex flex-col justify-between">
           <h1 className=" text-base text-[#B1B5B5]">Revenue</h1>
           <h1 className=" text-3xl font-[Verdana]">
-            {currencyFormat(calculateDeliveredTotal(listOrder)) + "$"}
+            {currencyFormat(calculateDeliveredTotal(listOrder)) + "đ"}
           </h1>
         </div>
       </div>

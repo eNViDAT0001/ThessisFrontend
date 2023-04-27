@@ -12,7 +12,7 @@ const initialState = {
     },
     limit: {
       type: null,
-      value: 8,
+      value: 16,
     },
   },
 
@@ -102,7 +102,7 @@ const initialState = {
     },
     limit: {
       type: null,
-      value: 5,
+      value: null,
     },
   },
 

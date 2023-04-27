@@ -33,17 +33,14 @@ export const AddSpecification = () => {
   const handleChangeNameOption = async(e) =>{
     const id = e.target.id
     const nameValue = e.target.value
-
     const temp = JSON.parse(JSON.stringify(options))
     temp[id].name=nameValue
     dispatch(setDataOption([...temp]))
-
   }
 
   const handleChangePriceOption = async(e)=>{
     const id = e.target.id
     const priceValue = e.target.value
-
     const temp = JSON.parse(JSON.stringify(options))
     temp[id].price=parseInt(priceValue)
     dispatch(setDataOption([...temp]))

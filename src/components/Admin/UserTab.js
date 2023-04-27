@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -6,12 +6,21 @@ import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
+import Checkbox from "@mui/material/Checkbox";
 import { Paper, TableHead } from "@mui/material";
 import { ToastContainer } from "react-toastify";
+import { Button } from "@mui/material";
+import BlockIcon from "@mui/icons-material/Block";
 import "react-toastify/ReactToastify.min.css";
-import { useFetchListUser, useListUser } from "../../app/hook/UserHook";
-import { convertDate } from "../../app/hook/CommonHook";
+import {
+  banListUser,
+  selectUser,
+  useFetchListUser,
+  useListUser,
+} from "../../app/hook/UserHook";
+import { convertDate, getSelectedIds } from "../../app/hook/CommonHook";
+import { useDispatch } from "react-redux";
+import { setListUserInAdmin } from "../../app/slices/UserSlice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -34,12 +43,42 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export const UserTab = () => {
-  useFetchListUser();
+  const dispatch = useDispatch();
 
   const listUsers = useListUser() || [];
+  useFetchListUser();
 
+  const [disableButtonDelete, setDisableButtonDelete] = useState(true);
+
+  const handleCheckUser = (userID) => {
+    const newUser = selectUser(listUsers, userID);
+    dispatch(setListUserInAdmin(newUser));
+  };
+
+  const handleBanListUser = (e) => {
+    const listSelect = getSelectedIds(listUsers);
+    const body = {
+      ids: listSelect,
+    };
+    dispatch(banListUser(body))
+  };
+
+  useEffect(() => {
+    if (getSelectedIds(listUsers).length === 0) setDisableButtonDelete(true);
+    else setDisableButtonDelete(false);
+  }, [listUsers]);
   return (
     <div className="p-6 space-y-5">
+      <div>
+        <Button
+          disabled={disableButtonDelete}
+          variant="outlined"
+          startIcon={<BlockIcon />}
+          onClick={handleBanListUser}
+        >
+          Ban User
+        </Button>
+      </div>
       <h1 class=" text-lg font-bold">List users: </h1>
       <ToastContainer position="top-right" newestOnTop />
       {listUsers.length === 0 ? (
@@ -57,6 +96,7 @@ export const UserTab = () => {
           >
             <TableHead>
               <TableRow>
+                <StyledTableCell align="left">Select</StyledTableCell>
                 <StyledTableCell align="left">Avatar</StyledTableCell>
                 <StyledTableCell align="left">Username</StyledTableCell>
                 <StyledTableCell align="left">Name</StyledTableCell>
@@ -80,6 +120,13 @@ export const UserTab = () => {
                   hover
                   key={row.id}
                 >
+                  <StyledTableCell id={row.id} align="center">
+                    <Checkbox
+                      id={row.id}
+                      checked={row.isSelected}
+                      onClick={() => handleCheckUser(row.id)}
+                    />
+                  </StyledTableCell>
                   <StyledTableCell align="left">
                     {row.avatar ? (
                       <img

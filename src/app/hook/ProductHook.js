@@ -17,6 +17,7 @@ import {
 import { ProductApi } from "../../api/ProductApi";
 import { fetchCommentInProductDetail } from "./CommentHook";
 import { useEffect } from "react";
+import { uploadFileNotNotify } from "./FileHook";
 
 export const useProductInHome = () =>
   useSelector((state) => state.product.productInHome);
@@ -178,10 +179,8 @@ export const useOptions = () =>
   useSelector((state) => state.addProduct.options);
 export const useSpecificationName = () =>
   useSelector((state) => state.addProduct.specification_name);
-export const useDescriptionName = () =>
-  useSelector((state) => state.addProduct.description_name);
-export const useDescriptionMD = () =>
-  useSelector((state) => state.addProduct.description_md);
+export const useDescriptions = () =>
+  useSelector((state) => state.addProduct.descriptions);
 
 export const convertMediaToBody = (media) => {
   const listMedia = [];
@@ -195,8 +194,28 @@ export const convertMediaToBody = (media) => {
   });
   return listMedia;
 };
+const changeDescriptionToBody = async(descriptions) => {
+  const result = [];
+  await descriptions.map((data) => {
+    const formData = new FormData();
+    const fileText = new File([data.description_md], "filename.txt", {
+      type: "text/plain",
+    });
 
-export const convertBody = (
+    formData.append("files", fileText);
+    uploadFileNotNotify(formData).then((res) => {
+      const newRes = {
+        public_id: res.data[0].public_id,
+        name: data.description_name,
+        path: res.data[0].url,
+      };
+      result.push(newRes);
+    });
+  });
+
+  return result;
+};
+export const convertBodyAddProduct = async (
   category_id,
   name,
   discount,
@@ -204,11 +223,10 @@ export const convertBody = (
   media,
   specification_name,
   options,
-  description_name,
-  description_md
+  descriptions
 ) => {
   const body = {
-    category_id: category_id,
+    category_id: parseInt(category_id),
     name: name,
     discount: discount,
     price: price,
@@ -217,13 +235,13 @@ export const convertBody = (
       properties: specification_name,
     },
     options: options,
+    descriptions: await changeDescriptionToBody(descriptions),
   };
-
+  console.log(body)
   return body;
 };
 
 export const addProduct = async (idProvider, userID, body) => {
-  console.log(body);
   await ProductApi.AddNewProduct(idProvider, userID, body).then((res) => {
     toast("Add New Product Success", {
       type: "success",
@@ -273,18 +291,10 @@ export const checkValidAdd = (
       type: "warning",
       autoClose: 1000,
     });
-  } else if (description_name != "" && description_md.length == 0) {
-    toast("Need upload file md ", {
-      type: "warning",
-      autoClose: 1000,
-    });
-    return false;
   } else {
     return true;
   }
 };
-
-
 
 //admin
 
@@ -293,10 +303,10 @@ export const useListProductInAdmin = () =>
 
 export const useFetchProductInAdmin = async (filter) => {
   const dispatch = useDispatch();
-  
+
   await useEffect(() => {
     dispatch(fetchProductInAdmin(filter));
-  }, [dispatch,filter]);
+  }, [dispatch, filter]);
 };
 
 const fetchProductInAdmin = (filter) => async (dispatch) => {

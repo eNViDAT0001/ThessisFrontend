@@ -91,3 +91,13 @@ export const checkEmailFormat = (text) => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(text);
 };
+export const getSelectedIds = (arr) => {
+  if(!Array.isArray(arr)) return []
+  const selectedIds = []
+  for (const obj of arr) {
+    if (obj.isSelected) {
+      selectedIds.push(obj.id);
+    }
+  }
+  return selectedIds;
+};

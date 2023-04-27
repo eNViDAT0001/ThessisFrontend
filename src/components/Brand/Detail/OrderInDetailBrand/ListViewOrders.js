@@ -119,7 +119,7 @@ export const ListViewOrders = () => {
                       {row.quantity}{" "}
                     </StyledTableCell>
                     <StyledTableCell align="left">
-                      {currencyFormat(row.total)}$
+                      {currencyFormat(row.total)}đ
                     </StyledTableCell>
                     <StyledTableCell align="left">
                       <Autocomplete

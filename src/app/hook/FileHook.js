@@ -17,3 +17,14 @@ export const uploadFile = async (body) => {
     console.error("Error uploading file:", error);
   }
 };
+
+export const uploadFileNotNotify = async (body) => {
+  try {
+    const response = await fetch("http://localhost:8082/api/v1/files", {
+      method: "POST",
+      body: body,
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {}
+};

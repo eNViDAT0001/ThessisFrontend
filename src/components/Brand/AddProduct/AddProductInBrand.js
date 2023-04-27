@@ -15,10 +15,9 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import {
   addProduct,
   checkValidAdd,
-  convertBody,
+  convertBodyAddProduct,
   useCategoryId,
-  useDescriptionMD,
-  useDescriptionName,
+  useDescriptions,
   useDiscount,
   useMedia,
   useName,
@@ -26,9 +25,11 @@ import {
   usePrice,
   useSpecificationName,
 } from "../../../app/hook/ProductHook";
+import { useUserID } from "../../../app/hook/UserHook";
 
 export const AddProductInBrand = () => {
   const { id } = useParams(); //provider
+  const userID = useUserID();
   const [openButon, setOpenButton] = useState(true);
   const name = useName();
   const category_id = useCategoryId();
@@ -37,15 +38,20 @@ export const AddProductInBrand = () => {
   const media = useMedia();
   const options = useOptions();
   const specification_name = useSpecificationName();
-  const description_name = useDescriptionName();
-  const description_md = useDescriptionMD();
+  const descriptions = useDescriptions();
 
   const addNewProduct = (e) => {
-    if (
-      checkValidAdd(name,category_id,price,specification_name,media,description_name,description_md)
-    ) {
-    const body = convertBody(category_id,name,discount,price,media,specification_name,options,description_name,description_md);
-      addProduct(id, localStorage.getItem("UserID"), body);
+    if (checkValidAdd(name, category_id, price, specification_name, media)) {
+      const body = convertBodyAddProduct(
+        category_id,
+        name,
+        discount,
+        price,
+        media,
+        specification_name,
+        options,
+        descriptions
+      ).then(() => addProduct(id, userID, body));
     }
   };
 

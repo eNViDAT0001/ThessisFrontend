@@ -20,7 +20,6 @@ import ShoppingOrderPage from "../pages/ShoppingOrderPage/ShoppingOrderPage";
 import { CategoryPage } from "../pages/CategoryPage/CategoryPage";
 import { AccountOrderPage } from "../pages/AccountPage/AccountOrderPage";
 import { AdminPage } from "../pages/AdminPage/AdminPage";
-import { ResetPasswordForm } from "../components/Auth/ResetPasswordForm";
 import { ResetPage } from "../pages/AuthPage/ResetPage";
 
 export const MainRoute = () => {

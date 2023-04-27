@@ -1,76 +1,115 @@
-import React, { useState } from "react";
-import IconButton from "@mui/material/IconButton";
+import React, { useCallback } from "react";
+import { Button, TextField } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useDescriptions } from "../../../app/hook/ProductHook";
+import { setDescriptions } from "../../../app/slices/AddProductSlice";
+import { useDispatch } from "react-redux";
+import MDEditor from "@uiw/react-md-editor";
+import { cloneDeep } from "lodash";
 
-import { ToastContainer } from "react-toastify";
-import "react-toastify/ReactToastify.min.css";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addFileInDescription,
-  setDescriptionName,
-} from "../../../app/slices/AddProductSlice";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import { TextField } from "@mui/material";
-import { Test } from "./Test";
+const Description = React.memo(({ data, onChangeName, onChangeMarkdown }) => {
+  const handleChangeName = useCallback(
+    (e) => {
+      onChangeName(data.id, e.target.value);
+    },
+    [data.id, onChangeName]
+  );
+
+  const handleChangeMarkdown = useCallback(
+    (value) => {
+      onChangeMarkdown(data.id, value);
+    },
+    [data.id, onChangeMarkdown]
+  );
+
+  return (
+    <div className="my-6 space-y-6">
+      <h1 className="font-semibold">Description {data.id + 1} :</h1>
+      <div className="p-10 space-y-6 border shadow-md">
+        <div className="flex flex-row space-x-4 items-center">
+          <h1 className="font-semibold"> Name :</h1>
+          <TextField
+            required
+            size="small"
+            onChange={handleChangeName}
+            value={data.description_name}
+            label="Name Description"
+          />
+        </div>
+        <div className="space-y-4">
+          <h1 className="font-semibold"> Description :</h1>
+          <MDEditor
+            value={data.description_md}
+            onChange={handleChangeMarkdown}
+          />
+        </div>
+      </div>
+    </div>
+  );
+});
 
 export const AddDescriptions = () => {
   const dispatch = useDispatch();
-  const descriptionNameSelector = useSelector(
-    (state) => state.addProduct.description_name
-  );
-  const descriptionMdSelector = useSelector(
-    (state) => state.addProduct.description_md
+  const descriptions = useDescriptions();
+
+  const addDescription = useCallback(() => {
+    const newOption = {
+      id: descriptions[descriptions.length - 1].id + 1,
+      description_name: "",
+      description_md: "",
+    };
+    dispatch(setDescriptions([...descriptions, newOption]));
+  }, [descriptions, dispatch]);
+
+  const removeDescription = useCallback(() => {
+    if (descriptions.length > 1) {
+      const temp = descriptions.slice(0, -1);
+      dispatch(setDescriptions([...temp]));
+    }
+  }, [descriptions, dispatch]);
+
+  const handleChangeDescriptionName = useCallback(
+    (id, value) => {
+      const temp = cloneDeep(descriptions);
+      temp[id].description_name = value;
+      dispatch(setDescriptions(temp));
+    },
+    [descriptions, dispatch]
   );
 
-  const handleButtonUploadFile = (e) => {
-    const file = e.target.files[0];
-    dispatch(addFileInDescription(file));
-    const formData = new FormData();
-    formData.append("files", file);
-  };
+  const handleChangeDescriptionMarkdown = useCallback(
+    (id, value) => {
+      const temp = cloneDeep(descriptions);
+      temp[id].description_md = value;
+      dispatch(setDescriptions(temp));
+    },
+    [descriptions, dispatch]
+  );
 
-  const handleInputName = (e) => {
-    dispatch(setDescriptionName(e.target.value));
-  };
   return (
     <div className="p-10 border rounded-2xl space-y-6">
-      <ToastContainer position="top-right" newestOnTop />
-      <div className="flex flex-row items-center space-x-4">
-        <h1 className="font-semibold">Name description:</h1>
-        <TextField
-          required
-          sx={{ width: 0.75 }}
-          size="small"
-          onChange={handleInputName}
-          id="outlined-required"
-          label="Name"
-        />
-      </div>
-
-      <div className="flex flex-row justify-start space-x-4 items-center">
-        <h1 className="font-semibold">Upload Your File Markdown:</h1>
-        <IconButton
-          color="primary"
-          aria-label="upload picture"
-          onChange={handleButtonUploadFile}
-          component="label"
+      <div className="space-x-5">
+        <h1 className="font-semibold my-5">Descriptions :</h1>
+        <Button variant="contained" onClick={addDescription}>
+          + Add
+        </Button>
+        <Button
+          onClick={removeDescription}
+          variant="outlined"
+          startIcon={<DeleteIcon />}
         >
-          <input hidden accept="image/*" type="file" />
-          <FileUploadIcon />
-        </IconButton>
-      </div>
-      <div className="flex justify-start space-x-2">
-        <Test />
-        {descriptionMdSelector.length !== 0 ? (
-          descriptionMdSelector.map((data) => (
-            <div>
-              <CheckBoxIcon />
-              <h1>{data.name}</h1>
-            </div>
-          ))
-        ) : (
-          <div></div>
-        )}
+          Delete
+        </Button>
+        <div className="space-y-8">
+          {descriptions.map((data) => (
+            <Description
+              key={data.id}
+              data={data}
+              onChangeName={handleChangeDescriptionName}
+              onChangeMarkdown={handleChangeDescriptionMarkdown}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

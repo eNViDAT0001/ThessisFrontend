@@ -30,12 +30,12 @@ export const ListProductInCategory = (props) => {
                   <h1 className="text-[#111C85]">{data.name}</h1>
                   <div className="flex flex-row flex-wrap">
                     <h1 className="font-normal text-[#111C85] text-sm mr-[9px]">
-                      {`$${currencyFormat(
+                      {`${currencyFormat(
                         (data.price * (100 - data.discount)) / 100
-                      )}`}
+                      )}đ`}
                     </h1>
                     <h1 className="font-normal text-[#FF2AAA] text-sm line-through mb-[10px] mr-4">
-                      {`$${currencyFormat(data.price)}`}
+                      {`${currencyFormat(data.price)}đ`}
                     </h1>
                     <Rating
                       name="text-feedback"

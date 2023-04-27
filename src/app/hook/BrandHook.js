@@ -9,6 +9,8 @@ import {
 import { convertObjectToStringQuery } from "./CommonHook";
 import { toast } from "react-toastify";
 import { ProductApi } from "../../api/ProductApi";
+import { fetchOrderInProvider } from "./OrderHook";
+import { setProviderIDInProductInDetailBrand } from "../slices/QuerySlice";
 
 export const useListBrand = () => useSelector((state) => state.brand.listBrand);
 export const useAddFormBrand = () =>
@@ -39,16 +41,27 @@ export const fetchListBrand = (id, filter) => async (dispatch) => {
   }
 };
 
-export const useFetchListProductInBrandDetail = async (filter) => {
-  const dispatch = useDispatch();
+export const useFetchFullInBrandDetailPage = async(id) =>{
+  const dispatch = useDispatch()
+  dispatch(setProviderIDInProductInDetailBrand(id))
+  const filter = useFilterInProductInBrandDetail()
 
-  const loadDataListProductInBrandDetail = useCallback(async () => {
-    dispatch(fetchListProductInBrandDetail(filter));
-  }, [filter, dispatch]);
-  await useLayoutEffect(() => {
-    loadDataListProductInBrandDetail();
-  }, [loadDataListProductInBrandDetail]);
-};
+
+  useLayoutEffect(()=>{
+    const fetchData = async()=>{
+      try {
+        await dispatch(fetchListProductInBrandDetail(convertObjectToStringQuery(filter)))
+        .then(()=>{
+          return dispatch(fetchOrderInProvider(id))
+        })
+      } catch (error) {
+        
+      }
+    } 
+    fetchData()
+
+  },[id, dispatch, filter])
+}
 
 export const fetchListProductInBrandDetail = (filter)=> async (dispatch) => {
     try {

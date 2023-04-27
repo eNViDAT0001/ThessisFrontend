@@ -107,15 +107,24 @@ export const getCostFromListCart = (listCart) => {
   return sum;
 };
 
+const updatedQuantityUsingApi = async (cartID, itemID, quantity) => {
+  const body = {
+    quantity: quantity,
+  };
+  return CartShoppingApi.UpdateCartQuantity(cartID, itemID, body);
+};
+
 export const increaseQuantity = (listCart, itemId) => {
   const result = listCart.map((data) => {
     const updatedData = {
       ...data,
       items: data.items.map((item) => {
         if (item.id == itemId) {
+          const updatedQuantity = item.quantity + 1;
+          updatedQuantityUsingApi(data.id, itemId, updatedQuantity);
           return {
             ...item,
-            quantity: item.quantity+1,
+            quantity: item.quantity + 1,
           };
         }
         return item;
@@ -132,9 +141,11 @@ export const decreaseQuantity = (listCart, itemId) => {
       ...data,
       items: data.items.map((item) => {
         if (item.id == itemId) {
+          const updatedQuantity = Math.max(1, item.quantity - 1);
+          updatedQuantityUsingApi(data.id, itemId, updatedQuantity);
           return {
             ...item,
-            quantity: Math.max(1,item.quantity-1)
+            quantity: Math.max(1, item.quantity - 1),
           };
         }
         return item;
