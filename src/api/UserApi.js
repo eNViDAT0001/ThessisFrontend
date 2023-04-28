@@ -14,6 +14,10 @@ export const UserApi = {
     const url = `users/${id}/info`;
     return axiosClient.patch(url, { ...body });
   },
+  UpdateUserInAdmin: (id, body) => {
+    const url = `users/${id}`;
+    return axiosClient.patch(url, { ...body });
+  },
   UpdateNewPassword: (id, body) => {
     const url = `users/${id}`;
     return axiosClient.put(url, { ...body });

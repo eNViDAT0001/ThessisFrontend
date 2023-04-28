@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -9,12 +9,13 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Checkbox from "@mui/material/Checkbox";
 import { Paper, TableHead } from "@mui/material";
 import { ToastContainer } from "react-toastify";
-import { Button } from "@mui/material";
+import { Button, Autocomplete, TextField } from "@mui/material";
 import BlockIcon from "@mui/icons-material/Block";
 import "react-toastify/ReactToastify.min.css";
 import {
   banListUser,
   selectUser,
+  updateUserInAdmin,
   useFetchListUser,
   useListUser,
 } from "../../app/hook/UserHook";
@@ -42,6 +43,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+const listType = ["ADMIN", "BUYER"];
+
 export const UserTab = () => {
   const dispatch = useDispatch();
 
@@ -60,7 +63,16 @@ export const UserTab = () => {
     const body = {
       ids: listSelect,
     };
-    dispatch(banListUser(body))
+    dispatch(banListUser(body));
+  };
+
+  const handleChangeType = (e) => {
+    const idHandle = e.currentTarget.id.split("-")[0];
+    const type = e.currentTarget.textContent;
+    const body = {
+      type: type,
+    };
+    updateUserInAdmin(idHandle, body);
   };
 
   useEffect(() => {
@@ -138,7 +150,6 @@ export const UserTab = () => {
                       <AccountCircleIcon sx={{ width: 55, height: 55 }} />
                     )}
                   </StyledTableCell>
-
                   <StyledTableCell align="left">{row.username}</StyledTableCell>
                   <StyledTableCell align="left">{row.name}</StyledTableCell>
                   <StyledTableCell align="left">
@@ -149,7 +160,20 @@ export const UserTab = () => {
                   </StyledTableCell>
                   <StyledTableCell align="left">{row.email} </StyledTableCell>
                   <StyledTableCell align="left">{row.phone}</StyledTableCell>
-                  <StyledTableCell align="left">{row.type}</StyledTableCell>
+                  <StyledTableCell align="left">
+                    <Autocomplete
+                      id={row.id}
+                      options={listType}
+                      size="small"
+                      defaultValue={row.type}
+                      getOptionDisabled={(option) => option === row.Status}
+                      sx={{ width: 150 }}
+                      onChange={handleChangeType}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Status" />
+                      )}
+                    />
+                  </StyledTableCell>{" "}
                 </StyledTableRow>
               ))}
             </TableBody>

@@ -69,7 +69,7 @@ export const updatePhoneUser = async (userID, body, phoneInformation) => {
 
 export const updateEmailUser = async (userID, body, email) => {
   await UserApi.UpdateUser(userID, body).then((res) => {
-    var userTemp = JSON.parse(localStorage.getItem("UserInWeb"));
+    var userTemp = useUserID();
     userTemp["email"] = email;
     localStorage.removeItem("UserInWeb");
     localStorage.setItem("UserInWeb", JSON.stringify(userTemp));
@@ -81,6 +81,14 @@ export const updateEmailUser = async (userID, body, email) => {
   });
 };
 
+export const updateUserInAdmin = async (userID, body) => {
+  await UserApi.UpdateUserInAdmin(userID, body).then(() => {
+    toast("Update Type Success", {
+      type: "success",
+      autoClose: 1000,
+    });
+  });
+};
 export const resetPassword = async (userID, body) => {
   await UserApi.UpdateNewPassword(userID, body).then((res) => {
     switch (res.status) {

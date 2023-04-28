@@ -1,12 +1,10 @@
-import React, { useCallback, useLayoutEffect } from "react";
-
+import React from "react";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import {
@@ -133,7 +131,7 @@ export const ListViewOrders = () => {
                         renderInput={(params) => (
                           <TextField {...params} label="Status" />
                         )}
-                      />{" "}
+                      />
                     </StyledTableCell>
                     <StyledTableCell align="left">
                       <div className="px-4 py-1 border bg-[#C40201] text-white">
