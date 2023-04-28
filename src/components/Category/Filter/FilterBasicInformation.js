@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
-import StarIcon from "@mui/icons-material/Star";
 import { useDispatch } from "react-redux";
 import { setRatingInFilterCategory } from "../../../app/slices/QuerySlice";
 

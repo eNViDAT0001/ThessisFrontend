@@ -36,7 +36,7 @@ export const Banner = () => {
         <div className="w-full h-full skew-y-3 md:transform-none">
           <Slider {...settings}>
             {listBanner.map((data) => (
-              <div>
+              <div key={data.id}>
                 <img src={data.image} alt="anh san pham" style={imageStyles}></img>
               </div>
             ))}

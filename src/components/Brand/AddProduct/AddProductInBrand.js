@@ -40,9 +40,9 @@ export const AddProductInBrand = () => {
   const specification_name = useSpecificationName();
   const descriptions = useDescriptions();
 
-  const addNewProduct = (e) => {
+  const addNewProduct = async(e) => {
     if (checkValidAdd(name, category_id, price, specification_name, media)) {
-      const body = convertBodyAddProduct(
+      const body = await convertBodyAddProduct(
         category_id,
         name,
         discount,
@@ -51,7 +51,8 @@ export const AddProductInBrand = () => {
         specification_name,
         options,
         descriptions
-      ).then(() => addProduct(id, userID, body));
+      );
+      addProduct(id, userID, body);
     }
   };
 

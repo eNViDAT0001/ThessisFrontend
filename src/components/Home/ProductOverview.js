@@ -5,9 +5,7 @@ import {
 } from "../../app/hook/ProductHook";
 import { Link } from "react-router-dom";
 
-import {
-  setPageInProductInHome,
-} from "../../app/slices/QuerySlice";
+import { setPageInProductInHome } from "../../app/slices/QuerySlice";
 import { useDispatch } from "react-redux";
 import Pagination from "@mui/material/Pagination";
 import { currencyFormat } from "../../app/hook/CommonHook";
@@ -38,6 +36,7 @@ export const ProductOverview = () => {
               <div className="flex flex-row justify-start flex-wrap mt-[50px] ">
                 {productInHome.map((data) => (
                   <Link
+                    key={data.id}
                     id={data.id}
                     to={`product/${data.id}`}
                     className=" w-[20%] h-[300px] border my-5 mx-5 mb-10 hover:scale-105 p-2 hover:border hover:shadow-2xl hover:rounded-xl hover:cursor-pointer  "

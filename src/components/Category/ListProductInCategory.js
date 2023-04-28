@@ -8,7 +8,7 @@ import { ProductNotAvailable } from "../../asset/ProductNotAvailable";
 
 const imageNotAvailable =
   "https://st4.depositphotos.com/14953852/22772/v/600/depositphotos_227725020-stock-illustration-image-available-icon-flat-vector.jpg";
-export const ListProductInCategory = (props) => {
+export const ListProductInCategory = () => {
   const listProduct = useListProductInCategory() || [];
   return (
     <div>
@@ -19,7 +19,9 @@ export const ListProductInCategory = (props) => {
       ) : (
         <div>
           {listProduct.map((data) => (
-            <Link to={`/product/${data.id}`} className="w-full my-5 p-4">
+            <Link 
+            key={data.id}
+            to={`/product/${data.id}`} className="w-full my-5 p-4">
               <div className="flex flex-row">
                 <img
                   src={data.media ? data.media[0].mediaPath : imageNotAvailable}

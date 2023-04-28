@@ -1,7 +1,5 @@
-import { Button } from "@mui/material";
 import React, { useState } from "react";
 import { Pagination } from "@mui/material";
-import FilterIcon from "@mui/icons-material/Filter";
 import { Link } from "react-router-dom";
 import { checkObjectEmpty, convertDate } from "../../../../app/hook/CommonHook";
 import {
@@ -23,7 +21,6 @@ export const ListViewBrand = () => {
   const metaInBrand = useMetaInListBrand();
 
   const listBrand = useListBrand() || [];
-  const handleButtonFilter = (e) => {};
 
   const handleChangePage = (e, value) => {
     dispatch(setPageInFilterBrand(value));
@@ -38,8 +35,9 @@ export const ListViewBrand = () => {
           <h1 className=" text-xl uppercase">you don't have a brand</h1>
         ) : (
           <div className="flex flex-row flex-wrap justify-start w-full">
-            {listBrand.map((data) => (
+          {listBrand.map((data) => (
               <Link
+                key={data.id}
                 to={`/brand-detail/${data.id}`}
                 className="w-[20%] min-w-[100px] min-h-[270px] max-h-[400px] border rounded-2xl shadow-xl my-5 mx-5 bg-white hover:scale-105"
               >

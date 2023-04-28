@@ -55,10 +55,6 @@ export const TabDescription = () => {
         <div></div>
       ) : (
           <div className="border p-10 bg-white">
-            {/*
-            //First, must render listDescription[0].name
-            second, render title
-            */}
             <TabContext value={title || listDescription[0].name}>
               <Box sx={{ width: "100%" }}>
                 <Box sx={{ bgcolor: "#FFFFFF" }}>
@@ -68,14 +64,16 @@ export const TabDescription = () => {
                     aria-label="styled tabs example"
                   >
                     {listDescription.map((data) => (
-                      <StyledTab label={data.name} value={data.name} />
+                      <StyledTab key={data.id} label={data.name} value={data.name} />
                     ))}
                   </StyledTabs>
                   <Box sx={{ p: 3 }} />
                 </Box>
               </Box>
               {listDescription.map((data) => (
-                <TabPanel value={data.name}>
+                <TabPanel 
+                key={data.id}
+                value={data.name}>
                   <Description description={data} />
                 </TabPanel>
               ))}

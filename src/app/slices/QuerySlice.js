@@ -94,11 +94,19 @@ const initialState = {
       type: null,
       value: null,
     },
-    price:{
-      type:"sorts[]",
-      value: null
-    }
   },
+
+  sortInCategoryPage: {
+    name: {
+      type: "sorts[]",
+      value: null,
+    },
+    price: {
+      type: "sorts[]",
+      value: null,
+    },
+  },
+
   filterBrandInCategoryPage: {
     name: {
       type: "search[]",
@@ -197,8 +205,13 @@ const querySlice = createSlice({
     setNameInFilterCategory: (state, action) => {
       state.filterInCategoryPage.name.value = action.payload;
     },
-    setSortPriceInFilterCategory:(state,action) =>{
-      state.filterInCategoryPage.price.value = action.payload;
+    
+    //sort in category
+    setSortPriceInSortCategory: (state, action) => {
+      state.sortInCategoryPage.price.value = action.payload;
+    },
+    setSortNameInSortCategory: (state, action) => {
+      state.sortInCategoryPage.name.value = action.payload;
     },
 
     //filter brand in category
@@ -243,7 +256,9 @@ export const {
   setMarkerInFilterCategory,
   setLimitInFilterCategory,
   setRatingInFilterCategory,
-  setSortPriceInFilterCategory,
+  
+  setSortPriceInSortCategory,
+  setSortNameInSortCategory,
 
   setSearchInBrandInFilterCategory,
 

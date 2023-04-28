@@ -17,7 +17,7 @@ export const BrandContain = () => {
           <div className="flex flex-row justify-between  pr-4">
             <div className="flex flex-row items-center space-x-2">
               <ListIcon sx={{ width: 20, height: 20 }} />
-              <h1 class="font-bold text-2xl ">List Brand</h1>{" "}
+              <h1 className="font-bold text-2xl ">List Brand</h1>{" "}
             </div>
             {!openBrand ? (
               <Button variant="contained" onClick={handleButtonAdd}>

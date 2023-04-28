@@ -32,6 +32,7 @@ export const ImageProduct = () => {
           <div className="flex flex-row w-full flex-wrap">
             {listMedia.map((data) => (
               <img
+                key={data.id}
                 src={data.media_path}
                 id={data.id}
                 alt="Anh san pham"

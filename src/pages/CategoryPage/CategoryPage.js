@@ -6,6 +6,7 @@ import {
   useCategoryHandle,
   useFetchAllInCategory,
   useFilterCategory,
+  useSortCategory,
 } from "../../app/hook/CategoryHook";
 import { TopFilter } from "../../components/Category/Filter/TopFilter";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -19,13 +20,17 @@ export const CategoryPage = () => {
   const queryString = window.location.search.substring(1);
   const location = useLocation();
   const filter = useFilterCategory();
+  const sortCategory = useSortCategory();
   const categoryHandle = useCategoryHandle();
 
   useEffect(() => {
     const debouncedNavigate = debounce(() => {
       navigate({
         pathname: location.pathname,
-        search: convertObjectToStringQuery(filter),
+        search:
+          convertObjectToStringQuery(filter) +
+          (convertObjectToStringQuery(sortCategory) &&
+            `&${convertObjectToStringQuery(sortCategory)}`),
       });
     }, 300);
 
@@ -34,7 +39,7 @@ export const CategoryPage = () => {
     return () => {
       debouncedNavigate.cancel();
     };
-  }, [filter, navigate, location]);
+  }, [filter, sortCategory, navigate, location]);
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -44,11 +49,11 @@ export const CategoryPage = () => {
 
   return (
     <div>
-        <HeaderBar
-          name1="Home .Products ."
-          name2={((id == 0) || !categoryHandle) ? "All" : categoryHandle.name}
-        />
-      
+      <HeaderBar
+        name1="Home .Products ."
+        name2={id == 0 || !categoryHandle ? "All" : categoryHandle.name}
+      />
+
       <div className="flex justify-center font-['Josefin_Sans'] ">
         <div className="w-[78%]">
           <TopFilter id={id} />

@@ -55,21 +55,21 @@ export const HeaderUser = () => {
 
   const handleChangeSearchText = (event) => {
     clearTimeout(timeoutId);
-    const textEvent = event.target.value
+    const textEvent = event.target.value;
     setTimeout(() => {
       const path = window.location.pathname.split("/")[1];
-    
+
       switch (path) {
         case "":
           dispatch(setNameSearchInProductInHome(textEvent));
           break;
         case "category":
-          dispatch(setNameInFilterCategory(textEvent))
+          dispatch(setNameInFilterCategory(textEvent));
           break;
         case "contact":
           break;
         case "shop":
-          dispatch(setNameSearchInBrand(textEvent))
+          dispatch(setNameSearchInBrand(textEvent));
           return;
         default:
           return;
@@ -85,7 +85,11 @@ export const HeaderUser = () => {
           <div className="font-['Inter'] font-bold text-[#131313] text-lg uppercase ">
             <div className="flex flex-row space-x-[30px]">
               {LinkInHeader.map((data) => (
-                <Link to={data.link} onClick={handleClickHeader}>
+                <Link
+                  key={data.name}
+                  to={data.link}
+                  onClick={handleClickHeader}
+                >
                   <h1 className="hover:underline underline-offset-8 hover:cursor-pointer">
                     {data.name}
                   </h1>{" "}

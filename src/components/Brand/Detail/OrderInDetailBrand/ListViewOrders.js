@@ -50,7 +50,7 @@ export const ListViewOrders = () => {
   const listOrders = useListOrderInProvider() || [];
 
   const handleButtonDetail = (e) => {
-    window.location.replace(`/order/detail/${e.currentTarget.id}`);
+    window.location.replace(`/order/${e.currentTarget.id}`);
   };
 
   const handleChangeStatus = (e) => {
@@ -103,13 +103,12 @@ export const ListViewOrders = () => {
                     <StyledTableCell align="left">
                       <IconButton
                         aria-label="delete"
-                        id={row.ID}
+                        id={row.id}
                         onClick={handleButtonDetail}
                       >
                         <RemoveRedEyeIcon />
                       </IconButton>
                     </StyledTableCell>
-
                     <StyledTableCell align="left">{row.name}</StyledTableCell>
                     <StyledTableCell align="left">{row.phone}</StyledTableCell>
                     <StyledTableCell align="left">{`${row.street} , ${row.ward}, ${row.district}, ${row.province}`}</StyledTableCell>

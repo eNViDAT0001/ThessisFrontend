@@ -25,6 +25,8 @@ export const useListBrandInFilterCategory = () =>
   useSelector((state) => state.category.listBrandInFilterCategory);
 export const useFilterCategory = () =>
   useSelector((state) => state.query.filterInCategoryPage);
+export const useSortCategory = () =>
+  useSelector((state) => state.query.sortInCategoryPage);
 export const useFilterBrand = () =>
   useSelector((state) => state.query.filterBrandInCategoryPage);
 
@@ -62,9 +64,6 @@ export const useFetchAllInCategory = async (categoryID, filter) => {
     fetchData();
   }, [dispatch, categoryID, filter]);
 };
-
-
-
 
 const fetchCategoryChildren = (categoryID) => async (dispatch) => {
   try {

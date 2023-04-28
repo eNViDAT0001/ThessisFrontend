@@ -13,7 +13,7 @@ import { useMetaInComment } from "../../../app/hook/CommentHook";
 export const TitleAndType = () => {
   const dispatch = useDispatch();
 
-  const metaInComment = useMetaInComment()
+  const metaInComment = useMetaInComment();
   const optionHandle = useOptionHandle();
   const productDetail = useProductDetail();
   const [priceTotal, setPriceTotal] = useState();
@@ -28,44 +28,45 @@ export const TitleAndType = () => {
 
   return (
     <div>
-      {checkObjectEmpty(productDetail) ? (
-        <div></div>
-      ) : (
+      {!checkObjectEmpty(productDetail) && (
         <div className="flex flex-col space-y-2">
           <h1 className="text-3xl text-[#0D134E] font-bold ">
             {productDetail.name}
           </h1>
           <div className="flex flex-row space-x-3">
             <div className=" flex flex-row space-x-2 items-center">
-              <h1 className=" underline">{(!checkObjectEmpty(metaInComment))  ? metaInComment.paging.Count : 0}</h1>
+              <h1 className=" underline">
+                {!checkObjectEmpty(metaInComment)
+                  ? metaInComment.paging.Count
+                  : 0}
+              </h1>
               <h1 className=" text-[#767676] hover:underline hover:cursor-pointer">
                 Reviewed
               </h1>
             </div>
             <Divider orientation="vertical" flexItem />
-            {/*this option will be drawn when click */}
-            {!checkObjectEmpty(optionHandle) ? (
+            {!checkObjectEmpty(optionHandle) && (
               <div className="px-3 py-1 border text-[#EE4D2D] border-[#EE4D2D]">
                 {optionHandle.name}
               </div>
-            ) : (
-              <div></div>
             )}
-            {/*end */}
           </div>
           <div className="flex flex-row items-center space-x-3">
             <div className="py-5 pl-5 flex flex-row space-x-1 font-[Helvetica] text-[#929292] items-center line-through">
-              <h1 className=" text-base ">{(priceTotal || productDetail.price)}</h1>
+              <h1 className=" text-base ">
+                {priceTotal || productDetail.price}
+              </h1>
               <h1 className=" text-xs">$</h1>
             </div>
             <div className="py-5 flex flex-row space-x-1 font-[Helvetica] text-[#EE4D2D]">
               <h1 className=" text-2xl">
                 {currencyFormat(
-                  ((priceTotal || productDetail.price) * (100 - productDetail.discount)) / 100
+                  ((priceTotal || productDetail.price) *
+                    (100 - productDetail.discount)) /
+                    100
                 )}
               </h1>
               <h1 className=" text-xl">$</h1>
-
             </div>
             <div className=" px-2 bg-[#EE4D2D] flex flex-row space-x-1 font-[Helvetica] text-[#FFFFFF] items-center ">
               <h1 className=" text-sm ">- {productDetail.discount}%</h1>
@@ -73,12 +74,13 @@ export const TitleAndType = () => {
           </div>
           <div className="space-y-4 font-[Helvetica]">
             {specificationProduct.map((data) => (
-              <div className="space-y-4">
+              <div 
+              key={data.id}
+              className="space-y-4">
                 <div className="flex flex-row space-x-4 whitespace-nowrap items-start">
                   <h1 className="text-[#929292] text-lg ">
                     {data.properties}:{" "}
                   </h1>
-                  {/*Draw full option in this */}
                   {data.options.length === 0 ? (
                     <div></div>
                   ) : (

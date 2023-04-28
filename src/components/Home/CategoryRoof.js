@@ -6,20 +6,18 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
 
-const settings={
-  lazyLoad: 'ondemand',
+const settings = {
+  lazyLoad: "ondemand",
   slidesToShow: 3,
-  slidesToScroll: 1
-}
+  slidesToScroll: 1,
+};
 
 export const CategoryRoof = () => {
   const categoryRoof = useCategoryRoof() || [];
 
   return (
     <div>
-      {categoryRoof.length === 0 ? (
-        <div></div>
-      ) : (
+      {categoryRoof.length === 0 && (
         <div className="flex justify-center mt-20 ">
           <div className="w-[80%] flex flex-col border p-10  space-y-6 bg-gradient-to-b from-[#FFFFFF] to-[#FFFFFF] rounded-2xl">
             <h1 className=" text-xl font-['Poppins_Bold'] font-extrabold uppercase text-[#000000]">

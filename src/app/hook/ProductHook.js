@@ -18,6 +18,7 @@ import { ProductApi } from "../../api/ProductApi";
 import { fetchCommentInProductDetail } from "./CommentHook";
 import { useEffect } from "react";
 import { uploadFileNotNotify } from "./FileHook";
+import { TableBody } from "@mui/material";
 
 export const useProductInHome = () =>
   useSelector((state) => state.product.productInHome);
@@ -196,7 +197,7 @@ export const convertMediaToBody = (media) => {
 };
 const changeDescriptionToBody = async (descriptions) => {
   const result = [];
-  await descriptions.map((data) => {
+  await descriptions.forEach((data) => {
     const formData = new FormData();
     const fileText = new File([data.description_md], "filename.txt", {
       type: "text/plain",
@@ -215,7 +216,7 @@ const changeDescriptionToBody = async (descriptions) => {
 
   return result;
 };
-export const convertBodyAddProduct = async (
+export const convertBodyAddProduct = async(
   category_id,
   name,
   discount,
@@ -225,6 +226,7 @@ export const convertBodyAddProduct = async (
   options,
   descriptions
 ) => {
+  const descriptionBody = await changeDescriptionToBody(descriptions)
   const body = {
     category_id: parseInt(category_id),
     name: name,
@@ -235,9 +237,8 @@ export const convertBodyAddProduct = async (
       properties: specification_name,
     },
     options: options,
-    descriptions: await changeDescriptionToBody(descriptions),
+    descriptions: descriptionBody,
   };
-  console.log(body);
   return body;
 };
 

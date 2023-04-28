@@ -8,11 +8,12 @@ const imageNotAvailable =
 
 export const ProductForyou = () => {
   const listProduct = useProductForyou() || [];
-  console.log(listProduct);
   return (
     <div className="flex flex-row justify-around">
       {listProduct.map((data) => (
-        <div className="flex flex-col space-y-4">
+        <div
+        key={data.id} 
+        className="flex flex-col space-y-4">
           <img
             src={data.media ? data.media[0].mediaPath : imageNotAvailable}
             className="w-[220px] h-[280px]"

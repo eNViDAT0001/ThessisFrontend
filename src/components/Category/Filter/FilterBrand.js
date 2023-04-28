@@ -1,9 +1,4 @@
 import React from "react";
-
-import SearchIcon from "@mui/icons-material/Search";
-import InputBase from "@mui/material/InputBase";
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
 import {
   fetchBrandFilterCategory,
   useFilterBrand,
@@ -57,7 +52,7 @@ export const FilterBrand = () => {
 
       {listBrand.map((data) => (
         <div
-          ey={data.id}
+          key={data.id}
           id={data.id}
           onClick={handleClickBrand}
           className={
