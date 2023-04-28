@@ -95,7 +95,7 @@ const initialState = {
       value: null,
     },
     price:{
-      type:"sort[]",
+      type:"sorts[]",
       value: null
     }
   },
@@ -243,6 +243,7 @@ export const {
   setMarkerInFilterCategory,
   setLimitInFilterCategory,
   setRatingInFilterCategory,
+  setSortPriceInFilterCategory,
 
   setSearchInBrandInFilterCategory,
 
