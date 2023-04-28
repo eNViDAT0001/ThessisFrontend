@@ -15,7 +15,7 @@ export const TopFilter = (props) => {
     dispatch(setLimitInFilterCategory(e.currentTarget.value))
   }
 
-  const handleKeyPress = (e) => {
+  const handleKeyPressPage = (e) => {
     const charCode = e.which ? e.which : e.keyCode;
     if (charCode < 48 || charCode > 57) {
       e.preventDefault();
@@ -35,7 +35,7 @@ export const TopFilter = (props) => {
           <h1 className=" text-[#151875] text-base">Per page:</h1>
           <input
             type="text"
-            onKeyPress={handleKeyPress}
+            onKeyPress={handleKeyPressPage}
             onChange={handleChangePage}
             className=" border-2 w-[55px] h-[25px] px-2 py-1"
           ></input>

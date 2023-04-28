@@ -1,10 +1,9 @@
-import { Button, Divider } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Button } from "@mui/material";
+import React, { useState } from "react";
 import { Pagination } from "@mui/material";
 import FilterIcon from "@mui/icons-material/Filter";
 import { Link } from "react-router-dom";
 import { checkObjectEmpty, convertDate } from "../../../../app/hook/CommonHook";
-import { FilterFormBrand } from "./FilterFormBrand";
 import {
   useListBrand,
   useMetaInListBrand,
@@ -33,15 +32,7 @@ export const ListViewBrand = () => {
     <div className="px-5">
       <div className="flex flex-row justify-between">
         <h1 className=" text-xl font-bold">List your brand: </h1>
-        <Button
-          variant={variant}
-          startIcon={<FilterIcon />}
-          onClick={handleButtonFilter}
-        >
-          Filter
-        </Button>
       </div>
-      {variant === VARIANT.contained ? <div></div> : <FilterFormBrand />}
       <div className="my-10 pl-10 border flex flex-row ">
         {listBrand.length == 0 ? (
           <h1 className=" text-xl uppercase">you don't have a brand</h1>

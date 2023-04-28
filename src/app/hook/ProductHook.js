@@ -194,7 +194,7 @@ export const convertMediaToBody = (media) => {
   });
   return listMedia;
 };
-const changeDescriptionToBody = async(descriptions) => {
+const changeDescriptionToBody = async (descriptions) => {
   const result = [];
   await descriptions.map((data) => {
     const formData = new FormData();
@@ -237,7 +237,7 @@ export const convertBodyAddProduct = async (
     options: options,
     descriptions: await changeDescriptionToBody(descriptions),
   };
-  console.log(body)
+  console.log(body);
   return body;
 };
 
@@ -313,6 +313,20 @@ const fetchProductInAdmin = (filter) => async (dispatch) => {
   try {
     await ProductApi.GetProductPreview(filter).then((res) => {
       dispatch(setListProductInAdmin(res.data.data));
+    });
+  } catch (err) {}
+};
+
+export const deleteListProduct = (providerID, body) => async (dispatch) => {
+  try {
+    await ProductApi.DeleteListProduct(providerID, body).then(() => {
+      toast("Delete list Product Success", {
+        type: "success",
+        autoClose: 1000,
+        onClose: setTimeout(() => {
+          window.location.reload();
+        }, 2000),
+      });
     });
   } catch (err) {}
 };

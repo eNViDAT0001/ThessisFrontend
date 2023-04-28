@@ -94,6 +94,10 @@ const initialState = {
       type: null,
       value: null,
     },
+    price:{
+      type:"sort[]",
+      value: null
+    }
   },
   filterBrandInCategoryPage: {
     name: {
@@ -192,6 +196,9 @@ const querySlice = createSlice({
     },
     setNameInFilterCategory: (state, action) => {
       state.filterInCategoryPage.name.value = action.payload;
+    },
+    setSortPriceInFilterCategory:(state,action) =>{
+      state.filterInCategoryPage.price.value = action.payload;
     },
 
     //filter brand in category

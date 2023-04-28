@@ -72,5 +72,9 @@ export const ProductApi = {
     DeleteProduct: (idProduct) =>{
         const url = `/products/${idProduct}`
         return axiosClient.delete(url)
+    },
+    DeleteListProduct:(providerID,body) =>{
+        const url = `/products/provider/${providerID}`
+        return axiosClient.delete(url,{ data: body })
     }
 }
