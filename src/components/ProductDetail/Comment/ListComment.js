@@ -3,18 +3,20 @@ import React from "react";
 import Rating from "@mui/material/Rating";
 import { Divider, Pagination } from "@mui/material";
 import { checkObjectEmpty, convertDate } from "../../../app/hook/CommonHook";
-import { useListComment, useMetaInComment } from "../../../app/hook/CommentHook";
+import {
+  useListComment,
+  useMetaInComment,
+} from "../../../app/hook/CommentHook";
 import { useDispatch } from "react-redux";
 import { setPageInComment } from "../../../app/slices/QuerySlice";
 export const ListComment = () => {
-  const dispatch = useDispatch()
-  
+  const dispatch = useDispatch();
+
   const metaInComment = useMetaInComment();
   const listComment = useListComment() || [];
 
-
-  const handleChangePage = (e,value) => {
-    dispatch(setPageInComment(value))
+  const handleChangePage = (e, value) => {
+    dispatch(setPageInComment(value));
   };
 
   return (
@@ -50,7 +52,7 @@ export const ListComment = () => {
               )}
               <div className="flex flex-col ml-4 p-1 space-y-2">
                 <div className="flex flex-row space-x-1 ">
-                  <h1 className=" text-sm font-bold">{data.name }</h1>
+                  <h1 className=" text-sm font-bold">{data.name}</h1>
                   <h1 className=" text-sm font-bold text-[#808080]">
                     - {convertDate(data.created_at)}
                   </h1>
@@ -62,7 +64,7 @@ export const ListComment = () => {
                 <div className="flex flex-row space-x-1">
                   {data.media ? (
                     data.media.map((media) => (
-                      <div>
+                      <div key={media.id}>
                         <img
                           src={media.mediaPath}
                           alt="Anh san pham"

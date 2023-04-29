@@ -21,6 +21,8 @@ import { CategoryPage } from "../pages/CategoryPage/CategoryPage";
 import { AccountOrderPage } from "../pages/AccountPage/AccountOrderPage";
 import { AdminPage } from "../pages/AdminPage/AdminPage";
 import { ResetPage } from "../pages/AuthPage/ResetPage";
+import { OrderDetailPage } from "../pages/OrderPage/OrderDetailPage";
+import { AddCommentPage } from "../pages/OrderPage/AddCommentPage";
 
 export const MainRoute = () => {
   return (
@@ -43,6 +45,9 @@ export const MainRoute = () => {
             path="/account-address/create"
             element={<CreateAddressPage />}
           />
+          <Route path="/order/:id" element={<OrderDetailPage />} />
+          <Route path="/comment/:id" element={<AddCommentPage />} />
+
           <Route
             path="/account-address/:id/edit"
             element={<FixAddressPage />}

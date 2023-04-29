@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { OrderApi } from "../../api/OrderApi";
-import { setListOrderInAccount, setListOrderInProvider, setMetaInOrderInAccount } from "../slices/OrderSlice";
+import { setListItemsInOrder, setListOrderInAccount, setListOrderInProvider, setMetaInOrderInAccount } from "../slices/OrderSlice";
 import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 
@@ -113,3 +113,25 @@ const fetchOrderInAccount = (userID, filters) => async (dispatch) => {
     console.log(err);
   }
 };
+
+
+//order detail
+
+export const useListItemsInOrder = () =>
+  useSelector((state) => state.order.listItemsInOrder);
+
+export const useFetchItemInOrder = async (orderID) => {
+  const dispatch = useDispatch();
+  await useEffect(() => {
+    dispatch(fetchItemInOrderDetail(orderID));
+  }, [dispatch,orderID]);
+};
+
+const fetchItemInOrderDetail = (orderID) => async(dispatch)=>{
+  try {
+    const response = await OrderApi.GetOrderItems(orderID)
+    dispatch(setListItemsInOrder(response.data.data))
+  } catch (error) {
+    console.log(error)
+  }
+}

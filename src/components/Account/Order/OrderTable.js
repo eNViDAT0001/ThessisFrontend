@@ -64,7 +64,9 @@ export const OrderTable = (props) => {
   useLayoutEffect(()=>{
     dispatch(setPageInOrderInAccount(page+1))
   },[page,dispatch])
-  const handleButtonDetail = (e) => {};
+  const handleButtonDetail = (e) => {
+    window.location.replace(`/order/${e.currentTarget.id}`)
+  };
 
   const handleChangeStatus = (e) => {
     const idHandle = e.currentTarget.id.split("-")[0];
