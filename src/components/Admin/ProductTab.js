@@ -38,7 +38,6 @@ export const ProductTab = () => {
   useFetchProductInAdmin();
 
   const listProducts = useListProductInAdmin() || [];
-    console.log(listProducts)
   return (
     <div className="p-6 space-y-5">
       <h1 class=" text-lg font-bold">List products: </h1>

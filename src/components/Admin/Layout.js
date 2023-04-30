@@ -10,6 +10,9 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { UserTab } from "./UserTab";
 import { OrderTab } from "./OrderTab";
 import { ProductTab } from "./ProductTab";
+import { BrandTab } from "./BrandTab";
+import { CategoryTab } from "./CategoryTab";
+import { BannerTab } from "./BannerTab";
 
 export const Layout = () => {
   const [activeTab, setActiveTab] = useState(null);
@@ -41,25 +44,25 @@ export const Layout = () => {
       id: 4,
       title: "Shop",
       img: <StorefrontIcon />,
-      component: <div>Tab 4 content</div>,
+      component: <BrandTab />,
     },
     {
       id: 5,
       title: "Category",
       img: <CategoryIcon />,
-      component: <div>Tab 5 content</div>,
+      component: <CategoryTab />,
     },
     {
       id: 6,
       title: "Banner",
       img: <AdUnitsIcon />,
-      component: <div>Tab 6 content</div>,
+      component: <BannerTab />,
     },
     {
       id: 7,
       title: "Log out",
       img: <LogoutIcon />,
-      component: <div>Tab  content</div>,
+      component: null,
     },
   ];
 

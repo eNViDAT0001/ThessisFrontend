@@ -9,10 +9,11 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Checkbox from "@mui/material/Checkbox";
 import { Paper, TableHead } from "@mui/material";
 import { ToastContainer } from "react-toastify";
-import {  Autocomplete, TextField } from "@mui/material";
+import { Button, Autocomplete, TextField } from "@mui/material";
+import BlockIcon from "@mui/icons-material/Block";
 import "react-toastify/ReactToastify.min.css";
 
-import { convertDate, getSelectedIds } from "../../app/hook/CommonHook";
+import { convertDate } from "../../app/hook/CommonHook";
 import { useDispatch } from "react-redux";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -35,19 +36,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
-export const OrderTab = () => {
+export const CategoryTab = () => {
   const dispatch = useDispatch();
 
-  const listOrders = [];
- 
+  const listCategories = [];
+
   return (
     <div className="p-6 space-y-5">
-      <h1 class=" text-lg font-bold">List orders: </h1>
+      <h1 class=" text-lg font-bold">Categories : </h1>
       <ToastContainer position="top-right" newestOnTop />
-      {listOrders.length === 0 ? (
+      {listCategories.length === 0 ? (
         <div>
-          <h1>Don't have any orders</h1>
+          <h1>Don't have any Categories</h1>
         </div>
       ) : (
         <TableContainer component={Paper}>
@@ -61,18 +61,14 @@ export const OrderTab = () => {
             <TableHead>
               <TableRow>
                 <StyledTableCell align="left">Select</StyledTableCell>
-                <StyledTableCell align="left">Avatar</StyledTableCell>
-                <StyledTableCell align="left">Username</StyledTableCell>
+                <StyledTableCell align="left">Image</StyledTableCell>
                 <StyledTableCell align="left">Name</StyledTableCell>
-                <StyledTableCell align="left">Birthday</StyledTableCell>
-                <StyledTableCell align="left">Gender</StyledTableCell>
-                <StyledTableCell align="left">Email</StyledTableCell>
-                <StyledTableCell align="left">Phone</StyledTableCell>
-                <StyledTableCell align="left">Type</StyledTableCell>
+                <StyledTableCell align="left">Created at</StyledTableCell>
+                <StyledTableCell align="left">Updated at</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {listOrders.map((row) => (
+              {listCategories.map((row) => (
                 <StyledTableRow
                   className={{
                     hover: {
@@ -85,15 +81,12 @@ export const OrderTab = () => {
                   key={row.id}
                 >
                   <StyledTableCell id={row.id} align="center">
-                    <Checkbox
-                      id={row.id}
-                      checked={row.isSelected}
-                    />
+                    <Checkbox id={row.id} checked={row.isSelected} />
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                    {row.avatar ? (
+                    {row.image_path ? (
                       <img
-                        src={row.avatar}
+                        src={row.image_path}
                         alt="avatar"
                         className="w-[55px] h-[55px] rounded-full"
                       ></img>
@@ -101,28 +94,7 @@ export const OrderTab = () => {
                       <AccountCircleIcon sx={{ width: 55, height: 55 }} />
                     )}
                   </StyledTableCell>
-                  <StyledTableCell align="left">{row.username}</StyledTableCell>
                   <StyledTableCell align="left">{row.name}</StyledTableCell>
-                  <StyledTableCell align="left">
-                    {convertDate(row.birthday)}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {row.gender ? "Male" : "Female"}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">{row.email} </StyledTableCell>
-                  <StyledTableCell align="left">{row.phone}</StyledTableCell>
-                  <StyledTableCell align="left">
-                    <Autocomplete
-                      id={row.id}
-                      size="small"
-                      defaultValue={row.type}
-                      getOptionDisabled={(option) => option === row.Status}
-                      sx={{ width: 150 }}
-                      renderInput={(params) => (
-                        <TextField {...params} label="Status" />
-                      )}
-                    />
-                  </StyledTableCell>{" "}
                 </StyledTableRow>
               ))}
             </TableBody>

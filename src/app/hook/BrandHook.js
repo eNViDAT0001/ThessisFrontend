@@ -4,6 +4,7 @@ import { ProviderApi } from "../../api/ProviderApi";
 import {
   setListBrand,
   setListProductInBrandDetail,
+  setListShopInAdmin,
   setMetaInListBrand,
 } from "../slices/BrandSlice";
 import { convertObjectToStringQuery } from "./CommonHook";
@@ -19,6 +20,8 @@ export const useListProductInBrandDetail = () =>
   useSelector((state) => state.brand.listProductInBrandDetail);
 export const useMetaInListBrand = () =>
   useSelector((state) => state.brand.metaInListBrand);
+export const useListBrandInAdmin = () =>
+  useSelector((state) => state.brand.listShopInAdmin);
 export const useFilterInProductInBrandDetail = () =>
   useSelector((state) => state.query.productInDetailBrand);
 export const useFilterInListBrand = () =>
@@ -29,6 +32,28 @@ export const useFetchListBrand = async (id, filter) => {
   await useEffect(() => {
     dispatch(fetchListBrand(id, filter));
   }, [dispatch, id, filter]);
+};
+
+export const useFetchListBrandInAdmin = async (filter) => {
+  const dispatch = useDispatch();
+
+  useLayoutEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchListBrandFromAdmin(filter));
+      } catch (error) {}
+    };
+    fetchData();
+  }, [dispatch, filter]);
+};
+
+export const fetchListBrandFromAdmin = (filter) => async (dispatch) => {
+  try {
+    const response = await ProviderApi.GetAllBrand(filter);
+    dispatch(setListShopInAdmin(response.data.data));
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const fetchListBrand = (id, filter) => async (dispatch) => {

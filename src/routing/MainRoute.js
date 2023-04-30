@@ -23,6 +23,7 @@ import { AdminPage } from "../pages/AdminPage/AdminPage";
 import { ResetPage } from "../pages/AuthPage/ResetPage";
 import { OrderDetailPage } from "../pages/OrderPage/OrderDetailPage";
 import { AddCommentPage } from "../pages/OrderPage/AddCommentPage";
+import { BannerDetailPage } from "../pages/Home/BannerDetailPage";
 
 export const MainRoute = () => {
   return (
@@ -36,11 +37,13 @@ export const MainRoute = () => {
           <Route path="/category/:id" element={<CategoryPage />} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
           <Route path="/shop" element={<BrandPage />} />
+          <Route path="/banner/:id" element={<BannerDetailPage />} />
           <Route path="/brand-detail/:id" element={<BrandDetailPage />} />
           <Route path="/cart/:id" element={<CartPage />} />
           <Route path="/shopping-order/:id" element={<ShoppingOrderPage />} />
           <Route path="/account-detail/:id" element={<AccountDetailPage />} />
           <Route path="/account-address/:id" element={<AccountAddressPage />} />
+
           <Route
             path="/account-address/create"
             element={<CreateAddressPage />}

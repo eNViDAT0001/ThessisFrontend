@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   categoryRoot: [],
   listTreeCategory: [],
+  listCategoryInAdmin:[],
   categoryHover:{},
   categoryHandle:{},
   listProductInCategory: [],
@@ -26,6 +27,9 @@ const categorySlice = createSlice({
         setListTreeCategory: (state,action) =>{
             state.listTreeCategory = action.payload
         },
+        setListCategoryInAdmin: (state,action) =>{
+            state.listCategoryInAdmin = action.payload
+        },
         setCategoryHandle: (state,action) =>{
             state.categoryHandle = action.payload
         },
@@ -38,6 +42,7 @@ const categorySlice = createSlice({
 export const {
     setCategoryRoot,
     setListProductInCategory,
+    setListCategoryInAdmin,
     setMetaProductInCategory,
     setListTreeCategory,
     setCategoryHandle,

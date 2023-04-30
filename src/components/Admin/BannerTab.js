@@ -9,11 +9,17 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Checkbox from "@mui/material/Checkbox";
 import { Paper, TableHead } from "@mui/material";
 import { ToastContainer } from "react-toastify";
-import {  Autocomplete, TextField } from "@mui/material";
+import { Button, Autocomplete, TextField } from "@mui/material";
+import BlockIcon from "@mui/icons-material/Block";
 import "react-toastify/ReactToastify.min.css";
 
-import { convertDate, getSelectedIds } from "../../app/hook/CommonHook";
+import { convertDate } from "../../app/hook/CommonHook";
 import { useDispatch } from "react-redux";
+import {
+  useBannerInAdmin,
+  useFetchListBannerInAdmin,
+} from "../../app/hook/BannerHook";
+import { Link } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -35,19 +41,19 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
-export const OrderTab = () => {
+export const BannerTab = () => {
   const dispatch = useDispatch();
 
-  const listOrders = [];
- 
+  const listBanner = useBannerInAdmin() || [];
+
+  useFetchListBannerInAdmin("");
   return (
     <div className="p-6 space-y-5">
-      <h1 class=" text-lg font-bold">List orders: </h1>
+      <h1 class=" text-lg font-bold">List banners: </h1>
       <ToastContainer position="top-right" newestOnTop />
-      {listOrders.length === 0 ? (
+      {listBanner.length === 0 ? (
         <div>
-          <h1>Don't have any orders</h1>
+          <h1>Don't have any banner</h1>
         </div>
       ) : (
         <TableContainer component={Paper}>
@@ -60,19 +66,16 @@ export const OrderTab = () => {
           >
             <TableHead>
               <TableRow>
-                <StyledTableCell align="left">Select</StyledTableCell>
-                <StyledTableCell align="left">Avatar</StyledTableCell>
-                <StyledTableCell align="left">Username</StyledTableCell>
-                <StyledTableCell align="left">Name</StyledTableCell>
-                <StyledTableCell align="left">Birthday</StyledTableCell>
-                <StyledTableCell align="left">Gender</StyledTableCell>
-                <StyledTableCell align="left">Email</StyledTableCell>
-                <StyledTableCell align="left">Phone</StyledTableCell>
-                <StyledTableCell align="left">Type</StyledTableCell>
+                <StyledTableCell align="left">Image</StyledTableCell>
+                <StyledTableCell align="left">Title</StyledTableCell>
+                <StyledTableCell align="left">Collection</StyledTableCell>
+                <StyledTableCell align="left">Discount</StyledTableCell>
+                <StyledTableCell align="left">Created at</StyledTableCell>
+                <StyledTableCell align="left">Updated at</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {listOrders.map((row) => (
+              {listBanner.map((row) => (
                 <StyledTableRow
                   className={{
                     hover: {
@@ -84,45 +87,38 @@ export const OrderTab = () => {
                   hover
                   key={row.id}
                 >
-                  <StyledTableCell id={row.id} align="center">
-                    <Checkbox
-                      id={row.id}
-                      checked={row.isSelected}
-                    />
-                  </StyledTableCell>
                   <StyledTableCell align="left">
-                    {row.avatar ? (
-                      <img
-                        src={row.avatar}
-                        alt="avatar"
-                        className="w-[55px] h-[55px] rounded-full"
-                      ></img>
+                    {row.image ? (
+                      <Link to={`/banner/${row.id}`}>
+                        <img
+                          src={row.image}
+                          alt="avatar"
+                          className="w-[150px] h-[100px] "
+                        ></img>
+                      </Link>
                     ) : (
                       <AccountCircleIcon sx={{ width: 55, height: 55 }} />
                     )}
                   </StyledTableCell>
-                  <StyledTableCell align="left">{row.username}</StyledTableCell>
-                  <StyledTableCell align="left">{row.name}</StyledTableCell>
                   <StyledTableCell align="left">
-                    {convertDate(row.birthday)}
+                    <Link to={`/banner/${row.id}`}>
+                      <h1 className=" hover:text-pink-500 hover:underline">
+                        {row.title}
+                      </h1>
+                    </Link>
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                    {row.gender ? "Male" : "Female"}
+                    {row.collection}
                   </StyledTableCell>
-                  <StyledTableCell align="left">{row.email} </StyledTableCell>
-                  <StyledTableCell align="left">{row.phone}</StyledTableCell>
                   <StyledTableCell align="left">
-                    <Autocomplete
-                      id={row.id}
-                      size="small"
-                      defaultValue={row.type}
-                      getOptionDisabled={(option) => option === row.Status}
-                      sx={{ width: 150 }}
-                      renderInput={(params) => (
-                        <TextField {...params} label="Status" />
-                      )}
-                    />
-                  </StyledTableCell>{" "}
+                    {row.discount}%
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    {convertDate(row.created_at)}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    {convertDate(row.updated_at)}
+                  </StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
