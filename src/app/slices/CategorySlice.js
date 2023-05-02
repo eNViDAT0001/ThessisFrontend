@@ -5,6 +5,7 @@ const initialState = {
   listTreeCategory: [],
   listTreeCategoryInUpdateProduct: [],
   listCategoryInAdmin: [],
+  categoryIDHandleInUpdateTree:null,
   categoryHandleInAdmin:{},
   categoryHover: {},
   categoryHandle: {},
@@ -41,6 +42,12 @@ const categorySlice = createSlice({
     setListBrandInFilterCategory: (state, action) => {
       state.listBrandInFilterCategory = action.payload;
     },
+    setCategoryHandleInAdmin:(state,action) =>{
+      state.categoryHandleInAdmin = action.payload
+    },
+    setCategoryIDHandleInUpdateTree:(state,action) =>{
+      state.categoryIDHandleInUpdateTree = action.payload
+    },
   },
 });
 
@@ -52,7 +59,9 @@ export const {
   setListTreeCategory,
   setCategoryHandle,
   setListBrandInFilterCategory,
-  setListTreeCategoryInUpdateProduct
+  setListTreeCategoryInUpdateProduct,
+  setCategoryHandleInAdmin,
+  setCategoryIDHandleInUpdateTree
 } = categorySlice.actions;
 
 export default categorySlice.reducer;

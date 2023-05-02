@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { setCategoryIDHandleInUpdateTree } from "../../../app/slices/CategorySlice";
+import { useDispatch } from "react-redux";
+import { useCategoryIDHandleInUpdateTree } from "../../../app/hook/CategoryHook";
 
-
-export const TreeCategoryInAdmin = ({ data, idHandle }) => {
+export const TreeCategoryInUpdateInAdmin = ({ data, idHandle }) => {
   const [expanded, setExpanded] = useState([]);
+  const dispatch = useDispatch();
+  const categoryIDHandleInUpdateTree = useCategoryIDHandleInUpdateTree();
 
-  const handleTreeClickSpan = (id) => {
-
+  const handleTreeClickSpan = async (id) => {
+    dispatch(setCategoryIDHandleInUpdateTree(id));
   };
 
   const handleTreeClickDiv = (id) => {
@@ -30,7 +34,11 @@ export const TreeCategoryInAdmin = ({ data, idHandle }) => {
           style={{ paddingLeft: `${level * 16}px` }} // Add left padding
         >
           <div
-            className={`mr-6 hover:text-pink-500 `}
+            className={` mr-6 hover:text-pink-500 ${
+              treeItem.id === categoryIDHandleInUpdateTree
+                ? "text-pink-500"
+                : ""
+            }`}
           >
             <span
               onClick={(e) => {

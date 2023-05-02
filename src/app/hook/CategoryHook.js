@@ -3,15 +3,19 @@ import { useRef } from "react";
 import { ProductApi } from "../../api/ProductApi";
 import {
   setCategoryHandle,
+  setCategoryHandleInAdmin,
   setListBrandInFilterCategory,
   setListCategoryInAdmin,
   setListTreeCategory,
   setListTreeCategoryInUpdateProduct,
 } from "../slices/CategorySlice";
+import { toast } from "react-toastify";
+
 import { buildCategoryTree } from "./CommonHook";
 import { ProviderApi } from "../../api/ProviderApi";
 import { setListProductInCategory } from "../slices/CategorySlice";
 import { useLayoutEffect } from "react";
+import { CategoryApi } from "../../api/CategoryApi";
 
 export const useCategoryRoof = () =>
   useSelector((state) => state.category.categoryRoot);
@@ -31,6 +35,8 @@ export const useSortCategory = () =>
   useSelector((state) => state.query.sortInCategoryPage);
 export const useFilterBrand = () =>
   useSelector((state) => state.query.filterBrandInCategoryPage);
+export const useCategoryHandleInAdmin = () =>
+  useSelector((state) => state.category.categoryHandleInAdmin);
 
 export const useFetchAllInCategory = async (categoryID, filter) => {
   const dispatch = useDispatch();
@@ -123,9 +129,10 @@ export const fetchListTreeCategoryInUpdateProduct = () => async (dispatch) => {
 };
 
 //Admin
-
 export const useTreeCategoryInAdmin = () =>
   useSelector((state) => state.category.listCategoryInAdmin);
+  export const useCategoryIDHandleInUpdateTree = () =>
+  useSelector((state) => state.category.categoryIDHandleInUpdateTree);
 
 export const useFetchCategoryInAdmin = async (categoryID, filter) => {
   const dispatch = useDispatch();
@@ -133,7 +140,7 @@ export const useFetchCategoryInAdmin = async (categoryID, filter) => {
   useLayoutEffect(() => {
     const fetchData = async () => {
       try {
-        await dispatch(fetchListTreeCategoryInAdmin());
+        await dispatch(fetchListTreeCategoryInAdmin())
       } catch (err) {}
     };
     fetchData();
@@ -147,4 +154,42 @@ const fetchListTreeCategoryInAdmin = () => async (dispatch) => {
       dispatch(setListCategoryInAdmin(treeBuild));
     });
   } catch (err) {}
+};
+
+export const useFetchCategoryDetailInAdmin = async (categoryID) => {
+  const dispatch = useDispatch();
+
+  useLayoutEffect(() => {
+    const fetchData = async () => {
+      if (categoryID) {
+        try {
+          await dispatch(fetchCategoryDetailInAdmin(categoryID));
+        } catch (err) {}
+      } else {
+        dispatch(setCategoryHandleInAdmin({}));
+      }
+    };
+
+    fetchData();
+  }, [dispatch, categoryID]);
+};
+
+export const fetchCategoryDetailInAdmin = (categoryID) => async (dispatch) => {
+  try {
+    await ProductApi.GetCategoryChildren(categoryID).then((res) => {
+      dispatch(setCategoryHandleInAdmin(res.data.data));
+    });
+  } catch (err) {}
+};
+
+export const updateCategory = (categoryID, body) => {
+  return CategoryApi.UpdateCategory(categoryID, body).then(() => {
+    toast("Update category success", {
+      type: "success",
+      autoClose: 1000,
+      onClose: setTimeout(() => {
+        window.location.reload();
+      }, 2000),
+    });
+  });
 };
