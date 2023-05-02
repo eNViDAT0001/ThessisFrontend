@@ -5,6 +5,8 @@ import categoryReducer from "./slices/CategorySlice";
 import brandReducer from "./slices/BrandSlice";
 import orderReducer from "./slices/OrderSlice";
 import AddProductReducer from './slices/AddProductSlice'
+import FixProductReducer from './slices/FixProductSlice'
+
 import AddressReducer from './slices/AddressSlice'
 import CartReducer from './slices/CartSlice'
 import QueryReducer from './slices/QuerySlice'
@@ -20,6 +22,7 @@ export const store = configureStore({
     brand: brandReducer,
     order: orderReducer,
     addProduct: AddProductReducer,
+    fixProduct: FixProductReducer,
     address: AddressReducer,
     cart: CartReducer,
     query: QueryReducer,

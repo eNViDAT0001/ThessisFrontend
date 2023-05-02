@@ -15,7 +15,7 @@ export const FilterCategory = (props) => {
         <CategoryIcon />
         <h1 className="text-xl font-bold ">Categories</h1>
       </div>
-      <CategoryTree data={listTreeCategory} idHandle={props.id} />
+      <CategoryTree data={listTreeCategory} idHandle={0} />
       <div className="flex flex-row space-x-5">
         <GradeIcon />
         <h1 className="text-xl font-bold ">Rating</h1>

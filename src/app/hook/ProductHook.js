@@ -18,7 +18,13 @@ import { ProductApi } from "../../api/ProductApi";
 import { fetchCommentInProductDetail } from "./CommentHook";
 import { useEffect } from "react";
 import { uploadFileNotNotify } from "./FileHook";
-import { TableBody } from "@mui/material";
+import {
+  setCategoryIDFix,
+  setDiscountFix,
+  setNameFix,
+  setPriceFix,
+} from "../slices/FixProductSlice";
+import { useCallback } from "react";
 
 export const useProductInHome = () =>
   useSelector((state) => state.product.productInHome);
@@ -216,7 +222,7 @@ const changeDescriptionToBody = async (descriptions) => {
 
   return result;
 };
-export const convertBodyAddProduct = async(
+export const convertBodyAddProduct = async (
   category_id,
   name,
   discount,
@@ -226,7 +232,7 @@ export const convertBodyAddProduct = async(
   options,
   descriptions
 ) => {
-  const descriptionBody = await changeDescriptionToBody(descriptions)
+  const descriptionBody = await changeDescriptionToBody(descriptions);
   const body = {
     category_id: parseInt(category_id),
     name: name,
@@ -329,5 +335,40 @@ export const deleteListProduct = (providerID, body) => async (dispatch) => {
         }, 2000),
       });
     });
+  } catch (err) {}
+};
+
+//Fix product
+export const useNameFix = () => useSelector((state) => state.fixProduct.name);
+export const useCategoryIdFix = () =>
+  useSelector((state) => state.fixProduct.category_id);
+export const usePriceFix = () => useSelector((state) => state.fixProduct.price);
+export const useDiscountFix = () =>
+  useSelector((state) => state.fixProduct.discount);
+export const useMediaFix = () => useSelector((state) => state.fixProduct.media);
+export const useOptionsFix = () =>
+  useSelector((state) => state.fixProduct.options);
+export const useSpecificationNameFix = () =>
+  useSelector((state) => state.fixProduct.specification_name);
+export const useDescriptionsFix = () =>
+  useSelector((state) => state.fixProduct.descriptions);
+
+export const useFetchProductDetailToFix = (productID) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProductDetailForUpdate(productID));
+  }, [dispatch, productID]);
+};
+
+export const fetchProductDetailForUpdate = (productID) => async (dispatch) => {
+  try {
+    const res = await ProductApi.GetDetailProduct(productID);
+    if (res) {
+      dispatch(setNameFix(res.data.data.name));
+      dispatch(setPriceFix(res.data.data.price));
+      dispatch(setDiscountFix(res.data.data.discount));
+      dispatch(setCategoryIDFix(res.data.data.category_id));
+    }
   } catch (err) {}
 };

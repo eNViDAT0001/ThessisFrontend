@@ -9,11 +9,17 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Checkbox from "@mui/material/Checkbox";
 import { Paper, TableHead } from "@mui/material";
 import { ToastContainer } from "react-toastify";
-import {  Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import "react-toastify/ReactToastify.min.css";
 
 import { convertDate, getSelectedIds } from "../../app/hook/CommonHook";
 import { useDispatch } from "react-redux";
+import {
+  updateStatus,
+  useFetchOrderInAdmin,
+  useListOrderInAdmin,
+} from "../../app/hook/OrderHook";
+import { useUserID } from "../../app/hook/UserHook";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -35,12 +41,27 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+const listStatus = [
+  "WAITING",
+  "CONFIRMED",
+  "DELIVERING",
+  "DELIVERED",
+  "CANCEL",
+];
 
 export const OrderTab = () => {
-  const dispatch = useDispatch();
+  const userID = useUserID();
+  const listOrders = useListOrderInAdmin() || [];
 
-  const listOrders = [];
- 
+  const handleChangeStatus = (e) =>{
+    const idHandle = e.currentTarget.id.split("-")[0];
+    const body = {
+      status: e.currentTarget.textContent,
+    };
+    updateStatus(idHandle, body);
+  }
+  useFetchOrderInAdmin(userID);
+
   return (
     <div className="p-6 space-y-5">
       <h1 class=" text-lg font-bold">List orders: </h1>
@@ -60,15 +81,17 @@ export const OrderTab = () => {
           >
             <TableHead>
               <TableRow>
-                <StyledTableCell align="left">Select</StyledTableCell>
-                <StyledTableCell align="left">Avatar</StyledTableCell>
-                <StyledTableCell align="left">Username</StyledTableCell>
-                <StyledTableCell align="left">Name</StyledTableCell>
-                <StyledTableCell align="left">Birthday</StyledTableCell>
+                <StyledTableCell align="center">Name</StyledTableCell>
                 <StyledTableCell align="left">Gender</StyledTableCell>
-                <StyledTableCell align="left">Email</StyledTableCell>
                 <StyledTableCell align="left">Phone</StyledTableCell>
-                <StyledTableCell align="left">Type</StyledTableCell>
+                <StyledTableCell align="left">Province</StyledTableCell>
+                <StyledTableCell align="left">District</StyledTableCell>
+                <StyledTableCell align="left">Ward</StyledTableCell>
+                <StyledTableCell align="left">Street</StyledTableCell>
+                <StyledTableCell align="left">Quantity</StyledTableCell>
+                <StyledTableCell align="left">Total</StyledTableCell>
+                <StyledTableCell align="left">Discount</StyledTableCell>
+                <StyledTableCell align="left">Status</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -85,42 +108,34 @@ export const OrderTab = () => {
                   key={row.id}
                 >
                   <StyledTableCell id={row.id} align="center">
-                    <Checkbox
-                      id={row.id}
-                      checked={row.isSelected}
-                    />
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {row.avatar ? (
-                      <img
-                        src={row.avatar}
-                        alt="avatar"
-                        className="w-[55px] h-[55px] rounded-full"
-                      ></img>
-                    ) : (
-                      <AccountCircleIcon sx={{ width: 55, height: 55 }} />
-                    )}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">{row.username}</StyledTableCell>
-                  <StyledTableCell align="left">{row.name}</StyledTableCell>
-                  <StyledTableCell align="left">
-                    {convertDate(row.birthday)}
+                    {row.name}
                   </StyledTableCell>
                   <StyledTableCell align="left">
                     {row.gender ? "Male" : "Female"}
                   </StyledTableCell>
-                  <StyledTableCell align="left">{row.email} </StyledTableCell>
                   <StyledTableCell align="left">{row.phone}</StyledTableCell>
+                  <StyledTableCell align="left">{row.province}</StyledTableCell>
+                  <StyledTableCell align="left">{row.district}</StyledTableCell>
                   <StyledTableCell align="left">
-                    <Autocomplete
-                      id={row.id}
-                      size="small"
-                      defaultValue={row.type}
-                      getOptionDisabled={(option) => option === row.Status}
-                      sx={{ width: 150 }}
-                      renderInput={(params) => (
-                        <TextField {...params} label="Status" />
-                      )}
+                    {row.ward}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">{row.street} </StyledTableCell>
+                  <StyledTableCell align="left">{row.quantity}</StyledTableCell>
+                  <StyledTableCell align="left">{row.total}</StyledTableCell>
+                  <StyledTableCell align="left">{row.discount}%</StyledTableCell>
+
+                  <StyledTableCell align="left">
+                  <Autocomplete
+                        id={row.id}
+                        options={listStatus}
+                        size="small"
+                        defaultValue={row.status}
+                        getOptionDisabled={(option) => option === row.Status}
+                        sx={{ width: 150 }}
+                        onChange={handleChangeStatus}
+                        renderInput={(params) => (
+                          <TextField {...params} label="Status" />
+                        )}
                     />
                   </StyledTableCell>{" "}
                 </StyledTableRow>

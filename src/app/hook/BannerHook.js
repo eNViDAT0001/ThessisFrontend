@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BannerApi } from "../../api/BannerApi";
-import { setBannerDetail, setListBannerInAdmin } from "../slices/BannerSlice";
+import {
+  setBannerDetail,
+  setListBannerInAdmin,
+  setProductInBannerDetail,
+} from "../slices/BannerSlice";
 
 export const useListBanner = () =>
   useSelector((state) => state.banner.listBanner);
@@ -9,11 +13,15 @@ export const useBannerDetail = () =>
   useSelector((state) => state.banner.bannerDetail);
 export const useBannerInAdmin = () =>
   useSelector((state) => state.banner.listBannerInAdmin);
+export const useProductInBannerDetail = () =>
+  useSelector((state) => state.banner.productInBannerDetail);
 
 export const useFetchBannerDetail = async (bannerID) => {
   const dispatch = useDispatch();
-  await useEffect(() => {
-    dispatch(fetchBannerDetail(bannerID));
+  useEffect(() => {
+    dispatch(fetchBannerDetail(bannerID)).then(() =>
+      dispatch(fetchProductInBannerDetail(bannerID))
+    );
   }, [dispatch, bannerID]);
 };
 
@@ -21,6 +29,15 @@ export const fetchBannerDetail = (bannerID) => async (dispatch) => {
   try {
     const response = await BannerApi.GetBannerDetail(bannerID);
     dispatch(setBannerDetail(response.data.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchProductInBannerDetail = (bannerID) => async (dispatch) => {
+  try {
+    const response = await BannerApi.GetProductPreview(bannerID);
+    dispatch(setProductInBannerDetail(response.data.data));
   } catch (error) {
     console.log(error);
   }

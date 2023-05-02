@@ -11,5 +11,9 @@ export const BannerApi = {
   GetBannerDetail: (bannerID) =>{
     const url = `banners/${bannerID}`
     return axiosClient.get(url)
+  },
+  GetProductPreview:(bannerID) =>{
+    const url = `products/banner/${bannerID}/preview`
+    return axiosClient.get(url)
   }
 };

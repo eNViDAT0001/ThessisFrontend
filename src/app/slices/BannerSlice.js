@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   listBanner: [],
   bannerDetail:{},
+  productInBannerDetail:[],
   listBannerInAdmin:[],
 };
 
@@ -18,6 +19,9 @@ const bannerSlice = createSlice({
         },
         setListBannerInAdmin:(state,action) =>{
             state.listBannerInAdmin = action.payload
+        },
+        setProductInBannerDetail:(state,action) =>{
+            state.productInBannerDetail = action.payload
         }
     }
 });
@@ -25,7 +29,8 @@ const bannerSlice = createSlice({
 export const {
     setListBanner,
     setBannerDetail,
-    setListBannerInAdmin
+    setListBannerInAdmin,
+    setProductInBannerDetail
 } = bannerSlice.actions;
 
 export default bannerSlice.reducer;

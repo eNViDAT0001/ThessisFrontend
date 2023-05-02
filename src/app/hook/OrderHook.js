@@ -1,7 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { OrderApi } from "../../api/OrderApi";
-import { setListItemsInOrder, setListOrderInAccount, setListOrderInProvider, setMetaInOrderInAccount } from "../slices/OrderSlice";
+import {
+  setListItemsInOrder,
+  setListOrderInAccount,
+  setListOrderInAdmin,
+  setListOrderInProvider,
+  setMetaInOrderInAccount,
+} from "../slices/OrderSlice";
 import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 
@@ -9,7 +15,6 @@ export const useListOrderInProvider = () =>
   useSelector((state) => state.order.listOrderInProvider);
 export const useListOrderInAccountDetail = () =>
   useSelector((state) => state.order.listOrderInAccount);
-
 
 export const updateStatus = async (idOrder, body) => {
   await OrderApi.UpdateStatus(idOrder, body).then((res) => {
@@ -32,11 +37,10 @@ export const addNewOrder = (body) => {
       autoClose: 1000,
       onClose: setTimeout(() => {
         window.location.replace("/");
-      }, 2000)
+      }, 2000),
     });
   });
 };
-
 
 export const fetchOrderInProvider = (id, filters) => async (dispatch) => {
   try {
@@ -47,8 +51,7 @@ export const fetchOrderInProvider = (id, filters) => async (dispatch) => {
   }
 };
 
-
-export const changePropListItem = (listItem) =>{
+export const changePropListItem = (listItem) => {
   const result = [];
   listItem.forEach((data) => {
     const obj = {
@@ -56,26 +59,25 @@ export const changePropListItem = (listItem) =>{
       product_id: data.product_id,
       product_option_id: data.option_id,
       provider_id: data.provider_id,
-      name:data.name,
+      name: data.name,
       option: data.option_name,
       price: data.price,
       quantity: data.quantity,
       discount: data.discount,
-      image: data.media_path
-    }
+      image: data.media_path,
+    };
     result.push(obj);
   });
   return result;
-}
+};
 
-export const getListIDCart= (listItem) =>{
+export const getListIDCart = (listItem) => {
   const result = [];
   listItem.forEach((data) => {
-    result.push(data.id)
-  })
-  return result
-}
-
+    result.push(data.id);
+  });
+  return result;
+};
 
 //Account
 export const useFilterOrderInAccount = () =>
@@ -101,19 +103,18 @@ export const useFetchOrderInAccount = async (userId, filters) => {
   const dispatch = useDispatch();
   await useEffect(() => {
     dispatch(fetchOrderInAccount(userId, filters));
-  }, [dispatch,filters,userId]);
+  }, [dispatch, filters, userId]);
 };
 
 const fetchOrderInAccount = (userID, filters) => async (dispatch) => {
   try {
-    const response = await OrderApi.GetOrderFromUser(userID,filters);
+    const response = await OrderApi.GetOrderFromUser(userID, filters);
     dispatch(setListOrderInAccount(response.data.data));
-    dispatch(setMetaInOrderInAccount(response.data.meta))
+    dispatch(setMetaInOrderInAccount(response.data.meta));
   } catch (err) {
     console.log(err);
   }
 };
-
 
 //order detail
 
@@ -124,14 +125,34 @@ export const useFetchItemInOrder = async (orderID) => {
   const dispatch = useDispatch();
   await useEffect(() => {
     dispatch(fetchItemInOrderDetail(orderID));
-  }, [dispatch,orderID]);
+  }, [dispatch, orderID]);
 };
 
-const fetchItemInOrderDetail = (orderID) => async(dispatch)=>{
+const fetchItemInOrderDetail = (orderID) => async (dispatch) => {
   try {
-    const response = await OrderApi.GetOrderItems(orderID)
-    dispatch(setListItemsInOrder(response.data.data))
+    const response = await OrderApi.GetOrderItems(orderID);
+    dispatch(setListItemsInOrder(response.data.data));
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
+
+//admin
+export const useListOrderInAdmin = () =>
+  useSelector((state) => state.order.listOrderInAdmin);
+
+export const useFetchOrderInAdmin = async (userID) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchAllOrder(userID));
+  }, [dispatch, userID]);
+};
+
+const fetchAllOrder = (userID) => async (dispatch) => {
+  try {
+    const response = await OrderApi.GetFullOrder(userID);
+    dispatch(setListOrderInAdmin(response.data.data));
+  } catch (error) {
+    console.log(error);
+  }
+};

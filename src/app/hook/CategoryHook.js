@@ -5,6 +5,7 @@ import {
   setCategoryHandle,
   setListBrandInFilterCategory,
   setListTreeCategory,
+  setListTreeCategoryInUpdateProduct,
 } from "../slices/CategorySlice";
 import { buildCategoryTree } from "./CommonHook";
 import { ProviderApi } from "../../api/ProviderApi";
@@ -103,6 +104,32 @@ const fetchListTreeCategory = () => async (dispatch) => {
       };
       result.push(newTree);
       dispatch(setListTreeCategory(result));
+    });
+  } catch (err) {}
+};
+
+//update Product
+export const useTreeCategoryInUpdateProduct = () =>
+  useSelector((state) => state.category.listTreeCategoryInUpdateProduct);
+
+export const useFetchTreeInCategoryInUpdateProduct = async () => {
+  const dispatch = useDispatch();
+
+  useLayoutEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchListTreeCategoryInUpdateProduct());
+      } catch (err) {}
+    };
+    fetchData();
+  }, [dispatch]);
+};
+
+const fetchListTreeCategoryInUpdateProduct = () => async (dispatch) => {
+  try {
+    await ProductApi.GetListCategoriesTree().then((res) => {
+      const treeBuild = buildCategoryTree(res.data.data);
+      dispatch(setListTreeCategoryInUpdateProduct(treeBuild));
     });
   } catch (err) {}
 };

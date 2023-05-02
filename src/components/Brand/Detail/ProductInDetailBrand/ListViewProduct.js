@@ -53,7 +53,9 @@ export const ListViewProduct = (props) => {
   const handleButtonAdd = (e) => {
     window.location.replace(`/add-product-in-brand/${props.id}`);
   };
-  const handleUpdateButton = (e) => {};
+  const handleUpdateButton = (e) => {
+    window.location.replace(`/product/${e.currentTarget.id}/edit`)
+  };
 
   const handleDeleteListProduct = (e) => {
     const providerID = parseInt(props.id)

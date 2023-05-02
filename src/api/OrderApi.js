@@ -1,12 +1,11 @@
-import { transformFilters } from "../app/hook/CommonHook";
 import axiosClient from "./Client";
 export const OrderApi = {
   AddNewOrder: (body) => {
     const url = `/orders`;
     return axiosClient.post(url,body);
   },
-  GetFullOrder: () => {
-    const url = ``;
+  GetFullOrder: (userID) => {
+    const url = `/orders/admin/${userID}`;
     return axiosClient.get(url);
   },
   GetOrderFromUser: (id,filter) =>{
