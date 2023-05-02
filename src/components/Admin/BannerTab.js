@@ -9,17 +9,19 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Checkbox from "@mui/material/Checkbox";
 import { Paper, TableHead } from "@mui/material";
 import { ToastContainer } from "react-toastify";
-import { Button, Autocomplete, TextField } from "@mui/material";
-import BlockIcon from "@mui/icons-material/Block";
+import { Button} from "@mui/material";
 import "react-toastify/ReactToastify.min.css";
+import DeleteIcon from '@mui/icons-material/Delete';
 
-import { convertDate } from "../../app/hook/CommonHook";
+import { convertDate, getSelectedIds } from "../../app/hook/CommonHook";
 import { useDispatch } from "react-redux";
 import {
+  selectBanner,
   useBannerInAdmin,
   useFetchListBannerInAdmin,
 } from "../../app/hook/BannerHook";
 import { Link } from "react-router-dom";
+import { setListBannerInAdmin } from "../../app/slices/BannerSlice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -42,13 +44,39 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export const BannerTab = () => {
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch()
   const listBanner = useBannerInAdmin() || [];
+  const [disableButtonDelete, setDisableButtonDelete] = useState(true);
 
   useFetchListBannerInAdmin("");
+
+  const handleCheckBanner = (bannerID) => {
+    const newBanner = selectBanner(listBanner, bannerID);
+    dispatch(setListBannerInAdmin(newBanner));
+  };
+
+  const handleDeleteListBanner = (e) => {
+    const listSelect = getSelectedIds(listBanner);
+    const body = {
+      ids: listSelect,
+    };
+    
+  };
+
+  useEffect(() => {
+    if (getSelectedIds(listBanner).length === 0) setDisableButtonDelete(true);
+    else setDisableButtonDelete(false);
+  }, [listBanner]);
   return (
     <div className="p-6 space-y-5">
+      <Button
+          disabled={disableButtonDelete}
+          variant="outlined"
+          startIcon={<DeleteIcon />}
+          onClick={handleDeleteListBanner}
+        >
+          Delete banner
+        </Button>
       <h1 class=" text-lg font-bold">List banners: </h1>
       <ToastContainer position="top-right" newestOnTop />
       {listBanner.length === 0 ? (
@@ -66,6 +94,7 @@ export const BannerTab = () => {
           >
             <TableHead>
               <TableRow>
+                <StyledTableCell align="left">Select</StyledTableCell>
                 <StyledTableCell align="left">Image</StyledTableCell>
                 <StyledTableCell align="left">Title</StyledTableCell>
                 <StyledTableCell align="left">Collection</StyledTableCell>
@@ -87,6 +116,13 @@ export const BannerTab = () => {
                   hover
                   key={row.id}
                 >
+                  <StyledTableCell id={row.id} align="center">
+                    <Checkbox
+                      id={row.id}
+                      checked={row.isSelected}
+                      onClick={() => handleCheckBanner(row.id)}
+                    />
+                  </StyledTableCell>
                   <StyledTableCell align="left">
                     {row.image ? (
                       <Link to={`/banner/${row.id}`}>

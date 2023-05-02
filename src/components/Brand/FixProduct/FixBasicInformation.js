@@ -16,6 +16,8 @@ import {
 } from "../../../app/hook/ProductHook";
 import { useState } from "react";
 import { useEffect } from "react";
+import { CategoryTreeFix } from "./CategoryTreeFix";
+import { setDiscountFix, setNameFix, setPriceFix } from "../../../app/slices/FixProductSlice";
 const categoryArray = [
   {
     id: 1,
@@ -60,13 +62,13 @@ export const FixBasicInformation = () => {
   const discount = useDiscountFix();
 
   const handleInputName = (e) => {
-    dispatch(setName(e.target.value));
+    dispatch(setNameFix(e.target.value));
   };
   const handleInputPrice = (e) => {
-    dispatch(setPrice(e.target.value));
+    dispatch(setPriceFix(e.target.value));
   };
   const handleInputDiscount = (e) => {
-    dispatch(setDiscount(e.target.value));
+    dispatch(setDiscountFix(e.target.value));
   };
 
   useEffect(() => {
@@ -90,9 +92,9 @@ export const FixBasicInformation = () => {
               label="Name"
             />
           </div>
-          <div className="flex flex-row space-x-8 items-center">
+          <div className="flex flex-row space-x-8 items-start">
             <h1 className="font-semibold">Select your Category:</h1>
-            
+            <CategoryTreeFix />
           </div>
           <div className="flex flex-row justify-between space-x-4 items-center">
             <h1 className="font-semibold">Price:</h1>

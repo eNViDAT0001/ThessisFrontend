@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setCategoryIDFix } from "../../../app/slices/FixProductSlice";
-import { useCategoryIdFix } from "../../../app/hook/ProductHook";
 
-export const TheTreeFix = ({ data, idHandle }) => {
+
+export const TreeCategoryInAdmin = ({ data, idHandle }) => {
   const [expanded, setExpanded] = useState([]);
-  const dispatch = useDispatch();
-  const category_id = useCategoryIdFix();
 
   const handleTreeClickSpan = (id) => {
-    dispatch(setCategoryIDFix(id));
+
   };
 
   const handleTreeClickDiv = (id) => {
@@ -34,9 +30,7 @@ export const TheTreeFix = ({ data, idHandle }) => {
           style={{ paddingLeft: `${level * 16}px` }} // Add left padding
         >
           <div
-            className={` mr-6 hover:text-pink-500 ${
-              treeItem.id === category_id ? "text-pink-500" : ""
-            }`}
+            className={`mr-6 hover:text-pink-500 `}
           >
             <span
               onClick={(e) => {

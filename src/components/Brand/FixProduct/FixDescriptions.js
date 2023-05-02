@@ -1,11 +1,13 @@
 import React, { useCallback } from "react";
 import { Button, TextField } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useDescriptions } from "../../../app/hook/ProductHook";
-import { setDescriptions } from "../../../app/slices/AddProductSlice";
+import {
+  useDescriptionsFix,
+} from "../../../app/hook/ProductHook";
 import { useDispatch } from "react-redux";
 import MDEditor from "@uiw/react-md-editor";
 import { cloneDeep } from "lodash";
+import { setDescriptionsFix } from "../../../app/slices/FixProductSlice";
 
 const Description = React.memo(({ data, onChangeName, onChangeMarkdown }) => {
   const handleChangeName = useCallback(
@@ -50,7 +52,7 @@ const Description = React.memo(({ data, onChangeName, onChangeMarkdown }) => {
 
 export const FixDescriptions = () => {
   const dispatch = useDispatch();
-  const descriptions = useDescriptions();
+  const descriptions = useDescriptionsFix();
 
   const addDescription = useCallback(() => {
     const newOption = {
@@ -58,13 +60,13 @@ export const FixDescriptions = () => {
       description_name: "",
       description_md: "",
     };
-    dispatch(setDescriptions([...descriptions, newOption]));
+    dispatch(setDescriptionsFix([...descriptions, newOption]));
   }, [descriptions, dispatch]);
 
   const removeDescription = useCallback(() => {
     if (descriptions.length > 1) {
       const temp = descriptions.slice(0, -1);
-      dispatch(setDescriptions([...temp]));
+      dispatch(setDescriptionsFix([...temp]));
     }
   }, [descriptions, dispatch]);
 
@@ -72,7 +74,7 @@ export const FixDescriptions = () => {
     (id, value) => {
       const temp = cloneDeep(descriptions);
       temp[id].description_name = value;
-      dispatch(setDescriptions(temp));
+      dispatch(setDescriptionsFix(temp));
     },
     [descriptions, dispatch]
   );
@@ -81,7 +83,7 @@ export const FixDescriptions = () => {
     (id, value) => {
       const temp = cloneDeep(descriptions);
       temp[id].description_md = value;
-      dispatch(setDescriptions(temp));
+      dispatch(setDescriptionsFix(temp));
     },
     [descriptions, dispatch]
   );

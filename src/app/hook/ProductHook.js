@@ -20,11 +20,13 @@ import { useEffect } from "react";
 import { uploadFileNotNotify } from "./FileHook";
 import {
   setCategoryIDFix,
+  setDataOptionFix,
   setDiscountFix,
   setNameFix,
   setPriceFix,
+  setSpecificationNameFix,
 } from "../slices/FixProductSlice";
-import { useCallback } from "react";
+import { fetchListTreeCategoryInUpdateProduct } from "./CategoryHook";
 
 export const useProductInHome = () =>
   useSelector((state) => state.product.productInHome);
@@ -265,9 +267,7 @@ export const checkValidAdd = (
   category_id,
   price,
   specification_name,
-  media,
-  description_name,
-  description_md
+  media
 ) => {
   if (name == "") {
     toast("Missing name", {
@@ -356,10 +356,39 @@ export const useDescriptionsFix = () =>
 export const useFetchProductDetailToFix = (productID) => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchProductDetailForUpdate(productID));
+  useLayoutEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchProductDetailForUpdate(productID))
+          .then(() => {
+            return dispatch(fetchListTreeCategoryInUpdateProduct());
+          })
+          .then(() => {
+            return dispatch(fetchSpecificationInProductUpdate(productID));
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (err) {}
+    };
+    fetchData();
   }, [dispatch, productID]);
 };
+
+export const fetchSpecificationInProductUpdate =
+  (productID) => async (dispatch) => {
+    try {
+      const res = await ProductApi.GetSpecification(productID);
+      if (res) {
+        const options = res.data.data[0].options;
+        for (let i = 0; i < options.length; i++) {
+          options[i].id = i;
+        }
+        dispatch(setSpecificationNameFix(res.data.data[0].properties));
+        dispatch(setDataOptionFix(options));
+      }
+    } catch (err) {}
+  };
 
 export const fetchProductDetailForUpdate = (productID) => async (dispatch) => {
   try {
@@ -371,4 +400,51 @@ export const fetchProductDetailForUpdate = (productID) => async (dispatch) => {
       dispatch(setCategoryIDFix(res.data.data.category_id));
     }
   } catch (err) {}
+};
+
+export const updateProduct = async (productID, body) => {
+  await ProductApi.UpdateProduct(productID, body).then(() => {
+    toast("Update Product Success", {
+      type: "success",
+      autoClose: 1000,
+      onClose: setTimeout(() => {
+        window.location.replace(`/product/${productID}`);
+      }, 2000),
+    });
+  });
+};
+
+export const checkValidFix = (
+  name,
+  category_id,
+  price,
+  specification_name,
+) => {
+  if (name == "") {
+    toast("Missing name", {
+      type: "warning",
+      autoClose: 1000,
+    });
+    return false;
+  } else if (category_id == 0) {
+    toast("Missing category", {
+      type: "warning",
+      autoClose: 1000,
+    });
+    return false;
+  } else if (price == "") {
+    toast("Missing price", {
+      type: "warning",
+      autoClose: 1000,
+    });
+    return false;
+  } else if (specification_name == "") {
+    toast("Missing name specification", {
+      type: "warning",
+      autoClose: 1000,
+    });
+    return false;
+  } else {
+    return true;
+  }
 };

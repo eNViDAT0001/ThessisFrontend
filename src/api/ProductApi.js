@@ -70,6 +70,10 @@ export const ProductApi = {
     const url = `/products/${idProduct}/specification`;
     return axiosClient.post(url, body);
   },
+  UpdateProduct: (productID, body) => {
+    const url = `/products/${productID}`;
+    return axiosClient.patch(url,body);
+  },
   DeleteProduct: (idProduct) => {
     const url = `/products/${idProduct}`;
     return axiosClient.delete(url);

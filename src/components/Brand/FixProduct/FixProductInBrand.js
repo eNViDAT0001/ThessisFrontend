@@ -1,5 +1,5 @@
 import { Divider } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import { FixBasicInformation } from "./FixBasicInformation";
 import { FixImage } from "./FixImage";
 import { FixSpecification } from "./FixSpecification";
@@ -13,8 +13,10 @@ import { useParams } from "react-router-dom";
 import { FixDescriptions } from "./FixDescriptions";
 import DescriptionIcon from "@mui/icons-material/Description";
 
-import { useUserID } from "../../../app/hook/UserHook";
 import {
+  checkValidFix,
+  convertBodyAddProduct,
+  updateProduct,
   useCategoryIdFix,
   useDescriptionsFix,
   useDiscountFix,
@@ -28,8 +30,6 @@ import {
 
 export const FixProductInBrand = () => {
   const { id } = useParams();
-  const userID = useUserID();
-  const [openButon, setOpenButton] = useState(true);
 
   useFetchProductDetailToFix(id);
 
@@ -42,18 +42,20 @@ export const FixProductInBrand = () => {
   const specification_name = useSpecificationNameFix();
   const descriptions = useDescriptionsFix();
 
-  const FixProduct = async (e) => {
-    // if (checkValidFix(name, category_id, price, specification_name, media)) {
-    // const body = await convertBodyFixProduct(
-    //   category_id,
-    //   name,
-    //   discount,
-    //   price,
-    //   media,
-    //   specification_name,
-    //   options,
-    //   descriptions
-    // );
+  const handleUpdateProduct = async (e) => {
+    if (checkValidFix(name, category_id, price, specification_name)) {
+      const body = await convertBodyAddProduct(
+        category_id,
+        name,
+        discount,
+        price,
+        media,
+        specification_name,
+        options,
+        descriptions
+      );
+      updateProduct(id, body);
+    }
   };
 
   return (
@@ -92,12 +94,8 @@ export const FixProductInBrand = () => {
         <FixDescriptions />
 
         <div className="flex flex-row-reverse">
-          <Button
-            disabled={!openButon}
-            variant="contained"
-            onClick={FixProduct}
-          >
-            Fix
+          <Button variant="contained" onClick={handleUpdateProduct}>
+            Update
           </Button>
         </div>
       </div>

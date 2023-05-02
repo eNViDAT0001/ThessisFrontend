@@ -3,12 +3,12 @@ import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { useMedia } from "../../../app/hook/ProductHook";
+import { useMediaFix } from "../../../app/hook/ProductHook";
 import { uploadFile } from "../../../app/hook/FileHook";
 import { useDispatch } from "react-redux";
-import { addFileInMedia } from "../../../app/slices/AddProductSlice";
+import { addFileInMediaFix } from "../../../app/slices/FixProductSlice";
 export const FixImage = () => {
-  const listMedia = useMedia()
+  const listMedia = useMediaFix()
   const dispatch = useDispatch()
 
   const handleButtonUploadFile = (e) => {
@@ -17,7 +17,7 @@ export const FixImage = () => {
       const formData = new FormData();
       formData.append("files", file, file.name);
       uploadFile(formData).then(res=>{
-        dispatch(addFileInMedia(res.data[0]))
+        dispatch(addFileInMediaFix(res.data[0]))
       })
     }
   };

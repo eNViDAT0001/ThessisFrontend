@@ -53,8 +53,27 @@ export const useFetchListBannerInAdmin = async (filter) => {
 export const fetchListBannerFromAdmin = (filter) => async (dispatch) => {
   try {
     const response = await BannerApi.GetAllFromAdmin(filter);
-    dispatch(setListBannerInAdmin(response.data.data));
+    const listBanners =
+      response.data.data &&
+      response.data.data.map((data) => {
+        return { ...data, isSelected: false };
+      });
+    dispatch(setListBannerInAdmin(listBanners));
   } catch (error) {
     console.log(error);
   }
+};
+
+
+export const selectBanner = (arr, bannerID) => {
+  if (!Array.isArray(arr)) return [];
+  return arr.map((banner) => {
+    if (banner.id === bannerID) {
+      return {
+        ...banner,
+        isSelected: !banner.isSelected,
+      };
+    }
+    return banner;
+  });
 };

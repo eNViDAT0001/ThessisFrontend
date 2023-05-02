@@ -4,6 +4,7 @@ import { ProductApi } from "../../api/ProductApi";
 import {
   setCategoryHandle,
   setListBrandInFilterCategory,
+  setListCategoryInAdmin,
   setListTreeCategory,
   setListTreeCategoryInUpdateProduct,
 } from "../slices/CategorySlice";
@@ -112,24 +113,38 @@ const fetchListTreeCategory = () => async (dispatch) => {
 export const useTreeCategoryInUpdateProduct = () =>
   useSelector((state) => state.category.listTreeCategoryInUpdateProduct);
 
-export const useFetchTreeInCategoryInUpdateProduct = async () => {
+export const fetchListTreeCategoryInUpdateProduct = () => async (dispatch) => {
+  try {
+    await ProductApi.GetListCategoriesTree().then((res) => {
+      const treeBuild = buildCategoryTree(res.data.data);
+      dispatch(setListTreeCategoryInUpdateProduct(treeBuild));
+    });
+  } catch (err) {}
+};
+
+//Admin
+
+export const useTreeCategoryInAdmin = () =>
+  useSelector((state) => state.category.listCategoryInAdmin);
+
+export const useFetchCategoryInAdmin = async (categoryID, filter) => {
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     const fetchData = async () => {
       try {
-        await dispatch(fetchListTreeCategoryInUpdateProduct());
+        await dispatch(fetchListTreeCategoryInAdmin());
       } catch (err) {}
     };
     fetchData();
-  }, [dispatch]);
+  }, [dispatch, categoryID, filter]);
 };
 
-const fetchListTreeCategoryInUpdateProduct = () => async (dispatch) => {
+const fetchListTreeCategoryInAdmin = () => async (dispatch) => {
   try {
     await ProductApi.GetListCategoriesTree().then((res) => {
       const treeBuild = buildCategoryTree(res.data.data);
-      dispatch(setListTreeCategoryInUpdateProduct(treeBuild));
+      dispatch(setListCategoryInAdmin(treeBuild));
     });
   } catch (err) {}
 };

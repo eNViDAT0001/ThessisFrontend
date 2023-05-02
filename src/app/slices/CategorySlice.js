@@ -5,6 +5,7 @@ const initialState = {
   listTreeCategory: [],
   listTreeCategoryInUpdateProduct: [],
   listCategoryInAdmin: [],
+  categoryHandleInAdmin:{},
   categoryHover: {},
   categoryHandle: {},
   listProductInCategory: [],
