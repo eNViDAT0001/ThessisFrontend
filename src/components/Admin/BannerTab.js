@@ -9,13 +9,14 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Checkbox from "@mui/material/Checkbox";
 import { Paper, TableHead } from "@mui/material";
 import { ToastContainer } from "react-toastify";
-import { Button} from "@mui/material";
+import { Button } from "@mui/material";
 import "react-toastify/ReactToastify.min.css";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { convertDate, getSelectedIds } from "../../app/hook/CommonHook";
 import { useDispatch } from "react-redux";
 import {
+  deleteListBanner,
   selectBanner,
   useBannerInAdmin,
   useFetchListBannerInAdmin,
@@ -44,7 +45,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export const BannerTab = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const listBanner = useBannerInAdmin() || [];
   const [disableButtonDelete, setDisableButtonDelete] = useState(true);
 
@@ -60,7 +61,7 @@ export const BannerTab = () => {
     const body = {
       ids: listSelect,
     };
-    
+    deleteListBanner(body);
   };
 
   useEffect(() => {
@@ -70,13 +71,13 @@ export const BannerTab = () => {
   return (
     <div className="p-6 space-y-5">
       <Button
-          disabled={disableButtonDelete}
-          variant="outlined"
-          startIcon={<DeleteIcon />}
-          onClick={handleDeleteListBanner}
-        >
-          Delete banner
-        </Button>
+        disabled={disableButtonDelete}
+        variant="outlined"
+        startIcon={<DeleteIcon />}
+        onClick={handleDeleteListBanner}
+      >
+        Delete banner
+      </Button>
       <h1 class=" text-lg font-bold">List banners: </h1>
       <ToastContainer position="top-right" newestOnTop />
       {listBanner.length === 0 ? (

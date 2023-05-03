@@ -4,5 +4,8 @@ export const CategoryApi = {
     const url = `/categories/${categoryID}`;
     return axiosClient.patch(url,body);
   },
-
+  AddNewCategory: (body) =>{
+    const url = `/categories`
+    return axiosClient.post(url,{ ...body });
+  }
 };

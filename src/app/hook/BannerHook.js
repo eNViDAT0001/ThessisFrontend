@@ -6,6 +6,7 @@ import {
   setListBannerInAdmin,
   setProductInBannerDetail,
 } from "../slices/BannerSlice";
+import { toast } from "react-toastify";
 
 export const useListBanner = () =>
   useSelector((state) => state.banner.listBanner);
@@ -75,5 +76,15 @@ export const selectBanner = (arr, bannerID) => {
       };
     }
     return banner;
+  });
+};
+
+export const deleteListBanner = async(body) => {
+  await BannerApi.DeleteListBanner(body).then(() => {
+    toast("Delete list banner successfully", {
+      type: "success",
+      autoClose: 1000,
+      Close: setTimeout(() => window.location.reload(), 1000),
+    });
   });
 };

@@ -16,8 +16,8 @@ export const BannerApi = {
     const url = `products/banner/${bannerID}/preview`;
     return axiosClient.get(url);
   },
-  DeleteListBanner: (providerID, userID, body) => {
-    const url = `/banners/${providerID}/user/${userID}`;
+  DeleteListBanner: (body) => {
+    const url = `/banners`;
     return axiosClient.delete(url, { data: body });
   },
 };

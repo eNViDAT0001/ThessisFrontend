@@ -4,10 +4,12 @@ import { ProductApi } from "../../api/ProductApi";
 import {
   setCategoryHandle,
   setCategoryHandleInAdmin,
+  setCategoryIDHandleInUpdateTree,
   setListBrandInFilterCategory,
   setListCategoryInAdmin,
   setListTreeCategory,
   setListTreeCategoryInUpdateProduct,
+  setListTreeCategoryLogic,
 } from "../slices/CategorySlice";
 import { toast } from "react-toastify";
 
@@ -131,8 +133,12 @@ export const fetchListTreeCategoryInUpdateProduct = () => async (dispatch) => {
 //Admin
 export const useTreeCategoryInAdmin = () =>
   useSelector((state) => state.category.listCategoryInAdmin);
-  export const useCategoryIDHandleInUpdateTree = () =>
+export const useCategoryIDHandleInUpdateTree = () =>
   useSelector((state) => state.category.categoryIDHandleInUpdateTree);
+export const useCategoryIDHandleInAddTree = () =>
+  useSelector((state) => state.category.categoryIDHandleInAddTree);
+export const useListTreeCategoryLogic = () =>
+  useSelector((state) => state.category.listTreeCategoryLogic);
 
 export const useFetchCategoryInAdmin = async (categoryID, filter) => {
   const dispatch = useDispatch();
@@ -140,7 +146,7 @@ export const useFetchCategoryInAdmin = async (categoryID, filter) => {
   useLayoutEffect(() => {
     const fetchData = async () => {
       try {
-        await dispatch(fetchListTreeCategoryInAdmin())
+        await dispatch(fetchListTreeCategoryInAdmin());
       } catch (err) {}
     };
     fetchData();
@@ -151,7 +157,15 @@ const fetchListTreeCategoryInAdmin = () => async (dispatch) => {
   try {
     await ProductApi.GetListCategoriesTree().then((res) => {
       const treeBuild = buildCategoryTree(res.data.data);
+      const result = [];
+      const newTree = {
+        id: 0,
+        name: "All",
+        children: treeBuild,
+      };
+      result.push(newTree);
       dispatch(setListCategoryInAdmin(treeBuild));
+      dispatch(setListTreeCategoryLogic(result))
     });
   } catch (err) {}
 };
@@ -178,6 +192,7 @@ export const fetchCategoryDetailInAdmin = (categoryID) => async (dispatch) => {
   try {
     await ProductApi.GetCategoryChildren(categoryID).then((res) => {
       dispatch(setCategoryHandleInAdmin(res.data.data));
+      dispatch(setCategoryIDHandleInUpdateTree(res.data.data.category_parent_id))
     });
   } catch (err) {}
 };
@@ -185,6 +200,18 @@ export const fetchCategoryDetailInAdmin = (categoryID) => async (dispatch) => {
 export const updateCategory = (categoryID, body) => {
   return CategoryApi.UpdateCategory(categoryID, body).then(() => {
     toast("Update category success", {
+      type: "success",
+      autoClose: 1000,
+      onClose: setTimeout(() => {
+        window.location.reload();
+      }, 2000),
+    });
+  });
+};
+
+export const addCategory = (body) => {
+  return CategoryApi.AddNewCategory(body).then(() => {
+    toast("Add category success", {
       type: "success",
       autoClose: 1000,
       onClose: setTimeout(() => {
