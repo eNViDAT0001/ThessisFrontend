@@ -75,7 +75,7 @@ export const AddCategory = () => {
                 >
                   <input hidden accept="image/*" type="file" />
                   <PhotoCamera />
-                </IconButton>{" "}
+                </IconButton>
               </div>
               {newImage && (
                 <img

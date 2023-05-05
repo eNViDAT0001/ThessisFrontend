@@ -23,6 +23,7 @@ import {
 } from "../../app/hook/BannerHook";
 import { Link } from "react-router-dom";
 import { setListBannerInAdmin } from "../../app/slices/BannerSlice";
+import { AddBanner } from "./BannerComponentInAdmin/AddBanner";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -48,6 +49,7 @@ export const BannerTab = () => {
   const dispatch = useDispatch();
   const listBanner = useBannerInAdmin() || [];
   const [disableButtonDelete, setDisableButtonDelete] = useState(true);
+  const [openAddBanner, setOpenAddBanner] = useState(true);
 
   useFetchListBannerInAdmin("");
 
@@ -64,20 +66,36 @@ export const BannerTab = () => {
     deleteListBanner(body);
   };
 
+  const handleButtonAddBanner = (e) => {
+    setOpenAddBanner(!openAddBanner);
+  };
+
   useEffect(() => {
     if (getSelectedIds(listBanner).length === 0) setDisableButtonDelete(true);
     else setDisableButtonDelete(false);
   }, [listBanner]);
   return (
     <div className="p-6 space-y-5">
-      <Button
-        disabled={disableButtonDelete}
-        variant="outlined"
-        startIcon={<DeleteIcon />}
-        onClick={handleDeleteListBanner}
-      >
-        Delete banner
-      </Button>
+      <div className="flex justify-between">
+        <Button
+          disabled={disableButtonDelete}
+          variant="outlined"
+          startIcon={<DeleteIcon />}
+          onClick={handleDeleteListBanner}
+        >
+          Delete banner
+        </Button>
+        {!openAddBanner ? (
+          <Button variant="contained" onClick={handleButtonAddBanner}>
+            + Add new category
+          </Button>
+        ) : (
+          <Button variant="outlined" onClick={handleButtonAddBanner}>
+            Hide Form
+          </Button>
+        )}
+      </div>
+      {openAddBanner && <AddBanner />}
       <h1 class=" text-lg font-bold">List banners: </h1>
       <ToastContainer position="top-right" newestOnTop />
       {listBanner.length === 0 ? (
