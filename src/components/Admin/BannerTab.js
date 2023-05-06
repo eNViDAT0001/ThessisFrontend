@@ -49,7 +49,7 @@ export const BannerTab = () => {
   const dispatch = useDispatch();
   const listBanner = useBannerInAdmin() || [];
   const [disableButtonDelete, setDisableButtonDelete] = useState(true);
-  const [openAddBanner, setOpenAddBanner] = useState(true);
+  const [openAddBanner, setOpenAddBanner] = useState(false);
 
   useFetchListBannerInAdmin("");
 

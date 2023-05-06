@@ -4,8 +4,8 @@ export const BannerApi = {
     const url = `banners?${filter}`;
     return axiosClient.get(url);
   },
-  AddNewBanner: (userID, body) => {
-    const url = `banners/user/${userID}`;
+  AddNewBanner: (body) => {
+    const url = `banners`;
     return axiosClient.post(url, body);
   },
   GetBannerDetail: (bannerID) => {

@@ -1,0 +1,51 @@
+export const dataChatList = [
+  {
+    avatar: "https://avatars.githubusercontent.com/u/80540635?v=4",
+    alt: "kursat_avatar",
+    title: "Kursat",
+    subtitle: "Why don't we go to the No Way Home movie this weekend ?",
+    date: new Date(),
+    unread: 3,
+  },
+  {
+    avatar: "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50",
+    alt: "kursat_avatar",
+    title: "Henry",
+    subtitle: "Okey, I will send you",
+    date: new Date(),
+    unread: 3,
+  },
+  {
+    avatar:
+      "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y",
+    alt: "kursat_avatar",
+    title: "Kursat",
+    subtitle: "ahihi",
+    date: new Date(),
+    unread: 3,
+  },
+  {
+    avatar: "https://avatars.githubusercontent.com/u/80540635?v=4",
+    alt: "kursat_avatar",
+    title: "Kursat",
+    subtitle: "Why don't we go to the No Way Home movie this weekend ?",
+    date: new Date(),
+    unread: 3,
+  },
+  {
+    avatar: "https://avatars.githubusercontent.com/u/80540635?v=4",
+    alt: "kursat_avatar",
+    title: "Kursat",
+    subtitle: "Why don't we go to the No Way Home movie this weekend ?",
+    date: new Date(),
+    unread: 3,
+  },
+  {
+    avatar: "https://avatars.githubusercontent.com/u/80540635?v=4",
+    alt: "kursat_avatar",
+    title: "Kursat",
+    subtitle: "Why don't we go to the No Way Home movie this weekend ?",
+    date: new Date(),
+    unread: 3,
+  },
+];

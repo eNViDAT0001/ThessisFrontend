@@ -32,8 +32,7 @@ import {
   setPageInProductInAddBanner,
 } from "../../../app/slices/QuerySlice";
 import { useUserID } from "../../../app/hook/UserHook";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import dayjs from "dayjs";
+
 
 export const AddBanner = () => {
   const dispatch = useDispatch();
@@ -108,7 +107,8 @@ export const AddBanner = () => {
       image: newImage,
       product_ids_in: getSelectedIds(listProductInForm),
     };
-    addNewBanner(userID, body);
+    console.log(body)
+    addNewBanner(body);
   };
 
   return (

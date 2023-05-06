@@ -119,8 +119,8 @@ export const deleteListBanner = async (body) => {
   });
 };
 
-export const addNewBanner = async (userID,body) => {
-  await BannerApi.AddNewBanner(userID,body).then(() => {
+export const addNewBanner = async (body) => {
+  await BannerApi.AddNewBanner(body).then(() => {
     toast("Add banner successfully", {
       type: "success",
       autoClose: 1000,

@@ -96,7 +96,6 @@ export const ProductOverview = () => {
           )}
         </div>
       </div>
-      )
     </div>
   );
 };

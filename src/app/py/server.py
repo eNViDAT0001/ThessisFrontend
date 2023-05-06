@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 df = pd.read_csv('src/app/py/comment.csv')
 
+
 @app.route('/recommend/<int:user_id>', methods=['GET'])
 # Define your data and function here
 def recommend_products(user_id):
