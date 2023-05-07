@@ -12,6 +12,8 @@ import { ToastContainer } from "react-toastify";
 import { Button } from "@mui/material";
 import "react-toastify/ReactToastify.min.css";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
+import { IconButton } from "@mui/material";
 
 import { convertDate, getSelectedIds } from "../../app/hook/CommonHook";
 import { useDispatch } from "react-redux";
@@ -70,6 +72,9 @@ export const BannerTab = () => {
     setOpenAddBanner(!openAddBanner);
   };
 
+  const handleButtonFix = (e) => {
+    window.location.replace(`/banner/${e.currentTarget.id}/edit`);
+  };
   useEffect(() => {
     if (getSelectedIds(listBanner).length === 0) setDisableButtonDelete(true);
     else setDisableButtonDelete(false);
@@ -120,6 +125,8 @@ export const BannerTab = () => {
                 <StyledTableCell align="left">Discount</StyledTableCell>
                 <StyledTableCell align="left">Created at</StyledTableCell>
                 <StyledTableCell align="left">Updated at</StyledTableCell>
+                <StyledTableCell align="left">Update</StyledTableCell>
+
               </TableRow>
             </TableHead>
             <TableBody>
@@ -174,6 +181,16 @@ export const BannerTab = () => {
                   <StyledTableCell align="left">
                     {convertDate(row.updated_at)}
                   </StyledTableCell>
+                  <StyledTableCell align="right">
+                      <IconButton
+                        id={row.id}
+                        aria-label="fix"
+                        size="small"
+                        onClick={handleButtonFix}
+                      >
+                        <SettingsRoundedIcon fontSize="inherit" />
+                      </IconButton>
+                    </StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>

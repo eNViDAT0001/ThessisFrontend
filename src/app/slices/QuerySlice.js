@@ -147,6 +147,21 @@ const initialState = {
       value: 1,
     },
   },
+
+  productInUpdateBanner: {
+    name: {
+      type: "search[]",
+      value: null,
+    },
+    limit: {
+      type: null,
+      value: 8,
+    },
+    marker: {
+      type: null,
+      value: 1,
+    },
+  },
 };
 
 const querySlice = createSlice({
@@ -255,6 +270,17 @@ const querySlice = createSlice({
     setPageInProductInAddBanner: (state, action) => {
       state.productInAddBanner.marker.value = action.payload;
     },
+
+    //productInUpdateBanner
+    setNameInProductInUpdateBanner: (state, action) => {
+      state.productInUpdateBanner.name.value = action.payload;
+    },
+    setLimitInProductInUpdateBanner: (state, action) => {
+      state.productInUpdateBanner.limit.value = action.payload;
+    },
+    setPageInProductInUpdateBanner: (state, action) => {
+      state.productInUpdateBanner.marker.value = action.payload;
+    },
   },
 });
 
@@ -294,7 +320,11 @@ export const {
 
   setNameInProductInAddBanner,
   setLimitInProductInAddBanner,
-  setPageInProductInAddBanner
+  setPageInProductInAddBanner,
+
+  setNameInProductInUpdateBanner,
+  setLimitInProductInUpdateBanner,
+  setPageInProductInUpdateBanner
 } = querySlice.actions;
 
 export default querySlice.reducer;

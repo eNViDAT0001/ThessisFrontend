@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import { Link } from "react-router-dom";
 import { useUserID } from "../../app/hook/UserHook";
@@ -78,6 +78,27 @@ export const HeaderUser = () => {
     setSearchText(event.target.value);
   };
 
+  useEffect(() => {
+    if (userID) {
+      const accessToken = localStorage.getItem("AccessToken");
+      const WS_URL = `ws://localhost:8082/api/v1/ws/user/${userID}/token/${accessToken}`;
+      const ws = new WebSocket(WS_URL);
+
+      ws.onopen = () => {
+        console.log("WebSocket connection opened");
+      };
+
+      ws.onmessage = (event) => {
+        console.log("Received message: ", event.data);
+      };
+
+      ws.onclose = () => {
+        console.log("WebSocket connection closed");
+      };
+
+      console.log(ws)
+    }
+  }, [userID]);
   return (
     <div className="w-full bg-[#FFFFFF] flex justify-center border-b">
       <div className="w-[80%] py-2">

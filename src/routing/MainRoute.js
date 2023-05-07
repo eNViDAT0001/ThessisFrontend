@@ -25,6 +25,7 @@ import { OrderDetailPage } from "../pages/OrderPage/OrderDetailPage";
 import { AddCommentPage } from "../pages/OrderPage/AddCommentPage";
 import { BannerDetailPage } from "../pages/Home/BannerDetailPage";
 import { FixProductInBrand } from "../components/Brand/FixProduct/FixProductInBrand";
+import { UpdateBannerPage } from "../components/Admin/BannerComponentInAdmin/UpdateBannerPage";
 
 export const MainRoute = () => {
   return (
@@ -39,6 +40,7 @@ export const MainRoute = () => {
           <Route path="/product/:id" element={<ProductDetailPage />} />
           <Route path="/shop" element={<BrandPage />} />
           <Route path="/banner/:id" element={<BannerDetailPage />} />
+          <Route path="/banner/:id/edit" element={<UpdateBannerPage />} />
           <Route path="/brand-detail/:id" element={<BrandDetailPage />} />
           <Route path="/cart/:id" element={<CartPage />} />
           <Route path="/shopping-order/:id" element={<ShoppingOrderPage />} />
@@ -61,7 +63,7 @@ export const MainRoute = () => {
             path="/add-product-in-brand/:id"
             element={<AddProductInBrand />}
           />
-          <Route path="/product/:id/edit"  element={<FixProductInBrand />} />
+          <Route path="/product/:id/edit" element={<FixProductInBrand />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route element={<LoginLayOut />}>

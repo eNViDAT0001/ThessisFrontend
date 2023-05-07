@@ -1,11 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BannerApi } from "../../api/BannerApi";
 import {
   setBannerDetail,
+  setBannerDetailInUpdate,
   setListBannerInAdmin,
   setListProductInAddBanner,
+  setListProductInUpdateBanner,
+  setListProductOutInUpdateBanner,
   setMetaInProductInAddBanner,
+  setMetaInProductInUpdateBanner,
   setProductInBannerDetail,
 } from "../slices/BannerSlice";
 import { toast } from "react-toastify";
@@ -25,6 +29,16 @@ export const useFilterInProductInAddBanner = () =>
   useSelector((state) => state.query.productInAddBanner);
 export const useMetaInProductInAddBanner = () =>
   useSelector((state) => state.banner.metaInProductInAddBanner);
+export const useBannerDetailInUpdate = () =>
+  useSelector((state) => state.banner.bannerDetailInUpdate);
+export const useProductInUpdateBanner = () =>
+  useSelector((state) => state.banner.listProductInUpdateBanner);
+export const useFilterInProductInUpdateBanner = () =>
+  useSelector((state) => state.query.productInUpdateBanner);
+export const useMetaInProductInUpdateBanner = () =>
+  useSelector((state) => state.banner.metaInProductInUpdateBanner);
+export const useProductOutInUpdateBanner = () =>
+  useSelector((state) => state.banner.listProductOutInUpdateBanner);
 
 export const useFetchBannerDetail = async (bannerID) => {
   const dispatch = useDispatch();
@@ -129,7 +143,6 @@ export const addNewBanner = async (body) => {
   });
 };
 
-
 export const selectProductInAddBanner = (arr, productID) => {
   if (!Array.isArray(arr)) return [];
   return arr.map((product) => {
@@ -141,4 +154,93 @@ export const selectProductInAddBanner = (arr, productID) => {
     }
     return product;
   });
+};
+
+//update
+
+export const selectProductInUpdateBanner = (arr, productID) => {
+  if (!Array.isArray(arr)) return [];
+  return arr.map((product) => {
+    if (product.id === productID) {
+      return {
+        ...product,
+        isSelected: !product.isSelected,
+      };
+    }
+    return product;
+  });
+};
+export const useFetchInBannerUpdate = (bannerID, filter) => {
+  const dispatch = useDispatch();
+  const prevFilterRef = useRef(filter);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (filter !== prevFilterRef.current) {
+          await dispatch(fetchProductInUpdateBanner(filter));
+        } else {
+          await dispatch(fetchBannerDetailInUpdate(bannerID))
+            .then(() => {
+              return dispatch(fetchProductInUpdateBanner(filter));
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      } catch (err) {}
+    };
+    fetchData();
+  }, [dispatch, filter, prevFilterRef, bannerID]);
+};
+
+const fetchBannerDetailInUpdate = (bannerID) => async (dispatch) => {
+  try {
+    const response = await BannerApi.GetBannerDetail(bannerID);
+    const originalData = response.data.data;
+    const transformedData = {
+      title: originalData.title,
+      collection: originalData.collection,
+      discount: originalData.discount,
+      image: originalData.image,
+      end_time: originalData.end_time,
+      products: originalData.products.map((product) => product.id),
+    };
+    dispatch(setBannerDetailInUpdate(transformedData));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchProductInUpdateBanner = (filter) => async (dispatch) => {
+  try {
+    const response = await ProductApi.GetProductPreview(filter);
+    const listProductInAddBanner =
+      response.data.data &&
+      response.data.data.map((data) => {
+        return { ...data, isSelected: false };
+      });
+    dispatch(setListProductInUpdateBanner(listProductInAddBanner));
+    dispatch(setMetaInProductInUpdateBanner(response.data.meta));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const splitProducts = (idsToSplit, products) => (dispatch) => {
+  const product1 = [];
+  const product2 = [];
+
+  for (let i = 0; i < products.length; i++) {
+    const product = products[i];
+
+    if (idsToSplit.includes(product.id)) {
+      product1.push(product);
+    } else {
+      product2.push(product);
+    }
+  }
+
+  dispatch(setListProductInUpdateBanner(product1));
+  dispatch(setListProductOutInUpdateBanner(product2));
 };

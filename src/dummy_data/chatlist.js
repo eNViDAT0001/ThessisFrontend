@@ -1,5 +1,5 @@
 export const dataChatList = [
-  {
+  { 
     avatar: "https://avatars.githubusercontent.com/u/80540635?v=4",
     alt: "kursat_avatar",
     title: "Kursat",

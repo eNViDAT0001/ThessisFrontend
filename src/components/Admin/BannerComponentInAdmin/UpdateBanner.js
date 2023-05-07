@@ -15,10 +15,15 @@ import { useDispatch } from "react-redux";
 import {
   addNewBanner,
   selectProductInAddBanner,
+  selectProductInUpdateBanner,
+  useBannerDetailInUpdate,
   useFetchListProductInAddBanner,
   useFilterInProductInAddBanner,
+  useFilterInProductInUpdateBanner,
   useMetaInProductInAddBanner,
+  useMetaInProductInUpdateBanner,
   useProductInAddBanner,
+  useProductInUpdateBanner,
 } from "../../../app/hook/BannerHook";
 import Pagination from "@mui/material/Pagination";
 import {
@@ -26,15 +31,17 @@ import {
   convertObjectToStringQuery,
   getSelectedIds,
 } from "../../../app/hook/CommonHook";
-import { setListProductInAddBanner } from "../../../app/slices/BannerSlice";
+import { setListProductInAddBanner, setListProductInUpdateBanner } from "../../../app/slices/BannerSlice";
 import {
   setNameInProductInAddBanner,
+  setNameInProductInUpdateBanner,
   setPageInProductInAddBanner,
+  setPageInProductInUpdateBanner,
 } from "../../../app/slices/QuerySlice";
 import { useUserID } from "../../../app/hook/UserHook";
 
 
-export const AddBanner = () => {
+export const UpdateBanner = () => {
   const dispatch = useDispatch();
 
   let timeoutId;
@@ -44,11 +51,11 @@ export const AddBanner = () => {
   const [newImage, setNewImage] = useState(null);
   const [endTime, setEndTime] = useState(Date.now());
 
-  const filterInProductAdd = useFilterInProductInAddBanner();
-  const listProductInForm = useProductInAddBanner() || [];
-  const metaInProductInAddBanner = useMetaInProductInAddBanner() || {};
+  const listProductInForm = useProductInUpdateBanner() || [];
+  const metaInProductInAddBanner = useMetaInProductInUpdateBanner() || {};
   const userID = useUserID();
 
+  const bannerDetail = useBannerDetailInUpdate()
   const handleInputTitle = (e) => {
     setTitle(e.target.value);
   };
@@ -72,17 +79,13 @@ export const AddBanner = () => {
     }
   };
 
-  useFetchListProductInAddBanner(
-    convertObjectToStringQuery(filterInProductAdd)
-  );
-
   const handleCheckProduct = (productID) => {
-    const newProduct = selectProductInAddBanner(listProductInForm, productID);
-    dispatch(setListProductInAddBanner(newProduct));
+    const newProduct = selectProductInUpdateBanner(listProductInForm, productID);
+    dispatch(setListProductInUpdateBanner(newProduct));
   };
 
   const handleChangePage = (e, value) => {
-    dispatch(setPageInProductInAddBanner(value));
+    dispatch(setPageInProductInUpdateBanner(value));
   };
 
   const handleChangeDataPicker = (e) => {
@@ -93,7 +96,7 @@ export const AddBanner = () => {
     clearTimeout(timeoutId);
     const textEvent = event.target.value;
     setTimeout(() => {
-      dispatch(setNameInProductInAddBanner(textEvent));
+      dispatch(setNameInProductInUpdateBanner(textEvent));
     }, 200);
   };
 
@@ -107,7 +110,6 @@ export const AddBanner = () => {
       image: newImage,
       product_ids: getSelectedIds(listProductInForm),
     };
-    console.log(body)
     addNewBanner(body);
   };
 
@@ -123,6 +125,7 @@ export const AddBanner = () => {
           size="small"
           id="outlined-required"
           onChange={handleInputTitle}
+          defaultValue={bannerDetail.title}
           label="title"
         />
       </div>
@@ -134,6 +137,8 @@ export const AddBanner = () => {
           size="small"
           id="outlined-required"
           onChange={handleInputCollection}
+          defaultValue={bannerDetail.collection}
+
           label="collection"
         />
       </div>
@@ -145,6 +150,8 @@ export const AddBanner = () => {
           size="small"
           id="outlined-required"
           onChange={handleSetDiscount}
+          defaultValue={bannerDetail.discount}
+
           label="discount"
         />
       </div>
