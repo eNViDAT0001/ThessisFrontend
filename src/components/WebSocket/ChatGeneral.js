@@ -18,7 +18,7 @@ export const ChatGeneral = () => {
     setDataChat(e);
   };
 
-  useFetchChat(userID, "limit=5", toUserID, "");
+  useFetchChat(userID, "limit=5", toUserID, "sorts[]=id_ASC");
 
   return (
     <div className="flex flex-row justify-between bg-white border space-x-2">

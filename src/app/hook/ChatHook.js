@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { WebSocketApi } from "../../api/WebSocketApi";
 import { useEffect } from "react";
-import { setListChannel, setListMessage } from "../slices/ChatSlice";
+import { addMessageSuccess, setListChannel, setListMessage } from "../slices/ChatSlice";
 import { toast } from "react-toastify";
 
 export const useListChannel = () =>
@@ -34,7 +34,7 @@ const fetchListMessage = (user1ID, user2ID, filter) => async (dispatch) => {
     );
     const originalData = response.data.data;
     const transformedData = originalData.map((message) => ({
-      position: user1ID === message.user_id ? "left" : "right",
+      position: user1ID === message.user_id ? "right" : "left",
       type: "text",
       text: message.content,
       title: message.user_id,
@@ -63,9 +63,18 @@ const fetchListChannel = (userID, filter) => async (dispatch) => {
   }
 };
 
-export const sendChat = async (body) => {
+export const sendChat =  (body) => async(dispatch) =>{
   await WebSocketApi.SendMessage(body)
-    .then(() => {})
+    .then((res) => {
+      const response = res.data.data
+      const transformedData = {
+        position: "right",
+        type: "text",
+        text: response.content,
+        title: response.user_id,
+      }
+      dispatch(addMessageSuccess(transformedData))
+    })
     .catch(() => {
       toast("Send failed", {
         type: "error",

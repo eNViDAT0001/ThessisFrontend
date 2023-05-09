@@ -16,12 +16,16 @@ const chatSlice = createSlice({
       setListMessage: (state, action) => {
         state.listMessage = action.payload;
       },
+      addMessageSuccess:(state,action) =>{
+        state.listMessage.push(action.payload)
+      }
     },
 })
 
 export const {
     setListChannel,
-    setListMessage
+    setListMessage,
+    addMessageSuccess
 } = chatSlice.actions
 
 export default chatSlice.reducer

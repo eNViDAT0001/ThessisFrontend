@@ -6,8 +6,10 @@ import { Button } from "react-chat-elements";
 import "react-chat-elements/dist/main.css";
 import { sendChat, useListMessage } from "../../app/hook/ChatHook";
 import { useUserID } from "../../app/hook/UserHook";
+import { useDispatch } from "react-redux";
 
 export const MessageListComponent = (props) => {
+  const dispatch = useDispatch()
   const data = props.data;
   const userID = useUserID();
   const [inputValue, setInputValue] = useState("");
@@ -23,8 +25,7 @@ export const MessageListComponent = (props) => {
         seen: false,
         type: "TEXT",
       };
-      console.log(body);
-      sendChat(body);
+      dispatch(sendChat(body));
     }
   };
 
