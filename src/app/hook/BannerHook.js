@@ -198,6 +198,7 @@ const fetchBannerDetailInUpdate = (bannerID) => async (dispatch) => {
   try {
     const response = await BannerApi.GetBannerDetail(bannerID);
     const originalData = response.data.data;
+    console.log(response)
     const transformedData = {
       title: originalData.title,
       collection: originalData.collection,
@@ -243,4 +244,14 @@ export const splitProducts = (idsToSplit, products) => (dispatch) => {
 
   dispatch(setListProductInUpdateBanner(product1));
   dispatch(setListProductOutInUpdateBanner(product2));
+};
+
+export const updateTheBanner = async (bannerID, body) => {
+  await BannerApi.UpdateBanner(bannerID, body).then(() => {
+    toast("Update banner successfully", {
+      type: "success",
+      autoClose: 1000,
+      Close: setTimeout(() => window.location.reload(), 1000),
+    });
+  });
 };

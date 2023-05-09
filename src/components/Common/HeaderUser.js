@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import { Link } from "react-router-dom";
 import { useUserID } from "../../app/hook/UserHook";
@@ -38,6 +38,8 @@ export const HeaderUser = () => {
   const dispatch = useDispatch();
   let timeoutId;
   const [searchText, setSearchText] = useState("");
+  const [messages, setMessages] = useState([]);
+  const socketRef = useRef(null);
 
   const handleClickHeader = (e) => {
     setTimeout(() => {
@@ -78,6 +80,13 @@ export const HeaderUser = () => {
     setSearchText(event.target.value);
   };
 
+  function webSocketSupported() {
+    if ("WebSocket" in window) {
+      //alert("Có hỗ trợ đấy nhé");
+    } else {
+    }
+    return "WebSocket" in window;
+  }
   useEffect(() => {
     if (userID) {
       const accessToken = localStorage.getItem("AccessToken");
@@ -92,15 +101,51 @@ export const HeaderUser = () => {
         console.log("Received message: ", event.data);
       };
 
-      ws.onclose = () => {
-        console.log("WebSocket connection closed");
+      ws.onerror = (error) => {
+        console.log("Lỗi" + JSON.stringify(error));
+        alert("Đã xảy ra lỗi");
       };
 
-      console.log(ws)
+      ws.onclose = () => {
+        //console.log("WebSocket connection closed");
+      };
+      // socketRef.current = new WebSocket(test);
+
+      // // When the connection is established
+      // socketRef.current.addEventListener("open", (event) => {
+      //   console.log("WebSocket connection established");
+      // });
+
+      // // When a message is received from the server
+      // socketRef.current.addEventListener("message", (event) => {
+      //   const message = event.data;
+      //   setMessages((prevMessages) => [...prevMessages, message]);
+      // });
+
+      // // When an error occurs
+      // socketRef.current.addEventListener("error", (event) => {
+      //   console.error("WebSocket error:", event);
+      //   alert(JSON.stringify(event),["message", "arguments", "type", "name"])
+      // });
+
+      // // When the connection is closed
+      // socketRef.current.addEventListener("close", (event) => {
+      //   console.log("WebSocket connection closed:", event.code, event.reason);
+      // });
+
+      // // Clean up the WebSocket connection when the component unmounts
+      // return () => {
+      //   socketRef.current.close();
+      // };
     }
   }, [userID]);
   return (
     <div className="w-full bg-[#FFFFFF] flex justify-center border-b">
+      <ul>
+        {messages.map((message, index) => (
+          <li key={index}>{message}</li>
+        ))}
+      </ul>
       <div className="w-[80%] py-2">
         <div className="flex justify-between items-center">
           <div className="font-['Inter'] font-bold text-[#131313] text-lg uppercase ">

@@ -1,21 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChatList } from "react-chat-elements";
 import "react-chat-elements/dist/main.css";
-import { dataChatList } from "../../dummy_data/chatlist";
 import { Divider } from "@mui/material";
 import { MessageListComponent } from "./MessageListComponent";
+import SpeakerNotesOffIcon from "@mui/icons-material/SpeakerNotesOff";
+import { useFetchChat, useListChannel } from "../../app/hook/ChatHook";
+import { useUserID } from "../../app/hook/UserHook";
 
 export const ChatGeneral = () => {
-  const chatlist = dataChatList;
+  const userID = useUserID();
+  const [toUserID, setToUserID] = useState(null);
+  const [dataChat, setDataChat] = useState(null);
+  const chatList = useListChannel();
+
+  const handleSetUserID = (e) => {
+    setToUserID(e.user_id);
+    setDataChat(e);
+  };
+
+  useFetchChat(userID, "limit=5", toUserID, "");
+
   return (
     <div className="flex flex-row justify-between bg-white border space-x-2">
-      <div className="py-5 w-[35%]">
-        <ChatList className="chat-list" dataSource={chatlist} />
-      </div>
-      <Divider orientation="vertical" variant="middle" flexItem />
-      <div className="flex-1">
-        <MessageListComponent />
+  <div className="py-5 flex flex-1 overflow-y-scroll w-[45%]">
+    <ChatList
+      className="chat-list"
+      dataSource={chatList}
+      onClick={handleSetUserID}
+    />
+  </div>
+  <Divider orientation="vertical" variant="middle" flexItem />
+  {!toUserID ? (
+    <div className="flex-1 flex w-[55%] h-full">
+      <div className="flex justify-center items-center w-full h-full">
+        <div className="flex justify-center items-center">
+          <div>
+            <SpeakerNotesOffIcon />
+          </div>
+          <h1>You don't have any message</h1>
+        </div>
       </div>
     </div>
+  ) : (
+    <div className="flex-1 flex w-[55%]">
+      <MessageListComponent data={dataChat} />
+    </div>
+  )}
+</div>
   );
 };

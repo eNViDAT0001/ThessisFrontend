@@ -28,7 +28,7 @@ export const UserLayout = () => {
       <HeaderUser />
       <Outlet></Outlet>
       <div className="fixed bottom-0 right-0">
-        <div className="w-[80%]">{showChat && <ChatGeneral />}</div>
+        <div className="w-full">{showChat && <ChatGeneral />}</div>
         <div className=" flex justify-end ">
           <div
             className=" flex flex-row-reverse px-5 items-center border bg-pink-500  mr-[200px] shadow-xl hover:cursor-pointer "

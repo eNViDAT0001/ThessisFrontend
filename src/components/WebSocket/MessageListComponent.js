@@ -1,48 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
 import { MessageList } from "react-chat-elements";
 import { Input } from "react-chat-elements";
 import { ChatItem } from "react-chat-elements";
 import { Button } from "react-chat-elements";
+import "react-chat-elements/dist/main.css";
+import { sendChat, useListMessage } from "../../app/hook/ChatHook";
+import { useUserID } from "../../app/hook/UserHook";
 
-export const MessageListComponent = () => {
+export const MessageListComponent = (props) => {
+  const data = props.data;
+  const userID = useUserID();
+  const [inputValue, setInputValue] = useState("");
+
+  const listMessage = useListMessage();
+
+  const handleButtonSend = (e) => {
+    if (inputValue !== "") {
+      const body = {
+        user_id: userID,
+        to_user_id: data.user_id,
+        content: inputValue,
+        seen: false,
+        type: "TEXT",
+      };
+      console.log(body);
+      sendChat(body);
+    }
+  };
+
+  const handleChangeText = (e) => {
+    setInputValue(e.target.value);
+  };
   return (
-    <div className="w-full h-full flex flex-col justify-end">
-      <ChatItem
-        avatar="https://avatars.githubusercontent.com/u/80540635?v=4"
-        alt="kursat_avatar"
-        title="Kursat"
-        date={new Date()}
-        unread={0}
-      />
-      <MessageList
-        className="message-list"
-        lockable={true}
-        toBottomHeight={"100%"}
-        dataSource={[
-          {
-            position: "left",
-            type: "text",
-            title: "Kursat",
-            text: "Give me a message list example !",
-          },
-          {
-            position: "right",
-            type: "text",
-            title: "Emre",
-            text: "That's all.",
-          },
-        ]}
-      />
-      <div className="mt-auto border pb-2 flex flex-row justify-between">
-        <div className="w-full">
-          <Input placeholder="Type here..." multiline={true} />
+    <div className="w-full flex flex-col justify-between max-h-[300px]">
+      <div className="">
+        <div>
+          <ChatItem
+            avatar={data.avatar}
+            alt="kursat_avatar"
+            title={data.title}
+          />
         </div>
-
-        <Button
-          text={"Send"}
-          onClick={() => alert("Sending...")}
-          title="Send"
+      </div>
+      <div className=" max-h-[100%] overflow-y-scroll">
+        <MessageList
+          className="message-list"
+          lockable={true}
+          toBottomHeight={"100%"}
+          dataSource={listMessage}
         />
+      </div>
+
+      <div className=" border flex flex-row justify-between">
+        <div className="w-full">
+          <Input
+            onChange={handleChangeText}
+            placeholder="Type here..."
+            multiline={true}
+          />
+        </div>
+        <Button text={"Send"} onClick={handleButtonSend} title="Send" />
       </div>
     </div>
   );

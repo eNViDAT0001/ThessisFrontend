@@ -6,7 +6,8 @@ import brandReducer from "./slices/BrandSlice";
 import orderReducer from "./slices/OrderSlice";
 import AddProductReducer from './slices/AddProductSlice'
 import FixProductReducer from './slices/FixProductSlice'
-
+import NotificationReducer from './slices/NotificationSlice'
+import ChatReducer from './slices/ChatSlice'
 import AddressReducer from './slices/AddressSlice'
 import CartReducer from './slices/CartSlice'
 import QueryReducer from './slices/QuerySlice'
@@ -28,6 +29,8 @@ export const store = configureStore({
     query: QueryReducer,
     comment: CommentReducer,
     user: UserReducer,
+    notification: NotificationReducer,
+    chat: ChatReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -14,36 +14,28 @@ import { uploadFile } from "../../../app/hook/FileHook";
 import { useDispatch } from "react-redux";
 import {
   addNewBanner,
-  selectProductInAddBanner,
   selectProductInUpdateBanner,
+  updateTheBanner,
   useBannerDetailInUpdate,
-  useFetchListProductInAddBanner,
-  useFilterInProductInAddBanner,
-  useFilterInProductInUpdateBanner,
-  useMetaInProductInAddBanner,
   useMetaInProductInUpdateBanner,
-  useProductInAddBanner,
   useProductInUpdateBanner,
 } from "../../../app/hook/BannerHook";
 import Pagination from "@mui/material/Pagination";
 import {
   checkObjectEmpty,
-  convertObjectToStringQuery,
+  convertDate,
   getSelectedIds,
 } from "../../../app/hook/CommonHook";
-import { setListProductInAddBanner, setListProductInUpdateBanner } from "../../../app/slices/BannerSlice";
+import { setListProductInUpdateBanner } from "../../../app/slices/BannerSlice";
 import {
-  setNameInProductInAddBanner,
   setNameInProductInUpdateBanner,
-  setPageInProductInAddBanner,
   setPageInProductInUpdateBanner,
 } from "../../../app/slices/QuerySlice";
 import { useUserID } from "../../../app/hook/UserHook";
 
-
-export const UpdateBanner = () => {
+export const UpdateBanner = (props) => {
   const dispatch = useDispatch();
-
+  const bannerID = props.id.toString()
   let timeoutId;
   const [title, setTitle] = useState(null);
   const [collection, setCollection] = useState(null);
@@ -52,10 +44,10 @@ export const UpdateBanner = () => {
   const [endTime, setEndTime] = useState(Date.now());
 
   const listProductInForm = useProductInUpdateBanner() || [];
-  const metaInProductInAddBanner = useMetaInProductInUpdateBanner() || {};
+  const metaInProductInUpdateBanner = useMetaInProductInUpdateBanner() || {};
   const userID = useUserID();
 
-  const bannerDetail = useBannerDetailInUpdate()
+  const bannerDetail = useBannerDetailInUpdate();
   const handleInputTitle = (e) => {
     setTitle(e.target.value);
   };
@@ -80,7 +72,10 @@ export const UpdateBanner = () => {
   };
 
   const handleCheckProduct = (productID) => {
-    const newProduct = selectProductInUpdateBanner(listProductInForm, productID);
+    const newProduct = selectProductInUpdateBanner(
+      listProductInForm,
+      productID
+    );
     dispatch(setListProductInUpdateBanner(newProduct));
   };
 
@@ -91,7 +86,6 @@ export const UpdateBanner = () => {
   const handleChangeDataPicker = (e) => {
     setEndTime(e.target.value);
   };
-
   const handleChangeSearchText = (event) => {
     clearTimeout(timeoutId);
     const textEvent = event.target.value;
@@ -108,9 +102,10 @@ export const UpdateBanner = () => {
       discount: parseInt(discount),
       end_time: endTime,
       image: newImage,
-      product_ids: getSelectedIds(listProductInForm),
+      //product_ids_in: getSelectedIds(listProductInForm),
+      //product_ids_out: getSelectedIds(listProductInForm),
     };
-    addNewBanner(body);
+    updateTheBanner(bannerID,body);
   };
 
   return (
@@ -138,7 +133,6 @@ export const UpdateBanner = () => {
           id="outlined-required"
           onChange={handleInputCollection}
           defaultValue={bannerDetail.collection}
-
           label="collection"
         />
       </div>
@@ -151,8 +145,17 @@ export const UpdateBanner = () => {
           id="outlined-required"
           onChange={handleSetDiscount}
           defaultValue={bannerDetail.discount}
-
           label="discount"
+        />
+      </div>
+      <div className="flex flex-row  space-x-4 items-start">
+        <div className="flex flex-row items-center">
+          <h1 className="font-semibold whitespace-nowrap ">Old Image :</h1>
+        </div>
+        <img
+          src={bannerDetail.image}
+          alt="anh category"
+          className="w-[150px] h-[150px]"
         />
       </div>
       <div className="flex flex-row  space-x-4 items-start">
@@ -184,7 +187,7 @@ export const UpdateBanner = () => {
               id="date"
               label="Birthday"
               type="date"
-              defaultValue={endTime}
+              defaultValue={convertDate(bannerDetail.end_time)}
               onChange={handleChangeDataPicker}
               sx={{ width: 220 }}
               InputLabelProps={{
@@ -248,18 +251,18 @@ export const UpdateBanner = () => {
           </div>
         )}
       </div>
-      {!checkObjectEmpty(metaInProductInAddBanner) && (
+      {!checkObjectEmpty(metaInProductInUpdateBanner) && (
         <div className="flex justify-center">
           <Pagination
-            count={metaInProductInAddBanner.paging.Pages}
-            defaultPage={metaInProductInAddBanner.paging.Current}
+            count={metaInProductInUpdateBanner.paging.Pages}
+            defaultPage={metaInProductInUpdateBanner.paging.Current}
             onChange={handleChangePage}
           />
         </div>
       )}
       <div className="flex flex-row-reverse">
         <Button variant="contained" onClick={handleAddBanner}>
-          Add
+          Update
         </Button>
       </div>
     </div>
