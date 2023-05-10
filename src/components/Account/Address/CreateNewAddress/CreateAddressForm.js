@@ -2,13 +2,12 @@ import { Autocomplete, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { saveNewAddress, useDistrict, useFetchInformationInAddAddress,  useProvince, useWard } from "../../../../app/hook/AddressHook";
+import { changeAttributeForOptionInDistrict, changeAttributeForOptionInProvince, changeAttributeForOptionInWard, saveNewAddress, useDistrict, useFetchInformationInAddAddress,  useProvince, useWard } from "../../../../app/hook/AddressHook";
 import { changeAttributeForOption } from "../../../../app/hook/CommonHook";
 import { useUserID } from "../../../../app/hook/UserHook";
-import { useDispatch } from "react-redux";
 export const CreateAddressForm = () => {
   const id = useUserID()
-  const dispatch = useDispatch()
+  const [provinceName,setProvinceName] = useState("")
   const [provinceID, setProvinceID] = useState("");
   const [districtID, setDistrictID] = useState("");
   const [districtName, setDistrictName] = useState("");
@@ -23,9 +22,9 @@ export const CreateAddressForm = () => {
   const dataDistrict = useDistrict()
   const dataWard = useWard()
 
-  const newDataProvince = changeAttributeForOption(dataProvince)
-  const newDataDistrict = changeAttributeForOption(dataDistrict)
-  const newDataWard = changeAttributeForOption(dataWard)
+  const newDataProvince = changeAttributeForOptionInProvince(dataProvince)
+  const newDataDistrict = changeAttributeForOptionInDistrict(dataDistrict)
+  const newDataWard = changeAttributeForOptionInWard(dataWard)
 
   const handleNameText = (e) => {
     setName(e.target.value);
@@ -38,6 +37,7 @@ export const CreateAddressForm = () => {
   };
 
   const onChangeProvince = (e, value) => {
+    setProvinceName(value.label)
     setProvinceID(value.id);
     setDistrictName("");
     setWardName("");
@@ -68,7 +68,8 @@ export const CreateAddressForm = () => {
       wardID,
       street,
       districtName,
-      wardName
+      wardName,
+      provinceName
     );
   };
 

@@ -13,7 +13,6 @@ export const MessageListComponent = (props) => {
   const data = props.data;
   const userID = useUserID();
   const [inputValue, setInputValue] = useState("");
-
   const listMessage = useListMessage();
 
   const handleButtonSend = (e) => {

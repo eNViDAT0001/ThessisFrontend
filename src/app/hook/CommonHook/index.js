@@ -40,9 +40,13 @@ export const convertObjectToStringQuery = (object) => {
         const queryType = object[key].type;
         const queryValue = object[key].value;
 
-        if (queryValue !== null && queryValue !== undefined && queryValue !== '') {
+        if (
+          queryValue !== null &&
+          queryValue !== undefined &&
+          queryValue !== ""
+        ) {
           if (queryType) {
-            if (Array.isArray(queryValue) ) {
+            if (Array.isArray(queryValue)) {
               return queryValue
                 .map((val) => `${queryType}=${key}_${val}`)
                 .join("&");
@@ -92,8 +96,8 @@ export const checkEmailFormat = (text) => {
   return regex.test(text);
 };
 export const getSelectedIds = (arr) => {
-  if(!Array.isArray(arr)) return []
-  const selectedIds = []
+  if (!Array.isArray(arr)) return [];
+  const selectedIds = [];
   for (const obj of arr) {
     if (obj.isSelected) {
       selectedIds.push(obj.id);

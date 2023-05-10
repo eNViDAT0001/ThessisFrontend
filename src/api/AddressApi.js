@@ -1,17 +1,23 @@
 import axiosClient from "./Client";
-
+import axiosAddressClient from "./ClientAddress";
 export const AddressApi = {
   ReadAllProvince: () => {
-    const url = "/provinces";
-    return axiosClient.get(url);
+    const url = "/master-data/province";
+    return axiosAddressClient.get(url);
   },
-  ReadAllDistrict: (id) => {
-    const url = `/districts/province/${id}`;
-    return axiosClient.get(url);
+  ReadAllDistrict: (provinceId) => {
+    const url = `/master-data/district`;
+    const body = {
+      province_id: provinceId,
+    };
+    return axiosAddressClient.get(url, { params: body });
   },
-  ReadAllWard: (id) => {
-    const url = `/wards/district/${id}`;
-    return axiosClient.get(url);
+  ReadAllWard: (districtId) => {
+    const url = `/master-data/ward`;
+    const body = {
+      district_id: districtId,
+    };
+    return axiosAddressClient.get(url, { params: body });
   },
   AddressById: (id) => {
     const url = `/user/${id}`;

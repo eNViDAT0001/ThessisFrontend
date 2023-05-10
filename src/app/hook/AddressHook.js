@@ -158,7 +158,8 @@ export const saveNewAddress = (
   wardID,
   street,
   districtName,
-  wardName
+  wardName,
+  provinceName
 ) => {
   if (districtName === "" || wardName === "") {
     toast("Need select District and Ward", {
@@ -167,15 +168,18 @@ export const saveNewAddress = (
     });
   } else {
     const body = {
-      user_id: String(user_id),
       name: name,
       gender: gender,
       phone: phone,
-      province_code: provinceID,
-      district_code: districtID,
+      province_id: parseInt(JSON.stringify(provinceID)),
+      district_id: parseInt(JSON.stringify(districtID)),
       ward_code: wardID,
+      province: provinceName,
+      district: districtName,
+      ward: wardName,
       street: street,
     };
+    console.log(body);
     AddressApi.AddSaveAddress(user_id, body)
       .then(() => {
         toast("Add new address successful", {
@@ -242,4 +246,41 @@ export const selectAddress = (arr, addressID) => {
     }
     return address;
   });
+};
+
+export const changeAttributeForOptionInDistrict = (data) => {
+  if (Array.isArray(data)) {
+    const result = data.map(
+      ({ DistrictName: label, DistrictID: id, ...rest }) => ({
+        label,
+        id,
+        ...rest,
+      })
+    );
+    return result;
+  }
+};
+
+export const changeAttributeForOptionInWard = (data) => {
+  if (Array.isArray(data)) {
+    const result = data.map(({ WardName: label, WardCode: id, ...rest }) => ({
+      label,
+      id,
+      ...rest,
+    }));
+    return result;
+  }
+};
+
+export const changeAttributeForOptionInProvince = (data) => {
+  if (Array.isArray(data)) {
+    const result = data.map(
+      ({ ProvinceName: label, ProvinceID: id, ...rest }) => ({
+        label,
+        id,
+        ...rest,
+      })
+    );
+    return result;
+  }
 };

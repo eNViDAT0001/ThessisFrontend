@@ -13,7 +13,7 @@ import CartReducer from './slices/CartSlice'
 import QueryReducer from './slices/QuerySlice'
 import CommentReducer from './slices/CommentSlice'
 import UserReducer from './slices/UserSlice'
-
+import WSReducer from './slices/WSSlice'
 
 export const store = configureStore({
   reducer: {
@@ -30,7 +30,8 @@ export const store = configureStore({
     comment: CommentReducer,
     user: UserReducer,
     notification: NotificationReducer,
-    chat: ChatReducer
+    chat: ChatReducer,
+    webSocket: WSReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

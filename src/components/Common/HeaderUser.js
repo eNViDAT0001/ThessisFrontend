@@ -14,6 +14,7 @@ import InputBase from "@mui/material/InputBase";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
+import { setWSEvent } from "../../app/slices/WSSlice";
 
 const LinkInHeader = [
   {
@@ -98,7 +99,7 @@ export const HeaderUser = () => {
       };
 
       ws.onmessage = (event) => {
-        console.log("Received message: ", event.data);
+        dispatch(setWSEvent(event.data))
       };
 
       ws.onerror = (error) => {
@@ -107,36 +108,9 @@ export const HeaderUser = () => {
       };
 
       ws.onclose = () => {
-        //console.log("WebSocket connection closed");
+        alert("WebSocket connection closed");
       };
-      // socketRef.current = new WebSocket(test);
-
-      // // When the connection is established
-      // socketRef.current.addEventListener("open", (event) => {
-      //   console.log("WebSocket connection established");
-      // });
-
-      // // When a message is received from the server
-      // socketRef.current.addEventListener("message", (event) => {
-      //   const message = event.data;
-      //   setMessages((prevMessages) => [...prevMessages, message]);
-      // });
-
-      // // When an error occurs
-      // socketRef.current.addEventListener("error", (event) => {
-      //   console.error("WebSocket error:", event);
-      //   alert(JSON.stringify(event),["message", "arguments", "type", "name"])
-      // });
-
-      // // When the connection is closed
-      // socketRef.current.addEventListener("close", (event) => {
-      //   console.log("WebSocket connection closed:", event.code, event.reason);
-      // });
-
-      // // Clean up the WebSocket connection when the component unmounts
-      // return () => {
-      //   socketRef.current.close();
-      // };
+      
     }
   }, [userID]);
   return (

@@ -6,6 +6,7 @@ import {
   useListNotification,
 } from "../../app/hook/NotificationHook";
 import { useUserID } from "../../app/hook/UserHook";
+import { useSelector } from "react-redux";
 
 export const Notification = () => {
   const handleMouseEnter = (e) => {
@@ -13,8 +14,8 @@ export const Notification = () => {
   };
   const id = useUserID();
   const listNotification = useListNotification();
-
-  useFetchNotification(id, "limit=5");
+const wsEvent = useSelector((state)=>state.webSocket.WSEvent)
+  useFetchNotification(id, "limit=5",wsEvent);
   return (
     <div onMouseEnter={handleMouseEnter} className="border bg-white w-full">
       {listNotification.length !== 0 && (

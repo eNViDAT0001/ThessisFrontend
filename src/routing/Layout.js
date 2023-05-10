@@ -6,7 +6,9 @@ import { ChatGeneral } from "../components/WebSocket/ChatGeneral";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 
 import IconButton from "@mui/material/IconButton";
-import { useState } from "react";
+import { useIsOpenButtonChat } from "../app/hook/ChatHook";
+import { useDispatch } from "react-redux";
+import { setIsOpenButtonChat } from "../app/slices/WSSlice";
 
 export const LoginLayOut = () => {
   return (
@@ -17,10 +19,11 @@ export const LoginLayOut = () => {
   );
 };
 export const UserLayout = () => {
-  const [showChat, setShowChat] = useState(false);
+  const dispatch = useDispatch()
+  const isOpenButtonChat = useIsOpenButtonChat()
 
   const toggleChat = () => {
-    setShowChat(!showChat);
+    dispatch(setIsOpenButtonChat(!isOpenButtonChat))
   };
   return (
     <div>
@@ -28,7 +31,7 @@ export const UserLayout = () => {
       <HeaderUser />
       <Outlet></Outlet>
       <div className="fixed bottom-0 right-0">
-        <div className="w-full">{showChat && <ChatGeneral />}</div>
+        <div className="w-full">{isOpenButtonChat && <ChatGeneral />}</div>
         <div className=" flex justify-end ">
           <div
             className=" flex flex-row-reverse px-5 items-center border bg-pink-500  mr-[200px] shadow-xl hover:cursor-pointer "

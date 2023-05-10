@@ -6,7 +6,7 @@ import { useEffect } from "react";
 export const useListNotification = () =>
   useSelector((state) => state.notification.listNotification);
 
-export const useFetchNotification = (userID, filter) => {
+export const useFetchNotification = (userID, filter, wsEvent) => {
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {
@@ -15,7 +15,7 @@ export const useFetchNotification = (userID, filter) => {
       } catch (err) {}
     };
     fetchData();
-  }, [dispatch, userID, filter]);
+  }, [dispatch, userID, filter, wsEvent]);
 };
 
 const fetchListNotification = (userID, filter) => async (dispatch) => {
