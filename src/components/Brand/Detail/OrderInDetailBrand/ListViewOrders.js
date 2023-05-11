@@ -50,7 +50,7 @@ export const ListViewOrders = () => {
   const listOrders = useListOrderInProvider() || [];
 
   const handleButtonDetail = (e) => {
-    window.location.replace(`/order/${e.currentTarget.id}`);
+    window.location.replace(`/brand-detail/order/${e.currentTarget.id}`);
   };
 
   const handleChangeStatus = (e) => {

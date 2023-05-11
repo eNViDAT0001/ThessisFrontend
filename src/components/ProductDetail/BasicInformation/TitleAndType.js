@@ -54,7 +54,7 @@ export const TitleAndType = () => {
           <div className="flex flex-row items-center space-x-3">
             <div className="py-5 pl-5 flex flex-row space-x-1 font-[Helvetica] text-[#929292] items-center line-through">
               <h1 className=" text-base ">
-                {priceTotal || productDetail.price}
+                {currencyFormat(priceTotal || productDetail.price)}
               </h1>
               <h1 className=" text-xs">$</h1>
             </div>

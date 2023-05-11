@@ -55,7 +55,7 @@ const initialState = {
       type: "search[]",
       value: "",
     },
-    star: {
+    rating: {
       type: "fields[]",
       value: null,
     },
@@ -195,8 +195,8 @@ const querySlice = createSlice({
     setNameSearchInComment: (state, action) => {
       state.filterCommentInProductDetail.name.value = action.payload;
     },
-    setStarInComment: (state, action) => {
-      state.filterCommentInProductDetail.star.value = action.payload;
+    setRatingInComment: (state, action) => {
+      state.filterCommentInProductDetail.rating.value = action.payload;
     },
     setPageInComment: (state, action) => {
       state.filterCommentInProductDetail.marker.value = action.payload;
@@ -293,7 +293,7 @@ export const {
   setLimitInFilterBrand,
 
   setNameSearchInComment,
-  setStarInComment,
+  setRatingInComment,
   setPageInComment,
   setLimitInComment,
 

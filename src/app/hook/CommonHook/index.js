@@ -63,7 +63,32 @@ export const convertObjectToStringQuery = (object) => {
     return queryString;
   }
 };
+export const shortenString = (str) => {
+  if (str.length > 7) {
+    const start = str.slice(0, 4);
+    const end = str.slice(-2);
+    return start + "..." + end;
+  }
+  return str;
+};
 
+export const addSuffixToPrice = (number) => {
+  const suffixes = {
+    1: "k",
+    2: "tr",
+    3: "tỉ",
+  };
+
+  const magnitude = Math.floor(Math.log10(number) / 3);
+
+  if (magnitude in suffixes) {
+    const suffix = suffixes[magnitude];
+    const abbreviated = (number / Math.pow(1000, magnitude)).toFixed(0);
+    return abbreviated + suffix;
+  } else {
+    return number.toString();
+  }
+}
 export const buildCategoryTree = (arr) => {
   let result = [];
   arr.forEach((item) => {

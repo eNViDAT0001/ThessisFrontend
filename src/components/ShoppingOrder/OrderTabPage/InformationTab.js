@@ -17,7 +17,6 @@ import {
 } from "../../../app/slices/AddressSlice";
 import {
   changeAttributeForOption,
-  checkObjectEmpty,
 } from "../../../app/hook/CommonHook";
 import {
   resetAddressSelected,
@@ -126,7 +125,7 @@ export const InformationTab = () => {
           renderInput={(params) => <TextField {...params} label="Address" />}
         />
       </div>
-      <div className="flex flex-row ">
+      {/* <div className="flex flex-row ">
         <div className="flex flex-col space-y-3">
           <h1 className=" text-[#ABB1B9]">Full Name</h1>
           <TextField
@@ -229,7 +228,7 @@ export const InformationTab = () => {
           onChange={ChangeStreetTextBox}
           className="h-max-[5px] w-full"
         />
-      </div>
+      </div> */}
     </div>
   );
 };

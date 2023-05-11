@@ -8,7 +8,10 @@ import { Link } from "react-router-dom";
 import { setPageInProductInHome } from "../../app/slices/QuerySlice";
 import { useDispatch } from "react-redux";
 import Pagination from "@mui/material/Pagination";
-import { currencyFormat } from "../../app/hook/CommonHook";
+import {
+  addSuffixToPrice,
+
+} from "../../app/hook/CommonHook";
 
 export const ProductOverview = () => {
   const dispatch = useDispatch();
@@ -69,13 +72,13 @@ export const ProductOverview = () => {
                     <div className="flex flex-row space-x-4">
                       <div className="flex flex-row space-x-1 font-[Helvetica] text-[#929292] items-center line-through">
                         <h1 className=" text-sm">
-                          {currencyFormat(parseInt(data.price))}
+                          {addSuffixToPrice(parseInt(data.price))}
                         </h1>
                         <h1 className=" text-xs">$</h1>
                       </div>
                       <div className="py-5 flex flex-row space-x-1 font-[Helvetica] text-[#EE4D2D]">
                         <h1 className=" text-2xl">
-                          {currencyFormat(
+                          {addSuffixToPrice(
                             (data.price * (100 - data.discount)) / 100
                           )}
                         </h1>

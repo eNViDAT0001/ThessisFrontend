@@ -65,7 +65,7 @@ export const OrderTable = (props) => {
     dispatch(setPageInOrderInAccount(page+1))
   },[page,dispatch])
   const handleButtonDetail = (e) => {
-    window.location.replace(`/order/${e.currentTarget.id}`)
+    window.location.replace(`/user/order/${e.currentTarget.id}`)
   };
 
   const handleChangeStatus = (e) => {

@@ -39,7 +39,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-export const OrderItems = () => {
+export const OrderItems = (props) => {
+  const type = props.type;
   const listItems = useListItemsInOrder() || [];
 
   const handleButtonDetail = (e) => {
@@ -48,7 +49,6 @@ export const OrderItems = () => {
 
   const handleButtonAddComment = (e) => {
     window.location.replace(`/comment/${e.currentTarget.id}`);
-
   };
   return (
     <div>
@@ -84,10 +84,11 @@ export const OrderItems = () => {
                         />
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        <div 
-                        id={row.product_id}
-                        onClick={handleButtonDetail}
-                        className=" hover:text-pink-500 hover:underline">
+                        <div
+                          id={row.product_id}
+                          onClick={handleButtonDetail}
+                          className=" hover:text-pink-500 hover:underline"
+                        >
                           {row.name}
                         </div>
                       </StyledTableCell>
@@ -104,9 +105,12 @@ export const OrderItems = () => {
                         {row.discount}%
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        <Button 
-                        id={row.product_id}
-                        variant="contained" onClick={handleButtonAddComment}>
+                        <Button
+                          id={row.product_id}
+                          disabled = {(type!=="user")}
+                          variant="contained"
+                          onClick={handleButtonAddComment}
+                        >
                           + Add Your Comment
                         </Button>
                       </StyledTableCell>
