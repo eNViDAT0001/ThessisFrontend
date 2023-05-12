@@ -15,7 +15,14 @@ export const useListMessage = () =>
   useSelector((state) => state.chat.listMessage);
 export const useIsOpenButtonChat = () =>
   useSelector((state) => state.webSocket.isOpenButtonChat);
-  
+export const useHandleChannel = () =>
+  useSelector((state) => state.chat.handleChannel);
+
+export const useFilterChannel = () =>
+  useSelector((state) => state.query.filterChannel);
+export const useFilterMessage = () =>
+  useSelector((state) => state.query.filterMessage);
+
 export const useFetchChat = (
   userID,
   filterChannel,
@@ -51,6 +58,28 @@ export const useFetchChat = (
   ]);
 };
 
+const fetchListMessageMerge =
+  (user1ID, user2ID, filter, dataChat) => async (dispatch) => {
+    try {
+      const userDetail = useUserDetail();
+      const response = await WebSocketApi.GetListMessage(
+        user1ID,
+        user2ID,
+        filter
+      );
+      const originalData = response.data.data;
+      const transformedData = originalData.map((message) => ({
+        position: user1ID === message.user_id ? "right" : "left",
+        type: "text",
+        text: message.content,
+        title: user1ID === message.user_id ? userDetail.name : dataChat.title,
+      }));
+      dispatch(addMessageSuccess(transformedData.reverse()));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 const fetchListMessage =
   (user1ID, user2ID, filter, dataChat) => async (dispatch) => {
     try {
@@ -77,15 +106,7 @@ const fetchListChannel = (userID, filter) => async (dispatch) => {
   try {
     const response = await WebSocketApi.GetListChannel(userID, filter);
     const originalData = response.data.data;
-    const transformedData = originalData.map((channel) => ({
-      id: channel.channel_id,
-      user_id: channel.user_id,
-      title: channel.name,
-      avatar: channel.avatar,
-      subtitle: "Wanna some funny, you?",
-      unread: 3,
-    }));
-    dispatch(setListChannel(transformedData));
+    dispatch(setListChannel(originalData));
   } catch (error) {
     console.log(error);
   }

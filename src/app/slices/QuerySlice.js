@@ -162,6 +162,47 @@ const initialState = {
       value: 1,
     },
   },
+
+  filterChannel: {
+    type: {
+      type: null,
+      value: "cursor",
+    },
+    marker: {
+      type: null,
+      value: "cursor",
+    },
+    limit: {
+      type: null,
+      value: 5,
+    },
+  },
+
+  filterMessage: {
+    type: {
+      type: null,
+      value: "cursor",
+    },
+    marker: {
+      type: null,
+      value: "cursor",
+    },
+    limit: {
+      type: null,
+      value: 10,
+    },
+  },
+
+  filterNotify: {
+    type: {
+      type: null,
+      value: "cursor",
+    },
+    marker: {
+      type: null,
+      value: "cursor",
+    },
+  },
 };
 
 const querySlice = createSlice({
@@ -235,7 +276,7 @@ const querySlice = createSlice({
     setNameInFilterCategory: (state, action) => {
       state.filterInCategoryPage.name.value = action.payload;
     },
-    
+
     //sort in category
     setSortPriceInSortCategory: (state, action) => {
       state.sortInCategoryPage.price.value = action.payload;
@@ -281,6 +322,17 @@ const querySlice = createSlice({
     setPageInProductInUpdateBanner: (state, action) => {
       state.productInUpdateBanner.marker.value = action.payload;
     },
+
+    //Websocket
+    setMarkerInFilterChannel: (state, action) => {
+      state.filterChannel.marker = action.payload;
+    },
+    setMarkerInFilterMessage: (state, action) => {
+      state.filterMessage.marker = action.payload;
+    },
+    setMarkerInFilterNotify: (state, action) => {
+      state.filterNotify.marker = action.payload;
+    },
   },
 });
 
@@ -308,7 +360,7 @@ export const {
   setMarkerInFilterCategory,
   setLimitInFilterCategory,
   setRatingInFilterCategory,
-  
+
   setSortPriceInSortCategory,
   setSortNameInSortCategory,
 
@@ -324,7 +376,11 @@ export const {
 
   setNameInProductInUpdateBanner,
   setLimitInProductInUpdateBanner,
-  setPageInProductInUpdateBanner
+  setPageInProductInUpdateBanner,
+
+  setMarkerInFilterChannel,
+  setMarkerInFilterMessage,
+  setMarkerInFilterNotify,
 } = querySlice.actions;
 
 export default querySlice.reducer;

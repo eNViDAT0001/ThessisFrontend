@@ -5,7 +5,9 @@ import { useEffect } from "react";
 
 export const useListNotification = () =>
   useSelector((state) => state.notification.listNotification);
-
+export const useFilterNotification = () =>
+  useSelector((state) => state.query.filterNotify);
+  
 export const useFetchNotification = (userID, filter, wsEvent) => {
   const dispatch = useDispatch();
   useEffect(() => {
