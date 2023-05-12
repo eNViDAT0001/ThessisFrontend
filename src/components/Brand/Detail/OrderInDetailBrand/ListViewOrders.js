@@ -49,16 +49,21 @@ const listStatus = [
 export const ListViewOrders = () => {
   const listOrders = useListOrderInProvider() || [];
 
-  const handleButtonDetail = (e) => {
-    window.location.replace(`/brand-detail/order/${e.currentTarget.id}`);
+  const handleButtonDetail = (data) => {
+    localStorage.removeItem("orderHandle");
+    localStorage.setItem("orderHandle", JSON.stringify(data));
+    window.location.replace(`/brand-detail/order/${data.id}`);
   };
 
   const handleChangeStatus = (e) => {
     const idHandle = e.currentTarget.id.split("-")[0];
-    const body = {
-      status: e.currentTarget.textContent,
-    };
-    updateStatus(idHandle, body);
+    if (e.currentTarget.textContent !== "DELIVERED") {
+      const body = {
+        status: e.currentTarget.textContent,
+      };
+      updateStatus(idHandle, body);
+    } else {
+    }
   };
   return (
     <div>
@@ -104,7 +109,7 @@ export const ListViewOrders = () => {
                       <IconButton
                         aria-label="delete"
                         id={row.id}
-                        onClick={handleButtonDetail}
+                        onClick={(e) => handleButtonDetail(row)}
                       >
                         <RemoveRedEyeIcon />
                       </IconButton>

@@ -15,6 +15,7 @@ export const useListOrderInProvider = () =>
   useSelector((state) => state.order.listOrderInProvider);
 export const useListOrderInAccountDetail = () =>
   useSelector((state) => state.order.listOrderInAccount);
+export const useOrderHandleDetail = () => JSON.parse(localStorage.getItem("orderHandle"))
 
 export const updateStatus = async (idOrder, body) => {
   await OrderApi.UpdateStatus(idOrder, body).then((res) => {

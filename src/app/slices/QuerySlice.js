@@ -170,7 +170,7 @@ const initialState = {
     },
     marker: {
       type: null,
-      value: "cursor",
+      value: 1  ,
     },
     limit: {
       type: null,
@@ -185,12 +185,16 @@ const initialState = {
     },
     marker: {
       type: null,
-      value: "cursor",
+      value: null,
     },
     limit: {
       type: null,
       value: 10,
     },
+    id:{
+      type:"sorts[]",
+      value:"DESC"
+    }
   },
 
   filterNotify: {
@@ -200,7 +204,7 @@ const initialState = {
     },
     marker: {
       type: null,
-      value: "cursor",
+      value: 1,
     },
   },
 };
@@ -325,14 +329,15 @@ const querySlice = createSlice({
 
     //Websocket
     setMarkerInFilterChannel: (state, action) => {
-      state.filterChannel.marker = action.payload;
+      state.filterChannel.marker.value = action.payload;
     },
     setMarkerInFilterMessage: (state, action) => {
-      state.filterMessage.marker = action.payload;
+      state.filterMessage.marker.value = action.payload;
     },
     setMarkerInFilterNotify: (state, action) => {
-      state.filterNotify.marker = action.payload;
+      state.filterNotify.marker.value = action.payload;
     },
+    
   },
 });
 

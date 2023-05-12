@@ -27,6 +27,7 @@ import {
 } from "../../../app/slices/QuerySlice";
 import { useState } from "react";
 import { checkObjectEmpty } from "../../../app/hook/CommonHook";
+import { setOrderHandleDetail } from "../../../app/slices/OrderSlice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -55,17 +56,19 @@ export const OrderTable = (props) => {
   const listOrders = useListOrderInAccountDetail() || [];
   const metaInOrderInAccount = useMetaInOrderInAccount();
   const [page, setPage] = useState(0);
+  const [isPopForm, setIsPopForm] = useState(false);
 
   useLayoutEffect(() => {
     dispatch(setStatusInOrderInAccount(props.status));
   }, [props, dispatch]);
 
-
-  useLayoutEffect(()=>{
-    dispatch(setPageInOrderInAccount(page+1))
-  },[page,dispatch])
-  const handleButtonDetail = (e) => {
-    window.location.replace(`/user/order/${e.currentTarget.id}`)
+  useLayoutEffect(() => {
+    dispatch(setPageInOrderInAccount(page + 1));
+  }, [page, dispatch]);
+  const handleButtonDetail = (data) => {
+    localStorage.removeItem("orderHandle")
+    localStorage.setItem("orderHandle",JSON.stringify(data))
+    window.location.replace(`/user/order/${data.id}`);
   };
 
   const handleChangeStatus = (e) => {
@@ -132,7 +135,7 @@ export const OrderTable = (props) => {
                     <IconButton
                       aria-label="delete"
                       id={row.id}
-                      onClick={handleButtonDetail}
+                      onClick={(e) => handleButtonDetail(row)}
                     >
                       <RemoveRedEyeIcon />
                     </IconButton>

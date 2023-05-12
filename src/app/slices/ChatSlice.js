@@ -6,6 +6,8 @@ const initialState = {
     to_user_id: null,
   },
   listMessage: [],
+  metaInListMessage: {},
+  metaInListChannel: {},
 };
 
 const chatSlice = createSlice({
@@ -24,6 +26,16 @@ const chatSlice = createSlice({
     addMessageSuccess: (state, action) => {
       state.listMessage.push(action.payload);
     },
+    setMetaInListMessage: (state, action) => {
+      state.metaInListMessage = action.payload;
+    },
+    setMetaInListChannel: (state, action) => {
+      state.metaInListChannel = action.payload;
+    },
+
+    addBeginningInMessage: (state, action) => {
+      state.listMessage = action.payload.concat(state.listMessage);
+    },
   },
 });
 
@@ -32,6 +44,10 @@ export const {
   setListMessage,
   addMessageSuccess,
   setHandleChannel,
+  setMetaInListMessage,
+  setMetaInListChannel,
+
+  addBeginningInMessage
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

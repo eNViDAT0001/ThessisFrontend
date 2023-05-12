@@ -7,7 +7,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import { IconButton } from "@mui/material";
@@ -15,7 +14,7 @@ import { selectAddress, useListAddress } from "../../../app/hook/AddressHook";
 import Checkbox from "@mui/material/Checkbox";
 import { setUserAddress } from "../../../app/slices/AddressSlice";
 import { useDispatch } from "react-redux";
-import { useListItemsInOrder } from "../../../app/hook/OrderHook";
+import { useListItemsInOrder, useOrderHandleDetail } from "../../../app/hook/OrderHook";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Button } from "@mui/material";
 import { currencyFormat } from "../../../app/hook/CommonHook";
@@ -42,6 +41,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export const OrderItems = (props) => {
   const type = props.type;
   const listItems = useListItemsInOrder() || [];
+  const orderHandleDetail = useOrderHandleDetail()
 
   const handleButtonDetail = (e) => {
     window.location.replace(`/product/${e.currentTarget.id}`);
@@ -107,7 +107,7 @@ export const OrderItems = (props) => {
                       <StyledTableCell align="left">
                         <Button
                           id={row.product_id}
-                          disabled = {(type!=="user")}
+                          disabled = {(type!=="user") || (orderHandleDetail.status!=="DELIVERED")}
                           variant="contained"
                           onClick={handleButtonAddComment}
                         >

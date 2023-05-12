@@ -6,6 +6,7 @@ const initialState = {
     listOrderInAdmin:[],
     listItemsInOrder:[],
     metaInOrderInAccount:{},
+    orderHandleDetail:{}
 };
 
 const orderSlice = createSlice({
@@ -26,6 +27,9 @@ const orderSlice = createSlice({
     },
     setListItemsInOrder:(state,action)=>{
       state.listItemsInOrder = action.payload
+    },
+    setOrderHandleDetail:(state,action)=>{
+      state.orderHandleDetail = action.payload
     }
   },
 });
@@ -35,7 +39,8 @@ export const {
     setListOrderInAccount,
     setListOrderInAdmin,
     setMetaInOrderInAccount,
-    setListItemsInOrder
+    setListItemsInOrder,
+    setOrderHandleDetail
 } = orderSlice.actions;
 
 export default orderSlice.reducer;
