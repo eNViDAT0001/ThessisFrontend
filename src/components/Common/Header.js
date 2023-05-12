@@ -10,11 +10,12 @@ import Badge from "@mui/material/Badge";
 import { useState } from "react";
 import { Notification } from "../WebSocket/Notification";
 import { notification } from "../../dummy_data/notification";
+import { useListNotification } from "../../app/hook/NotificationHook";
 
 export const Header = () => {
   const userID = useUserID();
   const userDetail = useUserDetail();
-
+  const listNotification = useListNotification()
   const [showNotification, setShowNotification] = useState(false);
 
   const handleMouseEnter = () => {
@@ -25,7 +26,6 @@ export const Header = () => {
     setShowNotification(false);
   };
 
-  const getNotification = notification
   return (
     <div className="w-full bg-[#151875] flex justify-center border-b">
       <div className="w-[80%] py-2">
@@ -43,7 +43,7 @@ export const Header = () => {
           <div className="flex flex-row space-x-4 items-center">
             <div className="relative h-[30px] visible">
               <Badge
-                badgeContent={getNotification.length}
+                badgeContent={listNotification.length}
                 color="primary"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}

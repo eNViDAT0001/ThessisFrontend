@@ -3,19 +3,33 @@ import { notification } from "../../dummy_data/notification";
 import { Link } from "react-router-dom";
 import {
   useFetchNotification,
+  useFilterNotification,
   useListNotification,
+  useMetaInNotification,
 } from "../../app/hook/NotificationHook";
 import { useUserID } from "../../app/hook/UserHook";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  checkObjectEmpty,
+  convertObjectToStringQuery,
+} from "../../app/hook/CommonHook";
+import { setMarkerInFilterNotify } from "../../app/slices/QuerySlice";
 
 export const Notification = () => {
   const handleMouseEnter = (e) => {
     e.stopPropagation();
   };
   const id = useUserID();
+  const dispatch = useDispatch();
   const listNotification = useListNotification();
-const wsEvent = useSelector((state)=>state.webSocket.WSEvent)
-  useFetchNotification(id, "limit=5",wsEvent);
+  const filter = useFilterNotification();
+  const meta = useMetaInNotification();
+  const wsEvent = useSelector((state) => state.webSocket.WSEvent);
+
+  const handleShowMore = (e) => {
+    dispatch(setMarkerInFilterNotify(meta.paging.Current));
+  };
+  useFetchNotification(id, convertObjectToStringQuery(filter), wsEvent);
   return (
     <div onMouseEnter={handleMouseEnter} className="border bg-white w-full">
       {listNotification.length !== 0 && (
@@ -38,6 +52,17 @@ const wsEvent = useSelector((state)=>state.webSocket.WSEvent)
               </div>
             </Link>
           ))}
+        </div>
+      )}
+      {!checkObjectEmpty(meta) && (
+        <div className="flex justify-center">
+          <button
+            className="text-blue-500 hover:text-blue-700"
+            onClick={handleShowMore}
+            disabled={meta.paging.Count - meta.paging.Perpage < 0}
+          >
+            Next
+          </button>
         </div>
       )}
     </div>

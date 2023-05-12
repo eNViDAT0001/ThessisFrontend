@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { WebSocketApi } from "../../api/WebSocketApi";
-import { setListNotification } from "../slices/NotificationSlice";
+import { setListNotification, setMetaInNotification } from "../slices/NotificationSlice";
 import { useEffect } from "react";
 
 export const useListNotification = () =>
   useSelector((state) => state.notification.listNotification);
 export const useFilterNotification = () =>
   useSelector((state) => state.query.filterNotify);
-  
+export const useMetaInNotification = () =>  useSelector((state) => state.notification.metaInNotification);
+
 export const useFetchNotification = (userID, filter, wsEvent) => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -23,16 +24,8 @@ export const useFetchNotification = (userID, filter, wsEvent) => {
 const fetchListNotification = (userID, filter) => async (dispatch) => {
   try {
     const response = await WebSocketApi.GetListNotification(userID, filter);
-    //   const originalData = response.data.data;
-    //   const transformedData = {
-    //     title: originalData.title,
-    //     collection: originalData.collection,
-    //     discount: originalData.discount,
-    //     image: originalData.image,
-    //     end_time: originalData.end_time,
-    //     products: originalData.products.map((product) => product.id),
-    //   };
     dispatch(setListNotification(response.data.data));
+    dispatch(setMetaInNotification(response.data.meta))
   } catch (error) {
     console.log(error);
   }

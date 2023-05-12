@@ -50,6 +50,7 @@ export const HandleQuantityAndCart = (props) => {
         "seen": false,
         "type": "TEXT"
     }
+    
     dispatch(sendChat(body))
   };
   return (

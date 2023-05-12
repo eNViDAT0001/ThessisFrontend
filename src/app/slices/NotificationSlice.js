@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     listNotification:[],
+    metaInNotification:{},
 }
 
 const notificationSlice = createSlice({
@@ -12,12 +13,15 @@ const notificationSlice = createSlice({
       setListNotification: (state, action) => {
         state.listNotification = action.payload;
       },
-
+      setMetaInNotification:(state,action) =>{
+        state.metaInNotification = action.payload
+      }
     },
 })
 
 export const {
-    setListNotification
+    setListNotification,
+    setMetaInNotification
 } = notificationSlice.actions
 
 export default notificationSlice.reducer

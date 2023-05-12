@@ -170,7 +170,7 @@ const initialState = {
     },
     marker: {
       type: null,
-      value: 1  ,
+      value: 1,
     },
     limit: {
       type: null,
@@ -189,12 +189,12 @@ const initialState = {
     },
     limit: {
       type: null,
-      value: 10,
+      value: null,
     },
-    id:{
-      type:"sorts[]",
-      value:"DESC"
-    }
+    id: {
+      type: "sorts[]",
+      value: "DESC",
+    },
   },
 
   filterNotify: {
@@ -204,7 +204,15 @@ const initialState = {
     },
     marker: {
       type: null,
-      value: 1,
+      value: null,
+    },
+    limit: {
+      type: null,
+      value: 6,
+    },
+    id: {
+      type: "sorts[]",
+      value: "DESC",
     },
   },
 };
@@ -337,7 +345,6 @@ const querySlice = createSlice({
     setMarkerInFilterNotify: (state, action) => {
       state.filterNotify.marker.value = action.payload;
     },
-    
   },
 });
 

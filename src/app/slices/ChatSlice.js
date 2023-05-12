@@ -34,7 +34,11 @@ const chatSlice = createSlice({
     },
 
     addBeginningInMessage: (state, action) => {
-      state.listMessage = action.payload.concat(state.listMessage);
+      //alert(state.listMessage.length)
+      return {
+        ...state,
+        listMessage: [...action.payload, ...state.listMessage],
+      };
     },
   },
 });
@@ -47,7 +51,7 @@ export const {
   setMetaInListMessage,
   setMetaInListChannel,
 
-  addBeginningInMessage
+  addBeginningInMessage,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

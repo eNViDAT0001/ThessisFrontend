@@ -12,6 +12,7 @@ import {
 import { toast } from "react-toastify";
 import { useUserDetail } from "./UserHook";
 import { setMarkerInFilterMessage } from "../slices/QuerySlice";
+import { useCallback } from "react";
 
 export const useListChannel = () =>
   useSelector((state) => state.chat.listChannel);
@@ -45,50 +46,56 @@ export const useFetchChat = (
   const prevUser2ID = useRef(user2ID);
   const prevWSEvent = useRef(wsEvent);
 
+  const fetchData = useCallback(async () => {
+    try {
+      if (!user2ID) {
+        await dispatch(fetchListChannel(userID, filterChannel));
+      } else {
+        await dispatch(
+          fetchListMessage(userID, user2ID, filterMessage, handleChannel)
+        );
+      }
+    } catch (err) {
+      // Handle errors here
+    }
+  });
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (prevUser2ID.current !== user2ID) {
-          dispatch(setMarkerInFilterMessage(null));
-        }
-
-        if (!user2ID) {
-          await dispatch(fetchListChannel(userID, filterChannel));
-        } else {
-          await dispatch(
-            fetchListMessage(userID, user2ID, filterMessage, handleChannel)
-          );
-        }
-        prevUser2ID.current = user2ID;
-      } catch (err) {}
-    };
-
     const fetchMessageMerge = async () => {
       try {
+        //alert("filter")
         await dispatch(
           fetchListMessageMerge(userID, user2ID, filterMessage, handleChannel)
         );
-      } catch (err) {}
+      } catch (err) {
+        // Handle errors here
+      }
     };
 
     if (filterMessage !== prevFilterMessage.current) {
       fetchMessageMerge();
     }
-    fetchData();
 
+    if (user2ID !== prevUser2ID.current) {
+      dispatch(setListMessage([]))
+      dispatch(setMarkerInFilterMessage(null));
+      fetchData();
+    }
+
+    if (wsEvent !== prevWSEvent.current) {
+      const newEvent = JSON.parse(wsEvent);
+      if (newEvent.type === "ChatNewMessage") {
+        beSentChat(newEvent.payload, handleChannel);
+      }
+    }
     prevFilterMessage.current = filterMessage;
+    prevUser2ID.current = user2ID;
     prevWSEvent.current = wsEvent;
-  }, [
-    dispatch,
-    userID,
-    user2ID,
-    filterChannel,
-    handleChannel,
-    filterMessage,
-    wsEvent,
-  ]);
+  }, [dispatch, userID, user2ID, filterChannel, handleChannel, filterMessage]);
 
-  console.log(wsEvent);
+  useEffect(() => {
+    fetchData(); // Call fetchData when the component is mounted
+  }, []); // Empty dependency array ensures it runs only once on mount
 };
 
 const fetchListMessageMerge =
@@ -183,7 +190,7 @@ export const sendChat = (body) => async (dispatch) => {
     });
 };
 
-export const beSentChat = (body) => async (dispatch) => {
+export const beSentChat = (body, handleChannel) => async (dispatch) => {
   await WebSocketApi.SendMessage(body)
     .then((res) => {
       const response = res.data.data;
@@ -191,7 +198,7 @@ export const beSentChat = (body) => async (dispatch) => {
         position: "left",
         type: "text",
         text: response.content,
-        //    title: ,
+        avatar: handleChannel.avatar,
       };
       dispatch(addMessageSuccess(transformedData));
     })

@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { Input } from "react-chat-elements";
 import { Button } from "react-chat-elements";
 import "react-chat-elements/dist/main.css";
-import { sendChat, useMetaInListMessage } from "../../app/hook/ChatHook";
+import {
+  sendChat,
+  useHandleChannel,
+  useMetaInListMessage,
+} from "../../app/hook/ChatHook";
 import { useUserID } from "../../app/hook/UserHook";
 import { useDispatch } from "react-redux";
 import { MessageListCustom } from "./MessageListCustom";
@@ -12,17 +16,17 @@ import { setMarkerInFilterMessage } from "../../app/slices/QuerySlice";
 
 export const MessageListComponent = (props) => {
   const dispatch = useDispatch();
-  const data = props.data;
   const userID = useUserID();
   const [inputValue, setInputValue] = useState("");
   const metaInMessage = useMetaInListMessage();
   const messageListRef = useRef(null);
+  const handleChannel = useHandleChannel();
 
   const handleButtonSend = (e) => {
     if (inputValue !== "") {
       const body = {
         user_id: userID,
-        to_user_id: data.user_id,
+        to_user_id: parseInt(handleChannel.to_user_id),
         content: inputValue,
         seen: false,
         type: "TEXT",
