@@ -32,4 +32,8 @@ export const OrderApi = {
     const url = `/orders/payment`;
     return axiosClient.patch(url, body);
   },
+  VerifyOrder:(orderID,userID) =>{
+    const url = `/orders/${orderID}/user/${userID}/verify`
+    return axiosClient.patch(url)
+  }
 };

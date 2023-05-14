@@ -14,8 +14,7 @@ export const OrderDetailPage = (props) => {
       <HeaderBar name1="Home . Order" name2=" . Detail" />
       <div className="flex flex-col justify-center px-[15%] space-y-4 mt-4 mb-10">
         <h1 className="text-xl text-[#1D3178] font-semibold">{`Order: #${id}`}</h1>
-        <OrderItems type={props.type} />{" "}
-        <DetailOrder />
+        <OrderItems type={props.type} /> <DetailOrder id={id} />
       </div>
     </div>
   );

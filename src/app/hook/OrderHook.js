@@ -162,7 +162,7 @@ export const afterProcessPayment = async (order, userID, dataID) => {
       status: true,
     };
     await OrderApi.AddNewPayment(body)
-      .then(async(res) => {
+      .then(async (res) => {
         const body = {
           order_ids: dataID,
           payment_id: res.data.data.id,
@@ -180,7 +180,6 @@ export const afterProcessPayment = async (order, userID, dataID) => {
 
 const updateOrder = async (body) => {
   try {
-    console.log("body trong update order", body);
     await OrderApi.UpdateOrder(body)
       .then(() => {
         toast("Your order created success", {
@@ -189,6 +188,24 @@ const updateOrder = async (body) => {
           onClose: setTimeout(() => {
             window.location.replace("/");
           }, 2000),
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } catch (error) {}
+};
+
+export const verifyOrder = async (orderID, userID) => {
+  try {
+    await OrderApi.VerifyOrder(orderID, userID)
+      .then(() => {
+        toast("Verify success", {
+          type: "success",
+          autoClose: 1000,
+          onClose: setTimeout(() => {
+            window.location.replace(`/account-order/${userID}`);
+          }, 1000),
         });
       })
       .catch((err) => {
