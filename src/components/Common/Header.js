@@ -9,13 +9,12 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge";
 import { useState } from "react";
 import { Notification } from "../WebSocket/Notification";
-import { notification } from "../../dummy_data/notification";
-import { useListNotification } from "../../app/hook/NotificationHook";
+import { useNotificationSmall } from "../../app/hook/NotificationHook";
 
 export const Header = () => {
   const userID = useUserID();
   const userDetail = useUserDetail();
-  const listNotification = useListNotification()
+  const listNotification = useNotificationSmall();
   const [showNotification, setShowNotification] = useState(false);
 
   const handleMouseEnter = () => {

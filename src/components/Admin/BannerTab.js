@@ -126,7 +126,6 @@ export const BannerTab = () => {
                 <StyledTableCell align="left">Created at</StyledTableCell>
                 <StyledTableCell align="left">Updated at</StyledTableCell>
                 <StyledTableCell align="left">Update</StyledTableCell>
-
               </TableRow>
             </TableHead>
             <TableBody>

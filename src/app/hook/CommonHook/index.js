@@ -88,7 +88,7 @@ export const addSuffixToPrice = (number) => {
   } else {
     return number.toString();
   }
-}
+};
 export const buildCategoryTree = (arr) => {
   let result = [];
   arr.forEach((item) => {
@@ -129,4 +129,8 @@ export const getSelectedIds = (arr) => {
     }
   }
   return selectedIds;
+};
+
+export const convertVNDToUSD = (price) => {
+  return (price * 0.0000426257).toFixed(1)
 };

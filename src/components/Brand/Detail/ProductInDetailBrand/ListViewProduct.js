@@ -73,6 +73,9 @@ export const ListViewProduct = (props) => {
     dispatch(setListProductInBrandDetail(product));
   };
 
+  const handleClickImage = (id) =>{
+    window.location.replace(`/product/${id}/brand`)
+  }
   useEffect(() => {
     getSelectedIds(listProductInBrand).length === 0
       ? setDisableButtonDelete(true)
@@ -133,6 +136,7 @@ export const ListViewProduct = (props) => {
                         sx={{ width: 150, padding: 1 }}
                       >
                         <img
+                        onClick={()=>handleClickImage(row.id)}
                           src={
                             !row.media ? noImgAvailable : row.media[0].mediaPath
                           }

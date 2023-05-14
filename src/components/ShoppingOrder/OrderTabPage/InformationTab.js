@@ -15,9 +15,7 @@ import {
   setStreetInFormCreate,
   setWardInFormCreate,
 } from "../../../app/slices/AddressSlice";
-import {
-  changeAttributeForOption,
-} from "../../../app/hook/CommonHook";
+import { changeAttributeForOption } from "../../../app/hook/CommonHook";
 import {
   resetAddressSelected,
   resetForm,
@@ -87,13 +85,13 @@ export const InformationTab = () => {
     dispatch(setWardInFormCreate(value.label));
     setWardID(value.id);
   };
-  
+
   const newAddressSave = dataAddressSave.map((data) => ({
     ...data,
     label:
       data.street + "," + data.ward + "," + data.district + "," + data.province,
   }));
-  
+
   const newDataProvince = changeAttributeForOption(dataProvince);
   const newDataDistrict = changeAttributeForOption(dataDistrict);
   const newDataWard = changeAttributeForOption(dataWard);
@@ -101,8 +99,8 @@ export const InformationTab = () => {
   const selectTheAddress = (e, value) => {
     dispatch(setFormAddressSelected(value));
   };
-  
-  console.log(formAddressSelected)
+
+  console.log(formAddressSelected);
   return (
     <div className="w-full space-y-8 bg-[#F7FAFC] p-8">
       <h1 className=" text-xl font-sans font-semibold"> Shipping Detail</h1>

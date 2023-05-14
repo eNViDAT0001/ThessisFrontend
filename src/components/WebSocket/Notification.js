@@ -1,35 +1,24 @@
 import React from "react";
-import { notification } from "../../dummy_data/notification";
 import { Link } from "react-router-dom";
 import {
-  useFetchNotification,
-  useFilterNotification,
-  useListNotification,
-  useMetaInNotification,
+  useFetchNotificationSmall,
+  useNotificationSmall,
 } from "../../app/hook/NotificationHook";
 import { useUserID } from "../../app/hook/UserHook";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  checkObjectEmpty,
-  convertObjectToStringQuery,
-} from "../../app/hook/CommonHook";
-import { setMarkerInFilterNotify } from "../../app/slices/QuerySlice";
+import { useSelector } from "react-redux";
 
 export const Notification = () => {
   const handleMouseEnter = (e) => {
     e.stopPropagation();
   };
   const id = useUserID();
-  const dispatch = useDispatch();
-  const listNotification = useListNotification();
-  const filter = useFilterNotification();
-  const meta = useMetaInNotification();
+  const listNotification = useNotificationSmall();
   const wsEvent = useSelector((state) => state.webSocket.WSEvent);
 
   const handleShowMore = (e) => {
-    dispatch(setMarkerInFilterNotify(meta.paging.Current));
+    window.location.replace(`/user/notification/${id}`)
   };
-  useFetchNotification(id, convertObjectToStringQuery(filter), wsEvent);
+  useFetchNotificationSmall(id, wsEvent);
   return (
     <div onMouseEnter={handleMouseEnter} className="border bg-white w-full">
       {listNotification.length !== 0 && (
@@ -54,17 +43,14 @@ export const Notification = () => {
           ))}
         </div>
       )}
-      {!checkObjectEmpty(meta) && (
-        <div className="flex justify-center">
-          <button
-            className="text-blue-500 hover:text-blue-700"
-            onClick={handleShowMore}
-            disabled={meta.paging.Count - meta.paging.Perpage < 0}
-          >
-            Next
-          </button>
-        </div>
-      )}
+      <div className="flex justify-center">
+        <button
+          className="text-blue-500 hover:text-blue-700"
+          onClick={handleShowMore}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

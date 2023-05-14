@@ -26,6 +26,7 @@ import { AddCommentPage } from "../pages/OrderPage/AddCommentPage";
 import { BannerDetailPage } from "../pages/Home/BannerDetailPage";
 import { FixProductInBrand } from "../components/Brand/FixProduct/FixProductInBrand";
 import { UpdateBannerPage } from "../components/Admin/BannerComponentInAdmin/UpdateBannerPage";
+import { AccountNotificationPage } from "../pages/AccountPage/AccountNotificationPage";
 
 export const MainRoute = () => {
   return (
@@ -37,8 +38,14 @@ export const MainRoute = () => {
         <Route element={<UserLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/category/:id" element={<CategoryPage />} />
-          <Route path="/product/:id" element={<ProductDetailPage type="product"/>} />
-          <Route path="/product/:id/brand" element={<ProductDetailPage type="brand"/>} />
+          <Route
+            path="/product/:id"
+            element={<ProductDetailPage type="product" />}
+          />
+          <Route
+            path="/product/:id/brand"
+            element={<ProductDetailPage type="brand" />}
+          />
           <Route path="/shop" element={<BrandPage />} />
           <Route path="/banner/:id" element={<BannerDetailPage />} />
           <Route path="/banner/:id/edit" element={<UpdateBannerPage />} />
@@ -51,9 +58,22 @@ export const MainRoute = () => {
             path="/account-address/create"
             element={<CreateAddressPage />}
           />
-          <Route path="/user/order/:id" element={<OrderDetailPage type="user"/>} />
-          <Route path="/brand-detail/order/:id" element={<OrderDetailPage type="brand"/>} />
-          <Route path="/admin/order/:id" element={<OrderDetailPage type="admin"/>} />
+          <Route
+            path="/user/order/:id"
+            element={<OrderDetailPage type="user" />}
+          />
+          <Route
+            path="/user/notification/:id"
+            element={<AccountNotificationPage />}
+          />
+          <Route
+            path="/brand-detail/order/:id"
+            element={<OrderDetailPage type="brand" />}
+          />
+          <Route
+            path="/admin/order/:id"
+            element={<OrderDetailPage type="admin" />}
+          />
 
           <Route path="/comment/:id" element={<AddCommentPage />} />
           <Route

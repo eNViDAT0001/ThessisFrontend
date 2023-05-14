@@ -81,7 +81,7 @@ export const useFetchFullInBrandDetailPage = async (id) => {
         });
       } catch (error) {}
     };
-    fetchData();
+      fetchData();
   }, [id, dispatch, filter]);
 };
 

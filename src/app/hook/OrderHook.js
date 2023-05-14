@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { OrderApi } from "../../api/OrderApi";
 import {
@@ -15,7 +15,8 @@ export const useListOrderInProvider = () =>
   useSelector((state) => state.order.listOrderInProvider);
 export const useListOrderInAccountDetail = () =>
   useSelector((state) => state.order.listOrderInAccount);
-export const useOrderHandleDetail = () => JSON.parse(localStorage.getItem("orderHandle"))
+export const useOrderHandleDetail = () =>
+  JSON.parse(localStorage.getItem("orderHandle"));
 
 export const updateStatus = async (idOrder, body) => {
   await OrderApi.UpdateStatus(idOrder, body).then((res) => {
@@ -31,16 +32,9 @@ export const updateStatus = async (idOrder, body) => {
   });
 };
 
-export const addNewOrder = (body) => {
-  return OrderApi.AddNewOrder(body).then((res) => {
-    toast("Add new Order Success", {
-      type: "success",
-      autoClose: 1000,
-      onClose: setTimeout(() => {
-        window.location.replace("/");
-      }, 2000),
-    });
-  });
+export const addNewOrder = async (body) => {
+  const res = await OrderApi.AddNewOrder(body);
+  return res.data.data;
 };
 
 export const fetchOrderInProvider = (id, filters) => async (dispatch) => {
@@ -156,4 +150,49 @@ const fetchAllOrder = (userID) => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const afterProcessPayment = async (order, userID, dataID) => {
+  try {
+    const body = {
+      id: order.id,
+      account_id: order.payer.payer_id,
+      email: order.payer.email_address,
+      name: order.payer.name.given_name + " " + order.payer.name.surname,
+      status: true,
+    };
+    await OrderApi.AddNewPayment(body)
+      .then(async(res) => {
+        const body = {
+          order_ids: dataID,
+          payment_id: res.data.data.id,
+          payment_url: order.links[0].href,
+        };
+        await updateOrder(body);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateOrder = async (body) => {
+  try {
+    console.log("body trong update order", body);
+    await OrderApi.UpdateOrder(body)
+      .then(() => {
+        toast("Your order created success", {
+          type: "success",
+          autoClose: 1000,
+          onClose: setTimeout(() => {
+            window.location.replace("/");
+          }, 2000),
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } catch (error) {}
 };

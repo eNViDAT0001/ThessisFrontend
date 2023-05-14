@@ -20,6 +20,13 @@ import {
   updateStatus,
   useListOrderInProvider,
 } from "../../../../app/hook/OrderHook";
+import Popup from "reactjs-popup";
+import { FormUpdateStatus } from "./FormUpdateStatus.js";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsPopUpFormUpdate } from "../../../../app/slices/BrandSlice";
+import { useEffect } from "react";
+import { useRef } from "react";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -48,6 +55,10 @@ const listStatus = [
 
 export const ListViewOrders = () => {
   const listOrders = useListOrderInProvider() || [];
+  const isPopup = useSelector((state) => state.brand.isPopUpFormUpdate);
+  const [orderID,setOrderID] = useState(null)
+  const dispatch = useDispatch();
+  const popupRef = useRef(null);
 
   const handleButtonDetail = (data) => {
     localStorage.removeItem("orderHandle");
@@ -63,8 +74,24 @@ export const ListViewOrders = () => {
       };
       updateStatus(idHandle, body);
     } else {
+      dispatch(setIsPopUpFormUpdate(true));
+      setOrderID(idHandle)
     }
   };
+
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      dispatch(setIsPopUpFormUpdate(false));
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div>
       {listOrders.length == 0 ? (
@@ -72,6 +99,11 @@ export const ListViewOrders = () => {
       ) : (
         <div className="space-y-3">
           <ToastContainer position="top-right" newestOnTop />
+          {isPopup && (
+            <div ref={popupRef}>
+              <FormUpdateStatus id={orderID}/>
+            </div>
+          )}
           <TableContainer component={Paper}>
             <Table
               sx={{

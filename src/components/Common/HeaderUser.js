@@ -92,25 +92,20 @@ export const HeaderUser = () => {
     if (userID) {
       const accessToken = localStorage.getItem("AccessToken");
       const WS_URL = `ws://localhost:8082/api/v1/ws/user/${userID}/token/${accessToken}`;
-      const ws = new WebSocket(WS_URL);
+      const timer = setTimeout(() => {
+        const ws = new WebSocket(WS_URL);
 
-      ws.onopen = () => {
-        console.log("WebSocket connection opened");
-      };
+        ws.onopen = () => {};
 
-      ws.onmessage = (event) => {
-        dispatch(setWSEvent(event.data))
-      };
+        ws.onmessage = (event) => {
+          dispatch(setWSEvent(event.data));
+        };
 
-      ws.onerror = (error) => {
-        console.log("Lỗi" + JSON.stringify(error));
-        alert("Đã xảy ra lỗi");
-      };
+        ws.onerror = (error) => {};
 
-      ws.onclose = () => {
-        alert("WebSocket connection closed");
-      };
-      
+        ws.onclose = () => {};
+      }, 1000);
+      return () => clearTimeout(timer);
     }
   }, [userID]);
   return (

@@ -4,6 +4,7 @@ import { currencyFormat } from "../../../app/hook/CommonHook";
 
 export const DetailOrder = () => {
   const orderHandleDetail = useOrderHandleDetail();
+  console.log(orderHandleDetail);
   return (
     <div className="flex flex-row flex-1 space-x-5 w-full">
       <div className="p-5 border rounded-md shadow-md">
@@ -26,6 +27,13 @@ export const DetailOrder = () => {
           <div className="flex flex-row space-x-5">
             <h1 className=" font-semibold">Total:</h1>
             <h1>{currencyFormat(orderHandleDetail.total)}đ</h1>
+          </div>
+          <div>
+            {orderHandleDetail.payment_id ? (
+              <h1>Bạn đã thanh toán rồi</h1>
+            ) : (
+              <h1>Bạn chưa thanh toán</h1>
+            )}
           </div>
         </div>
       </div>

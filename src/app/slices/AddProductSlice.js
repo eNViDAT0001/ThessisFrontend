@@ -22,6 +22,7 @@ const initialState = {
       description_md: ""
     }
   ],
+  treeCategoryInAddProduct:[]
 };
 
 const AddProductSlice = createSlice({
@@ -58,6 +59,10 @@ const AddProductSlice = createSlice({
     setDescriptions:(state, action) => {
       state.descriptions = action.payload;
     },
+
+    setTreeCategoryInAddProduct: (state,action) =>{
+      state.treeCategoryInAddProduct = action.payload
+    }
   },
 });
 
@@ -73,6 +78,7 @@ export const {
   addFileInDescription,
   setDataOption,
   setDescriptions,
-  addDescriptionResponse
+  addDescriptionResponse,
+  setTreeCategoryInAddProduct
 } = AddProductSlice.actions;
 export default AddProductSlice.reducer;

@@ -30,7 +30,8 @@ const orderSlice = createSlice({
     },
     setOrderHandleDetail:(state,action)=>{
       state.orderHandleDetail = action.payload
-    }
+    },
+ 
   },
 });
 

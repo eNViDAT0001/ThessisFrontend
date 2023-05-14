@@ -27,6 +27,8 @@ import {
   setSpecificationNameFix,
 } from "../slices/FixProductSlice";
 import { fetchListTreeCategoryInUpdateProduct } from "./CategoryHook";
+import { buildCategoryTree } from "./CommonHook";
+import { setTreeCategoryInAddProduct } from "../slices/AddProductSlice";
 
 export const useProductInHome = () =>
   useSelector((state) => state.product.productInHome);
@@ -190,7 +192,8 @@ export const useSpecificationName = () =>
   useSelector((state) => state.addProduct.specification_name);
 export const useDescriptions = () =>
   useSelector((state) => state.addProduct.descriptions);
-
+export const useTreeInAddProduct = () =>
+  useSelector((state) => state.addProduct.treeCategoryInAddProduct);
 export const convertMediaToBody = (media) => {
   const listMedia = [];
   media.map((data) => {
@@ -203,6 +206,27 @@ export const convertMediaToBody = (media) => {
   });
   return listMedia;
 };
+
+export const useFetchCategoryInAddProduct = async () => {
+  const dispatch = useDispatch();
+
+  useLayoutEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchListTreeCategoryInAddProduct());
+    };
+
+    fetchData();
+  }, [dispatch]);
+};
+const fetchListTreeCategoryInAddProduct = () => async (dispatch) => {
+  try {
+    await ProductApi.GetListCategoriesTree().then((res) => {
+      const treeBuild = buildCategoryTree(res.data.data);
+      dispatch(setTreeCategoryInAddProduct(treeBuild));
+    });
+  } catch (err) {}
+};
+
 const changeDescriptionToBody = async (descriptions) => {
   const result = [];
   await descriptions.forEach((data) => {
@@ -414,12 +438,7 @@ export const updateProduct = async (productID, body) => {
   });
 };
 
-export const checkValidFix = (
-  name,
-  category_id,
-  price,
-  specification_name,
-) => {
+export const checkValidFix = (name, category_id, price, specification_name) => {
   if (name == "") {
     toast("Missing name", {
       type: "warning",
