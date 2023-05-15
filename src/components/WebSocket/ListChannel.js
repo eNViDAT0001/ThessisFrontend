@@ -5,7 +5,7 @@ import { setHandleChannel } from "../../app/slices/ChatSlice";
 
 export const ListChannel = () => {
   const dispatch = useDispatch();
-  const listChannel = useListChannel();
+  const listChannel = useListChannel() || [];
 
   const handleClick = (data) => {
     dispatch(setHandleChannel(data));

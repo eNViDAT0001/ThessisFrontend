@@ -25,7 +25,7 @@ export const MessageListComponent = (props) => {
   const handleButtonSend = (e) => {
     if (inputValue !== "") {
       const body = {
-        user_id: userID,
+        from_user_id: userID,
         to_user_id: parseInt(handleChannel.to_user_id),
         content: inputValue,
         seen: false,

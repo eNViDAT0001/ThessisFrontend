@@ -185,9 +185,6 @@ const updateOrder = async (body) => {
         toast("Your order created success", {
           type: "success",
           autoClose: 1000,
-          onClose: setTimeout(() => {
-            window.location.replace("/");
-          }, 2000),
         });
       })
       .catch((err) => {

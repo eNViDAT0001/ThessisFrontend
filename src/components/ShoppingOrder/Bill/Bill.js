@@ -26,26 +26,29 @@ export const Bill = () => {
   const addressForm = useFormAddressSelected();
   const totalPrice = useTotalPrice();
   const paypalRef = useRef(null);
+
   const createNewOrder = async () => {
-    const body = {
-      user_id: userID,
-      name: "LE QUOC KHANH",
-      gender: true,
-      phone: "0945958952",
-      province: "TP HCM",
-      district: "Q12",
-      ward: "Chis hau",
-      street: "KTX KHU A",
-      total: parseInt(totalPrice),
-      quantity: 30,
-      status_description: "Provider Will call you soon",
-      discount: 0,
-      items: changePropListItem(listItem),
-      cart_items_ids: getListIDCart(listItem),
-    };
-    console.log("body in Add order", body);
-    const res = await addNewOrder(body);
-    return res;
+    if (!checkObjectEmpty(addressForm)) {
+      const body = {
+        user_id: userID,
+        name: addressForm.name,
+        gender: addressForm.gender,
+        phone: addressForm.phone,
+        province: addressForm.province,
+        district: addressForm.district,
+        ward: addressForm.ward,
+        street: addressForm.street,
+        total: parseInt(totalPrice),
+        quantity: 30,
+        status_description: "Provider Will call you soon",
+        discount: 0,
+        items: changePropListItem(listItem),
+        cart_items_ids: getListIDCart(listItem),
+      };
+      console.log("body in Add order", body);
+      const res = await addNewOrder(body);
+      return res;
+    }
   };
 
   useEffect(() => {
@@ -76,7 +79,7 @@ export const Bill = () => {
           console.log(err);
         },
       })
-      .render();
+      .render(paypalRef.current);
   }, [totalPrice, userID]);
   return (
     <div className=" bg-[#F4F4FC] p-6 space-y-10">

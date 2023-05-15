@@ -4,7 +4,6 @@ import { ToastContainer } from "react-toastify";
 import PlaceIcon from "@mui/icons-material/Place";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import MailIcon from "@mui/icons-material/Mail";
-import WebIcon from "@mui/icons-material/Web";
 
 export const ContactPage = () => {
   const [email, setEmail] = useState("");
@@ -43,7 +42,7 @@ export const ContactPage = () => {
       <div className="flex justify-center mt-[120px]">
         <div className="w-[65%] min-w-[500px] flex justify-center flex-col ">
           <div className="flex flex-row justify-between mb-[200px]">
-            <div className="flex flex-col mt-[46px] mb-[40px] w-[50%] space-y-[47px] border p-5 shadow-md">
+            <div className="flex flex-col w-[50%] space-y-[47px] border p-5 shadow-md">
               <h1 className=" text-2xl">Form contact</h1>
               <div className="flex flex-row justify-between">
                 <input
@@ -72,7 +71,7 @@ export const ContactPage = () => {
               ></textarea>
               <button
                 onClick={handleButtonSendMail}
-                className="w-[35%] h-[10%] max-h-[15%] mt-20 bg-[#FF1788] text-white"
+                className="w-[35%] h-[10%] max-h-[15%] mt-20 bg-[#FF1788] text-white rounded-md transition-all duration-300 hover:bg-[#FF0573] focus:outline-none focus:ring-2 focus:ring-[#FF0573] focus:ring-opacity-50"
               >
                 Send Mail
               </button>
@@ -88,16 +87,20 @@ export const ContactPage = () => {
               </div>
               <div className="flex flex-row space-x-5 items-start">
                 <LocalPhoneIcon />
-                <div className="text-lg">Phone:</div>
-                <div className="text-lg">
-                  <h1>0945958952</h1>
+                <div className=" flex flex-row space-x-9">
+                  <div className="text-lg ">Phone:</div>
+                  <div className="text-lg  ">
+                    <h1>0945958952</h1>
+                  </div>
                 </div>
               </div>
               <div className="flex flex-row space-x-5 items-start">
                 <MailIcon />
-                <div className="text-lg">Email:</div>
-                <div>
-                  <h1 className="text-lg">19521680@gm.uit.edu.vn</h1>
+                <div className="flex flex-row space-x-10">
+                  <div className="text-lg">Email:</div>
+                  <div>
+                    <h1 className="text-lg">19521680@gm.uit.edu.vn</h1>
+                  </div>
                 </div>
               </div>
             </div>

@@ -44,7 +44,7 @@ export const HandleQuantityAndCart = (props) => {
   const handleChat = (e) => {
     const toUserID = e.currentTarget.id;
     const body={
-        "user_id": parseInt(toUserID),
+        "from_user_id": parseInt(toUserID),
         "to_user_id": userID,
         "content": "Chào bạn, bạn có gì thắc mắc về sản phẩm ạ?",
         "seen": false,

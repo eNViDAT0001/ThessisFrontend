@@ -13,7 +13,6 @@ import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { uploadFile } from "../../../app/hook/FileHook";
 import { useDispatch } from "react-redux";
 import {
-  addNewBanner,
   selectProductInUpdateBanner,
   updateTheBanner,
   useBannerDetailInUpdate,
@@ -24,7 +23,6 @@ import Pagination from "@mui/material/Pagination";
 import {
   checkObjectEmpty,
   convertDate,
-  getSelectedIds,
 } from "../../../app/hook/CommonHook";
 import { setListProductInUpdateBanner } from "../../../app/slices/BannerSlice";
 import {
@@ -112,7 +110,7 @@ export const UpdateBanner = (props) => {
     <div className="w-full p-10 border space-y-5">
       <ToastContainer position="top-right" newestOnTop />
 
-      <div className="flex flex-row  space-x-4 items-center">
+      <div className="flex flex-row  space-x-14 items-center">
         <h1 className="font-semibold whitespace-nowrap ">Title :</h1>
         <TextField
           required
@@ -136,7 +134,7 @@ export const UpdateBanner = (props) => {
           label="collection"
         />
       </div>
-      <div className="flex flex-row  space-x-4 items-center">
+      <div className="flex flex-row  space-x-7 items-center">
         <h1 className="font-semibold whitespace-nowrap ">Discount:</h1>
         <TextField
           required
@@ -189,7 +187,7 @@ export const UpdateBanner = (props) => {
               type="date"
               defaultValue={convertDate(bannerDetail.end_time)}
               onChange={handleChangeDataPicker}
-              sx={{ width: 220 }}
+              sx={{ width: 1 }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -209,7 +207,7 @@ export const UpdateBanner = (props) => {
                 p: "2px 4px",
                 display: "flex",
                 alignItems: "center",
-                width: 400,
+                width: 1,
               }}
             >
               <InputBase
