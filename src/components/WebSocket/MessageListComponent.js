@@ -25,6 +25,7 @@ export const MessageListComponent = (props) => {
   const handleButtonSend = (e) => {
     if (inputValue !== "") {
       const body = {
+        chat_room_id: handleChannel.id,
         from_user_id: userID,
         to_user_id: parseInt(handleChannel.to_user_id),
         content: inputValue,
@@ -45,13 +46,13 @@ export const MessageListComponent = (props) => {
     setInputValue(e.target.value);
   };
   return (
-    <div className="w-full flex flex-col justify-between max-h-[300px]">
+    <div className="w-full flex flex-col justify-between h-[350px]">
       <div className="flex-grow">
         <div>
           <ItemChat />
         </div>
         <div
-          className="h-[245px] overflow-y-scroll"
+          className="h-[220px] overflow-y-scroll"
           onScroll={handleScroll}
           ref={messageListRef}
         >
@@ -59,7 +60,7 @@ export const MessageListComponent = (props) => {
         </div>
       </div>
 
-      <div className="border flex flex-row justify-between">
+      <div className="border flex flex-row justify-between mb-2">
         <div className="w-full">
           <Input
             onChange={handleChangeText}

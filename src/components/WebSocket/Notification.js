@@ -1,23 +1,33 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
+  seenNotification,
   useFetchNotificationSmall,
   useNotificationSmall,
 } from "../../app/hook/NotificationHook";
 import { useUserID } from "../../app/hook/UserHook";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setListNotificationSmall } from "../../app/slices/NotificationSlice";
 
 export const Notification = () => {
   const handleMouseEnter = (e) => {
     e.stopPropagation();
   };
   const id = useUserID();
+  const dispatch = useDispatch();
   const listNotification = useNotificationSmall();
   const wsEvent = useSelector((state) => state.webSocket.WSEvent);
 
   const handleShowMore = (e) => {
-    window.location.replace(`/user/notification/${id}`)
+    window.location.replace(`/user/notification/${id}`);
   };
+
+  const handleSetSeenNotify = (e) => {
+    const notifyID = e.currentTarget.id;
+    const newNotify = seenNotification(listNotification, notifyID, id);
+    //dispatch(setListNotificationSmall(newNotify));
+  };
+
   useFetchNotificationSmall(id, wsEvent);
   return (
     <div onMouseEnter={handleMouseEnter} className="border bg-white w-full">
@@ -27,7 +37,9 @@ export const Notification = () => {
             <Link
               to={notice.url}
               key={notice.id}
-              className="flex flex-row border-b items-center hover:bg-slate-200 space-x-3"
+              className={`flex flex-row border-b items-center ${
+                notice.seen ? " bg-slate-200" : "hover:bg-slate-200"
+              } space-x-3 border-[#000000]`}
             >
               {notice.img && (
                 <img
@@ -37,7 +49,13 @@ export const Notification = () => {
                 ></img>
               )}
               <div className="flex flex-col my-5">
-                <h1 className="text-[#9295AA]">{notice.content}</h1>
+                <h1
+                  className={`${
+                    notice.seen ? "text-[#000000]" : "text-[#9295AA]"
+                  }`}
+                >
+                  {notice.content}
+                </h1>
               </div>
             </Link>
           ))}

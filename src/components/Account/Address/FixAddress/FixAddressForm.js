@@ -1,6 +1,9 @@
 import { Autocomplete, Button, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import {
+  changeAttributeForOptionInDistrict,
+  changeAttributeForOptionInProvince,
+  changeAttributeForOptionInWard,
   updateAddress,
   useAddressDetail,
   useFetchInformationInAddAddress,
@@ -12,7 +15,6 @@ import {
   useProvince,
   useWard,
 } from "../../../../app/hook/AddressHook";
-import { changeAttributeForOption } from "../../../../app/hook/CommonHook";
 
 export const FixAddressForm = (props) => {
   const addressDetail = useAddressDetail();
@@ -32,9 +34,9 @@ export const FixAddressForm = (props) => {
   const dataDistrict = useDistrict();
   const dataWard = useWard();
 
-  const newDataProvince = changeAttributeForOption(dataProvince);
-  const newDataDistrict = changeAttributeForOption(dataDistrict);
-  const newDataWard = changeAttributeForOption(dataWard);
+  const newDataProvince = changeAttributeForOptionInProvince(dataProvince);
+  const newDataDistrict = changeAttributeForOptionInDistrict(dataDistrict);
+  const newDataWard = changeAttributeForOptionInWard(dataWard);
 
   const handleNameText = (e) => {
     setName(e.target.value);
@@ -47,6 +49,8 @@ export const FixAddressForm = (props) => {
   };
 
   const onChangeProvince = (e, value) => {
+    setProvinceName(value.label);
+
     setProvinceID(value.id);
     setDistrictName("");
     setWardName("");
@@ -73,9 +77,12 @@ export const FixAddressForm = (props) => {
       name: name,
       gender: gender,
       phone: phone,
-      province_code: provinceID,
-      district_code: districtID,
+      province_id: provinceID,
+      district_id: districtID,
       ward_code: wardID,
+      province: provinceName,
+      district: districtName,
+      ward: wardName,
       street: street,
     };
     updateAddress(addressID, userID, body);
@@ -85,9 +92,9 @@ export const FixAddressForm = (props) => {
     if (addressDetail) {
       setName(addressDetail.name);
       setProvinceName(addressDetail.province);
-      setProvinceID(addressDetail.province_code);
+      setProvinceID(addressDetail.province_id);
       setDistrictName(addressDetail.district);
-      setDistrictID(addressDetail.district_code);
+      setDistrictID(addressDetail.district_id);
       setWardName(addressDetail.ward);
       setWardID(addressDetail.ward_code);
       setPhone(addressDetail.phone);
@@ -153,7 +160,9 @@ export const FixAddressForm = (props) => {
                 value={provinceName}
                 options={newDataProvince}
                 onChange={onChangeProvince}
-                isOptionEqualToValue={(option, value) => (value) && (option) && (option.id === value.id)}
+                isOptionEqualToValue={(option, value) =>
+                  value && option && option.id === value.id
+                }
                 sx={{ width: 300 }}
                 renderInput={(params) => (
                   <TextField {...params} label="Province" />

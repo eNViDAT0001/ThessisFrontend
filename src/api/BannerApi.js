@@ -16,9 +16,12 @@ export const BannerApi = {
     const url = `products/banner/${bannerID}/preview`;
     return axiosClient.get(url);
   },
-  UpdateBanner: (bannerID,body) => {
-    console.log(bannerID)
-    const url = `/banners/${bannerID}`;
+  GetProductPreviewNotExist: (bannerID) => {
+    const url = `products/banner/${bannerID}/preview/no`;
+    return axiosClient.get(url);
+  },
+  UpdateBanner: (bannerID,userID, body) => {
+    const url = `/banners/${bannerID}/user/${userID}`;
     return axiosClient.patch(url, body);
   },
   DeleteListBanner: (body) => {

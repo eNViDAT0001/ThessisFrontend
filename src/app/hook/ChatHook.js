@@ -77,13 +77,13 @@ export const useFetchChat = (
     }
 
     if (user2ID !== prevUser2ID.current) {
-      dispatch(setListMessage([]))
+      dispatch(setListMessage([]));
       dispatch(setMarkerInFilterMessage(null));
       fetchData();
     }
 
     if (wsEvent !== prevWSEvent.current) {
-      alert("message đã được gửi")
+      alert("message đã được gửi");
       const newEvent = JSON.parse(wsEvent);
       if (newEvent.type === "ChatNewMessage") {
         beSentChat(newEvent.payload, handleChannel);
@@ -110,13 +110,15 @@ const fetchListMessageMerge =
       );
       const originalData = response.data.data;
       const transformedData = originalData.map((message) => ({
-        position: user1ID === message.user_id ? "right" : "left",
+        position: user1ID === message.from_user_id ? "right" : "left",
         type: "text",
         text: message.content,
         title:
-          user1ID === message.user_id ? userDetail.name : handleChannel.name,
+          user1ID === message.from_user_id
+            ? userDetail.name
+            : handleChannel.name,
         avatar:
-          user1ID === message.user_id
+          user1ID === message.from_user_id
             ? userDetail.avatar
             : handleChannel.avatar,
       }));
@@ -138,13 +140,15 @@ const fetchListMessage =
       );
       const originalData = response.data.data;
       const transformedData = originalData.map((message) => ({
-        position: user1ID === message.user_id ? "right" : "left",
+        position: user1ID === message.from_user_id ? "right" : "left",
         type: "text",
         text: message.content,
         title:
-          user1ID === message.user_id ? userDetail.name : handleChannel.name,
+          user1ID === message.from_user_id
+            ? userDetail.name
+            : handleChannel.name,
         avatar:
-          user1ID === message.user_id
+          user1ID === message.from_user_id
             ? userDetail.avatar
             : handleChannel.avatar,
       }));

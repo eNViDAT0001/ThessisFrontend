@@ -1,55 +1,26 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
 import { useDispatch } from "react-redux";
 import {
-  setCategoryID,
   setDiscount,
+  setHeight,
+  setLength,
   setName,
   setPrice,
+  setWeight,
+  setWidth,
 } from "../../../app/slices/AddProductSlice";
 import {
   useFetchCategoryInAddProduct,
   useTreeInAddProduct,
 } from "../../../app/hook/ProductHook";
 import { TreeCategoryInUpdateInAdmin } from "../../Admin/CategoryComponentInAdmin/TreeCategoryInUpdateInAdmin";
-const categoryArray = [
-  {
-    id: 1,
-    label: "Men's Fashion",
-  },
-  {
-    id: 15,
-    label: "Hat in Men's Fashion",
-  },
-  {
-    id: 16,
-    label: "Jean in Men's Fashion",
-  },
-  {
-    id: 2,
-    label: "WoMen's Fashion",
-  },
-  {
-    id: 17,
-    label: "T-Shirt in WoMen's Fashion",
-  },
-  {
-    id: 18,
-    label: "Hat in WoMen's Fashion",
-  },
-  {
-    id: 19,
-    label: "Jean in WoMen's Fashion",
-  },
-  {
-    id: 3,
-    label: "Accessories",
-  },
-];
+
 export const AddBasicInformation = () => {
   const dispatch = useDispatch();
   const treeCategory = useTreeInAddProduct();
+
+
   const handleInputName = (e) => {
     dispatch(setName(e.target.value));
   };
@@ -58,6 +29,18 @@ export const AddBasicInformation = () => {
   };
   const handleInputDiscount = (e) => {
     dispatch(setDiscount(parseInt(e.target.value)));
+  };
+  const handleInputHeight = (e) => {
+    dispatch(setHeight(e.target.value));
+  };
+  const handleInputLength = (e) => {
+    dispatch(setLength(parseInt(e.target.value)));
+  };
+  const handleInputWeight = (e) => {
+    dispatch(setWeight(parseInt(e.target.value)));
+  };
+  const handleInputWidth = (e) => {
+    dispatch(setWidth(parseInt(e.target.value)));
   };
   useFetchCategoryInAddProduct();
   return (
@@ -94,6 +77,50 @@ export const AddBasicInformation = () => {
           defaultValue="0"
           onChange={handleInputDiscount}
           label="Discount"
+        />
+      </div>
+      <div className="flex flex-row justify-between space-x-4 items-center">
+        <h1 className="font-semibold">Height:</h1>
+        <TextField
+          sx={{ width: 0.75 }}
+          size="small"
+          id="outlined-required"
+          defaultValue="0"
+          onChange={handleInputHeight}
+          label="Height"
+        />
+      </div>
+      <div className="flex flex-row justify-between space-x-4 items-center">
+        <h1 className="font-semibold">Length:</h1>
+        <TextField
+          sx={{ width: 0.75 }}
+          size="small"
+          id="outlined-required"
+          defaultValue="0"
+          onChange={handleInputLength}
+          label="Length"
+        />
+      </div>
+      <div className="flex flex-row justify-between space-x-4 items-center">
+        <h1 className="font-semibold">Weight:</h1>
+        <TextField
+          sx={{ width: 0.75 }}
+          size="small"
+          id="outlined-required"
+          defaultValue="0"
+          onChange={handleInputWeight}
+          label="Weight"
+        />
+      </div>
+      <div className="flex flex-row justify-between space-x-4 items-center">
+        <h1 className="font-semibold">Width:</h1>
+        <TextField
+          sx={{ width: 0.75 }}
+          size="small"
+          id="outlined-required"
+          defaultValue="0"
+          onChange={handleInputWidth}
+          label="Width"
         />
       </div>
       <div className="flex flex-row space-x-8 items-center">

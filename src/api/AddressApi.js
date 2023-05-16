@@ -23,6 +23,10 @@ export const AddressApi = {
     const url = `/user/${id}`;
     return axiosClient.get(url);
   },
+  GetShippingCost: (body) => {
+    const url = `/v2/shipping-order/fee`;
+    return axiosAddressClient.get(url, { params: body });
+  },
   AddressList: () => {
     const url = "/addresses";
     return axiosClient.get(url);

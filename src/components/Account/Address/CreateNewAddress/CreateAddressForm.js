@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import { changeAttributeForOptionInDistrict, changeAttributeForOptionInProvince, changeAttributeForOptionInWard, saveNewAddress, useDistrict, useFetchInformationInAddAddress,  useProvince, useWard } from "../../../../app/hook/AddressHook";
-import { changeAttributeForOption } from "../../../../app/hook/CommonHook";
 import { useUserID } from "../../../../app/hook/UserHook";
 export const CreateAddressForm = () => {
   const id = useUserID()

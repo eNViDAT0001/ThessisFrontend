@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { OrderApi } from "../../api/OrderApi";
 import {
+  addDataToShippingCost,
+  setDataShippingCost,
   setListItemsInOrder,
   setListOrderInAccount,
   setListOrderInAdmin,
@@ -10,6 +12,8 @@ import {
 } from "../slices/OrderSlice";
 import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
+import { AddressApi } from "../../api/AddressApi";
+import { checkObjectEmpty } from "./CommonHook";
 
 export const useListOrderInProvider = () =>
   useSelector((state) => state.order.listOrderInProvider);
@@ -17,7 +21,8 @@ export const useListOrderInAccountDetail = () =>
   useSelector((state) => state.order.listOrderInAccount);
 export const useOrderHandleDetail = () =>
   JSON.parse(localStorage.getItem("orderHandle"));
-
+export const useDataShippingCost = () =>
+  useSelector((state) => state.order.dataShippingCost);
 export const updateStatus = async (idOrder, body) => {
   await OrderApi.UpdateStatus(idOrder, body).then((res) => {
     if (res.status == 200) {
@@ -209,4 +214,42 @@ export const verifyOrder = async (orderID, userID) => {
         console.log(err);
       });
   } catch (error) {}
+};
+
+const getApiShippingFee = (body) => async (dispatch) => {
+  await AddressApi.GetShippingCost(body)
+    .then((res) => {
+      dispatch(addDataToShippingCost(res.data.data));
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const useShippingFee = async (listItem, address) => {
+  const dispatch = useDispatch();
+  const prevAddress = useRef(address);
+
+  if (prevAddress.current !== address) {
+    dispatch(setDataShippingCost([]));
+  }
+
+  useEffect(() => {
+    if (!checkObjectEmpty(address)) {
+      listItem.map(async (data) => {
+        const body = {
+          service_id: 53321,
+          insurance_value: 500000,
+          from_district_id: 1542,
+          to_district_id: address.district_id,
+          to_ward_code: address.ward_code,
+          height: data.height,
+          weight: data.weight,
+          length: data.length,
+          width: data.width,
+        };
+        return await dispatch(getApiShippingFee(body));
+      });
+    }
+  }, [dispatch, listItem, address]);
 };

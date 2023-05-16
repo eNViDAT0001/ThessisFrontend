@@ -24,7 +24,7 @@ export const ListNotifyInAccount = () => {
   const handleShowMore = (e) => {
     dispatch(setMarkerInFilterNotify(meta.paging.Current));
   };
-  console.log(listNotification)
+  console.log(listNotification);
   useFetchNotification(id, convertObjectToStringQuery(filter));
 
   return (
@@ -35,7 +35,9 @@ export const ListNotifyInAccount = () => {
             <Link
               to={notice.url}
               key={notice.id}
-              className="flex flex-row border-b items-center hover:bg-slate-200 space-x-3"
+              className={`flex flex-row border-b items-center ${
+                notice.seen ? " bg-slate-200" : "hover:bg-slate-200"
+              } space-x-3 border-[#000000]`}
             >
               {notice.img && (
                 <img
@@ -45,7 +47,13 @@ export const ListNotifyInAccount = () => {
                 ></img>
               )}
               <div className="flex flex-col my-5">
-                <h1 className="text-[#9295AA]">{notice.content}</h1>
+                <h1
+                  className={`${
+                    notice.seen ? "text-[#000000]" : "text-[#9295AA]"
+                  }`}
+                >
+                  {notice.content}
+                </h1>
               </div>
             </Link>
           ))}

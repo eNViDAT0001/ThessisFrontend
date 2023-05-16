@@ -11,13 +11,24 @@ import {
 import {
   useCategoryIdFix,
   useDiscountFix,
+  useHeightInFix,
+  useLengthInFix,
   useNameFix,
   usePriceFix,
+  useWeightInFix,
+  useWidthInFix,
 } from "../../../app/hook/ProductHook";
 import { useState } from "react";
 import { useEffect } from "react";
 import { CategoryTreeFix } from "./CategoryTreeFix";
-import { setDiscountFix, setNameFix, setPriceFix } from "../../../app/slices/FixProductSlice";
+import {
+  setDiscountFix,
+  setHeightFix,
+  setNameFix,
+  setPriceFix,
+  setWeightFix,
+  setWidthFix,
+} from "../../../app/slices/FixProductSlice";
 const categoryArray = [
   {
     id: 1,
@@ -60,7 +71,10 @@ export const FixBasicInformation = () => {
   const category_id = useCategoryIdFix();
   const price = usePriceFix();
   const discount = useDiscountFix();
-
+  const height = useHeightInFix()
+  const weight = useWeightInFix()
+  const length = useLengthInFix()
+  const width = useWidthInFix()
   const handleInputName = (e) => {
     dispatch(setNameFix(e.target.value));
   };
@@ -69,6 +83,18 @@ export const FixBasicInformation = () => {
   };
   const handleInputDiscount = (e) => {
     dispatch(setDiscountFix(e.target.value));
+  };
+  const handleInputHeight = (e) => {
+    dispatch(setHeightFix(e.target.value));
+  };
+  const handleInputWeight = (e) => {
+    dispatch(setWeightFix(e.target.value));
+  };
+  const handleInputLength = (e) => {
+    dispatch(setDiscountFix(e.target.value));
+  };
+  const handleInputWidth = (e) => {
+    dispatch(setWidthFix(e.target.value));
   };
 
   useEffect(() => {
@@ -92,10 +118,7 @@ export const FixBasicInformation = () => {
               label="Name"
             />
           </div>
-          <div className="flex flex-row space-x-8 items-start">
-            <h1 className="font-semibold">Select your Category:</h1>
-            <CategoryTreeFix />
-          </div>
+
           <div className="flex flex-row justify-between space-x-4 items-center">
             <h1 className="font-semibold">Price:</h1>
             <TextField
@@ -118,6 +141,54 @@ export const FixBasicInformation = () => {
               onChange={handleInputDiscount}
               label="Discount"
             />
+          </div>
+          <div className="flex flex-row justify-between space-x-4 items-center">
+            <h1 className="font-semibold">Height:</h1>
+            <TextField
+              sx={{ width: 0.75 }}
+              size="small"
+              id="outlined-required"
+              defaultValue={height}
+              onChange={handleInputHeight}
+              label="Height"
+            />
+          </div>
+          <div className="flex flex-row justify-between space-x-4 items-center">
+            <h1 className="font-semibold">Length:</h1>
+            <TextField
+              sx={{ width: 0.75 }}
+              size="small"
+              id="outlined-required"
+              defaultValue={length}
+              onChange={handleInputLength}
+              label="Length"
+            />
+          </div>
+          <div className="flex flex-row justify-between space-x-4 items-center">
+            <h1 className="font-semibold">Weight:</h1>
+            <TextField
+              sx={{ width: 0.75 }}
+              size="small"
+              id="outlined-required"
+              defaultValue={weight}
+              onChange={handleInputWeight}
+              label="Weight"
+            />
+          </div>
+          <div className="flex flex-row justify-between space-x-4 items-center">
+            <h1 className="font-semibold">Width:</h1>
+            <TextField
+              sx={{ width: 0.75 }}
+              size="small"
+              id="outlined-required"
+              defaultValue={width}
+              onChange={handleInputWidth}
+              label="Width"
+            />
+          </div>
+          <div className="flex flex-row space-x-8 items-start">
+            <h1 className="font-semibold">Select your Category:</h1>
+            <CategoryTreeFix />
           </div>
         </div>
       )}

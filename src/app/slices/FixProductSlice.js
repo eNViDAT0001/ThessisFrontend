@@ -9,19 +9,24 @@ const initialState = {
   specification_name: "",
   options: [
     {
-        id: 0,
-        name: "",
-        price: 0,
-        quantity: 0,
-    }
+      id: 0,
+      name: "",
+      price: 0,
+      quantity: 0,
+    },
   ],
-  descriptions:[
+  descriptions: [
     {
       id: 0,
-      description_name:"",
-      description_md: ""
-    }
+      description_name: "",
+      description_md: "",
+    },
   ],
+  height: 0,
+  weight: 0,
+  length: 0,
+  width: 0,
+  listMediaOld: [],
 };
 
 const FixProductSlice = createSlice({
@@ -55,8 +60,23 @@ const FixProductSlice = createSlice({
     setDataOptionFix: (state, action) => {
       state.options = action.payload;
     },
-    setDescriptionsFix:(state, action) => {
+    setDescriptionsFix: (state, action) => {
       state.descriptions = action.payload;
+    },
+    setHeightFix: (state, action) => {
+      state.height = action.payload;
+    },
+    setWeightFix: (state, action) => {
+      state.weight = action.payload;
+    },
+    setLengthFix: (state, action) => {
+      state.length = action.payload;
+    },
+    setWidthFix: (state, action) => {
+      state.width = action.payload;
+    },
+    setListMediaOld: (state, action) => {
+      state.listMediaOld = action.payload;
     },
   },
 });
@@ -73,5 +93,12 @@ export const {
   addFileInDescriptionFix,
   setDataOptionFix,
   setDescriptionsFix,
+
+  setHeightFix,
+  setWeightFix,
+  setLengthFix,
+  setWidthFix,
+
+  setListMediaOld,
 } = FixProductSlice.actions;
 export default FixProductSlice.reducer;

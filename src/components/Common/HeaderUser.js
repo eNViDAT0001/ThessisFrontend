@@ -89,24 +89,24 @@ export const HeaderUser = () => {
     return "WebSocket" in window;
   }
   useEffect(() => {
-    if (userID) {
-      const accessToken = localStorage.getItem("AccessToken");
-      const WS_URL = `ws://localhost:8082/api/v1/ws/user/${userID}/token/${accessToken}`;
-      const timer = setTimeout(() => {
-        const ws = new WebSocket(WS_URL);
+    // if (userID) {
+    //   const accessToken = localStorage.getItem("AccessToken");
+    //   const WS_URL = `ws://localhost:8082/api/v1/ws/user/${userID}/token/${accessToken}`;
+    //   const timer = setTimeout(() => {
+    //     const ws = new WebSocket(WS_URL);
 
-        ws.onopen = () => {};
+    //     ws.onopen = () => {};
 
-        ws.onmessage = (event) => {
-          dispatch(setWSEvent(event.data));
-        };
+    //     ws.onmessage = (event) => {
+    //       dispatch(setWSEvent(event.data));
+    //     };
 
-        ws.onerror = (error) => {};
+    //     ws.onerror = (error) => {};
 
-        ws.onclose = () => {};
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
+    //     ws.onclose = () => {};
+    //   }, 1000);
+    //   return () => clearTimeout(timer);
+    // }
   }, [userID]);
   return (
     <div className="w-full bg-[#FFFFFF] flex justify-center border-b">

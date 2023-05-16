@@ -22,7 +22,11 @@ const initialState = {
       description_md: ""
     }
   ],
-  treeCategoryInAddProduct:[]
+  treeCategoryInAddProduct:[],
+  height: 0,
+  weight: 0,
+  length: 0,
+  width: 0,
 };
 
 const AddProductSlice = createSlice({
@@ -49,7 +53,6 @@ const AddProductSlice = createSlice({
     setMedia: (state, action) => {
       state.media = action.payload;
     },
-
     setSpecificationName: (state, action) => {
       state.specification_name = action.payload;
     },
@@ -59,9 +62,20 @@ const AddProductSlice = createSlice({
     setDescriptions:(state, action) => {
       state.descriptions = action.payload;
     },
-
     setTreeCategoryInAddProduct: (state,action) =>{
       state.treeCategoryInAddProduct = action.payload
+    },
+    setHeight: (state, action) => {
+      state.height = action.payload;
+    },
+    setWeight: (state, action) => {
+      state.weight = action.payload;
+    },
+    setLength:(state, action) => {
+      state.length = action.payload;
+    },
+    setWidth: (state,action) =>{
+      state.width = action.payload
     }
   },
 });
@@ -79,6 +93,11 @@ export const {
   setDataOption,
   setDescriptions,
   addDescriptionResponse,
-  setTreeCategoryInAddProduct
+  setTreeCategoryInAddProduct,
+
+  setHeight,
+  setWeight,
+  setLength,
+  setWidth
 } = AddProductSlice.actions;
 export default AddProductSlice.reducer;

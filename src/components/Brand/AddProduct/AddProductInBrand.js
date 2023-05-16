@@ -19,11 +19,15 @@ import {
   useCategoryId,
   useDescriptions,
   useDiscount,
+  useHeightInAdd,
+  useLengthInAdd,
   useMedia,
   useName,
   useOptions,
   usePrice,
   useSpecificationName,
+  useWeightInAdd,
+  useWidthInAdd,
 } from "../../../app/hook/ProductHook";
 import { useUserID } from "../../../app/hook/UserHook";
 
@@ -39,8 +43,11 @@ export const AddProductInBrand = () => {
   const options = useOptions();
   const specification_name = useSpecificationName();
   const descriptions = useDescriptions();
-
-  const addNewProduct = async(e) => {
+  const height = useHeightInAdd();
+  const length = useLengthInAdd();
+  const weight = useWeightInAdd();
+  const width = useWidthInAdd();
+  const addNewProduct = async (e) => {
     if (checkValidAdd(name, category_id, price, specification_name, media)) {
       const body = await convertBodyAddProduct(
         category_id,
@@ -50,7 +57,11 @@ export const AddProductInBrand = () => {
         media,
         specification_name,
         options,
-        descriptions
+        descriptions,
+        height,
+        length,
+        weight,
+        width
       );
       addProduct(id, userID, body);
     }

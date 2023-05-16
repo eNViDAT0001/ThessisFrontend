@@ -1,54 +1,51 @@
-import React from "react";
-import { useListBanner } from "../../app/hook/BannerHook";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
-const settings = {
-  dots: true,
-  infinite: true,
-  fade: true,
-  autoplay: true,
-  autoplaySpeed: 3000,
-  cssEase: "linear",
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  prevArrow: <NavigateNextIcon style={{ fontSize: "48px", color: "black" }} />,
-  nextArrow: <ArrowBackIosIcon style={{ fontSize: "48px", color: "black" }} />,
-};
-
-const imageStyles = {
-  height: "700px",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-};
+import { useFetchListBanner, useListBanner } from "../../app/hook/BannerHook";
+import { AiOutlineVerticalLeft, AiOutlineVerticalRight } from "react-icons/ai";
 
 export const Banner = () => {
-  const listBanner = useListBanner() || [];
+  const [indexBanner, setIndexBanner] = useState(0);
 
+  const listBanner = useListBanner();
+
+  const onPrevClickHandler = (e) => {
+    if (indexBanner > 0) setIndexBanner(indexBanner - 1);
+  };
+  const onNextClickHandler = (e) => {
+    if (indexBanner < listBanner.length - 1) setIndexBanner(indexBanner + 1);
+  };
   return (
     <div>
-      <div className="flex justify-center items-center px-[15%] border hover:shadow-md ">
-        <div className="w-full h-full skew-y-3 md:transform-none">
-          <Slider {...settings}>
-            {listBanner.map((data) => (
-              <Link key={data.id}
-              to={`/banner/${data.id}`}>
-                <img
-                  src={data.image}
-                  alt="anh san pham"
-                  style={imageStyles}
-                ></img>
-              </Link>
-            ))}
-          </Slider>
+      {listBanner.length !== 0 ? (
+        <div className="flex justify-center items-center px-[15%] border hover:shadow-md ">
+          <Link
+            className="w-full h-[600px] hover:cursor-pointer"
+            to={`/banner/${listBanner[indexBanner].id}`}
+          >
+            <img
+              src={listBanner[indexBanner].image}
+              alt="Anh banner"
+              className="w-full h-full skew-y-3 md:transform-none"
+            ></img>
+          </Link>
+          <div className="w-full h-auto flex items-center justify-between absolute  px-5 ">
+            <button onClick={onPrevClickHandler}>
+              <AiOutlineVerticalRight
+                size={30}
+                className="bg-black text-white rounded-full bg-opacity-50 hover:bg-opacity-100 transition"
+              />
+            </button>
+            <button onClick={onNextClickHandler}>
+              <AiOutlineVerticalLeft
+                size={30}
+                className="bg-black text-white rounded-full bg-opacity-50 hover:bg-opacity-100 transition"
+              />
+            </button>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };

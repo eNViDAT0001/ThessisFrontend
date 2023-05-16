@@ -15,17 +15,21 @@ import DescriptionIcon from "@mui/icons-material/Description";
 
 import {
   checkValidFix,
-  convertBodyAddProduct,
+  convertBodyFixProduct,
   updateProduct,
   useCategoryIdFix,
   useDescriptionsFix,
   useDiscountFix,
   useFetchProductDetailToFix,
+  useHeightInFix,
+  useLengthInFix,
   useMediaFix,
   useNameFix,
   useOptionsFix,
   usePriceFix,
   useSpecificationNameFix,
+  useWeightInFix,
+  useWidthInFix,
 } from "../../../app/hook/ProductHook";
 
 export const FixProductInBrand = () => {
@@ -41,10 +45,14 @@ export const FixProductInBrand = () => {
   const options = useOptionsFix();
   const specification_name = useSpecificationNameFix();
   const descriptions = useDescriptionsFix();
+  const height = useHeightInFix();
+  const weight = useWeightInFix();
+  const length = useLengthInFix();
+  const width = useWidthInFix();
 
   const handleUpdateProduct = async (e) => {
     if (checkValidFix(name, category_id, price, specification_name)) {
-      const body = await convertBodyAddProduct(
+      const body = await convertBodyFixProduct(
         category_id,
         name,
         discount,
@@ -52,8 +60,13 @@ export const FixProductInBrand = () => {
         media,
         specification_name,
         options,
-        descriptions
+        descriptions,
+        height,
+        length,
+        weight,
+        width
       );
+      console.log(body);
       updateProduct(id, body);
     }
   };

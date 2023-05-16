@@ -13,7 +13,7 @@ import Checkbox from "@mui/material/Checkbox";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-import { currencyFormat } from "../../app/hook/CommonHook";
+import { addSuffixToPrice, currencyFormat } from "../../app/hook/CommonHook";
 import { changeListCartFromCheck, decreaseQuantity, deleteCartShopping, increaseQuantity, useListCart } from "../../app/hook/CartHook";
 import { setListCart } from "../../app/slices/CartSlice";
 
@@ -123,7 +123,7 @@ const ListCart = () => {
                             {row.name}
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            {currencyFormat(row.price)}
+                            {addSuffixToPrice(row.price)}
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             <IconButton

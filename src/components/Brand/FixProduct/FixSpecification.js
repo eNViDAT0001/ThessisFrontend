@@ -8,7 +8,10 @@ import {
 } from "../../../app/hook/ProductHook";
 import { useState } from "react";
 import { useEffect } from "react";
-import { setDataOptionFix, setSpecificationNameFix } from "../../../app/slices/FixProductSlice";
+import {
+  setDataOptionFix,
+  setSpecificationNameFix,
+} from "../../../app/slices/FixProductSlice";
 
 export const FixSpecification = () => {
   const dispatch = useDispatch();
@@ -21,7 +24,7 @@ export const FixSpecification = () => {
   };
   const addOption = (e) => {
     const newOption = {
-      id: options[options.length - 1].id + 1,
+      izd: options[options.length - 1].id + 1,
       name: "",
       price: "",
       quantity: "",
@@ -99,12 +102,12 @@ export const FixSpecification = () => {
             </div>
           </div>
           <div className="space-y-3">
-            {options.map((data,index) => (
+            {options.map((data, index) => (
               <div
                 id={data.id}
                 className="flex flex-row items-center p-4 border space-x-6"
               >
-                <h1 className="font-semibold">Option {index+1}:</h1>
+                <h1 className="font-semibold">Option {index + 1}:</h1>
                 <TextField
                   required
                   size="small"

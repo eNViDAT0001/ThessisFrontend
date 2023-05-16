@@ -22,9 +22,14 @@ import {
   setCategoryIDFix,
   setDataOptionFix,
   setDiscountFix,
+  setHeightFix,
+  setLengthFix,
+  setListMediaOld,
   setNameFix,
   setPriceFix,
   setSpecificationNameFix,
+  setWeightFix,
+  setWidthFix,
 } from "../slices/FixProductSlice";
 import { fetchListTreeCategoryInUpdateProduct } from "./CategoryHook";
 import { buildCategoryTree } from "./CommonHook";
@@ -194,6 +199,14 @@ export const useDescriptions = () =>
   useSelector((state) => state.addProduct.descriptions);
 export const useTreeInAddProduct = () =>
   useSelector((state) => state.addProduct.treeCategoryInAddProduct);
+export const useHeightInAdd = () =>
+  useSelector((state) => state.addProduct.height);
+export const useWeightInAdd = () =>
+  useSelector((state) => state.addProduct.weight);
+export const useLengthInAdd = () =>
+  useSelector((state) => state.addProduct.length);
+export const useWidthInAdd = () =>
+  useSelector((state) => state.addProduct.width);
 export const convertMediaToBody = (media) => {
   const listMedia = [];
   media.map((data) => {
@@ -248,6 +261,44 @@ const changeDescriptionToBody = async (descriptions) => {
 
   return result;
 };
+export const convertBodyFixProduct = async (
+  category_id,
+  name,
+  discount,
+  price,
+  media,
+  specification_name,
+  options,
+  descriptions,
+  height,
+  length,
+  weight,
+  width
+) => {
+  const descriptionBody = await changeDescriptionToBody(descriptions);
+  const body = {
+    category_id: parseInt(category_id),
+    name: name,
+    discount: parseInt(discount),
+    price: price,
+    specification: {
+      properties: specification_name,
+    },
+    options: options,
+    height: parseInt(height),
+    length: parseInt(length),
+    weight: parseInt(weight),
+    width: parseInt(width),
+  };
+  if (media.length !== 0) {
+    body.media = convertMediaToBody(media);
+  }
+  // if (descriptionBody[0].path !== "") {
+  //   body.descriptions = descriptionBody;
+  // }
+  return body;
+};
+
 export const convertBodyAddProduct = async (
   category_id,
   name,
@@ -273,7 +324,6 @@ export const convertBodyAddProduct = async (
   };
   return body;
 };
-
 export const addProduct = async (idProvider, userID, body) => {
   await ProductApi.AddNewProduct(idProvider, userID, body).then((res) => {
     toast("Add New Product Success", {
@@ -376,7 +426,16 @@ export const useSpecificationNameFix = () =>
   useSelector((state) => state.fixProduct.specification_name);
 export const useDescriptionsFix = () =>
   useSelector((state) => state.fixProduct.descriptions);
-
+export const useHeightInFix = () =>
+  useSelector((state) => state.fixProduct.height);
+export const useWeightInFix = () =>
+  useSelector((state) => state.fixProduct.weight);
+export const useLengthInFix = () =>
+  useSelector((state) => state.fixProduct.length);
+export const useWidthInFix = () =>
+  useSelector((state) => state.fixProduct.width);
+export const useListMediaOld = () =>
+  useSelector((state) => state.fixProduct.listMediaOld);
 export const useFetchProductDetailToFix = (productID) => {
   const dispatch = useDispatch();
 
@@ -390,6 +449,9 @@ export const useFetchProductDetailToFix = (productID) => {
           .then(() => {
             return dispatch(fetchSpecificationInProductUpdate(productID));
           })
+          .then(() => {
+            return dispatch(fetchProductMediaForUpdate(productID));
+          })
           .catch((error) => {
             console.log(error);
           });
@@ -399,6 +461,14 @@ export const useFetchProductDetailToFix = (productID) => {
   }, [dispatch, productID]);
 };
 
+export const fetchProductMediaForUpdate = (productID) => async (dispatch) => {
+  try {
+    const res = await ProductApi.GetMedia(productID);
+    if (res) {
+      dispatch(setListMediaOld(res.data.data));
+    }
+  } catch (err) {}
+};
 export const fetchSpecificationInProductUpdate =
   (productID) => async (dispatch) => {
     try {
@@ -422,6 +492,10 @@ export const fetchProductDetailForUpdate = (productID) => async (dispatch) => {
       dispatch(setPriceFix(res.data.data.price));
       dispatch(setDiscountFix(res.data.data.discount));
       dispatch(setCategoryIDFix(res.data.data.category_id));
+      dispatch(setHeightFix(res.data.data.height));
+      dispatch(setWeightFix(res.data.data.weight));
+      dispatch(setLengthFix(res.data.data.length));
+      dispatch(setWidthFix(res.data.data.width));
     }
   } catch (err) {}
 };

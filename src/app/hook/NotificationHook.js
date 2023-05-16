@@ -85,7 +85,7 @@ const fetchListNotificationSmall = (userID) => async (dispatch) => {
   try {
     const response = await WebSocketApi.GetListNotification(
       userID,
-      "sorts[]=id_DESC&limit=6"
+      "sorts[]=id_DESC&limit=6&searchs[]=seen_0"
     );
     dispatch(setListNotificationSmall(response.data.data));
   } catch (error) {
@@ -101,3 +101,28 @@ const fetchAddNotification = (userID, filter) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const seenNotification = async (data, notifyID, userID) => {
+  try {
+    await WebSocketApi.SeenNotification(notifyID, userID)
+      .then(() => {
+        const newRes = updateSeenStatus(data, notifyID);
+        return newRes;
+      })
+      .catch((err) => console.log(err));
+  } catch (error) {
+    console.log(error);
+  }
+};
+function updateSeenStatus(data, id) {
+  if (Array.isArray(data)) {
+    const newData = data.map((obj) => {
+      if (obj.id === id) {
+        return { ...obj, seen: true };
+      }
+      return obj;
+    });
+
+    return newData;
+  }
+}

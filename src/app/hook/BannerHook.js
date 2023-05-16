@@ -9,11 +9,11 @@ import {
   setListProductInUpdateBanner,
   setListProductOutInUpdateBanner,
   setMetaInProductInAddBanner,
-  setMetaInProductInUpdateBanner,
   setProductInBannerDetail,
 } from "../slices/BannerSlice";
 import { toast } from "react-toastify";
 import { ProductApi } from "../../api/ProductApi";
+import { checkObjectEmpty } from "./CommonHook";
 
 export const useListBanner = () =>
   useSelector((state) => state.banner.listBanner);
@@ -158,7 +158,7 @@ export const selectProductInAddBanner = (arr, productID) => {
 
 //update
 
-export const selectProductInUpdateBanner = (arr, productID) => {
+export const selectProductInProductInUpdateBanner = (arr, productID) => {
   if (!Array.isArray(arr)) return [];
   return arr.map((product) => {
     if (product.id === productID) {
@@ -170,6 +170,20 @@ export const selectProductInUpdateBanner = (arr, productID) => {
     return product;
   });
 };
+
+export const selectProductOutProductInUpdateBanner = (arr, productID) => {
+  if (!Array.isArray(arr)) return [];
+  return arr.map((product) => {
+    if (product.id === productID) {
+      return {
+        ...product,
+        isSelected: !product.isSelected,
+      };
+    }
+    return product;
+  });
+};
+
 export const useFetchInBannerUpdate = (bannerID, filter) => {
   const dispatch = useDispatch();
   const prevFilterRef = useRef(filter);
@@ -178,11 +192,11 @@ export const useFetchInBannerUpdate = (bannerID, filter) => {
     const fetchData = async () => {
       try {
         if (filter !== prevFilterRef.current) {
-          await dispatch(fetchProductInUpdateBanner(filter));
+          await dispatch(fetchProductInUpdateBanner(bannerID));
         } else {
           await dispatch(fetchBannerDetailInUpdate(bannerID))
             .then(() => {
-              return dispatch(fetchProductInUpdateBanner(filter));
+              return dispatch(fetchProductInUpdateBanner(bannerID));
             })
             .catch((error) => {
               console.log(error);
@@ -198,56 +212,46 @@ const fetchBannerDetailInUpdate = (bannerID) => async (dispatch) => {
   try {
     const response = await BannerApi.GetBannerDetail(bannerID);
     const originalData = response.data.data;
-    console.log(response)
-    const transformedData = {
-      title: originalData.title,
-      collection: originalData.collection,
-      discount: originalData.discount,
-      image: originalData.image,
-      end_time: originalData.end_time,
-      products: originalData.products.map((product) => product.id),
-    };
+
+    const transformedData = checkObjectEmpty(originalData)
+      ? {}
+      : {
+          title: originalData.title,
+          collection: originalData.collection,
+          discount: originalData.discount,
+          image: originalData.image,
+          end_time: originalData.end_time,
+          products: originalData.products.map((product) => product.id),
+        };
     dispatch(setBannerDetailInUpdate(transformedData));
   } catch (error) {
     console.log(error);
   }
 };
 
-export const fetchProductInUpdateBanner = (filter) => async (dispatch) => {
+export const fetchProductInUpdateBanner = (bannerID) => async (dispatch) => {
   try {
-    const response = await ProductApi.GetProductPreview(filter);
-    const listProductInAddBanner =
+    const response = await BannerApi.GetProductPreview(bannerID);
+    const response2 = await BannerApi.GetProductPreviewNotExist(bannerID);
+    const listProductOutUpdateBanner =
       response.data.data &&
       response.data.data.map((data) => {
         return { ...data, isSelected: false };
       });
-    dispatch(setListProductInUpdateBanner(listProductInAddBanner));
-    dispatch(setMetaInProductInUpdateBanner(response.data.meta));
+    const listProductInUpdateBanner =
+      response2.data.data &&
+      response2.data.data.map((data) => {
+        return { ...data, isSelected: false };
+      });
+    dispatch(setListProductOutInUpdateBanner(listProductOutUpdateBanner));
+    dispatch(setListProductInUpdateBanner(listProductInUpdateBanner));
   } catch (error) {
     console.log(error);
   }
 };
 
-export const splitProducts = (idsToSplit, products) => (dispatch) => {
-  const product1 = [];
-  const product2 = [];
-
-  for (let i = 0; i < products.length; i++) {
-    const product = products[i];
-
-    if (idsToSplit.includes(product.id)) {
-      product1.push(product);
-    } else {
-      product2.push(product);
-    }
-  }
-
-  dispatch(setListProductInUpdateBanner(product1));
-  dispatch(setListProductOutInUpdateBanner(product2));
-};
-
-export const updateTheBanner = async (bannerID, body) => {
-  await BannerApi.UpdateBanner(bannerID, body).then(() => {
+export const updateTheBanner = async (bannerID, userID, body) => {
+  await BannerApi.UpdateBanner(bannerID, userID, body).then(() => {
     toast("Update banner successfully", {
       type: "success",
       autoClose: 1000,
@@ -255,3 +259,4 @@ export const updateTheBanner = async (bannerID, body) => {
     });
   });
 };
+

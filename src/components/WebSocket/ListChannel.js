@@ -27,7 +27,11 @@ export const ListChannel = () => {
               ></img>
               <div className="flex flex-col border-b py-2">
                 <h1 className=" font-semibold">{data.name}</h1>
-                <h1 className=" text-[#A9ACC6]">Are you ok</h1>
+                {data.seen ? (
+                  <h1 className=" text-[#000000]">{data.content}</h1>
+                ) : (
+                  <h1 className=" text-[#A9ACC6]">{data.content}</h1>
+                )}
               </div>
             </div>
           </div>

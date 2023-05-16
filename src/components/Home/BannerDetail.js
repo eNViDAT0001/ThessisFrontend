@@ -3,17 +3,12 @@ import {
   useBannerDetail,
   useProductInBannerDetail,
 } from "../../app/hook/BannerHook";
-import {
-  addSuffixToPrice,
-  checkObjectEmpty,
-  currencyFormat,
-} from "../../app/hook/CommonHook";
+import { addSuffixToPrice, checkObjectEmpty } from "../../app/hook/CommonHook";
 import { Link } from "react-router-dom";
 
 export const BannerDetail = () => {
   const bannerDetail = useBannerDetail() || {};
   const listProducts = useProductInBannerDetail() || [];
-
   return (
     <div>
       {!checkObjectEmpty(bannerDetail) && (

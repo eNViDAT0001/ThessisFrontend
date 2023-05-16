@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -13,27 +13,29 @@ import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { uploadFile } from "../../../app/hook/FileHook";
 import { useDispatch } from "react-redux";
 import {
-  selectProductInUpdateBanner,
+  selectProductInProductInUpdateBanner,
+  selectProductOutProductInUpdateBanner,
   updateTheBanner,
   useBannerDetailInUpdate,
-  useMetaInProductInUpdateBanner,
   useProductInUpdateBanner,
+  useProductOutInUpdateBanner,
 } from "../../../app/hook/BannerHook";
 import Pagination from "@mui/material/Pagination";
 import {
   checkObjectEmpty,
   convertDate,
+  getSelectedIds,
 } from "../../../app/hook/CommonHook";
-import { setListProductInUpdateBanner } from "../../../app/slices/BannerSlice";
 import {
-  setNameInProductInUpdateBanner,
-  setPageInProductInUpdateBanner,
-} from "../../../app/slices/QuerySlice";
+  setListProductInUpdateBanner,
+  setListProductOutInUpdateBanner,
+} from "../../../app/slices/BannerSlice";
+import { setNameInProductInUpdateBanner } from "../../../app/slices/QuerySlice";
 import { useUserID } from "../../../app/hook/UserHook";
 
 export const UpdateBanner = (props) => {
   const dispatch = useDispatch();
-  const bannerID = props.id.toString()
+  const bannerID = props.id.toString();
   let timeoutId;
   const [title, setTitle] = useState(null);
   const [collection, setCollection] = useState(null);
@@ -41,11 +43,18 @@ export const UpdateBanner = (props) => {
   const [newImage, setNewImage] = useState(null);
   const [endTime, setEndTime] = useState(Date.now());
 
-  const listProductInForm = useProductInUpdateBanner() || [];
-  const metaInProductInUpdateBanner = useMetaInProductInUpdateBanner() || {};
+  const listProductOutInForm = useProductOutInUpdateBanner() || [];
+  const listProductInUpdateBanner = useProductInUpdateBanner() || [];
   const userID = useUserID();
 
   const bannerDetail = useBannerDetailInUpdate();
+
+  useEffect(() => {
+    setTitle(bannerDetail.title);
+    setCollection(bannerDetail.collection);
+    setDiscount(bannerDetail.discount);
+    setEndTime(convertDate(bannerDetail.end_time));
+  }, [bannerDetail]);
   const handleInputTitle = (e) => {
     setTitle(e.target.value);
   };
@@ -69,16 +78,20 @@ export const UpdateBanner = (props) => {
     }
   };
 
-  const handleCheckProduct = (productID) => {
-    const newProduct = selectProductInUpdateBanner(
-      listProductInForm,
+  const handleCheckProductIn = (productID) => {
+    const newProduct = selectProductInProductInUpdateBanner(
+      listProductInUpdateBanner,
       productID
     );
     dispatch(setListProductInUpdateBanner(newProduct));
   };
 
-  const handleChangePage = (e, value) => {
-    dispatch(setPageInProductInUpdateBanner(value));
+  const handleCheckProductOut = (productID) => {
+    const newProduct = selectProductOutProductInUpdateBanner(
+      listProductOutInForm,
+      productID
+    );
+    dispatch(setListProductOutInUpdateBanner(newProduct));
   };
 
   const handleChangeDataPicker = (e) => {
@@ -94,18 +107,17 @@ export const UpdateBanner = (props) => {
 
   const handleAddBanner = (e) => {
     const body = {
-      user_id: userID,
       title: title,
       collection: collection,
       discount: parseInt(discount),
       end_time: endTime,
       image: newImage,
-      //product_ids_in: getSelectedIds(listProductInForm),
-      //product_ids_out: getSelectedIds(listProductInForm),
+      product_ids_in: getSelectedIds(listProductInUpdateBanner),
+      product_ids_out: getSelectedIds(listProductOutInForm),
     };
-    updateTheBanner(bannerID,body);
+    console.log("body in update banner", body);
+    updateTheBanner(bannerID, userID, body);
   };
-
   return (
     <div className="w-full p-10 border space-y-5">
       <ToastContainer position="top-right" newestOnTop />
@@ -198,7 +210,7 @@ export const UpdateBanner = (props) => {
       <div className="flex flex-col  space-x-4 items-start">
         <div className="flex flex-row items-center space-x-5">
           <h1 className="font-semibold whitespace-nowrap ">
-            Select your product:
+            Insert product in banner:
           </h1>
           <div>
             <Paper
@@ -223,13 +235,13 @@ export const UpdateBanner = (props) => {
             </Paper>
           </div>
         </div>
-        {listProductInForm.length !== 0 && (
+        {listProductInUpdateBanner.length !== 0 && (
           <div className="w-full border flex flex-row justify-start flex-wrap mt-[50px]">
-            {listProductInForm.map((data) => (
+            {listProductInUpdateBanner.map((data) => (
               <div
                 key={data.id}
                 className="w-[20%] h-[300px] border my-5 mx-5 mb-10 hover:scale-105 p-2 hover:border"
-                onClick={() => handleCheckProduct(data.id)}
+                onClick={() => handleCheckProductIn(data.id)}
               >
                 <div>
                   <Checkbox id={data.id} checked={data.isSelected} />
@@ -249,15 +261,38 @@ export const UpdateBanner = (props) => {
           </div>
         )}
       </div>
-      {!checkObjectEmpty(metaInProductInUpdateBanner) && (
-        <div className="flex justify-center">
-          <Pagination
-            count={metaInProductInUpdateBanner.paging.Pages}
-            defaultPage={metaInProductInUpdateBanner.paging.Current}
-            onChange={handleChangePage}
-          />
+      <div className="flex flex-col  space-x-4 items-start">
+        <div className="flex flex-row items-center space-x-5">
+          <h1 className="font-semibold whitespace-nowrap ">
+            Remove product from banner:
+          </h1>
         </div>
-      )}
+        {listProductOutInForm.length !== 0 && (
+          <div className="w-full border flex flex-row justify-start flex-wrap mt-[50px]">
+            {listProductOutInForm.map((data) => (
+              <div
+                key={data.id}
+                className="w-[20%] h-[300px] border my-5 mx-5 mb-10 hover:scale-105 p-2 hover:border"
+                onClick={() => handleCheckProductOut(data.id)}
+              >
+                <div>
+                  <Checkbox id={data.id} checked={data.isSelected} />
+                  <img
+                    src={data.media[0].mediaPath}
+                    alt="img product"
+                    className="h-[200px] w-full"
+                  />
+                </div>
+                <div className="flex flex-row mt-2">
+                  <h1 className="font-['Poppins_Regular'] text-gray-400 hover:text-blue-400 text-base font-bold">
+                    {data.name}
+                  </h1>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
       <div className="flex flex-row-reverse">
         <Button variant="contained" onClick={handleAddBanner}>
           Update

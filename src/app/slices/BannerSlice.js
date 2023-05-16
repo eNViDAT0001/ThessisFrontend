@@ -8,6 +8,7 @@ const initialState = {
   listProductInUpdateBanner:[],
   metaInProductInAddBanner:{},
   metaInProductInUpdateBanner:{},
+
   productInBannerDetail:[],
   listBannerInAdmin:[],
 
