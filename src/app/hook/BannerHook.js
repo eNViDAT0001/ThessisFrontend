@@ -220,8 +220,7 @@ const fetchBannerDetailInUpdate = (bannerID) => async (dispatch) => {
           collection: originalData.collection,
           discount: originalData.discount,
           image: originalData.image,
-          end_time: originalData.end_time,
-          products: originalData.products.map((product) => product.id),
+          endTime: originalData.endTime,
         };
     dispatch(setBannerDetailInUpdate(transformedData));
   } catch (error) {
@@ -259,4 +258,3 @@ export const updateTheBanner = async (bannerID, userID, body) => {
     });
   });
 };
-

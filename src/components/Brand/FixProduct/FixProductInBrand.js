@@ -18,11 +18,13 @@ import {
   convertBodyFixProduct,
   updateProduct,
   useCategoryIdFix,
+  useDescriptionOld,
   useDescriptionsFix,
   useDiscountFix,
   useFetchProductDetailToFix,
   useHeightInFix,
   useLengthInFix,
+  useListMediaOld,
   useMediaFix,
   useNameFix,
   useOptionsFix,
@@ -44,6 +46,8 @@ export const FixProductInBrand = () => {
   const media = useMediaFix();
   const options = useOptionsFix();
   const specification_name = useSpecificationNameFix();
+  const listMediaOld = useListMediaOld();
+  const descriptionOld = useDescriptionOld();
   const descriptions = useDescriptionsFix();
   const height = useHeightInFix();
   const weight = useWeightInFix();
@@ -64,9 +68,10 @@ export const FixProductInBrand = () => {
         height,
         length,
         weight,
-        width
+        width,
+        listMediaOld,
+        descriptionOld
       );
-      console.log(body);
       updateProduct(id, body);
     }
   };

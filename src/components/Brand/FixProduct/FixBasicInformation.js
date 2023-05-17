@@ -24,6 +24,7 @@ import { CategoryTreeFix } from "./CategoryTreeFix";
 import {
   setDiscountFix,
   setHeightFix,
+  setLengthFix,
   setNameFix,
   setPriceFix,
   setWeightFix,
@@ -75,6 +76,7 @@ export const FixBasicInformation = () => {
   const weight = useWeightInFix()
   const length = useLengthInFix()
   const width = useWidthInFix()
+  
   const handleInputName = (e) => {
     dispatch(setNameFix(e.target.value));
   };
@@ -91,7 +93,7 @@ export const FixBasicInformation = () => {
     dispatch(setWeightFix(e.target.value));
   };
   const handleInputLength = (e) => {
-    dispatch(setDiscountFix(e.target.value));
+    dispatch(setLengthFix(e.target.value));
   };
   const handleInputWidth = (e) => {
     dispatch(setWidthFix(e.target.value));

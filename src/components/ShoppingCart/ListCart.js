@@ -14,7 +14,13 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 import { addSuffixToPrice, currencyFormat } from "../../app/hook/CommonHook";
-import { changeListCartFromCheck, decreaseQuantity, deleteCartShopping, increaseQuantity, useListCart } from "../../app/hook/CartHook";
+import {
+  changeListCartFromCheck,
+  decreaseQuantity,
+  deleteCartShopping,
+  increaseQuantity,
+  useListCart,
+} from "../../app/hook/CartHook";
 import { setListCart } from "../../app/slices/CartSlice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -38,7 +44,6 @@ const ListCart = () => {
   const dispatch = useDispatch();
   const listCart = useListCart();
 
-
   const handleDeleteButton = (e) => {
     const cartID = e.currentTarget.getAttribute("cartID");
     const itemID = e.currentTarget.id;
@@ -46,22 +51,22 @@ const ListCart = () => {
   };
 
   const handleCheckProduct = (e) => {
-    const id =  e.target.getAttribute("id");
+    const id = e.target.getAttribute("id");
     const result = changeListCartFromCheck(listCart, id);
     dispatch(setListCart(result));
   };
 
-  const handleAddQuantity = (e) =>{
-    const id = e.currentTarget.id
-    const newListCart = increaseQuantity(listCart,id)
+  const handleAddQuantity = (e) => {
+    const id = e.currentTarget.id;
+    const newListCart = increaseQuantity(listCart, id);
     dispatch(setListCart(newListCart));
-  }
+  };
 
-  const handleRemoveQuantity = (e) =>{
-    const id = e.currentTarget.id
-    const newListCart = decreaseQuantity(listCart ,id)
+  const handleRemoveQuantity = (e) => {
+    const id = e.currentTarget.id;
+    const newListCart = decreaseQuantity(listCart, id);
     dispatch(setListCart(newListCart));
-  }
+  };
 
   return (
     <div>
@@ -127,12 +132,11 @@ const ListCart = () => {
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             <IconButton
-                            id={row.id}
+                              id={row.id}
                               color="primary"
                               aria-label="upload picture"
                               component="label"
                               onClick={handleRemoveQuantity}
-
                             >
                               <RemoveIcon fontSize="small" />
                             </IconButton>
@@ -143,10 +147,8 @@ const ListCart = () => {
                               aria-label="upload picture"
                               component="label"
                               onClick={handleAddQuantity}
-
                             >
-                              <AddIcon fontSize="small" 
-                              />
+                              <AddIcon fontSize="small" />
                             </IconButton>
                           </StyledTableCell>
                           <StyledTableCell align="center">
@@ -163,7 +165,8 @@ const ListCart = () => {
                                 row.price *
                                 (100 - row.discount)) /
                                 100
-                            )}{" "}
+                            )}
+                            đ
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             <IconButton

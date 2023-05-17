@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import StorefrontIcon from "@mui/icons-material/Storefront";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserID } from "../../app/hook/UserHook";
 import { useDispatch } from "react-redux";
 import {
@@ -14,7 +14,6 @@ import InputBase from "@mui/material/InputBase";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
-import { setWSEvent } from "../../app/slices/WSSlice";
 
 const LinkInHeader = [
   {
@@ -41,6 +40,7 @@ export const HeaderUser = () => {
   const [searchText, setSearchText] = useState("");
   const [messages, setMessages] = useState([]);
   const socketRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleClickHeader = (e) => {
     setTimeout(() => {
@@ -63,18 +63,11 @@ export const HeaderUser = () => {
       const path = window.location.pathname.split("/")[1];
 
       switch (path) {
-        case "":
-          dispatch(setNameSearchInProductInHome(textEvent));
-          break;
         case "category":
           dispatch(setNameInFilterCategory(textEvent));
           break;
-        case "contact":
-          break;
-        case "shop":
-          dispatch(setNameSearchInBrand(textEvent));
-          return;
         default:
+          navigate("/category/0"); // Change the URL to "/category/0"
           return;
       }
     }, 200);
@@ -94,15 +87,11 @@ export const HeaderUser = () => {
     //   const WS_URL = `ws://localhost:8082/api/v1/ws/user/${userID}/token/${accessToken}`;
     //   const timer = setTimeout(() => {
     //     const ws = new WebSocket(WS_URL);
-
     //     ws.onopen = () => {};
-
     //     ws.onmessage = (event) => {
     //       dispatch(setWSEvent(event.data));
     //     };
-
     //     ws.onerror = (error) => {};
-
     //     ws.onclose = () => {};
     //   }, 1000);
     //   return () => clearTimeout(timer);

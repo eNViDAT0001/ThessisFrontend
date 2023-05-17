@@ -1,47 +1,40 @@
 import React from "react";
 import { useCategoryRoof } from "../../app/hook/CategoryHook";
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
 import { Link } from "react-router-dom";
-
-const settings = {
-  lazyLoad: "ondemand",
-  slidesToShow: 3,
-  slidesToScroll: 1,
-};
 
 export const CategoryRoof = () => {
   const categoryRoof = useCategoryRoof() || [];
 
   return (
     <div>
-      {categoryRoof.length === 0 && (
-        <div className="flex justify-center mt-20 ">
-          <div className="w-[80%] flex flex-col border p-10  space-y-6 bg-gradient-to-b from-[#FFFFFF] to-[#FFFFFF] rounded-2xl">
-            <h1 className=" text-xl font-['Poppins_Bold'] font-extrabold uppercase text-[#000000]">
+      {categoryRoof.length !== 0 && (
+        <div className="flex justify-center mt-20">
+          <div className="w-[80%] flex flex-col border p-10 space-y-6 bg-gradient-to-b from-[#FFFFFF] to-[#FFFFFF] rounded-2xl">
+            <h1 className="text-xl font-['Poppins_Bold'] font-extrabold uppercase text-[#000000]">
               can interest you
             </h1>
-            <Slider {...settings}>
+            <div className="flex flex-row flex-wrap space-x-1 ">
               {categoryRoof.map((data) => (
                 <Link
                   to={`/category/${data.id}`}
                   key={data.id}
                   id={data.id}
-                  className="hover:shadow-xl hover:cursor-pointer border w-[325px] flex flex-row justify-between bg-white"
+                  className="hover:shadow-xl hover:cursor-pointer border bg-white flex items-center justify-center w-[20%] p-10"
                 >
-                  <img
-                    src={data.image_path}
-                    alt="anh banner nho"
-                    className="w-[200px] h-[300px]"
-                  />
-                  <h1 className="mt-6 mr-8 font-[Cursive] font-bold text-xl">
-                    {data.name}
-                  </h1>
+                  <div className="flex flex-col items-center space-y-4  ">
+                    <img
+                      src={data.image_path}
+                      alt="anh banner nho"
+                      className=" h-[200px] object-cover aspect-w-1 aspect-h-1"
+                    />
+                    <h1 className="mt-2 font-bold text-sm overflow-hidden overflow-ellipsis whitespace-nowrap">
+                      {data.name}
+                    </h1>
+                  </div>
                 </Link>
               ))}
-            </Slider>
+            </div>
           </div>
         </div>
       )}

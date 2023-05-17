@@ -38,21 +38,21 @@ export const Notification = () => {
               to={notice.url}
               key={notice.id}
               className={`flex flex-row border-b items-center ${
-                notice.seen ? " bg-slate-200" : "hover:bg-slate-200"
-              } space-x-3 border-[#000000]`}
+                notice.seen ? " bg-[#FFF0DC]" : "hover:bg-slate-200"
+              } space-x-3 px-5`}
             >
-              {notice.img && (
+              {notice.image && (
                 <img
-                  src={notice.img}
+                  src={notice.image}
                   alt="img"
-                  className="w-[55px] h-[55px] rounded-full"
+                  className="w-[55px] h-[55px] rounded-full border-[#000000]"
                 ></img>
               )}
               <div className="flex flex-col my-5">
                 <h1
-                  className={`${
-                    notice.seen ? "text-[#000000]" : "text-[#9295AA]"
-                  }`}
+                  className={`
+                    text-[#9295AA]
+                  `}
                 >
                   {notice.content}
                 </h1>

@@ -6,7 +6,7 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import {  Paper, TableHead } from "@mui/material";
+import { Paper, TableHead } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import { currencyFormat } from "../../../app/hook/CommonHook";
@@ -29,7 +29,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 export const ItemTab = () => {
   const listItem = useListItemInCartSelected();
-  console.log(listItem);
   return (
     <div className="w-full">
       <TableContainer component={Paper}>
@@ -64,7 +63,7 @@ export const ItemTab = () => {
                   {row.name}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {currencyFormat(row.price)}
+                  {currencyFormat(row.price)}đ
                 </StyledTableCell>
                 <StyledTableCell align="center">{row.quantity}</StyledTableCell>
                 <StyledTableCell align="center">
@@ -78,7 +77,8 @@ export const ItemTab = () => {
                 <StyledTableCell align="center">
                   {currencyFormat(
                     (row.quantity * row.price * (100 - row.discount)) / 100
-                  )}{" "}
+                  )}
+                  đ
                 </StyledTableCell>
               </StyledTableRow>
             ))}

@@ -42,8 +42,8 @@ export const ContactPage = () => {
       <div className="flex justify-center mt-[120px]">
         <div className="w-[65%] min-w-[500px] flex justify-center flex-col ">
           <div className="flex flex-row justify-between mb-[200px]">
-            <div className="flex flex-col w-[50%] space-y-[47px] border p-5 shadow-md">
-              <h1 className=" text-2xl">Form contact</h1>
+            <div className="flex flex-col w-[50%] space-y-[47px] border p-10 shadow-md">
+              <h1 className=" text-2xl">Feedback</h1>
               <div className="flex flex-row justify-between">
                 <input
                   onChange={handleInputName}
@@ -71,12 +71,12 @@ export const ContactPage = () => {
               ></textarea>
               <button
                 onClick={handleButtonSendMail}
-                className="w-[35%] h-[10%] max-h-[15%] mt-20 bg-[#FF1788] text-white rounded-md transition-all duration-300 hover:bg-[#FF0573] focus:outline-none focus:ring-2 focus:ring-[#FF0573] focus:ring-opacity-50"
+                className="px-5 py-2 w-[35%] h-[10%] max-h-[15%] mt-20 bg-[#FF1788] text-white rounded-md transition-all duration-300 hover:bg-[#FF0573] focus:outline-none focus:ring-2 focus:ring-[#FF0573] focus:ring-opacity-50"
               >
                 Send Mail
               </button>
             </div>
-            <div className=" bg-[#FF69B4] w-[50%] rounded-md p-20 text-white flex flex-col space-y-10">
+            <div className=" bg-[#FF69B4] w-[50%] rounded-md p-10 text-white flex flex-col space-y-10">
               <div className="text-3xl">Contact us</div>
               <div className="flex flex-row space-x-5 items-start">
                 <PlaceIcon />

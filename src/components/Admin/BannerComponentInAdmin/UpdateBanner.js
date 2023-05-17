@@ -50,10 +50,12 @@ export const UpdateBanner = (props) => {
   const bannerDetail = useBannerDetailInUpdate();
 
   useEffect(() => {
-    setTitle(bannerDetail.title);
-    setCollection(bannerDetail.collection);
-    setDiscount(bannerDetail.discount);
-    setEndTime(convertDate(bannerDetail.end_time));
+    if (!checkObjectEmpty(bannerDetail)) {
+      setTitle(bannerDetail.title);
+      setCollection(bannerDetail.collection);
+      setDiscount(bannerDetail.discount);
+      setEndTime(convertDate(bannerDetail.endTime));
+    }
   }, [bannerDetail]);
   const handleInputTitle = (e) => {
     setTitle(e.target.value);
@@ -115,13 +117,11 @@ export const UpdateBanner = (props) => {
       product_ids_in: getSelectedIds(listProductInUpdateBanner),
       product_ids_out: getSelectedIds(listProductOutInForm),
     };
-    console.log("body in update banner", body);
     updateTheBanner(bannerID, userID, body);
   };
   return (
     <div className="w-full p-10 border space-y-5">
       <ToastContainer position="top-right" newestOnTop />
-
       <div className="flex flex-row  space-x-14 items-center">
         <h1 className="font-semibold whitespace-nowrap ">Title :</h1>
         <TextField
@@ -197,7 +197,7 @@ export const UpdateBanner = (props) => {
               id="date"
               label="Birthday"
               type="date"
-              defaultValue={convertDate(bannerDetail.end_time)}
+              defaultValue={convertDate(bannerDetail.endTime)}
               onChange={handleChangeDataPicker}
               sx={{ width: 1 }}
               InputLabelProps={{

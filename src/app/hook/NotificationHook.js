@@ -85,7 +85,7 @@ const fetchListNotificationSmall = (userID) => async (dispatch) => {
   try {
     const response = await WebSocketApi.GetListNotification(
       userID,
-      "sorts[]=id_DESC&limit=6&searchs[]=seen_0"
+      "sorts[]=id_DESC&limit=6"
     );
     dispatch(setListNotificationSmall(response.data.data));
   } catch (error) {

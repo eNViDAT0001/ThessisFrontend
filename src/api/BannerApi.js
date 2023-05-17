@@ -9,7 +9,7 @@ export const BannerApi = {
     return axiosClient.post(url, body);
   },
   GetBannerDetail: (bannerID) => {
-    const url = `banners/${bannerID}`;
+    const url = `banners/${bannerID}/detail`;
     return axiosClient.get(url);
   },
   GetProductPreview: (bannerID) => {

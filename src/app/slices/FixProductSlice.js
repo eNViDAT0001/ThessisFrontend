@@ -27,6 +27,7 @@ const initialState = {
   length: 0,
   width: 0,
   listMediaOld: [],
+  descriptionOld: [],
 };
 
 const FixProductSlice = createSlice({
@@ -78,6 +79,9 @@ const FixProductSlice = createSlice({
     setListMediaOld: (state, action) => {
       state.listMediaOld = action.payload;
     },
+    setDescriptionOld: (state, action) => {
+      state.descriptionOld = action.payload;
+    },
   },
 });
 
@@ -100,5 +104,6 @@ export const {
   setWidthFix,
 
   setListMediaOld,
+  setDescriptionOld,
 } = FixProductSlice.actions;
 export default FixProductSlice.reducer;

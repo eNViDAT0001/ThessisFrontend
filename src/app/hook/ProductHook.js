@@ -21,6 +21,7 @@ import { uploadFileNotNotify } from "./FileHook";
 import {
   setCategoryIDFix,
   setDataOptionFix,
+  setDescriptionOld,
   setDiscountFix,
   setHeightFix,
   setLengthFix,
@@ -32,7 +33,7 @@ import {
   setWidthFix,
 } from "../slices/FixProductSlice";
 import { fetchListTreeCategoryInUpdateProduct } from "./CategoryHook";
-import { buildCategoryTree } from "./CommonHook";
+import { buildCategoryTree, checkObjectEmpty } from "./CommonHook";
 import { setTreeCategoryInAddProduct } from "../slices/AddProductSlice";
 
 export const useProductInHome = () =>
@@ -242,25 +243,28 @@ const fetchListTreeCategoryInAddProduct = () => async (dispatch) => {
 
 const changeDescriptionToBody = async (descriptions) => {
   const result = [];
-  await descriptions.forEach((data) => {
-    const formData = new FormData();
-    const fileText = new File([data.description_md], "filename.txt", {
-      type: "text/plain",
-    });
+  if (!checkObjectEmpty(descriptions)) {
+    await Promise.all(
+      descriptions.map(async (data) => {
+        const formData = new FormData();
+        const fileText = new File([data.description_md], "filename.txt", {
+          type: "text/plain",
+        });
 
-    formData.append("files", fileText);
-    uploadFileNotNotify(formData).then((res) => {
-      const newRes = {
-        public_id: res.data[0].public_id,
-        name: data.description_name,
-        path: res.data[0].url,
-      };
-      result.push(newRes);
-    });
-  });
-
+        formData.append("files", fileText);
+        const res = await uploadFileNotNotify(formData);
+        const newRes = {
+          public_id: res.data[0].public_id,
+          name: data.description_name,
+          path: res.data[0].url,
+        };
+        result.push(newRes);
+      })
+    );
+  }
   return result;
 };
+
 export const convertBodyFixProduct = async (
   category_id,
   name,
@@ -273,9 +277,10 @@ export const convertBodyFixProduct = async (
   height,
   length,
   weight,
-  width
+  width,
+  listMediaOld,
+  descriptionOld
 ) => {
-  const descriptionBody = await changeDescriptionToBody(descriptions);
   const body = {
     category_id: parseInt(category_id),
     name: name,
@@ -291,14 +296,54 @@ export const convertBodyFixProduct = async (
     width: parseInt(width),
   };
   if (media.length !== 0) {
-    body.media = convertMediaToBody(media);
+    body.media = mergeMediaToFix(media, listMediaOld);
   }
-  // if (descriptionBody[0].path !== "") {
-  //   body.descriptions = descriptionBody;
-  // }
+  await changeDescriptionToBody(descriptions).then((res) => {
+    body.descriptions = mergeDescriptionToFix(res, descriptionOld);
+  });
   return body;
 };
 
+const mergeDescriptionToFix = (descriptionNew, descriptionOld) => {
+  const result = [];
+  const smallIndex =
+    descriptionNew.length <= descriptionOld.length
+      ? descriptionNew.length
+      : descriptionNew.length;
+
+
+  for (let i = 0; i < smallIndex; i++) {
+    console.log("i", i);
+    const newObject = {
+      id: descriptionOld[i].id,
+      description: {
+        name: descriptionNew[i].name,
+        public_id: descriptionNew[i].public_id,
+        descriptions_path: descriptionNew[i].path,
+      },
+    };
+    result.push(newObject);
+  }
+  return result;
+};
+
+const mergeMediaToFix = (media, listMediaOld) => {
+  const result = [];
+
+  const smallIndex =
+    media.length < listMediaOld.length ? media.length : listMediaOld.length;
+
+  for (let i = 0; i < smallIndex; i++) {
+    const newObject = {
+      id: listMediaOld[i].id,
+      media_path: media[i].url,
+    };
+
+    result.push(newObject);
+  }
+
+  return result;
+};
 export const convertBodyAddProduct = async (
   category_id,
   name,
@@ -436,6 +481,8 @@ export const useWidthInFix = () =>
   useSelector((state) => state.fixProduct.width);
 export const useListMediaOld = () =>
   useSelector((state) => state.fixProduct.listMediaOld);
+export const useDescriptionOld = () =>
+  useSelector((state) => state.fixProduct.descriptionOld);
 export const useFetchProductDetailToFix = (productID) => {
   const dispatch = useDispatch();
 
@@ -452,6 +499,9 @@ export const useFetchProductDetailToFix = (productID) => {
           .then(() => {
             return dispatch(fetchProductMediaForUpdate(productID));
           })
+          .then(() => {
+            return dispatch(fetchProductDescriptionForUpdate(productID));
+          })
           .catch((error) => {
             console.log(error);
           });
@@ -460,6 +510,16 @@ export const useFetchProductDetailToFix = (productID) => {
     fetchData();
   }, [dispatch, productID]);
 };
+
+export const fetchProductDescriptionForUpdate =
+  (productID) => async (dispatch) => {
+    try {
+      const res = await ProductApi.GetDescriptionFromProduct(productID);
+      if (res) {
+        dispatch(setDescriptionOld(res.data.data));
+      }
+    } catch (err) {}
+  };
 
 export const fetchProductMediaForUpdate = (productID) => async (dispatch) => {
   try {

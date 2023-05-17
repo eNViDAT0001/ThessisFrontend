@@ -120,8 +120,15 @@ export const Bill = () => {
   return (
     <div className=" bg-[#F4F4FC] p-6 space-y-10">
       <ToastContainer position="top-right" newestOnTop />
+
       <div className=" border-b-2 border-[#E8E6F1] flex justify-between">
-        <h1 className=" text-[#1D3178] text-lg">Subtotal :</h1>
+        <div className="flex flex-col">
+          <h1 className=" text-[#1D3178] text-lg">Shipping :</h1>
+          <h1 className=" text-[#1D3178] text-xs italic">
+            (Shipping chỉ mang tính chất tham khảo)
+          </h1>
+        </div>
+
         <h1 className=" text-[#1D3178] text-lg">
           {currencyFormat(totalShippingCost)}Đ
         </h1>
@@ -138,9 +145,9 @@ export const Bill = () => {
         color="success"
         className="w-full"
       >
-        Process To Checkout
+        COD
       </Button>
-      <div className="max-w-[200px]">
+      <div className="">
         <div ref={paypalRef} />
       </div>
     </div>
