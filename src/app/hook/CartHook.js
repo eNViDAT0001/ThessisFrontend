@@ -3,6 +3,7 @@ import { CartShoppingApi } from "../../api/CartShopping";
 import { toast } from "react-toastify";
 import { useCallback, useEffect } from "react";
 import { setListCart } from "../slices/CartSlice";
+import { checkObjectEmpty } from "./CommonHook";
 
 export const useListCart = () => useSelector((state) => state.cart.listCart);
 export const useTotalPrice = () =>
@@ -11,28 +12,43 @@ export const useSelectedCart = () =>
   useSelector((state) => state.cart.selectedCart);
 export const useListItemInCartSelected = () =>
   JSON.parse(localStorage.getItem("itemInOrder"));
-export const addToCart = async (productID, providerID, userID, body, type) => {
-  await CartShoppingApi.AddNewCartShopping(
-    productID,
-    providerID,
-    userID,
-    body
-  ).then((res) => {
-    if (type === 0) {
-      toast("Add to Cart Success", {
-        type: "success",
-        autoClose: 2000,
-      });
-    } else {
-      toast("Add to Cart Success", {
-        type: "success",
-        autoClose: 2000,
-        onClose: setTimeout(() => {
-          window.location.reload();
-        }, 2000),
-      });
-    }
-  });
+export const addToCart = async (
+  productID,
+  providerID,
+  userID,
+  body,
+  optionHandle,
+  type
+) => {
+  if (checkObjectEmpty(optionHandle)) {
+    toast("You don't select the option in product", {
+      type: "warning",
+      autoClose: 2000,
+
+    });
+  } else {
+    await CartShoppingApi.AddNewCartShopping(
+      productID,
+      providerID,
+      userID,
+      body
+    ).then(() => {
+      if (type === 0) {
+        toast("Add to Cart Success", {
+          type: "success",
+          autoClose: 2000,
+        });
+      } else {
+        toast("Add to Cart Success", {
+          type: "success",
+          autoClose: 2000,
+          onClose: setTimeout(() => {
+            window.location.replace(`/cart/${userID}`);
+          }, 2000),
+        });
+      }
+    });
+  }
 };
 
 export const useFetchListCart = async (userID) => {

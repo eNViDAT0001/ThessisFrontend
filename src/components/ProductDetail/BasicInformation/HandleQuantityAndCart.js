@@ -10,9 +10,7 @@ import {
   useProductDetail,
 } from "../../../app/hook/ProductHook";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-
 import { ToastContainer } from "react-toastify";
-
 import { addToCart } from "../../../app/hook/CartHook";
 import { useUserID } from "../../../app/hook/UserHook";
 
@@ -26,7 +24,7 @@ const AddToCartButton = styled(Button)(({ theme }) => ({
 export const HandleQuantityAndCart = (props) => {
   const productID = props.id;
   const userID = useUserID();
-  const [quantity, setQuantity] = React.useState(0);
+  const [quantity, setQuantity] = React.useState(1);
 
   const productDetail = useProductDetail();
   const optionHandle = useOptionHandle();
@@ -36,7 +34,7 @@ export const HandleQuantityAndCart = (props) => {
       product_option_id: optionHandle.id,
       quantity: quantity,
     };
-    addToCart(productID, productDetail.provider_id, userID, body, 0);
+    addToCart(productID, productDetail.provider_id, userID, body, optionHandle,0);
   };
 
   const handleBuyNow = (e) => {
