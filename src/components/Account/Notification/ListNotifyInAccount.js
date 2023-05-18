@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  seenNotificationInAccount,
   useFetchNotification,
   useFilterNotification,
   useListNotification,
@@ -17,14 +18,18 @@ import { Link } from "react-router-dom";
 export const ListNotifyInAccount = () => {
   const dispatch = useDispatch();
   const id = useUserID();
-  const listNotification = useListNotification();
-  const filter = useFilterNotification();
+  const listNotification = useListNotification() || [];
+  const filter = useFilterNotification() || {};
   const meta = useMetaInNotification();
 
   const handleShowMore = (e) => {
     dispatch(setMarkerInFilterNotify(meta.paging.Current));
   };
-  console.log(listNotification);
+
+  const handleSetSeenNotify = (e) => {
+    const notifyID = e.currentTarget.id;
+    seenNotificationInAccount(notifyID, id);
+  };
   useFetchNotification(id, convertObjectToStringQuery(filter));
 
   return (
@@ -35,9 +40,11 @@ export const ListNotifyInAccount = () => {
             <Link
               to={notice.url}
               key={notice.id}
+              id={notice.id}
               className={`flex flex-row border-b items-center ${
                 notice.seen ? " bg-[#FFF0DC]" : "hover:bg-slate-200"
               } space-x-3 px-5`}
+              onClick={handleSetSeenNotify}
             >
               {notice.image && (
                 <img

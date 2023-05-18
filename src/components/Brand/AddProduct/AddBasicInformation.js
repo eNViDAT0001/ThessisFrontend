@@ -14,7 +14,7 @@ import {
   useFetchCategoryInAddProduct,
   useTreeInAddProduct,
 } from "../../../app/hook/ProductHook";
-import { TreeCategoryInUpdateInAdmin } from "../../Admin/CategoryComponentInAdmin/TreeCategoryInUpdateInAdmin";
+import { TreeCategoryInAddProduct } from "./TreeCategoryInAddProduct";
 
 export const AddBasicInformation = () => {
   const dispatch = useDispatch();
@@ -79,7 +79,7 @@ export const AddBasicInformation = () => {
           label="Discount"
         />
       </div>
-      <div className="flex flex-row justify-between space-x-4 items-center">
+      <div className="flex flex-row just  ify-between space-x-4 items-center">
         <h1 className="font-semibold">Height:</h1>
         <TextField
           sx={{ width: 0.75 }}
@@ -125,7 +125,7 @@ export const AddBasicInformation = () => {
       </div>
       <div className="flex flex-row space-x-8 items-center">
         <h1 className="font-semibold">Select your Category:</h1>
-        <TreeCategoryInUpdateInAdmin data={treeCategory} />
+        <TreeCategoryInAddProduct data={treeCategory} />
       </div>
     </div>
   );

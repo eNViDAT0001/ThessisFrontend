@@ -29,6 +29,16 @@ export const updateStatus = async (idOrder, body) => {
       toast("Update order success", {
         type: "success",
         autoClose: 1000,
+      });
+    }
+  });
+};
+export const updateStatusDelivered = async (idOrder, body) => {
+  await OrderApi.UpdateStatus(idOrder, body).then((res) => {
+    if (res.status == 200) {
+      toast("Update order success", {
+        type: "success",
+        autoClose: 1000,
         onClose: setTimeout(() => {
           window.location.reload();
         }, 1000),
@@ -36,10 +46,14 @@ export const updateStatus = async (idOrder, body) => {
     }
   });
 };
-
 export const addNewOrder = async (body) => {
-  const res = await OrderApi.AddNewOrder(body);
-  return res.data.data;
+  await OrderApi.AddNewOrder(body)
+    .then((res) => {
+      return res.data.data[0];
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 export const fetchOrderInProvider = (id, filters) => async (dispatch) => {
@@ -183,6 +197,21 @@ export const afterProcessPayment = async (order, userID, dataID) => {
   }
 };
 
+export const addNewOrderCOD = async (body, userID) => {
+  await OrderApi.AddNewOrder(body)
+    .then((res) => {
+      toast("Your order created success", {
+        type: "success",
+        autoClose: 1000,
+        onClose: setTimeout(() => {
+          window.location.replace(`/account-order/${userID}`);
+        }, 1000),
+      });
+    })
+    .catch((err) => {
+      alert(err);
+    });
+};
 const updateOrder = async (body) => {
   try {
     await OrderApi.UpdateOrder(body)

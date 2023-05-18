@@ -3,7 +3,7 @@ import { useState } from "react";
 import { uploadFile } from "../../../../app/hook/FileHook";
 import { PhotoCamera } from "@mui/icons-material";
 import { IconButton, Button } from "@mui/material";
-import { updateStatus } from "../../../../app/hook/OrderHook";
+import { updateStatusDelivered } from "../../../../app/hook/OrderHook";
 
 export const FormUpdateStatus = ({ id }) => {
   const [image, setImage] = useState(null);
@@ -24,7 +24,7 @@ export const FormUpdateStatus = ({ id }) => {
       status: "DELIVERED",
       image: image.url,
     };
-    updateStatus(id, body);
+    updateStatusDelivered(id, body);
   };
   return (
     <div className=" px-6">

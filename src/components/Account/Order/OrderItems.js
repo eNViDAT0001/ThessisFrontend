@@ -39,7 +39,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export const OrderItems = (props) => {
   const type = props.type;
   const listItems = useListItemsInOrder() || [];
-  const orderHandleDetail = useOrderHandleDetail();
+  const orderHandleDetail = useOrderHandleDetail() || {};
 
   const handleButtonDetail = (e) => {
     window.location.replace(`/product/${e.currentTarget.id}`);
@@ -65,7 +65,9 @@ export const OrderItems = (props) => {
                   <StyledTableCell align="left">Option</StyledTableCell>
                   <StyledTableCell align="left">Quantity</StyledTableCell>
                   <StyledTableCell align="left">Discount</StyledTableCell>
-                  <StyledTableCell align="left">Comment</StyledTableCell>
+                  {!(
+                    type !== "user" || orderHandleDetail.status !== "DELIVERED"
+                  ) && <StyledTableCell align="left">Comment</StyledTableCell>}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -102,19 +104,20 @@ export const OrderItems = (props) => {
                       <StyledTableCell align="left">
                         {row.discount}%
                       </StyledTableCell>
-                      <StyledTableCell align="left">
-                        <Button
-                          id={row.product_id}
-                          disabled={
-                            type !== "user" ||
-                            orderHandleDetail.status !== "DELIVERED"
-                          }
-                          variant="contained"
-                          onClick={handleButtonAddComment}
-                        >
-                          + Add Your Comment
-                        </Button>
-                      </StyledTableCell>
+                      {!(
+                        type !== "user" ||
+                        orderHandleDetail.status !== "DELIVERED"
+                      ) && (
+                        <StyledTableCell align="left">
+                          <Button
+                            id={row.product_id}
+                            variant="contained"
+                            onClick={handleButtonAddComment}
+                          >
+                            + Add Your Comment
+                          </Button>
+                        </StyledTableCell>
+                      )}
                     </StyledTableRow>
                   ))}
               </TableBody>

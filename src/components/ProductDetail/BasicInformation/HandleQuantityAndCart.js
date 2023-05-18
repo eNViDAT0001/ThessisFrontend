@@ -9,14 +9,13 @@ import {
   useOptionHandle,
   useProductDetail,
 } from "../../../app/hook/ProductHook";
-import ChatIcon from "@mui/icons-material/Chat";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 
 import { ToastContainer } from "react-toastify";
 
 import { addToCart } from "../../../app/hook/CartHook";
 import { useUserID } from "../../../app/hook/UserHook";
-import { sendChat } from "../../../app/hook/ChatHook";
-import { useDispatch } from "react-redux";
+
 const AddToCartButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText("#D0011B"),
   backgroundColor: "#D0011B",
@@ -25,7 +24,6 @@ const AddToCartButton = styled(Button)(({ theme }) => ({
   },
 }));
 export const HandleQuantityAndCart = (props) => {
-  const dispatch = useDispatch()
   const productID = props.id;
   const userID = useUserID();
   const [quantity, setQuantity] = React.useState(0);
@@ -38,24 +36,20 @@ export const HandleQuantityAndCart = (props) => {
       product_option_id: optionHandle.id,
       quantity: quantity,
     };
-    addToCart(productID, productDetail.provider_id, userID, body);
+    addToCart(productID, productDetail.provider_id, userID, body, 0);
   };
 
-  const handleChat = (e) => {
-    const toUserID = e.currentTarget.id;
-    const body={
-        "from_user_id": parseInt(toUserID),
-        "to_user_id": userID,
-        "content": "Chào bạn, bạn có gì thắc mắc về sản phẩm ạ?",
-        "seen": false,
-        "type": "TEXT"
-    }
-    
-    dispatch(sendChat(body))
+  const handleBuyNow = (e) => {
+    const body = {
+      product_option_id: optionHandle.id,
+      quantity: quantity,
+    };
+    addToCart(productID, productDetail.provider_id, userID, body, 1);
   };
+
   return (
     <div>
-      <div className="flex flex-col space-y-6 mt-10">
+      <div className="flex flex-col space-y-6 ">
         <ToastContainer position="top-right" newestOnTop />
 
         <div className="flex flex-row ">
@@ -79,26 +73,26 @@ export const HandleQuantityAndCart = (props) => {
               +
             </button>
           </div>
-
-          <div className="w-[40%] ml-6">
+        </div>
+        <div className="flex flex-row">
+          <div className="w-[40%] ">
             <AddToCartButton
               variant="outlined"
-              startIcon={<ShoppingCartIcon />}
+              startIcon={<ShoppingBasketIcon />}
               onClick={handleAddToCart}
             >
               Add to cart
             </AddToCartButton>
           </div>
-        </div>
-        <div className=" ml-6">
-          <AddToCartButton
-            variant="outlined"
-            id={productDetail.user_id}
-            startIcon={<ChatIcon />}
-            onClick={handleChat}
-          >
-            Chat
-          </AddToCartButton>
+          <div className="w-[40%] ">
+            <AddToCartButton
+              variant="outlined"
+              startIcon={<ShoppingCartIcon />}
+              onClick={handleBuyNow}
+            >
+              Buy now
+            </AddToCartButton>
+          </div>
         </div>
       </div>
     </div>

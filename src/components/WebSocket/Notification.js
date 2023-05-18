@@ -15,31 +15,33 @@ export const Notification = () => {
   };
   const id = useUserID();
   const dispatch = useDispatch();
-  const listNotification = useNotificationSmall();
+  const listNotification = useNotificationSmall() || [];
   const wsEvent = useSelector((state) => state.webSocket.WSEvent);
 
   const handleShowMore = (e) => {
     window.location.replace(`/user/notification/${id}`);
   };
 
-  const handleSetSeenNotify = (e) => {
+  const handleSetSeenNotify = async (e) => {
     const notifyID = e.currentTarget.id;
-    const newNotify = seenNotification(listNotification, notifyID, id);
-    //dispatch(setListNotificationSmall(newNotify));
+    const newNotify = await seenNotification(listNotification, notifyID, id);
+    dispatch(setListNotificationSmall(newNotify));
   };
 
   useFetchNotificationSmall(id, wsEvent);
   return (
     <div onMouseEnter={handleMouseEnter} className="border bg-white w-full">
-      {listNotification.length !== 0 && (
+      {Array.isArray(listNotification) && (
         <div className="px-5 py-4">
           {listNotification.map((notice) => (
             <Link
               to={notice.url}
               key={notice.id}
+              id={notice.id}
               className={`flex flex-row border-b items-center ${
                 notice.seen ? " bg-[#FFF0DC]" : "hover:bg-slate-200"
               } space-x-3 px-5`}
+              onClick={handleSetSeenNotify}
             >
               {notice.image && (
                 <img

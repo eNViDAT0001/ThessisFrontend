@@ -54,17 +54,17 @@ export const ListViewProduct = (props) => {
     window.location.replace(`/add-product-in-brand/${props.id}`);
   };
   const handleUpdateButton = (e) => {
-    window.location.replace(`/product/${e.currentTarget.id}/edit`)
+    window.location.replace(`/product/${e.currentTarget.id}/edit`);
   };
 
   const handleDeleteListProduct = (e) => {
-    const providerID = parseInt(props.id)
+    const providerID = parseInt(props.id);
     const listSelect = getSelectedIds(listProductInBrand);
     const body = {
       ids: listSelect,
     };
-    console.log(providerID)
-    console.log(listSelect)
+    console.log(providerID);
+    console.log(listSelect);
     dispatch(deleteListProduct(providerID, body));
   };
 
@@ -73,9 +73,9 @@ export const ListViewProduct = (props) => {
     dispatch(setListProductInBrandDetail(product));
   };
 
-  const handleClickImage = (id) =>{
-    window.location.replace(`/product/${id}/brand`)
-  }
+  const handleClickImage = (id) => {
+    window.location.replace(`/product/${id}/brand`);
+  };
   useEffect(() => {
     getSelectedIds(listProductInBrand).length === 0
       ? setDisableButtonDelete(true)
@@ -83,29 +83,29 @@ export const ListViewProduct = (props) => {
   }, [listProductInBrand]);
   return (
     <div className="space-y-3">
-      {listProductInBrand.length === 0 ? (
-        <div className=" uppercase">This shop has no products</div>
-      ) : (
-        <div>
-          <div className="flex flex-row my-5 space-x-8">
-            <Button variant="contained" onClick={handleButtonAdd}>
-              + Add new Product
-            </Button>
-            <div>
-              <Button
-                disabled={disableButtonDelete}
-                variant="outlined"
-                startIcon={<DeleteIcon />}
-                onClick={handleDeleteListProduct}
-              >
-                Delete
-              </Button>
-            </div>
-          </div>
-          <Divider />
-          <h1 className="font-bold text-xl">Table product:</h1>
-
+      <div>
+        <div className="flex flex-row my-5 space-x-8">
+          <Button variant="contained" onClick={handleButtonAdd}>
+            + Add new Product
+          </Button>
           <div>
+            <Button
+              disabled={disableButtonDelete}
+              variant="outlined"
+              startIcon={<DeleteIcon />}
+              onClick={handleDeleteListProduct}
+            >
+              Delete
+            </Button>
+          </div>
+        </div>
+        <Divider />
+        {listProductInBrand.length === 0 ? (
+          <div className=" uppercase">This shop has no products</div>
+        ) : (
+          <div>
+            <h1 className="font-bold text-xl">Table product:</h1>
+
             <ToastContainer position="top-right" newestOnTop />
 
             <TableContainer component={Paper}>
@@ -136,7 +136,7 @@ export const ListViewProduct = (props) => {
                         sx={{ width: 150, padding: 1 }}
                       >
                         <img
-                        onClick={()=>handleClickImage(row.id)}
+                          onClick={() => handleClickImage(row.id)}
                           src={
                             !row.media ? noImgAvailable : row.media[0].mediaPath
                           }
@@ -174,8 +174,8 @@ export const ListViewProduct = (props) => {
               </Table>
             </TableContainer>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

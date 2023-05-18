@@ -16,12 +16,12 @@ export const Comment = (props) => {
   };
   return (
     <div className=" font-[Satoshi] my-20">
-      {listComment.length === 0 && (
-        <div>
-          {props.type === "brand" && <AddComment id={props.id} />}
+      <div>
+        {props.type === "brand" && <AddComment id={props.id} />}
 
-          <div className="flex flex-row space-x-5 items-center">
-            <h1 className="text-xl font-semibold">List reviews:</h1>
+        <div className="flex flex-row space-x-5 items-center">
+          <h1 className="text-xl font-semibold">List reviews:</h1>
+          {listComment.length !== 0 && (
             <Box
               sx={{
                 width: 200,
@@ -36,13 +36,13 @@ export const Comment = (props) => {
                 }}
               ></Rating>
             </Box>
-          </div>
-          <div className="my-5">
-            <Divider />
-          </div>
-          <ListComment id={props.id} />
+          )}
         </div>
-      )}
+        <div className="my-5">
+          <Divider />
+        </div>
+        {listComment.length === 0 ?<h1 className=" uppercase text-xl">There are no reviews for this product yet</h1> : <ListComment id={props.id} />}
+      </div>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 export const CategoryRoof = () => {
   const categoryRoof = useCategoryRoof() || [];
+  const displayedCategories = categoryRoof.slice(0, 4); // Get the first 4 items
 
   return (
     <div>
@@ -12,10 +13,10 @@ export const CategoryRoof = () => {
         <div className="flex justify-center mt-20">
           <div className="w-[80%] flex flex-col border p-10 space-y-6 bg-gradient-to-b from-[#FFFFFF] to-[#FFFFFF] rounded-2xl">
             <h1 className="text-xl font-['Poppins_Bold'] font-extrabold uppercase text-[#000000]">
-              can interest you
+              Category:
             </h1>
-            <div className="flex flex-row flex-wrap space-x-1 ">
-              {categoryRoof.map((data) => (
+            <div className="flex flex-row flex-wrap justify-around">
+              {displayedCategories.map((data) => (
                 <Link
                   to={`/category/${data.id}`}
                   key={data.id}

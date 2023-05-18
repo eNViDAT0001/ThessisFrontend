@@ -56,7 +56,7 @@ export const TitleAndType = () => {
               <h1 className=" text-base ">
                 {currencyFormat(priceTotal || productDetail.price)}
               </h1>
-              <h1 className=" text-xs">$</h1>
+              <h1 className=" text-xs">đ</h1>
             </div>
             <div className="py-5 flex flex-row space-x-1 font-[Helvetica] text-[#EE4D2D]">
               <h1 className=" text-2xl">
@@ -66,7 +66,7 @@ export const TitleAndType = () => {
                     100
                 )}
               </h1>
-              <h1 className=" text-xl">$</h1>
+              <h1 className=" text-xl">đ</h1>
             </div>
             <div className=" px-2 bg-[#EE4D2D] flex flex-row space-x-1 font-[Helvetica] text-[#FFFFFF] items-center ">
               <h1 className=" text-sm ">- {productDetail.discount}%</h1>
@@ -74,9 +74,7 @@ export const TitleAndType = () => {
           </div>
           <div className="space-y-4 font-[Helvetica]">
             {specificationProduct.map((data) => (
-              <div 
-              key={data.id}
-              className="space-y-4">
+              <div key={data.id} className="space-y-4">
                 <div className="flex flex-row space-x-4 whitespace-nowrap items-start">
                   <h1 className="text-[#929292] text-lg ">
                     {data.properties}:{" "}

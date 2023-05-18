@@ -114,6 +114,14 @@ const initialState = {
     },
     limit: {
       type: null,
+      value: 10,
+    },
+    type: {
+      type: null,
+      value: "cursor",
+    },
+    marker: {
+      type: null,
       value: null,
     },
   },
@@ -300,6 +308,9 @@ const querySlice = createSlice({
     //filter brand in category
     setSearchInBrandInFilterCategory: (state, action) => {
       state.filterBrandInCategoryPage.name.value = action.payload;
+    },
+    setMarkerInBrandInFilterCategory: (state,action) =>{
+      state.filterBrandInCategoryPage.marker.value = action.payload;
     },
 
     //filter order in account

@@ -11,20 +11,27 @@ export const useSelectedCart = () =>
   useSelector((state) => state.cart.selectedCart);
 export const useListItemInCartSelected = () =>
   JSON.parse(localStorage.getItem("itemInOrder"));
-export const addToCart = async (productID, providerID, userID, body) => {
+export const addToCart = async (productID, providerID, userID, body, type) => {
   await CartShoppingApi.AddNewCartShopping(
     productID,
     providerID,
     userID,
     body
   ).then((res) => {
-    toast("Add to Cart Success", {
-      type: "success",
-      autoClose: 2000,
-      onClose: setTimeout(() => {
-        window.location.reload();
-      }, 2000),
-    });
+    if (type === 0) {
+      toast("Add to Cart Success", {
+        type: "success",
+        autoClose: 2000,
+      });
+    } else {
+      toast("Add to Cart Success", {
+        type: "success",
+        autoClose: 2000,
+        onClose: setTimeout(() => {
+          window.location.reload();
+        }, 2000),
+      });
+    }
   });
 };
 

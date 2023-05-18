@@ -11,10 +11,6 @@ const initialState = {
   descriptionProduct:[],
   specificationProduct:[],
   optionHandle:{
-    id:0,
-    name:"",
-    price:0,
-    quantity:0,
   },
 };
 

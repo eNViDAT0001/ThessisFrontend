@@ -15,7 +15,7 @@ export const ChatGeneral = () => {
   const filterMessage = useFilterMessage()
   const wsEvent = useSelector((state) => state.webSocket.WSEvent);
 
-  useFetchChat(userID, convertObjectToStringQuery(filterChannel), handleChannel.from_user_id, convertObjectToStringQuery(filterMessage), wsEvent, handleChannel);
+  useFetchChat(userID, convertObjectToStringQuery(filterChannel), handleChannel.to_user_id, convertObjectToStringQuery(filterMessage), wsEvent, handleChannel);
   return (
     <div className="flex flex-row justify-between bg-white border space-x-2">
       <div className="py-5 flex flex-1 overflow-y-scroll w-[45%] max-w-[250px]">

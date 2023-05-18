@@ -26,8 +26,7 @@ import {
   setStatusInOrderInAccount,
 } from "../../../app/slices/QuerySlice";
 import { useState } from "react";
-import { checkObjectEmpty } from "../../../app/hook/CommonHook";
-import { setOrderHandleDetail } from "../../../app/slices/OrderSlice";
+import { checkObjectEmpty, currencyFormat } from "../../../app/hook/CommonHook";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -66,8 +65,8 @@ export const OrderTable = (props) => {
     dispatch(setPageInOrderInAccount(page + 1));
   }, [page, dispatch]);
   const handleButtonDetail = (data) => {
-    localStorage.removeItem("orderHandle")
-    localStorage.setItem("orderHandle",JSON.stringify(data))
+    localStorage.removeItem("orderHandle");
+    localStorage.setItem("orderHandle", JSON.stringify(data));
     window.location.replace(`/user/order/${data.id}`);
   };
 
@@ -147,7 +146,9 @@ export const OrderTable = (props) => {
                   <StyledTableCell sx={{ width: 0.2 }} align="left">
                     {row.quantity}{" "}
                   </StyledTableCell>
-                  <StyledTableCell align="left">{row.total} </StyledTableCell>
+                  <StyledTableCell align="left">
+                    {currencyFormat(row.total)}đ
+                  </StyledTableCell>
                   <StyledTableCell align="right">
                     {row.status === "WAITING" ? (
                       <div>

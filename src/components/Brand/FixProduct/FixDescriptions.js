@@ -97,7 +97,7 @@ const DescriptionToFix = React.memo(
 export const FixDescriptions = () => {
   const dispatch = useDispatch();
   const descriptions = useDescriptionsFix();
-  const listDescriptionOld = useDescriptionOld();
+  const listDescriptionOld = useDescriptionOld() || [];
 
   const addDescription = useCallback(() => {
     const newOption = {
@@ -165,42 +165,39 @@ export const FixDescriptions = () => {
         </div>
       </div>
       <div className=" space-x-5 border rounded-lg">
-      <h1 className="font-semibold my-5">Description in product :</h1>
+        <h1 className="font-semibold my-5">Description in product :</h1>
 
-<div>
-  {listDescriptionOld.length === 0 ? (
-    <div></div>
-  ) : (
-    <div className="p-10 border rounded-2xl space-y-6">
-      <TabContext value={title || listDescriptionOld[0].name}>
-        <Box sx={{ width: "100%" }}>
-          <Box sx={{ bgcolor: "#FFFFFF" }}>
-            <StyledTabs
-              value={title || listDescriptionOld[0].name}
-              onChange={handleChange}
-              aria-label="styled tabs example"
-            >
-              {listDescriptionOld.map((data) => (
-                <StyledTab
-                  key={data.id}
-                  label={data.name}
-                  value={data.name}
-                />
-              ))}
-            </StyledTabs>
-            <Box sx={{ p: 3 }} />
-          </Box>
-        </Box>
-        {listDescriptionOld.map((data) => (
-          <TabPanel key={data.id} value={data.name}>
-            <Description description={data} />
-          </TabPanel>
-        ))}
-      </TabContext>
-    </div>
-  )}
-</div>
-      
+        <div>
+          {listDescriptionOld.length !== 0 && (
+            <div className="p-10 border rounded-2xl space-y-6">
+              <TabContext value={title || listDescriptionOld[0].name}>
+                <Box sx={{ width: "100%" }}>
+                  <Box sx={{ bgcolor: "#FFFFFF" }}>
+                    <StyledTabs
+                      value={title || listDescriptionOld[0].name}
+                      onChange={handleChange}
+                      aria-label="styled tabs example"
+                    >
+                      {listDescriptionOld.map((data) => (
+                        <StyledTab
+                          key={data.id}
+                          label={data.name}
+                          value={data.name}
+                        />
+                      ))}
+                    </StyledTabs>
+                    <Box sx={{ p: 3 }} />
+                  </Box>
+                </Box>
+                {listDescriptionOld.map((data) => (
+                  <TabPanel key={data.id} value={data.name}>
+                    <Description description={data} />
+                  </TabPanel>
+                ))}
+              </TabContext>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

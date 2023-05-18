@@ -14,7 +14,7 @@ import { useNotificationSmall } from "../../app/hook/NotificationHook";
 export const Header = () => {
   const userID = useUserID();
   const userDetail = useUserDetail();
-  const listNotification = useNotificationSmall();
+  const listNotification = useNotificationSmall() || [];
   const [showNotification, setShowNotification] = useState(false);
 
   const handleMouseEnter = () => {
@@ -25,6 +25,17 @@ export const Header = () => {
     setShowNotification(false);
   };
 
+  function countUnseenNotifications(data) {
+    let unseenCount = 0;
+
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].seen === false) {
+        unseenCount++;
+      }
+    }
+
+    return unseenCount;
+  }
   return (
     <div className="w-full bg-[#151875] flex justify-center border-b">
       <div className="w-[80%] py-2">
@@ -42,7 +53,7 @@ export const Header = () => {
           <div className="flex flex-row space-x-4 items-center">
             <div className="relative h-[30px] visible">
               <Badge
-                badgeContent={listNotification.length}
+                badgeContent={countUnseenNotifications(listNotification)}
                 color="primary"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
@@ -60,9 +71,11 @@ export const Header = () => {
                 </div>
               )}
             </div>
-            <Link to={`admin/${userID}`} className="hover:cursor-pointer">
-              <AdminPanelSettingsIcon sx={{ color: "white" }} />
-            </Link>
+            {userDetail.type === "ADMIN" && (
+              <Link to={`admin/${userID}`} className="hover:cursor-pointer">
+                <AdminPanelSettingsIcon sx={{ color: "white" }} />
+              </Link>
+            )}
             <Link
               to={`account-detail/${userID}`}
               className="hover:cursor-pointer"

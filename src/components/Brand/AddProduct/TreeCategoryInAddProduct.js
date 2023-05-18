@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useCategoryId } from "../../../app/hook/ProductHook";
 import { setCategoryID } from "../../../app/slices/AddProductSlice";
 
-export const TreeCategoryInUpdateInAdmin = ({ data, idHandle }) => {
+export const TreeCategoryInAddProduct = ({ data, idHandle }) => {
   const [expanded, setExpanded] = useState([]);
   const dispatch = useDispatch();
   const categoryIDHandleInUpdateTree = useCategoryId();

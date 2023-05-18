@@ -104,11 +104,17 @@ const fetchAddNotification = (userID, filter) => async (dispatch) => {
 
 export const seenNotification = async (data, notifyID, userID) => {
   try {
+    await WebSocketApi.SeenNotification(notifyID, userID);
+    return updateSeenStatus(data, notifyID); // Return the updated result
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const seenNotificationInAccount = async (notifyID, userID) => {
+  try {
     await WebSocketApi.SeenNotification(notifyID, userID)
-      .then(() => {
-        const newRes = updateSeenStatus(data, notifyID);
-        return newRes;
-      })
+      .then()
       .catch((err) => console.log(err));
   } catch (error) {
     console.log(error);
@@ -116,13 +122,11 @@ export const seenNotification = async (data, notifyID, userID) => {
 };
 function updateSeenStatus(data, id) {
   if (Array.isArray(data)) {
-    const newData = data.map((obj) => {
+    return data.map((obj) => {
       if (obj.id === id) {
         return { ...obj, seen: true };
       }
       return obj;
     });
-
-    return newData;
   }
 }

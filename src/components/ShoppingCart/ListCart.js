@@ -42,7 +42,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const ListCart = () => {
   const dispatch = useDispatch();
-  const listCart = useListCart();
+  const listCart = useListCart() || [];
 
   const handleDeleteButton = (e) => {
     const cartID = e.currentTarget.getAttribute("cartID");
@@ -72,123 +72,144 @@ const ListCart = () => {
     <div>
       <div className=" w-full ">
         <h1 className="font-bold text-xl my-4">Your select:</h1>
-        {listCart.map((data) => (
-          <div key={data.id}>
-            <div className="border mb-10 ">
-              <div className="flex flex-row space-x-5 mx-4">
-                <h1 className="font-bold text-xl my-3">{data.name}</h1>
+        {listCart.length === 0 ? (
+          <h1 className=" uppercase text-lg">
+            You have no products in your shopping cart
+          </h1>
+        ) : (
+          <div>
+            {listCart.map((data) => (
+              <div key={data.id}>
+                <div className="border mb-10 ">
+                  <div className="flex flex-row space-x-5 mx-4">
+                    <h1 className="font-bold text-xl my-3">{data.name}</h1>
+                  </div>
+                  <div>
+                    <TableContainer component={Paper}>
+                      <ToastContainer position="top-right" newestOnTop />
+                      <Table
+                        sx={{ minWidth: 400 }}
+                        aria-label="customized table"
+                      >
+                        <TableHead>
+                          <TableRow>
+                            <StyledTableCell>Select</StyledTableCell>
+                            <StyledTableCell>Image</StyledTableCell>
+                            <StyledTableCell align="center">
+                              Name{" "}
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              Price
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              Quantity
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              Discount
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              Option
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              Total
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              Action
+                            </StyledTableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {data.items.map((row) => (
+                            <StyledTableRow key={row.id}>
+                              <StyledTableCell id={row.id} align="center">
+                                <Checkbox
+                                  id={row.id}
+                                  checked={row.isSelected}
+                                  onClick={handleCheckProduct}
+                                  defaultChecked
+                                />
+                              </StyledTableCell>
+                              <StyledTableCell
+                                component="th"
+                                scope="row"
+                                sx={{ width: 100, padding: 1 }}
+                              >
+                                <img
+                                  src={row.media_path}
+                                  alt="Anh san pham"
+                                  className="w-[100px] h-[100px]"
+                                ></img>
+                              </StyledTableCell>
+                              <StyledTableCell
+                                align="center"
+                                sx={{ width: 100, padding: 1 }}
+                              >
+                                {row.name}
+                              </StyledTableCell>
+                              <StyledTableCell align="center">
+                                {addSuffixToPrice(row.price)}
+                              </StyledTableCell>
+                              <StyledTableCell align="center">
+                                <IconButton
+                                  id={row.id}
+                                  color="primary"
+                                  aria-label="upload picture"
+                                  component="label"
+                                  onClick={handleRemoveQuantity}
+                                >
+                                  <RemoveIcon fontSize="small" />
+                                </IconButton>
+                                {row.quantity}
+                                <IconButton
+                                  id={row.id}
+                                  color="primary"
+                                  aria-label="upload picture"
+                                  component="label"
+                                  onClick={handleAddQuantity}
+                                >
+                                  <AddIcon fontSize="small" />
+                                </IconButton>
+                              </StyledTableCell>
+                              <StyledTableCell align="center">
+                                <div className="px-3 py-1 border border-[#D80001] text-[#D80001]">
+                                  {row.discount}%
+                                </div>
+                              </StyledTableCell>
+                              <StyledTableCell align="center">
+                                {row.option_name}{" "}
+                              </StyledTableCell>
+                              <StyledTableCell align="center">
+                                {currencyFormat(
+                                  (row.quantity *
+                                    row.price *
+                                    (100 - row.discount)) /
+                                    100
+                                )}
+                                đ
+                              </StyledTableCell>
+                              <StyledTableCell align="center">
+                                <IconButton
+                                  id={row.id}
+                                  cartID={data.id}
+                                  color="primary"
+                                  aria-label="upload picture"
+                                  component="label"
+                                  onClick={handleDeleteButton}
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
+                              </StyledTableCell>
+                            </StyledTableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </div>
+                </div>
               </div>
-              <div>
-                <TableContainer component={Paper}>
-                  <ToastContainer position="top-right" newestOnTop />
-                  <Table sx={{ minWidth: 400 }} aria-label="customized table">
-                    <TableHead>
-                      <TableRow>
-                        <StyledTableCell>Select</StyledTableCell>
-                        <StyledTableCell>Image</StyledTableCell>
-                        <StyledTableCell align="center">Name </StyledTableCell>
-                        <StyledTableCell align="center">Price</StyledTableCell>
-                        <StyledTableCell align="center">
-                          Quantity
-                        </StyledTableCell>
-                        <StyledTableCell align="center">
-                          Discount
-                        </StyledTableCell>
-                        <StyledTableCell align="center">Option</StyledTableCell>
-                        <StyledTableCell align="center">Total</StyledTableCell>
-                        <StyledTableCell align="center">Action</StyledTableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {data.items.map((row) => (
-                        <StyledTableRow key={row.id}>
-                          <StyledTableCell id={row.id} align="center">
-                            <Checkbox
-                              id={row.id}
-                              checked={row.isSelected}
-                              onClick={handleCheckProduct}
-                              defaultChecked
-                            />
-                          </StyledTableCell>
-                          <StyledTableCell
-                            component="th"
-                            scope="row"
-                            sx={{ width: 100, padding: 1 }}
-                          >
-                            <img
-                              src={row.media_path}
-                              alt="Anh san pham"
-                              className="w-[100px] h-[100px]"
-                            ></img>
-                          </StyledTableCell>
-                          <StyledTableCell
-                            align="center"
-                            sx={{ width: 100, padding: 1 }}
-                          >
-                            {row.name}
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            {addSuffixToPrice(row.price)}
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            <IconButton
-                              id={row.id}
-                              color="primary"
-                              aria-label="upload picture"
-                              component="label"
-                              onClick={handleRemoveQuantity}
-                            >
-                              <RemoveIcon fontSize="small" />
-                            </IconButton>
-                            {row.quantity}
-                            <IconButton
-                              id={row.id}
-                              color="primary"
-                              aria-label="upload picture"
-                              component="label"
-                              onClick={handleAddQuantity}
-                            >
-                              <AddIcon fontSize="small" />
-                            </IconButton>
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            <div className="px-3 py-1 border border-[#D80001] text-[#D80001]">
-                              {row.discount}%
-                            </div>
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            {row.option_name}{" "}
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            {currencyFormat(
-                              (row.quantity *
-                                row.price *
-                                (100 - row.discount)) /
-                                100
-                            )}
-                            đ
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            <IconButton
-                              id={row.id}
-                              cartID={data.id}
-                              color="primary"
-                              aria-label="upload picture"
-                              component="label"
-                              onClick={handleDeleteButton}
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                          </StyledTableCell>
-                        </StyledTableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </div>
-            </div>
+            ))}
           </div>
-        ))}
+        )}
       </div>
       <div></div>
     </div>
