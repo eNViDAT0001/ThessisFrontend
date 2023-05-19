@@ -42,7 +42,7 @@ export const HandleQuantityAndCart = (props) => {
       product_option_id: optionHandle.id,
       quantity: quantity,
     };
-    addToCart(productID, productDetail.provider_id, userID, body, 1);
+    addToCart(productID, productDetail.provider_id, userID, body,optionHandle, 1);
   };
 
   return (

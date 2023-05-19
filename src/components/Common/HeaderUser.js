@@ -14,6 +14,7 @@ import InputBase from "@mui/material/InputBase";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
+import { setWSEvent } from "../../app/slices/WSSlice";
 
 const LinkInHeader = [
   {
@@ -82,20 +83,17 @@ export const HeaderUser = () => {
     return "WebSocket" in window;
   }
   useEffect(() => {
-    // if (userID) {
-    //   const accessToken = localStorage.getItem("AccessToken");
-    //   const WS_URL = `ws://localhost:8082/api/v1/ws/user/${userID}/token/${accessToken}`;
-    //   const timer = setTimeout(() => {
-    //     const ws = new WebSocket(WS_URL);
-    //     ws.onopen = () => {};
-    //     ws.onmessage = (event) => {
-    //       dispatch(setWSEvent(event.data));
-    //     };
-    //     ws.onerror = (error) => {};
-    //     ws.onclose = () => {};
-    //   }, 1000);
-    //   return () => clearTimeout(timer);
-    // }
+    if (userID) {
+      const accessToken = localStorage.getItem("AccessToken");
+      const WS_URL = `ws://localhost:8082/api/v1/ws/user/${userID}/token/${accessToken}`;
+      const ws = new WebSocket(WS_URL);
+      ws.onopen = () => {};
+      ws.onmessage = (event) => {
+        dispatch(setWSEvent(event.data));
+      };
+      ws.onerror = (error) => {};
+      ws.onclose = () => {};
+    }
   }, [userID]);
   return (
     <div className="w-full bg-[#FFFFFF] flex justify-center border-b">

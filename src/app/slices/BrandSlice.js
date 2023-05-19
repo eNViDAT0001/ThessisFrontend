@@ -9,6 +9,7 @@ const initialState = {
     },
     listProductInBrandDetail:[],
     listShopInAdmin:[],
+    metaInShopInAdmin:{},
     metaInListBrand:{},
     isPopUpFormUpdate:false,
 };
@@ -38,6 +39,9 @@ const brandSlice = createSlice({
         setListShopInAdmin:(state,action) =>{
             state.listShopInAdmin = action.payload
         },
+        setMetaInShopInAdmin: (state,action) =>{
+            state.metaInShopInAdmin = action.payload
+        },
         setIsPopUpFormUpdate:(state,action) =>{
             state.isPopUpFormUpdate = action.payload
         }
@@ -52,7 +56,8 @@ export const {
     setListProductInBrandDetail,
     setMetaInListBrand,
     setListShopInAdmin,
-    setIsPopUpFormUpdate
+    setIsPopUpFormUpdate,
+    setMetaInShopInAdmin
 } = brandSlice.actions;
 
 export default brandSlice.reducer;

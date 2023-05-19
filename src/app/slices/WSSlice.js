@@ -15,7 +15,7 @@ const WSSlice = createSlice({
       },
       setIsOpenButtonChat: (state,action) => {
         state.isOpenButtonChat = action.payload;
-      },
+      },  
 
     },
 })

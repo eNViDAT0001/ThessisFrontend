@@ -171,6 +171,21 @@ const initialState = {
     },
   },
 
+  productOutUpdateBanner: {
+    name: {
+      type: "search[]",
+      value: null,
+    },
+    limit: {
+      type: null,
+      value: 8,
+    },
+    marker: {
+      type: null,
+      value: 1,
+    },
+  },
+
   filterChannel: {
     type: {
       type: null,
@@ -221,6 +236,62 @@ const initialState = {
     id: {
       type: "sorts[]",
       value: "DESC",
+    },
+  },
+
+  //admin
+  filterUserTabAdmin: {
+    limit: {
+      type: null,
+      value: 4,
+    },
+    marker: {
+      type: null,
+      value: 1,
+    },
+  },
+
+  filterOrderTabAdmin: {
+    limit: {
+      type: null,
+      value: 4,
+    },
+    marker: {
+      type: null,
+      value: 1,
+    },
+  },
+
+  filterProductTabAdmin: {
+    limit: {
+      type: null,
+      value: 4,
+    },
+    marker: {
+      type: null,
+      value: 1,
+    },
+  },
+
+  filterShopTabAdmin: {
+    limit: {
+      type: null,
+      value: 4,
+    },
+    marker: {
+      type: null,
+      value: 1,
+    },
+  },
+
+  filterBannerTabAdmin: {
+    limit: {
+      type: null,
+      value: 4,
+    },
+    marker: {
+      type: null,
+      value: 1,
     },
   },
 };
@@ -309,7 +380,7 @@ const querySlice = createSlice({
     setSearchInBrandInFilterCategory: (state, action) => {
       state.filterBrandInCategoryPage.name.value = action.payload;
     },
-    setMarkerInBrandInFilterCategory: (state,action) =>{
+    setMarkerInBrandInFilterCategory: (state, action) => {
       state.filterBrandInCategoryPage.marker.value = action.payload;
     },
 
@@ -346,6 +417,15 @@ const querySlice = createSlice({
       state.productInUpdateBanner.marker.value = action.payload;
     },
 
+    setNameInProductOutUpdateBanner: (state, action) => {
+      state.productOutUpdateBanner.name.value = action.payload;
+    },
+    setLimitInProductOutUpdateBanner: (state, action) => {
+      state.productOutUpdateBanner.limit.value = action.payload;
+    },
+    setPageInProductOutUpdateBanner: (state, action) => {
+      state.productOutUpdateBanner.marker.value = action.payload;
+    },
     //Websocket
     setMarkerInFilterChannel: (state, action) => {
       state.filterChannel.marker.value = action.payload;
@@ -355,6 +435,42 @@ const querySlice = createSlice({
     },
     setMarkerInFilterNotify: (state, action) => {
       state.filterNotify.marker.value = action.payload;
+    },
+
+    //adminTab
+    setLimitInFilterUserTabAdmin: (state, action) => {
+      state.filterUserTabAdmin.limit.value = action.payload;
+    },
+    setPageInFilterUserTabAdmin: (state, action) => {
+      state.filterUserTabAdmin.marker.value = action.payload;
+    },
+
+    setLimitInFilterProductTabAdmin: (state, action) => {
+      state.filterProductTabAdmin.limit.value = action.payload;
+    },
+    setPageInFilterProductTabAdmin: (state, action) => {
+      state.filterProductTabAdmin.marker.value = action.payload;
+    },
+
+    setLimitInFilterOrderTabAdmin: (state, action) => {
+      state.filterOrderTabAdmin.limit.value = action.payload;
+    },
+    setPageInFilterOrderTabAdmin: (state, action) => {
+      state.filterOrderTabAdmin.marker.value = action.payload;
+    },
+
+    setLimitInFilterShopTabAdmin: (state, action) => {
+      state.filterShopTabAdmin.limit.value = action.payload;
+    },
+    setPageInFilterShopTabAdmin: (state, action) => {
+      state.filterShopTabAdmin.marker.value = action.payload;
+    },
+
+    setLimitInFilterBannerTabAdmin: (state, action) => {
+      state.filterBannerTabAdmin.limit.value = action.payload;
+    },
+    setPageInFilterBannerTabAdmin: (state, action) => {
+      state.filterBannerTabAdmin.marker.value = action.payload;
     },
   },
 });
@@ -400,10 +516,24 @@ export const {
   setNameInProductInUpdateBanner,
   setLimitInProductInUpdateBanner,
   setPageInProductInUpdateBanner,
+  setNameInProductOutUpdateBanner,
+  setLimitInProductOutUpdateBanner,
+  setPageInProductOutUpdateBanner,
 
   setMarkerInFilterChannel,
   setMarkerInFilterMessage,
   setMarkerInFilterNotify,
+
+  setLimitInFilterUserTabAdmin,
+  setPageInFilterUserTabAdmin,
+  setLimitInFilterOrderTabAdmin,
+  setPageInFilterOrderTabAdmin,
+  setLimitInFilterProductTabAdmin,
+  setPageInFilterProductTabAdmin,
+  setLimitInFilterShopTabAdmin,
+  setPageInFilterShopTabAdmin,
+  setLimitInFilterBannerTabAdmin,
+  setPageInFilterBannerTabAdmin,
 } = querySlice.actions;
 
 export default querySlice.reducer;

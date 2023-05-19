@@ -92,7 +92,7 @@ export const BannerTab = () => {
         </Button>
         {!openAddBanner ? (
           <Button variant="contained" onClick={handleButtonAddBanner}>
-            + Add new category
+            + Add new banner
           </Button>
         ) : (
           <Button variant="outlined" onClick={handleButtonAddBanner}>

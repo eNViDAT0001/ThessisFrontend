@@ -31,6 +31,7 @@ export const Bill = () => {
   const paypalRef = useRef(null);
   const [totalShippingCost, setTotalShippingCost] = useState(0);
   const dataShippingCost = useDataShippingCost();
+  const [responseOrder, setResponseOrder] = useState(null);
 
   const createNewOrder = async () => {
     const currentAddressForm = addressForm; // Store the current value
@@ -54,12 +55,16 @@ export const Bill = () => {
       };
 
       await addNewOrder(body).then((res) => {
-        alert(JSON.stringify(res));
-        return res;
+        setResponseOrder(res);
       });
     }
   };
 
+  useEffect(() => {
+    if (responseOrder) {
+      alert(responseOrder);
+    }
+  }, [responseOrder]);
   const handleButtonPaymentCOD = (e) => {
     if (!checkObjectEmpty(addressForm)) {
       const body = {
@@ -81,31 +86,32 @@ export const Bill = () => {
       addNewOrderCOD(body, userID);
     }
   };
+
   useEffect(() => {
     if (window.myButton) window.myButton.close();
     window.myButton = window.paypal.Buttons({
       createOrder: (data, actions) => {
-        return actions.order.create({
-          purchase_units: [
-            {
-              description: "Ahihi",
-              amount: {
-                currency_code: "USD",
-                value: convertVNDToUSD(
-                  parseInt(totalPrice) + totalShippingCost
-                ),
+        return createNewOrder().then(() => {
+          return actions.order.create({
+            purchase_units: [
+              {
+                description: "Ahihi",
+                amount: {
+                  currency_code: "USD",
+                  value: convertVNDToUSD(
+                    parseInt(totalPrice) + totalShippingCost
+                  ),
+                },
               },
-            },
-          ],
+            ],
+          });
         });
       },
       onApprove: async (data, actions) => {
         const order = await actions.order.capture();
-        return createNewOrder().then((res) => {
-          if (res) {
-            return afterProcessPayment(order, userID, res);
-          }
-        });
+        if (responseOrder) {
+          return afterProcessPayment(order, userID, responseOrder);
+        }
       },
       onError: (err) => {
         console.log(err);

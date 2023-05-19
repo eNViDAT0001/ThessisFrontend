@@ -9,6 +9,8 @@ import {
   setListProductInUpdateBanner,
   setListProductOutInUpdateBanner,
   setMetaInProductInAddBanner,
+  setMetaInProductInUpdateBanner,
+  setMetaInProductOutUpdateBanner,
   setProductInBannerDetail,
 } from "../slices/BannerSlice";
 import { toast } from "react-toastify";
@@ -39,7 +41,11 @@ export const useMetaInProductInUpdateBanner = () =>
   useSelector((state) => state.banner.metaInProductInUpdateBanner);
 export const useProductOutInUpdateBanner = () =>
   useSelector((state) => state.banner.listProductOutInUpdateBanner);
-
+export const useMetaInProductOutUpdateBanner = () =>
+  useSelector((state) => state.banner.metaInProductOutUpdateBanner);
+export const useFilterOutUpdateBanner = () => {
+  useSelector((state) => state.query.productOutUpdateBanner);
+};
 export const useFetchBannerDetail = async (bannerID) => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -184,28 +190,44 @@ export const selectProductOutProductInUpdateBanner = (arr, productID) => {
   });
 };
 
-export const useFetchInBannerUpdate = (bannerID, filter) => {
+export const useFetchInBannerUpdate = (
+  bannerID,
+  filterInsert,
+  filterRemove
+) => {
   const dispatch = useDispatch();
-  const prevFilterRef = useRef(filter);
+  const prevFilterInsertRef = useRef(filterInsert);
+  const prevFilterRemoveRef = useRef(filterRemove);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (filter !== prevFilterRef.current) {
-          await dispatch(fetchProductInUpdateBanner(bannerID));
+        if (filterInsert !== prevFilterInsertRef.current) {
+          await dispatch(fetchProductInUpdateBanner(bannerID, filterInsert));
+        } else if (filterRemove !== prevFilterRemoveRef.current) {
+          await dispatch(fetchProductOutUpdateBanner(bannerID, filterRemove));
         } else {
           await dispatch(fetchBannerDetailInUpdate(bannerID))
             .then(() => {
-              return dispatch(fetchProductInUpdateBanner(bannerID));
+              return dispatch(
+                fetchProductInUpdateBanner(bannerID, filterInsert)
+              );
+            })
+            .then(() => {
+              return dispatch(
+                fetchProductOutUpdateBanner(bannerID, filterRemove)
+              );
             })
             .catch((error) => {
               console.log(error);
             });
         }
+        prevFilterRemoveRef.current = filterRemove;
+        prevFilterInsertRef.current = filterInsert;
       } catch (err) {}
     };
     fetchData();
-  }, [dispatch, filter, prevFilterRef, bannerID]);
+  }, [dispatch, filterInsert, bannerID, filterRemove]);
 };
 
 const fetchBannerDetailInUpdate = (bannerID) => async (dispatch) => {
@@ -228,26 +250,40 @@ const fetchBannerDetailInUpdate = (bannerID) => async (dispatch) => {
   }
 };
 
-export const fetchProductInUpdateBanner = (bannerID) => async (dispatch) => {
-  try {
-    const response = await BannerApi.GetProductPreview(bannerID);
-    const response2 = await BannerApi.GetProductPreviewNotExist(bannerID);
-    const listProductOutUpdateBanner =
-      response.data.data &&
-      response.data.data.map((data) => {
-        return { ...data, isSelected: false };
-      });
+export const fetchProductInUpdateBanner =
+  (bannerID, filterInsert) => async (dispatch) => {
+    const response2 = await BannerApi.GetProductPreviewNotExist(
+      bannerID,
+      filterInsert
+    );
     const listProductInUpdateBanner =
       response2.data.data &&
       response2.data.data.map((data) => {
         return { ...data, isSelected: false };
       });
-    dispatch(setListProductOutInUpdateBanner(listProductOutUpdateBanner));
     dispatch(setListProductInUpdateBanner(listProductInUpdateBanner));
-  } catch (error) {
-    console.log(error);
-  }
-};
+    dispatch(setMetaInProductInUpdateBanner(response2.data.meta));
+  };
+
+export const fetchProductOutUpdateBanner =
+  (bannerID, filterRemove) => async (dispatch) => {
+    try {
+      const response = await BannerApi.GetProductPreview(
+        bannerID,
+        filterRemove
+      );
+      const listProductOutUpdateBanner =
+        response.data.data &&
+        response.data.data.map((data) => {
+          return { ...data, isSelected: false };
+        });
+
+      dispatch(setListProductOutInUpdateBanner(listProductOutUpdateBanner));
+      dispatch(setMetaInProductOutUpdateBanner(response.data.meta));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 export const updateTheBanner = async (bannerID, userID, body) => {
   await BannerApi.UpdateBanner(bannerID, userID, body).then(() => {

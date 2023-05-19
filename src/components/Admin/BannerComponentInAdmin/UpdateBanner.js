@@ -17,6 +17,8 @@ import {
   selectProductOutProductInUpdateBanner,
   updateTheBanner,
   useBannerDetailInUpdate,
+  useMetaInProductInUpdateBanner,
+  useMetaInProductOutUpdateBanner,
   useProductInUpdateBanner,
   useProductOutInUpdateBanner,
 } from "../../../app/hook/BannerHook";
@@ -30,7 +32,12 @@ import {
   setListProductInUpdateBanner,
   setListProductOutInUpdateBanner,
 } from "../../../app/slices/BannerSlice";
-import { setNameInProductInUpdateBanner } from "../../../app/slices/QuerySlice";
+import {
+  setNameInProductInUpdateBanner,
+  setNameInProductOutUpdateBanner,
+  setPageInProductInUpdateBanner,
+  setPageInProductOutUpdateBanner,
+} from "../../../app/slices/QuerySlice";
 import { useUserID } from "../../../app/hook/UserHook";
 
 export const UpdateBanner = (props) => {
@@ -45,6 +52,8 @@ export const UpdateBanner = (props) => {
 
   const listProductOutInForm = useProductOutInUpdateBanner() || [];
   const listProductInUpdateBanner = useProductInUpdateBanner() || [];
+  const metaInProductInUpdateBanner = useMetaInProductInUpdateBanner() || {};
+  const metaInProductOutUpdateBanner = useMetaInProductOutUpdateBanner() || {};
   const userID = useUserID();
 
   const bannerDetail = useBannerDetailInUpdate();
@@ -99,11 +108,19 @@ export const UpdateBanner = (props) => {
   const handleChangeDataPicker = (e) => {
     setEndTime(e.target.value);
   };
-  const handleChangeSearchText = (event) => {
+  const handleChangeSearchTextIn = (event) => {
     clearTimeout(timeoutId);
     const textEvent = event.target.value;
     setTimeout(() => {
       dispatch(setNameInProductInUpdateBanner(textEvent));
+    }, 200);
+  };
+
+  const handleChangeSearchTextOut = (event) => {
+    clearTimeout(timeoutId);
+    const textEvent = event.target.value;
+    setTimeout(() => {
+      dispatch(setNameInProductOutUpdateBanner(textEvent));
     }, 200);
   };
 
@@ -118,6 +135,13 @@ export const UpdateBanner = (props) => {
       product_ids_out: getSelectedIds(listProductOutInForm),
     };
     updateTheBanner(bannerID, userID, body);
+  };
+
+  const handleChangePageIn = (e, value) => {
+    dispatch(setPageInProductInUpdateBanner(value));
+  };
+  const handleChangePageOut = (e, value) => {
+    dispatch(setPageInProductOutUpdateBanner(value));
   };
   return (
     <div className="w-full p-10 border space-y-5">
@@ -225,7 +249,7 @@ export const UpdateBanner = (props) => {
               <InputBase
                 sx={{ ml: 1, flex: 1 }}
                 placeholder="Search Here"
-                onChange={handleChangeSearchText}
+                onChange={handleChangeSearchTextIn}
                 inputProps={{ "aria-label": "search google maps" }}
               />
               <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
@@ -261,11 +285,42 @@ export const UpdateBanner = (props) => {
           </div>
         )}
       </div>
+      {!checkObjectEmpty(metaInProductInUpdateBanner) && (
+        <div className="flex justify-center">
+          <Pagination
+            count={metaInProductInUpdateBanner.paging.Pages}
+            defaultPage={metaInProductInUpdateBanner.paging.Current}
+            onChange={handleChangePageIn}
+          />
+        </div>
+      )}
       <div className="flex flex-col  space-x-4 items-start">
         <div className="flex flex-row items-center space-x-5">
           <h1 className="font-semibold whitespace-nowrap ">
             Remove product from banner:
           </h1>
+          <div>
+            <Paper
+              component="form"
+              sx={{
+                p: "2px 4px",
+                display: "flex",
+                alignItems: "center",
+                width: 1,
+              }}
+            >
+              <InputBase
+                sx={{ ml: 1, flex: 1 }}
+                placeholder="Search Here"
+                onChange={handleChangeSearchTextOut}
+                inputProps={{ "aria-label": "search google maps" }}
+              />
+              <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+                <SearchIcon />
+              </IconButton>
+              <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+            </Paper>
+          </div>
         </div>
         {listProductOutInForm.length !== 0 && (
           <div className="w-full border flex flex-row justify-start flex-wrap mt-[50px]">
@@ -293,6 +348,15 @@ export const UpdateBanner = (props) => {
           </div>
         )}
       </div>
+      {!checkObjectEmpty(metaInProductOutUpdateBanner) && (
+        <div className="flex justify-center">
+          <Pagination
+            count={metaInProductOutUpdateBanner.paging.Pages}
+            defaultPage={metaInProductOutUpdateBanner.paging.Current}
+            onChange={handleChangePageOut}
+          />
+        </div>
+      )}
       <div className="flex flex-row-reverse">
         <Button variant="contained" onClick={handleAddBanner}>
           Update

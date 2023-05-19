@@ -55,7 +55,6 @@ export const OrderTable = (props) => {
   const listOrders = useListOrderInAccountDetail() || [];
   const metaInOrderInAccount = useMetaInOrderInAccount();
   const [page, setPage] = useState(0);
-  const [isPopForm, setIsPopForm] = useState(false);
 
   useLayoutEffect(() => {
     dispatch(setStatusInOrderInAccount(props.status));

@@ -81,11 +81,11 @@ export const useFetchChat = (
       dispatch(setMarkerInFilterMessage(null));
       fetchData();
     }
+    alert(wsEvent);
 
     if (wsEvent !== prevWSEvent.current) {
-      alert("message đã được gửi");
       const newEvent = JSON.parse(wsEvent);
-      if (newEvent.type === "ChatNewMessage") {
+      if (newEvent.type == "ChatNewMessage") {
         beSentChat(newEvent.payload, handleChannel);
       }
     }

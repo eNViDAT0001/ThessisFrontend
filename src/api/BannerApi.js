@@ -12,12 +12,12 @@ export const BannerApi = {
     const url = `banners/${bannerID}/detail`;
     return axiosClient.get(url);
   },
-  GetProductPreview: (bannerID) => {
-    const url = `products/banner/${bannerID}/preview`;
+  GetProductPreview: (bannerID,filter) => {
+    const url = `products/banner/${bannerID}/preview?${filter}`;
     return axiosClient.get(url);
   },
-  GetProductPreviewNotExist: (bannerID) => {
-    const url = `products/banner/${bannerID}/preview/no`;
+  GetProductPreviewNotExist: (bannerID,filter) => {
+    const url = `products/banner/${bannerID}/preview/no?${filter}`;
     return axiosClient.get(url);
   },
   UpdateBanner: (bannerID,userID, body) => {
