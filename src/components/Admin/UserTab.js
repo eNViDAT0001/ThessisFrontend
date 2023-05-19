@@ -11,17 +11,30 @@ import { Paper, TableHead } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import { Button, Autocomplete, TextField } from "@mui/material";
 import BlockIcon from "@mui/icons-material/Block";
+import TablePagination from "@mui/material/TablePagination";
+
 import "react-toastify/ReactToastify.min.css";
 import {
   banListUser,
   selectUser,
   updateUserInAdmin,
   useFetchListUser,
+  useFilterUserInAdmin,
   useListUser,
+  useMetaUserInAdmin,
 } from "../../app/hook/UserHook";
-import { convertDate, getSelectedIds } from "../../app/hook/CommonHook";
+import {
+  checkObjectEmpty,
+  convertDate,
+  convertObjectToStringQuery,
+  getSelectedIds,
+} from "../../app/hook/CommonHook";
 import { useDispatch } from "react-redux";
 import { setListUserInAdmin } from "../../app/slices/UserSlice";
+import {
+  setLimitInFilterUserTabAdmin,
+  setPageInFilterUserTabAdmin,
+} from "../../app/slices/QuerySlice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -49,7 +62,11 @@ export const UserTab = () => {
   const dispatch = useDispatch();
 
   const listUsers = useListUser() || [];
-  useFetchListUser();
+  const metaUserInAdmin = useMetaUserInAdmin() || {};
+  const filter = useFilterUserInAdmin() || {};
+  const [page, setPage] = useState(0);
+
+  useFetchListUser(convertObjectToStringQuery(filter));
 
   const [disableButtonDelete, setDisableButtonDelete] = useState(true);
 
@@ -75,10 +92,25 @@ export const UserTab = () => {
     updateUserInAdmin(idHandle, body);
   };
 
+  const handleChangePage = (e, newPage) => {
+    const nextPage = newPage;
+    setPage(nextPage);
+  };
+
+  const handleChangeRowsPerPage = (e) => {
+    setPage(0);
+    dispatch(setPageInFilterUserTabAdmin(1));
+    dispatch(setLimitInFilterUserTabAdmin(e.target.value));
+  };
+
   useEffect(() => {
     if (getSelectedIds(listUsers).length === 0) setDisableButtonDelete(true);
     else setDisableButtonDelete(false);
   }, [listUsers]);
+
+  useEffect(() => {
+    dispatch(setPageInFilterUserTabAdmin(page + 1));
+  }, [page, dispatch]);
   return (
     <div className="p-6 space-y-5">
       <div>
@@ -179,6 +211,17 @@ export const UserTab = () => {
             </TableBody>
           </Table>
         </TableContainer>
+      )}
+      {!checkObjectEmpty(metaUserInAdmin) && (
+        <TablePagination
+          rowsPerPageOptions={[4, 8, 12, 16, 20]}
+          component="div"
+          count={metaUserInAdmin.paging.Count}
+          rowsPerPage={metaUserInAdmin.paging.PerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       )}
     </div>
   );

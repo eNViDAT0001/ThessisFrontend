@@ -6,6 +6,7 @@ import {
   setListProductInBrandDetail,
   setListShopInAdmin,
   setMetaInListBrand,
+  setMetaInShopInAdmin,
 } from "../slices/BrandSlice";
 import { convertObjectToStringQuery } from "./CommonHook";
 import { toast } from "react-toastify";
@@ -22,6 +23,10 @@ export const useMetaInListBrand = () =>
   useSelector((state) => state.brand.metaInListBrand);
 export const useListBrandInAdmin = () =>
   useSelector((state) => state.brand.listShopInAdmin);
+export const useMetaInShopInAdmin = () =>
+  useSelector((state) => state.brand.metaInShopInAdmin);
+export const useFilterInShopInAdmin = () =>
+  useSelector((state) => state.query.filterShopTabAdmin);
 export const useFilterInProductInBrandDetail = () =>
   useSelector((state) => state.query.productInDetailBrand);
 export const useFilterInListBrand = () =>
@@ -51,6 +56,7 @@ export const fetchListBrandFromAdmin = (filter) => async (dispatch) => {
   try {
     const response = await ProviderApi.GetAllBrand(filter);
     dispatch(setListShopInAdmin(response.data.data));
+    dispatch(setMetaInShopInAdmin(response.data.meta));
   } catch (error) {
     console.log(error);
   }
@@ -81,7 +87,7 @@ export const useFetchFullInBrandDetailPage = async (id) => {
         });
       } catch (error) {}
     };
-      fetchData();
+    fetchData();
   }, [id, dispatch, filter]);
 };
 

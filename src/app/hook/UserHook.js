@@ -1,20 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { UserApi } from "../../api/UserApi";
-import { setListUserInAdmin } from "../slices/UserSlice";
+import { setListUserInAdmin, setMetaUserInAdmin } from "../slices/UserSlice";
 import { useEffect } from "react";
 
 export const useUserInformation = () =>
   useSelector((state) => state.user.userInformation);
-
 export const useUserID = () => JSON.parse(localStorage.getItem("UserID")) - 0;
-
 export const useUserDetail = () =>
   JSON.parse(localStorage.getItem("UserInWeb"));
-
 export const useListUser = () =>
   useSelector((state) => state.user.listUserInAdmin);
-
+export const useMetaUserInAdmin = () =>
+  useSelector((state) => state.user.metaUserInAdmin);
+export const useFilterUserInAdmin = () =>
+  useSelector((state) => state.query.filterUserTabAdmin);
 export const useFetchListUser = async (filters) => {
   const dispatch = useDispatch();
 
@@ -32,6 +32,7 @@ export const fetchListUser = (filters) => async (dispatch) => {
         return { ...data, isSelected: false };
       });
     dispatch(setListUserInAdmin(listUser));
+    dispatch(setMetaUserInAdmin(response.data.meta));
   } catch (err) {
     console.log(err);
   }

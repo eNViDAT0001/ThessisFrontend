@@ -6,20 +6,29 @@ import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Checkbox from "@mui/material/Checkbox";
 import { Paper, TableHead } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import { Button, Autocomplete, TextField } from "@mui/material";
-import BlockIcon from "@mui/icons-material/Block";
 import "react-toastify/ReactToastify.min.css";
+import TablePagination from "@mui/material/TablePagination";
 
-import { convertDate } from "../../app/hook/CommonHook";
+import {
+  checkObjectEmpty,
+  convertDate,
+  convertObjectToStringQuery,
+} from "../../app/hook/CommonHook";
 import { useDispatch } from "react-redux";
 import {
   useFetchListBrandInAdmin,
+  useFilterInShopInAdmin,
   useListBrandInAdmin,
+  useMetaInShopInAdmin,
 } from "../../app/hook/BrandHook";
 import { Link } from "react-router-dom";
+import {
+  setLimitInFilterShopTabAdmin,
+  setPageInFilterShopTabAdmin,
+} from "../../app/slices/QuerySlice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -42,11 +51,30 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export const BrandTab = () => {
+  const dispatch = useDispatch();
+
   const listBrands = useListBrandInAdmin() || [];
+  const metaInBrandInAdmin = useMetaInShopInAdmin() || {};
+  const filterInBrandInAdmin = useFilterInShopInAdmin() || {};
+  const [page, setPage] = useState(0);
 
-  useFetchListBrandInAdmin("");
+  const handleChangePage = (e, newPage) => {
+    const nextPage = newPage;
+    setPage(nextPage);
+  };
 
-  console.log(listBrands);
+  const handleChangeRowsPerPage = (e) => {
+    setPage(0);
+    dispatch(setPageInFilterShopTabAdmin(1));
+    dispatch(setLimitInFilterShopTabAdmin(e.target.value));
+  };
+
+  useEffect(() => {
+    dispatch(setPageInFilterShopTabAdmin(page + 1));
+  }, [page, dispatch]);
+
+  useFetchListBrandInAdmin(convertObjectToStringQuery(filterInBrandInAdmin));
+
   return (
     <div className="p-6 space-y-5">
       <h1 class=" text-lg font-bold">List brands: </h1>
@@ -100,7 +128,9 @@ export const BrandTab = () => {
                   </StyledTableCell>
                   <StyledTableCell align="left">
                     <Link to={`/brand-detail/${row.id}`}>
-                      <h1 className=" hover:text-pink-500 hover:underline">{row.name}</h1>
+                      <h1 className=" hover:text-pink-500 hover:underline">
+                        {row.name}
+                      </h1>
                     </Link>
                   </StyledTableCell>
                   <StyledTableCell align="left">
@@ -114,6 +144,17 @@ export const BrandTab = () => {
             </TableBody>
           </Table>
         </TableContainer>
+      )}
+      {!checkObjectEmpty(metaInBrandInAdmin) && (
+        <TablePagination
+          rowsPerPageOptions={[4, 8, 12, 16, 20]}
+          component="div"
+          count={metaInBrandInAdmin.paging.Count}
+          rowsPerPage={metaInBrandInAdmin.paging.PerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       )}
     </div>
   );

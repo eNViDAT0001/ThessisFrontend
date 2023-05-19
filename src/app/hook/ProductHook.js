@@ -8,6 +8,7 @@ import {
   setDescriptionProduct,
   setImageProduct,
   setListProductInAdmin,
+  setMetaInProductInAdmin,
   setMetaInProductInHome,
   setProductDetail,
   setProductForYou,
@@ -311,7 +312,6 @@ const mergeDescriptionToFix = (descriptionNew, descriptionOld) => {
       ? descriptionNew.length
       : descriptionNew.length;
 
-
   for (let i = 0; i < smallIndex; i++) {
     console.log("i", i);
     const newObject = {
@@ -426,6 +426,10 @@ export const checkValidAdd = (
 
 export const useListProductInAdmin = () =>
   useSelector((state) => state.product.listProductInAdmin);
+export const useFilterInProductInAdmin = () =>
+  useSelector((state) => state.query.filterProductTabAdmin);
+export const useMetaInProductInAdmin = () =>
+  useSelector((state) => state.product.metaInProductInAdmin);
 
 export const useFetchProductInAdmin = async (filter) => {
   const dispatch = useDispatch();
@@ -439,6 +443,7 @@ const fetchProductInAdmin = (filter) => async (dispatch) => {
   try {
     await ProductApi.GetProductPreview(filter).then((res) => {
       dispatch(setListProductInAdmin(res.data.data));
+      dispatch(setMetaInProductInAdmin(res.data.meta));
     });
   } catch (err) {}
 };

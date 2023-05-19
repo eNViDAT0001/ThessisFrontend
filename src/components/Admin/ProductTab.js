@@ -1,19 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-
-import { Paper, TableHead } from "@mui/material";
+import TablePagination from "@mui/material/TablePagination";
+import { Paper, TableHead, IconButton } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { convertDate } from "../../app/hook/CommonHook";
+import SettingsIcon from "@mui/icons-material/Settings";
+
 import {
   useFetchProductInAdmin,
+  useFilterInProductInAdmin,
   useListProductInAdmin,
+  useMetaInProductInAdmin,
 } from "../../app/hook/ProductHook";
+import { useDispatch } from "react-redux";
+import {
+  checkObjectEmpty,
+  convertObjectToStringQuery,
+  currencyFormat,
+} from "../../app/hook/CommonHook";
+import { useState } from "react";
+import {
+  setLimitInFilterProductTabAdmin,
+  setPageInFilterProductTabAdmin,
+} from "../../app/slices/QuerySlice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -35,9 +49,32 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export const ProductTab = () => {
-  useFetchProductInAdmin();
+  const dispatch = useDispatch();
+  const [page, setPage] = useState(0);
 
+  const meta = useMetaInProductInAdmin() || {};
+  const filter = useFilterInProductInAdmin() || {};
   const listProducts = useListProductInAdmin() || [];
+
+  const handleChangePage = (e, newPage) => {
+    const nextPage = newPage;
+    setPage(nextPage);
+  };
+
+  const handleChangeRowsPerPage = (e) => {
+    setPage(0);
+    dispatch(setPageInFilterProductTabAdmin(1));
+    dispatch(setLimitInFilterProductTabAdmin(e.target.value));
+  };
+
+  useEffect(() => {
+    dispatch(setPageInFilterProductTabAdmin(page + 1));
+  }, [page, dispatch]);
+  useFetchProductInAdmin(convertObjectToStringQuery(filter));
+
+  const handleUpdateButton = (e) => {
+    window.location.replace(`/product/${e.currentTarget.id}/edit`);
+  };
   return (
     <div className="p-6 space-y-5">
       <h1 class=" text-lg font-bold">List products: </h1>
@@ -61,6 +98,7 @@ export const ProductTab = () => {
                 <StyledTableCell align="left">Name</StyledTableCell>
                 <StyledTableCell align="left">Price</StyledTableCell>
                 <StyledTableCell align="left">Discount</StyledTableCell>
+                <StyledTableCell align="left">Update</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -76,22 +114,41 @@ export const ProductTab = () => {
                   hover
                   key={row.id}
                 >
-
                   <StyledTableCell align="left">{row.id}</StyledTableCell>
                   <StyledTableCell align="left">{row.name}</StyledTableCell>
-                  <StyledTableCell align="left">{row.price}</StyledTableCell>
-                  <StyledTableCell align="left">{row.discount}</StyledTableCell>
-                  {/* <StyledTableCell align="left">
-                    {row.created_at}
+                  <StyledTableCell align="left">
+                    {currencyFormat(row.price)}đ
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                    {row.updated_at}
-                  </StyledTableCell> */}
+                    {row.discount}%
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    <IconButton
+                      id={row.id}
+                      color="primary"
+                      aria-label="upload picture"
+                      component="label"
+                      onClick={handleUpdateButton}
+                    >
+                      <SettingsIcon />
+                    </IconButton>
+                  </StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+      )}
+      {!checkObjectEmpty(meta) && (
+        <TablePagination
+          rowsPerPageOptions={[4, 8, 12, 16, 20]}
+          component="div"
+          count={meta.paging.Count}
+          rowsPerPage={meta.paging.PerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       )}
     </div>
   );
