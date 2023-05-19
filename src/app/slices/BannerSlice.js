@@ -10,6 +10,7 @@ const initialState = {
   metaInProductInUpdateBanner: {},
 
   productInBannerDetail: [],
+  metaInProductInBannerDetail: {},
   listBannerInAdmin: [],
 
   listProductOutInUpdateBanner: [],
@@ -53,6 +54,9 @@ const bannerSlice = createSlice({
     setMetaInProductOutUpdateBanner: (state, action) => {
       state.metaInProductOutUpdateBanner = action.payload;
     },
+    setMetaInProductInBannerDetail: (state, action) => {
+      state.metaInProductInBannerDetail = action.payload;
+    },
   },
 });
 
@@ -69,6 +73,7 @@ export const {
   setBannerDetailInUpdate,
   setListProductOutInUpdateBanner,
   setMetaInProductOutUpdateBanner,
+  setMetaInProductInBannerDetail,
 } = bannerSlice.actions;
 
 export default bannerSlice.reducer;

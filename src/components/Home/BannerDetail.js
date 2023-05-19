@@ -1,14 +1,25 @@
 import React from "react";
 import {
   useBannerDetail,
+  useMetaInProductInBannerDetail,
   useProductInBannerDetail,
 } from "../../app/hook/BannerHook";
+import { Pagination } from "@mui/material";
 import { addSuffixToPrice, checkObjectEmpty } from "../../app/hook/CommonHook";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setPageInFilterProductInBannerDetail } from "../../app/slices/QuerySlice";
 
 export const BannerDetail = () => {
+  const dispatch = useDispatch();
+
   const bannerDetail = useBannerDetail() || {};
   const listProducts = useProductInBannerDetail() || [];
+  const metaProduct = useMetaInProductInBannerDetail() || {};
+
+  const handleChangePage = (e, value) => {
+    dispatch(setPageInFilterProductInBannerDetail(value));
+  };
   return (
     <div>
       {!checkObjectEmpty(bannerDetail) && (
@@ -20,7 +31,9 @@ export const BannerDetail = () => {
           </div>
 
           <div className="p-10 border my-20">
-            {listProducts.length !== 0 && (
+            {listProducts.length === 0 ? (
+              <h1>YOU DON'T HAVE PRODUCT IN THIS BANNER</h1>
+            ) : (
               <div className="flex flex-row justify-start flex-wrap mt-[50px] ">
                 {listProducts.map((data) => (
                   <Link
@@ -72,6 +85,15 @@ export const BannerDetail = () => {
                     </div>
                   </Link>
                 ))}
+              </div>
+            )}
+            {!checkObjectEmpty(metaProduct) && (
+              <div className="flex justify-center my-5">
+                <Pagination
+                  count={metaProduct.paging.Pages}
+                  defaultPage={metaProduct.paging.Current}
+                  onChange={handleChangePage}
+                />
               </div>
             )}
           </div>

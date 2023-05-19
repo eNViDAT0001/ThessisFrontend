@@ -11,7 +11,6 @@ import {
   checkObjectEmpty,
   convertObjectToStringQuery,
 } from "../../../app/hook/CommonHook";
-import { useEffect } from "react";
 
 export const UpdateBannerPage = () => {
   const { id } = useParams();

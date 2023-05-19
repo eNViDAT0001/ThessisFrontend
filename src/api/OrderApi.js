@@ -4,8 +4,8 @@ export const OrderApi = {
     const url = `/orders`;
     return axiosClient.post(url, body);
   },
-  GetFullOrder: (userID) => {
-    const url = `/orders/admin/${userID}`;
+  GetFullOrder: (userID, filter) => {
+    const url = `/orders/admin/${userID}?${filter}`;
     return axiosClient.get(url);
   },
   GetOrderFromUser: (id, filter) => {
@@ -32,8 +32,8 @@ export const OrderApi = {
     const url = `/orders/payment`;
     return axiosClient.patch(url, body);
   },
-  VerifyOrder:(orderID,userID) =>{
-    const url = `/orders/${orderID}/user/${userID}/verify`
-    return axiosClient.patch(url)
-  }
+  VerifyOrder: (orderID, userID) => {
+    const url = `/orders/${orderID}/user/${userID}/verify`;
+    return axiosClient.patch(url);
+  },
 };

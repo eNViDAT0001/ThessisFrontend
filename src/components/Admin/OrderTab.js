@@ -1,25 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Checkbox from "@mui/material/Checkbox";
+import TablePagination from "@mui/material/TablePagination";
 import { Paper, TableHead } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import { Autocomplete, TextField } from "@mui/material";
 import "react-toastify/ReactToastify.min.css";
 
-import { convertDate, getSelectedIds } from "../../app/hook/CommonHook";
-import { useDispatch } from "react-redux";
 import {
   updateStatus,
   useFetchOrderInAdmin,
+  useFilterInOrderInAdmin,
   useListOrderInAdmin,
+  useMetaInOrderInAdmin,
 } from "../../app/hook/OrderHook";
 import { useUserID } from "../../app/hook/UserHook";
+import { checkObjectEmpty, convertObjectToStringQuery } from "../../app/hook/CommonHook";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import {
+  setLimitInFilterOrderTabAdmin,
+  setPageInFilterOrderTabAdmin,
+} from "../../app/slices/QuerySlice";
+import { useEffect } from "react";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -50,17 +57,41 @@ const listStatus = [
 ];
 
 export const OrderTab = () => {
+  const dispatch = useDispatch();
+
   const userID = useUserID();
   const listOrders = useListOrderInAdmin() || [];
+  const metaInOrderInAdmin = useMetaInOrderInAdmin() || {};
+  const filterInOrderInAdmin = useFilterInOrderInAdmin() || {};
+  const [page, setPage] = useState(0);
 
-  const handleChangeStatus = (e) =>{
+  const handleChangeStatus = (e) => {
     const idHandle = e.currentTarget.id.split("-")[0];
     const body = {
       status: e.currentTarget.textContent,
     };
     updateStatus(idHandle, body);
-  }
-  useFetchOrderInAdmin(userID);
+  };
+
+  const handleChangePage = (e, newPage) => {
+    const nextPage = newPage;
+    setPage(nextPage);
+  };
+
+  const handleChangeRowsPerPage = (e) => {
+    setPage(0);
+    dispatch(setPageInFilterOrderTabAdmin(1));
+    dispatch(setLimitInFilterOrderTabAdmin(e.target.value));
+  };
+
+  useEffect(() => {
+    dispatch(setPageInFilterOrderTabAdmin(page + 1));
+  }, [page, dispatch]);
+
+  useFetchOrderInAdmin(
+    userID,
+    convertObjectToStringQuery(filterInOrderInAdmin)
+  );
 
   return (
     <div className="p-6 space-y-5">
@@ -116,26 +147,25 @@ export const OrderTab = () => {
                   <StyledTableCell align="left">{row.phone}</StyledTableCell>
                   <StyledTableCell align="left">{row.province}</StyledTableCell>
                   <StyledTableCell align="left">{row.district}</StyledTableCell>
-                  <StyledTableCell align="left">
-                    {row.ward}
-                  </StyledTableCell>
+                  <StyledTableCell align="left">{row.ward}</StyledTableCell>
                   <StyledTableCell align="left">{row.street} </StyledTableCell>
                   <StyledTableCell align="left">{row.quantity}</StyledTableCell>
                   <StyledTableCell align="left">{row.total}</StyledTableCell>
-                  <StyledTableCell align="left">{row.discount}%</StyledTableCell>
-
                   <StyledTableCell align="left">
-                  <Autocomplete
-                        id={row.id}
-                        options={listStatus}
-                        size="small"
-                        defaultValue={row.status}
-                        getOptionDisabled={(option) => option === row.Status}
-                        sx={{ width: 150 }}
-                        onChange={handleChangeStatus}
-                        renderInput={(params) => (
-                          <TextField {...params} label="Status" />
-                        )}
+                    {row.discount}%
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    <Autocomplete
+                      id={row.id}
+                      options={listStatus}
+                      size="small"
+                      defaultValue={row.status}
+                      getOptionDisabled={(option) => option === row.Status}
+                      sx={{ width: 150 }}
+                      onChange={handleChangeStatus}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Status" />
+                      )}
                     />
                   </StyledTableCell>{" "}
                 </StyledTableRow>
@@ -143,6 +173,17 @@ export const OrderTab = () => {
             </TableBody>
           </Table>
         </TableContainer>
+      )}
+      {!checkObjectEmpty(metaInOrderInAdmin) && (
+        <TablePagination
+          rowsPerPageOptions={[4, 8, 12, 16, 20]}
+          component="div"
+          count={metaInOrderInAdmin.paging.Count}
+          rowsPerPage={metaInOrderInAdmin.paging.PerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       )}
     </div>
   );

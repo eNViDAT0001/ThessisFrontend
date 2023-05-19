@@ -55,7 +55,18 @@ export const FixProductInBrand = () => {
   const width = useWidthInFix();
 
   const handleUpdateProduct = async (e) => {
-    if (checkValidFix(name, category_id, price, specification_name)) {
+    if (
+      checkValidFix(
+        name,
+        category_id,
+        price,
+        specification_name,
+        height,
+        length,
+        weight,
+        width
+      )
+    ) {
       const body = await convertBodyFixProduct(
         category_id,
         name,

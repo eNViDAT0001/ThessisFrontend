@@ -34,7 +34,11 @@ import {
   setWidthFix,
 } from "../slices/FixProductSlice";
 import { fetchListTreeCategoryInUpdateProduct } from "./CategoryHook";
-import { buildCategoryTree, checkObjectEmpty } from "./CommonHook";
+import {
+  buildCategoryTree,
+  checkObjectEmpty,
+  containsOnlyNumbers,
+} from "./CommonHook";
 import { setTreeCategoryInAddProduct } from "../slices/AddProductSlice";
 
 export const useProductInHome = () =>
@@ -577,7 +581,16 @@ export const updateProduct = async (productID, body) => {
   });
 };
 
-export const checkValidFix = (name, category_id, price, specification_name) => {
+export const checkValidFix = (
+  name,
+  category_id,
+  price,
+  specification_name,
+  height,
+  length,
+  weight,
+  width
+) => {
   if (name == "") {
     toast("Missing name", {
       type: "warning",
@@ -590,12 +603,31 @@ export const checkValidFix = (name, category_id, price, specification_name) => {
       autoClose: 1000,
     });
     return false;
-  } else if (price == "") {
+  } else if (price === "" || !containsOnlyNumbers(price)) {
     toast("Missing price", {
       type: "warning",
       autoClose: 1000,
     });
-    return false;
+  } else if (height === "" || !containsOnlyNumbers(height)) {
+    toast("Not valid height", {
+      type: "warning",
+      autoClose: 1000,
+    });
+  } else if (length === "" || !containsOnlyNumbers(length)) {
+    toast("Not valid length", {
+      type: "warning",
+      autoClose: 1000,
+    });
+  } else if (weight === "" || !containsOnlyNumbers(weight)) {
+    toast("Not valid weight", {
+      type: "warning",
+      autoClose: 1000,
+    });
+  } else if (width === "" || !containsOnlyNumbers(width)) {
+    toast("Not valid width", {
+      type: "warning",
+      autoClose: 1000,
+    });
   } else if (specification_name == "") {
     toast("Missing name specification", {
       type: "warning",

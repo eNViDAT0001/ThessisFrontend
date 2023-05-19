@@ -294,6 +294,18 @@ const initialState = {
       value: 1,
     },
   },
+
+  //bannerDetail
+  filterProductInBannerDetail: {
+    limit: {
+      type: null,
+      value: 12,
+    },
+    marker: {
+      type: null,
+      value: 1,
+    },
+  },
 };
 
 const querySlice = createSlice({
@@ -472,6 +484,14 @@ const querySlice = createSlice({
     setPageInFilterBannerTabAdmin: (state, action) => {
       state.filterBannerTabAdmin.marker.value = action.payload;
     },
+
+    //bannerDetail
+    setLimitInFilterProductInBannerDetail: (state, action) => {
+      state.filterProductInBannerDetail.limit.value = action.payload;
+    },
+    setPageInFilterProductInBannerDetail: (state, action) => {
+      state.filterProductInBannerDetail.marker.value = action.payload;
+    },
   },
 });
 
@@ -534,6 +554,9 @@ export const {
   setPageInFilterShopTabAdmin,
   setLimitInFilterBannerTabAdmin,
   setPageInFilterBannerTabAdmin,
+
+  setLimitInFilterProductInBannerDetail,
+  setPageInFilterProductInBannerDetail
 } = querySlice.actions;
 
 export default querySlice.reducer;

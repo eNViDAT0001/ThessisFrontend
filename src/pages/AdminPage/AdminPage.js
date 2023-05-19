@@ -10,7 +10,6 @@ import SearchIcon from "@mui/icons-material/Search";
 export const AdminPage = () => {
   const userDetail = useUserDetail();
 
-  
   return (
     <div className="flex flex-col font-['Josefin_Sans'] font-medium	 space-y-6">
       <div className=" flex flex-row px-6 py-2 space-x-6 items-end">
@@ -28,27 +27,6 @@ export const AdminPage = () => {
               <h1 className="text-[#8E8E93]">{userDetail.email}</h1>
             </div>
           </div>
-        </div>
-        <div>
-          <Paper
-            component="form"
-            sx={{
-              p: "2px 4px",
-              display: "flex",
-              alignItems: "center",
-              width: 400,
-            }}
-          >
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              placeholder="Search Here"
-              inputProps={{ "aria-label": "search google maps" }}
-            />
-            <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-              <SearchIcon />
-            </IconButton>
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-          </Paper>
         </div>
       </div>
 

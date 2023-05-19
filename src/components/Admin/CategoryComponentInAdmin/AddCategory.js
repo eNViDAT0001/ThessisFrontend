@@ -88,7 +88,7 @@ export const AddCategory = () => {
           </div>
 
           <div className="flex flex-row space-x-4 items-start">
-            <h1 className="font-semibold whitespace-nowrap ">
+            <h1 className="font-semibold whitespace-nowrap mt-2 ">
               Select category parent:
             </h1>
             <TreeCategoryInAddInAdmin data={categoryTree} idHandle={0} />

@@ -81,7 +81,7 @@ export const useFetchChat = (
       dispatch(setMarkerInFilterMessage(null));
       fetchData();
     }
-    alert(wsEvent);
+    //alert(wsEvent);
 
     if (wsEvent !== prevWSEvent.current) {
       const newEvent = JSON.parse(wsEvent);

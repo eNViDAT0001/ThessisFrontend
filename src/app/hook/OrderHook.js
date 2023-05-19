@@ -9,6 +9,7 @@ import {
   setListOrderInAdmin,
   setListOrderInProvider,
   setMetaInOrderInAccount,
+  setMetaInOrderInAdmin,
 } from "../slices/OrderSlice";
 import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
@@ -154,18 +155,23 @@ const fetchItemInOrderDetail = (orderID) => async (dispatch) => {
 //admin
 export const useListOrderInAdmin = () =>
   useSelector((state) => state.order.listOrderInAdmin);
+export const useMetaInOrderInAdmin = () =>
+  useSelector((state) => state.order.metaInOrderInAdmin);
+export const useFilterInOrderInAdmin = () =>
+  useSelector((state) => state.query.filterOrderTabAdmin);
 
-export const useFetchOrderInAdmin = async (userID) => {
+export const useFetchOrderInAdmin = async (userID, filter) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchAllOrder(userID));
-  }, [dispatch, userID]);
+    dispatch(fetchAllOrder(userID, filter));
+  }, [dispatch, userID, filter]);
 };
 
-const fetchAllOrder = (userID) => async (dispatch) => {
+const fetchAllOrder = (userID, filter) => async (dispatch) => {
   try {
-    const response = await OrderApi.GetFullOrder(userID);
+    const response = await OrderApi.GetFullOrder(userID, filter);
     dispatch(setListOrderInAdmin(response.data.data));
+    dispatch(setMetaInOrderInAdmin(response.data.meta));
   } catch (error) {
     console.log(error);
   }

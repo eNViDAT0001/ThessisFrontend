@@ -39,7 +39,7 @@ export const Notification = () => {
               key={notice.id}
               id={notice.id}
               className={`flex flex-row border-b items-center ${
-                notice.seen ? " bg-[#FFF0DC]" : "hover:bg-slate-200"
+                !notice.seen ? " bg-[#FFF0DC]" : "hover:bg-slate-200"
               } space-x-3 px-5`}
               onClick={handleSetSeenNotify}
             >

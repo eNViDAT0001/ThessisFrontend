@@ -132,5 +132,9 @@ export const getSelectedIds = (arr) => {
 };
 
 export const convertVNDToUSD = (price) => {
-  return (price * 0.0000426257).toFixed(1)
+  return (price * 0.0000426257).toFixed(1);
+};
+
+export const containsOnlyNumbers = (input) => {
+  return /^\d+$/.test(input);
 };

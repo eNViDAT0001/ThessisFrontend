@@ -9,6 +9,7 @@ import {
   setListProductInUpdateBanner,
   setListProductOutInUpdateBanner,
   setMetaInProductInAddBanner,
+  setMetaInProductInBannerDetail,
   setMetaInProductInUpdateBanner,
   setMetaInProductOutUpdateBanner,
   setProductInBannerDetail,
@@ -25,6 +26,10 @@ export const useBannerInAdmin = () =>
   useSelector((state) => state.banner.listBannerInAdmin);
 export const useProductInBannerDetail = () =>
   useSelector((state) => state.banner.productInBannerDetail);
+export const useMetaInProductInBannerDetail = () =>
+  useSelector((state) => state.banner.metaInProductInBannerDetail);
+export const useFilterProductInBannerDetail = () =>
+  useSelector((state) => state.query.filterProductInBannerDetail);
 export const useProductInAddBanner = () =>
   useSelector((state) => state.banner.listProductInAddBanner);
 export const useFilterInProductInAddBanner = () =>
@@ -46,13 +51,13 @@ export const useMetaInProductOutUpdateBanner = () =>
 export const useFilterOutUpdateBanner = () => {
   useSelector((state) => state.query.productOutUpdateBanner);
 };
-export const useFetchBannerDetail = async (bannerID) => {
+export const useFetchBannerDetail = async (bannerID, filter) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchBannerDetail(bannerID)).then(() =>
-      dispatch(fetchProductInBannerDetail(bannerID))
-    );
-  }, [dispatch, bannerID]);
+    dispatch(fetchBannerDetail(bannerID)).then(() => {
+      dispatch(fetchProductInBannerDetail(bannerID,filter));
+    });
+  }, [dispatch, bannerID,filter]);
 };
 
 export const fetchBannerDetail = (bannerID) => async (dispatch) => {
@@ -64,10 +69,11 @@ export const fetchBannerDetail = (bannerID) => async (dispatch) => {
   }
 };
 
-export const fetchProductInBannerDetail = (bannerID) => async (dispatch) => {
+export const fetchProductInBannerDetail = (bannerID,filter) => async (dispatch) => {
   try {
-    const response = await BannerApi.GetProductPreview(bannerID);
+    const response = await BannerApi.GetProductPreview(bannerID,filter);
     dispatch(setProductInBannerDetail(response.data.data));
+    dispatch(setMetaInProductInBannerDetail(response.data.meta))
   } catch (error) {
     console.log(error);
   }
