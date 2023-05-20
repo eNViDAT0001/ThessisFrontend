@@ -1,13 +1,6 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
 import { useDispatch } from "react-redux";
-import {
-  setCategoryID,
-  setDiscount,
-  setName,
-  setPrice,
-} from "../../../app/slices/AddProductSlice";
 import {
   useCategoryIdFix,
   useDiscountFix,
@@ -30,53 +23,20 @@ import {
   setWeightFix,
   setWidthFix,
 } from "../../../app/slices/FixProductSlice";
-const categoryArray = [
-  {
-    id: 1,
-    label: "Men's Fashion",
-  },
-  {
-    id: 15,
-    label: "Hat in Men's Fashion",
-  },
-  {
-    id: 16,
-    label: "Jean in Men's Fashion",
-  },
-  {
-    id: 2,
-    label: "WoMen's Fashion",
-  },
-  {
-    id: 17,
-    label: "T-Shirt in WoMen's Fashion",
-  },
-  {
-    id: 18,
-    label: "Hat in WoMen's Fashion",
-  },
-  {
-    id: 19,
-    label: "Jean in WoMen's Fashion",
-  },
-  {
-    id: 3,
-    label: "Accessories",
-  },
-];
+
 export const FixBasicInformation = () => {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const name = useNameFix();
-  const category_id = useCategoryIdFix();
-  const price = usePriceFix();
-  const discount = useDiscountFix();
-  const height = useHeightInFix()
-  const weight = useWeightInFix()
-  const length = useLengthInFix()
-  const width = useWidthInFix()
-  
+  const name = useNameFix() || "";
+  const category_id = useCategoryIdFix() || 0;
+  const price = usePriceFix() || 0;
+  const discount = useDiscountFix() || 0;
+  const height = useHeightInFix() || 0;
+  const weight = useWeightInFix() || 0;
+  const length = useLengthInFix() || 0;
+  const width = useWidthInFix() || 0;
+
   const handleInputName = (e) => {
     dispatch(setNameFix(e.target.value));
   };

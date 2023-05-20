@@ -75,13 +75,6 @@ export const HeaderUser = () => {
     setSearchText(event.target.value);
   };
 
-  function webSocketSupported() {
-    if ("WebSocket" in window) {
-      //alert("Có hỗ trợ đấy nhé");
-    } else {
-    }
-    return "WebSocket" in window;
-  }
   useEffect(() => {
     if (userID) {
       const accessToken = localStorage.getItem("AccessToken");
@@ -94,7 +87,7 @@ export const HeaderUser = () => {
       ws.onerror = (error) => {};
       ws.onclose = () => {};
     }
-  }, [userID]);
+  }, [userID, dispatch]);
   return (
     <div className="w-full bg-[#FFFFFF] flex justify-center border-b">
       <ul>

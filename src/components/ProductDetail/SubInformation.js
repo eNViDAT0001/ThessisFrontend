@@ -41,7 +41,6 @@ export const SubInformation = () => {
       seen: false,
       type: "TEXT",
     };
-
     dispatch(sendChat(body));
   };
   return (
@@ -63,6 +62,7 @@ export const SubInformation = () => {
               <ChatButton
                 variant="outlined"
                 size="small"
+                id={productDetail.user_id}
                 startIcon={<ChatIcon />}
                 onClick={handleChat}
               >

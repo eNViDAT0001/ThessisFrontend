@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Pagination } from "@mui/material";
 import { Link } from "react-router-dom";
 import { checkObjectEmpty, convertDate } from "../../../../app/hook/CommonHook";
@@ -6,17 +6,14 @@ import {
   useListBrand,
   useMetaInListBrand,
 } from "../../../../app/hook/BrandHook";
-import { setPageInFilterBrand } from "../../../../app/slices/QuerySlice";
+import {
+  setNameSearchInBrand,
+  setPageInFilterBrand,
+} from "../../../../app/slices/QuerySlice";
 import { useDispatch } from "react-redux";
-
-const VARIANT = {
-  contained: "contained",
-  outlined: "outlined",
-};
 
 export const ListViewBrand = () => {
   const dispatch = useDispatch();
-  const [variant, setVariant] = useState(VARIANT.contained);
 
   const metaInBrand = useMetaInListBrand();
 
@@ -25,17 +22,29 @@ export const ListViewBrand = () => {
   const handleChangePage = (e, value) => {
     dispatch(setPageInFilterBrand(value));
   };
+
+  const handleChangeSearch = (e) => {
+    dispatch(setNameSearchInBrand(e.target.value));
+  };
   return (
     <div className="px-5">
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-start space-x-5 items-center">
         <h1 className=" text-xl font-bold">List your brand: </h1>
+        <div className="relative">
+          <input
+            type="text"
+            className="w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Search your brand..."
+            onChange={handleChangeSearch}
+          />
+        </div>
       </div>
       <div className="my-10 pl-10 border flex flex-row ">
         {listBrand.length == 0 ? (
           <h1 className=" text-xl uppercase">you don't have a brand</h1>
         ) : (
           <div className="flex flex-row flex-wrap justify-start w-full">
-          {listBrand.map((data) => (
+            {listBrand.map((data) => (
               <Link
                 key={data.id}
                 to={`/brand-detail/${data.id}`}

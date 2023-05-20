@@ -20,7 +20,6 @@ export const AddBasicInformation = () => {
   const dispatch = useDispatch();
   const treeCategory = useTreeInAddProduct();
 
-
   const handleInputName = (e) => {
     dispatch(setName(e.target.value));
   };
@@ -79,7 +78,7 @@ export const AddBasicInformation = () => {
           label="Discount"
         />
       </div>
-      <div className="flex flex-row just  ify-between space-x-4 items-center">
+      <div className="flex flex-row  justify-between space-x-4 items-center">
         <h1 className="font-semibold">Height:</h1>
         <TextField
           sx={{ width: 0.75 }}

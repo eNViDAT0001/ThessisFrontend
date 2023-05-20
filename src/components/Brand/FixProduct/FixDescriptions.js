@@ -9,47 +9,6 @@ import { useDispatch } from "react-redux";
 import MDEditor from "@uiw/react-md-editor";
 import { cloneDeep } from "lodash";
 import { setDescriptionsFix } from "../../../app/slices/FixProductSlice";
-import TabContext from "@mui/lab/TabContext";
-import TabPanel from "@mui/lab/TabPanel";
-import { Description } from "../../ProductDetail/Description/Description";
-import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-
-const StyledTabs = styled((props) => (
-  <Tabs
-    {...props}
-    TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
-  />
-))({
-  "& .MuiTabs-indicator": {
-    display: "flex",
-    justifyContent: "center",
-    backgroundColor: "transparent",
-  },
-  "& .MuiTabs-indicatorSpan": {
-    maxWidth: 100,
-    width: "100%",
-    backgroundColor: "#151875",
-  },
-});
-
-const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
-  ({ theme }) => ({
-    textTransform: "none",
-    fontWeight: theme.typography.fontWeightRegular,
-    fontSize: theme.typography.pxToRem(20),
-    marginRight: theme.spacing(1),
-    color: "#151875",
-    "&.Mui-selected": {
-      color: "#151875",
-    },
-    "&.Mui-focusVisible": {
-      backgroundColor: "rgba(100, 95, 228, 0.32)",
-    },
-  })
-);
 
 const DescriptionToFix = React.memo(
   ({ data, onChangeName, onChangeMarkdown }) => {
@@ -97,7 +56,6 @@ const DescriptionToFix = React.memo(
 export const FixDescriptions = () => {
   const dispatch = useDispatch();
   const descriptions = useDescriptionsFix();
-  const listDescriptionOld = useDescriptionOld() || [];
 
   const addDescription = useCallback(() => {
     const newOption = {
@@ -132,11 +90,7 @@ export const FixDescriptions = () => {
     },
     [descriptions, dispatch]
   );
-  const [title, setTitle] = useState();
 
-  const handleChange = (e, newValue) => {
-    setTitle(newValue);
-  };
   return (
     <div className="space-y-6">
       <div className="p-10 border rounded-2xl space-y-6">
@@ -162,41 +116,6 @@ export const FixDescriptions = () => {
               />
             ))}
           </div>
-        </div>
-      </div>
-      <div className=" space-x-5 border rounded-lg">
-        <h1 className="font-semibold my-5">Description in product :</h1>
-
-        <div>
-          {listDescriptionOld.length !== 0 && (
-            <div className="p-10 border rounded-2xl space-y-6">
-              <TabContext value={title || listDescriptionOld[0].name}>
-                <Box sx={{ width: "100%" }}>
-                  <Box sx={{ bgcolor: "#FFFFFF" }}>
-                    <StyledTabs
-                      value={title || listDescriptionOld[0].name}
-                      onChange={handleChange}
-                      aria-label="styled tabs example"
-                    >
-                      {listDescriptionOld.map((data) => (
-                        <StyledTab
-                          key={data.id}
-                          label={data.name}
-                          value={data.name}
-                        />
-                      ))}
-                    </StyledTabs>
-                    <Box sx={{ p: 3 }} />
-                  </Box>
-                </Box>
-                {listDescriptionOld.map((data) => (
-                  <TabPanel key={data.id} value={data.name}>
-                    <Description description={data} />
-                  </TabPanel>
-                ))}
-              </TabContext>
-            </div>
-          )}
         </div>
       </div>
     </div>

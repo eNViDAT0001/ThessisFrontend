@@ -16,13 +16,16 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import {
   checkValidFix,
   convertBodyFixProduct,
+  deleteElement,
   updateProduct,
   useCategoryIdFix,
   useDescriptionOld,
   useDescriptionsFix,
+  useDescriptionsIds,
   useDiscountFix,
   useFetchProductDetailToFix,
   useHeightInFix,
+  useImagesIds,
   useLengthInFix,
   useListMediaOld,
   useMediaFix,
@@ -33,13 +36,16 @@ import {
   useWeightInFix,
   useWidthInFix,
 } from "../../../app/hook/ProductHook";
+import { useDispatch } from "react-redux";
+import { useUserID } from "../../../app/hook/UserHook";
 
 export const FixProductInBrand = () => {
   const { id } = useParams();
-
+  const dispatch = useDispatch();
   useFetchProductDetailToFix(id);
 
   const name = useNameFix();
+  const userID = useUserID();
   const category_id = useCategoryIdFix();
   const price = usePriceFix();
   const discount = useDiscountFix();
@@ -53,6 +59,8 @@ export const FixProductInBrand = () => {
   const weight = useWeightInFix();
   const length = useLengthInFix();
   const width = useWidthInFix();
+  const descriptions_ids = useDescriptionsIds();
+  const images_ids = useImagesIds();
 
   const handleUpdateProduct = async (e) => {
     if (
@@ -67,23 +75,31 @@ export const FixProductInBrand = () => {
         width
       )
     ) {
-      const body = await convertBodyFixProduct(
-        category_id,
-        name,
-        discount,
-        price,
-        media,
-        specification_name,
-        options,
-        descriptions,
-        height,
-        length,
-        weight,
-        width,
-        listMediaOld,
-        descriptionOld
+      const body = await dispatch(
+        convertBodyFixProduct(
+          category_id,
+          name,
+          discount,
+          price,
+          media,
+          specification_name,
+          options,
+          descriptions,
+          height,
+          length,
+          weight,
+          width,
+          listMediaOld,
+          descriptionOld
+        )
       );
-      updateProduct(id, body);
+      const bodyDelete = {
+        descriptions_ids: descriptions_ids,
+        images_ids: images_ids,
+      };
+      deleteElement(id, userID, bodyDelete).then(() => {
+        updateProduct(id, body);
+      });
     }
   };
 

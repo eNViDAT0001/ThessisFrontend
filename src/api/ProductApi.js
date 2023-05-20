@@ -63,7 +63,7 @@ export const ProductApi = {
   //for add product
   AddNewProduct: (idProvider, idUser, body) => {
     const url = `/products/provider/${idProvider}/user/${idUser}`;
-    console.log(body)
+    console.log(body);
     return axiosClient.post(url, body);
   },
   AddSpecificationTreeInProduct: (idProduct, body) => {
@@ -72,7 +72,7 @@ export const ProductApi = {
   },
   UpdateProduct: (productID, body) => {
     const url = `/products/${productID}`;
-    return axiosClient.patch(url,body);
+    return axiosClient.patch(url, body);
   },
   DeleteProduct: (idProduct) => {
     const url = `/products/${idProduct}`;
@@ -80,6 +80,10 @@ export const ProductApi = {
   },
   DeleteListProduct: (providerID, body) => {
     const url = `/products/provider/${providerID}`;
+    return axiosClient.delete(url, { data: body });
+  },
+  DeleteElementInProduct: (productID, userID, body) => {
+    const url = `/products/${productID}/user/${userID}/elements`;
     return axiosClient.delete(url, { data: body });
   },
 };

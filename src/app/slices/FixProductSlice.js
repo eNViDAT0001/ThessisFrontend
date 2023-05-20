@@ -28,6 +28,9 @@ const initialState = {
   width: 0,
   listMediaOld: [],
   descriptionOld: [],
+
+  descriptions_ids: [],
+  images_ids: [],
 };
 
 const FixProductSlice = createSlice({
@@ -82,6 +85,18 @@ const FixProductSlice = createSlice({
     setDescriptionOld: (state, action) => {
       state.descriptionOld = action.payload;
     },
+    setDescriptionsIds: (state, action) => {
+      state.descriptions_ids = action.payload;
+    },
+    addDescriptionsIds: (state, action) => {
+      state.descriptions_ids.push(action.payload);
+    },
+    setImagesIds: (state, action) => {
+      state.images_ids = action.payload;
+    },
+    addImagesIds: (state, action) => {
+      state.images_ids.push(action.payload);
+    },
   },
 });
 
@@ -105,5 +120,10 @@ export const {
 
   setListMediaOld,
   setDescriptionOld,
+
+  setDescriptionsIds,
+  addDescriptionsIds,
+  setImagesIds,
+  addImagesIds,
 } = FixProductSlice.actions;
 export default FixProductSlice.reducer;

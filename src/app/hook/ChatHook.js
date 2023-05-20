@@ -36,23 +36,30 @@ export const useMetaInListChannel = () =>
 export const useFetchChat = (
   userID,
   filterChannel,
-  user2ID,
   filterMessage,
   wsEvent,
   handleChannel
 ) => {
   const dispatch = useDispatch();
   const prevFilterMessage = useRef(filterMessage);
-  const prevUser2ID = useRef(user2ID);
   const prevWSEvent = useRef(wsEvent);
+  const prevUserID = useRef(userID);
+  const prevHandleChannel = useRef(handleChannel);
 
   const fetchData = useCallback(async () => {
     try {
-      if (!user2ID) {
+      if (!handleChannel.to_user_id) {
         await dispatch(fetchListChannel(userID, filterChannel));
       } else {
         await dispatch(
-          fetchListMessage(userID, user2ID, filterMessage, handleChannel)
+          fetchListMessage(
+            userID,
+            handleChannel.to_user_id === userID
+              ? handleChannel.from_user_id
+              : userID,
+            filterMessage,
+            handleChannel
+          )
         );
       }
     } catch (err) {
@@ -63,36 +70,49 @@ export const useFetchChat = (
   useEffect(() => {
     const fetchMessageMerge = async () => {
       try {
-        //alert("filter")
         await dispatch(
-          fetchListMessageMerge(userID, user2ID, filterMessage, handleChannel)
+          fetchListMessageMerge(
+            userID,
+            handleChannel.to_user_id === userID
+              ? handleChannel.from_user_id
+              : userID,
+            filterMessage,
+            handleChannel
+          )
         );
-      } catch (err) {
-        // Handle errors here
-      }
+      } catch (err) {}
     };
 
     if (filterMessage !== prevFilterMessage.current) {
       fetchMessageMerge();
     }
 
-    if (user2ID !== prevUser2ID.current) {
+    if (handleChannel !== prevHandleChannel.current) {
       dispatch(setListMessage([]));
       dispatch(setMarkerInFilterMessage(null));
       fetchData();
     }
-    //alert(wsEvent);
 
     if (wsEvent !== prevWSEvent.current) {
       const newEvent = JSON.parse(wsEvent);
-      if (newEvent.type == "ChatNewMessage") {
-        beSentChat(newEvent.payload, handleChannel);
+      if (newEvent.type === "ChatNewMessage") {
+        const payload = newEvent.payload;
+        const body = {
+          chat_room_id: payload.chat_room_id,
+          from_user_id: payload.from_user_id,
+          content: payload.content,
+          to_user_id: payload.to_user_id,
+          seen: false,
+          type: "TEXT",
+        };
+        beSentChat(body, handleChannel);
       }
     }
     prevFilterMessage.current = filterMessage;
-    prevUser2ID.current = user2ID;
+    prevHandleChannel.current = handleChannel;
     prevWSEvent.current = wsEvent;
-  }, [dispatch, userID, user2ID, filterChannel, handleChannel, filterMessage]);
+    prevUserID.current = userID;
+  }, [dispatch, userID, filterChannel, handleChannel, filterMessage, wsEvent]);
 
   useEffect(() => {
     fetchData(); // Call fetchData when the component is mounted
@@ -182,7 +202,6 @@ export const sendChat = (body) => async (dispatch) => {
         position: "right",
         type: "text",
         text: response.content,
-        title: userDetail.name,
         avatar: userDetail.avatar,
       };
       dispatch(addMessageSuccess(transformedData));

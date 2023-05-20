@@ -138,3 +138,10 @@ export const convertVNDToUSD = (price) => {
 export const containsOnlyNumbers = (input) => {
   return /^\d+$/.test(input);
 };
+
+export const truncateString = (str, maxLength) => {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substr(0, maxLength) + "...";
+};

@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import axios from "axios";
 import { setListBanner } from "../slices/BannerSlice";
 import { setCategoryRoot } from "../slices/CategorySlice";
 import { toast } from "react-toastify";
@@ -22,6 +22,7 @@ import { uploadFileNotNotify } from "./FileHook";
 import {
   setCategoryIDFix,
   setDataOptionFix,
+  setDescriptionsFix,
   setDescriptionOld,
   setDiscountFix,
   setHeightFix,
@@ -32,6 +33,7 @@ import {
   setSpecificationNameFix,
   setWeightFix,
   setWidthFix,
+  addDescriptionsIds,
 } from "../slices/FixProductSlice";
 import { fetchListTreeCategoryInUpdateProduct } from "./CategoryHook";
 import {
@@ -255,7 +257,6 @@ const changeDescriptionToBody = async (descriptions) => {
         const fileText = new File([data.description_md], "filename.txt", {
           type: "text/plain",
         });
-
         formData.append("files", fileText);
         const res = await uploadFileNotNotify(formData);
         const newRes = {
@@ -266,67 +267,6 @@ const changeDescriptionToBody = async (descriptions) => {
         result.push(newRes);
       })
     );
-  }
-  return result;
-};
-
-export const convertBodyFixProduct = async (
-  category_id,
-  name,
-  discount,
-  price,
-  media,
-  specification_name,
-  options,
-  descriptions,
-  height,
-  length,
-  weight,
-  width,
-  listMediaOld,
-  descriptionOld
-) => {
-  const body = {
-    category_id: parseInt(category_id),
-    name: name,
-    discount: parseInt(discount),
-    price: price,
-    specification: {
-      properties: specification_name,
-    },
-    options: options,
-    height: parseInt(height),
-    length: parseInt(length),
-    weight: parseInt(weight),
-    width: parseInt(width),
-  };
-  if (media.length !== 0) {
-    body.media = mergeMediaToFix(media, listMediaOld);
-  }
-  await changeDescriptionToBody(descriptions).then((res) => {
-    body.descriptions = mergeDescriptionToFix(res, descriptionOld);
-  });
-  return body;
-};
-
-const mergeDescriptionToFix = (descriptionNew, descriptionOld) => {
-  const result = [];
-  const smallIndex =
-    descriptionNew.length <= descriptionOld.length
-      ? descriptionNew.length
-      : descriptionNew.length;
-
-  for (let i = 0; i < smallIndex; i++) {
-    console.log("i", i);
-    const newObject = {
-      id: descriptionOld[i].id,
-      description: {
-        name: descriptionNew[i].name,
-        public_id: descriptionNew[i].public_id,
-        descriptions_path: descriptionNew[i].path,
-      },
-    };
-    result.push(newObject);
   }
   return result;
 };
@@ -492,6 +432,11 @@ export const useListMediaOld = () =>
   useSelector((state) => state.fixProduct.listMediaOld);
 export const useDescriptionOld = () =>
   useSelector((state) => state.fixProduct.descriptionOld);
+export const useDescriptionsIds = () =>
+  useSelector((state) => state.fixProduct.descriptions_ids);
+export const useImagesIds = () =>
+  useSelector((state) => state.fixProduct.images_ids);
+
 export const useFetchProductDetailToFix = (productID) => {
   const dispatch = useDispatch();
 
@@ -524,8 +469,27 @@ export const fetchProductDescriptionForUpdate =
   (productID) => async (dispatch) => {
     try {
       const res = await ProductApi.GetDescriptionFromProduct(productID);
+      const dataDescription = await Promise.all(
+        res.data.data.map(async (data) => {
+          const description_md = await axios
+            .get(data.descriptions_path)
+            .then((res) => res.data);
+          return {
+            ...data,
+            description_md,
+          };
+        })
+      );
+
+      const resultNew = dataDescription.map((data, i) => ({
+        id: i,
+        description_name: data.name,
+        description_md: data.description_md,
+      }));
+
       if (res) {
-        dispatch(setDescriptionOld(res.data.data));
+        dispatch(setDescriptionsFix(resultNew));
+        dispatch(setDescriptionOld(dataDescription));
       }
     } catch (err) {}
   };
@@ -637,4 +601,100 @@ export const checkValidFix = (
   } else {
     return true;
   }
+};
+export const convertBodyFixProduct =
+  (
+    category_id,
+    name,
+    discount,
+    price,
+    media,
+    specification_name,
+    options,
+    descriptions,
+    height,
+    length,
+    weight,
+    width,
+    listMediaOld,
+    descriptionOld
+  ) =>
+  async (dispatch) => {
+    const body = {
+      category_id: parseInt(category_id),
+      name: name,
+      discount: parseInt(discount),
+      price: price,
+      specification: {
+        properties: specification_name,
+      },
+      options: options,
+      height: parseInt(height),
+      length: parseInt(length),
+      weight: parseInt(weight),
+      width: parseInt(width),
+    };
+    if (media.length !== 0) {
+      body.media = mergeMediaToFix(media, listMediaOld);
+    }
+    await changeDescriptionToBody(descriptions).then((res) => {
+      body.descriptions = dispatch(mergeDescriptionToFix(res, descriptionOld));
+    });
+    return body;
+  };
+
+const mergeDescriptionToFix =
+  (descriptionNew, descriptionOld) => (dispatch) => {
+    const result = [];
+    if (descriptionNew.length >= descriptionOld.length) {
+      for (let i = 0; i < descriptionOld.length; i++) {
+        const newObject = {
+          id: descriptionOld[i].id,
+          description: {
+            name: descriptionNew[i].name,
+            public_id: descriptionNew[i].public_id,
+            descriptions_path: descriptionNew[i].path,
+          },
+        };
+        result.push(newObject);
+      }
+      for (let i = descriptionOld.length; i < descriptionNew.length; i++) {
+        const newObject = {
+          description: {
+            name: descriptionNew[i].name,
+            public_id: descriptionNew[i].public_id,
+            descriptions_path: descriptionNew[i].path,
+          },
+        };
+        result.push(newObject);
+      }
+    } else {
+      for (let i = 0; i < descriptionNew.length; i++) {
+        const newObject = {
+          id: descriptionOld[i].id,
+          description: {
+            name: descriptionNew[i].name,
+            public_id: descriptionNew[i].public_id,
+            descriptions_path: descriptionNew[i].path,
+          },
+        };
+        result.push(newObject);
+      }
+      for (let i = descriptionNew.length; i < descriptionOld.length; i++) {
+        dispatch(addDescriptionsIds(descriptionOld[i].id));
+      }
+    }
+    return result;
+  };
+
+export const deleteElement = async (productID, userID, body) => {
+  try {
+    await ProductApi.DeleteElementInProduct(productID, userID, body)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } catch (err) {}
 };

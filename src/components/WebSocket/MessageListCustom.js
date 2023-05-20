@@ -13,8 +13,20 @@ export const MessageListCustom = () => {
               message.position === "left" ? "flex-row" : "flex-row-reverse "
             }`}
           >
-            <img src={message.avatar} alt="avatar" className="w-[30px] h-[30px] rounded-full"></img>
-            <div className={` border max-w-[60%] rounded-xl px-3 py-1 ${message.position === "right" && "bg-[#0084FF] text-white"}` }>
+            <img
+              src={
+                message.avatar
+                  ? message.avatar
+                  : "https://cdn-icons-png.flaticon.com/512/61/61205.png"
+              }
+              alt="avatar"
+              className="w-[30px] h-[30px] rounded-full"
+            ></img>
+            <div
+              className={` border max-w-[60%] rounded-xl px-3 py-1 ${
+                message.position === "right" && "bg-[#0084FF] text-white"
+              }`}
+            >
               <h1 className=" ">{message.text}</h1>
             </div>
           </div>

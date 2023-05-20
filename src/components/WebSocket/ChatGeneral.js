@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Divider } from "@mui/material";
 import { MessageListComponent } from "./MessageListComponent";
 import SpeakerNotesOffIcon from "@mui/icons-material/SpeakerNotesOff";
-import { useFetchChat, useFilterChannel, useFilterMessage, useHandleChannel } from "../../app/hook/ChatHook";
+import {
+  useFetchChat,
+  useFilterChannel,
+  useFilterMessage,
+  useHandleChannel,
+} from "../../app/hook/ChatHook";
 import { useUserID } from "../../app/hook/UserHook";
 import { useSelector } from "react-redux";
 import { ListChannel } from "./ListChannel";
@@ -12,10 +17,16 @@ export const ChatGeneral = () => {
   const userID = useUserID();
   const handleChannel = useHandleChannel();
   const filterChannel = useFilterChannel();
-  const filterMessage = useFilterMessage()
+  const filterMessage = useFilterMessage();
   const wsEvent = useSelector((state) => state.webSocket.WSEvent);
-
-  useFetchChat(userID, convertObjectToStringQuery(filterChannel), handleChannel.to_user_id, convertObjectToStringQuery(filterMessage), wsEvent, handleChannel);
+  
+  useFetchChat(
+    userID,
+    convertObjectToStringQuery(filterChannel),
+    convertObjectToStringQuery(filterMessage),
+    wsEvent,
+    handleChannel
+  );
   return (
     <div className="flex flex-row justify-between bg-white border space-x-2">
       <div className="py-5 flex flex-1 overflow-y-scroll w-[45%] max-w-[250px]">
