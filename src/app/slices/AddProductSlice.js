@@ -9,24 +9,25 @@ const initialState = {
   specification_name: "",
   options: [
     {
-        id: 0,
-        name: "",
-        price: 0,
-        quantity: 0,
-    }
+      id: 0,
+      name: "",
+      price: 0,
+      quantity: 0,
+    },
   ],
-  descriptions:[
+  descriptions: [
     {
       id: 0,
-      description_name:"",
-      description_md: ""
-    }
+      description_name: "",
+      description_md: "",
+    },
   ],
-  treeCategoryInAddProduct:[],
+  treeCategoryInAddProduct: [],
   height: 0,
   weight: 0,
   length: 0,
   width: 0,
+  short_descriptions: "",
 };
 
 const AddProductSlice = createSlice({
@@ -59,11 +60,11 @@ const AddProductSlice = createSlice({
     setDataOption: (state, action) => {
       state.options = action.payload;
     },
-    setDescriptions:(state, action) => {
+    setDescriptions: (state, action) => {
       state.descriptions = action.payload;
     },
-    setTreeCategoryInAddProduct: (state,action) =>{
-      state.treeCategoryInAddProduct = action.payload
+    setTreeCategoryInAddProduct: (state, action) => {
+      state.treeCategoryInAddProduct = action.payload;
     },
     setHeight: (state, action) => {
       state.height = action.payload;
@@ -71,12 +72,15 @@ const AddProductSlice = createSlice({
     setWeight: (state, action) => {
       state.weight = action.payload;
     },
-    setLength:(state, action) => {
+    setLength: (state, action) => {
       state.length = action.payload;
     },
-    setWidth: (state,action) =>{
-      state.width = action.payload
-    }
+    setWidth: (state, action) => {
+      state.width = action.payload;
+    },
+    setShortDescriptions: (state, action) => {
+      state.short_descriptions = action.payload;
+    },
   },
 });
 
@@ -98,6 +102,7 @@ export const {
   setHeight,
   setWeight,
   setLength,
-  setWidth
+  setWidth,
+  setShortDescriptions,
 } = AddProductSlice.actions;
 export default AddProductSlice.reducer;

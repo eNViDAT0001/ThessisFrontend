@@ -28,7 +28,7 @@ const initialState = {
   width: 0,
   listMediaOld: [],
   descriptionOld: [],
-
+  short_descriptions:"",
   descriptions_ids: [],
   images_ids: [],
 };
@@ -97,6 +97,9 @@ const FixProductSlice = createSlice({
     addImagesIds: (state, action) => {
       state.images_ids.push(action.payload);
     },
+    setShortDescriptionsFix:(state,action) =>{
+      state.short_descriptions = action.payload
+    }
   },
 });
 
@@ -125,5 +128,7 @@ export const {
   addDescriptionsIds,
   setImagesIds,
   addImagesIds,
+
+  setShortDescriptionsFix
 } = FixProductSlice.actions;
 export default FixProductSlice.reducer;

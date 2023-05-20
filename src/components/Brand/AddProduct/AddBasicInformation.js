@@ -7,6 +7,7 @@ import {
   setLength,
   setName,
   setPrice,
+  setShortDescriptions,
   setWeight,
   setWidth,
 } from "../../../app/slices/AddProductSlice";
@@ -30,7 +31,7 @@ export const AddBasicInformation = () => {
     dispatch(setDiscount(parseInt(e.target.value)));
   };
   const handleInputHeight = (e) => {
-    dispatch(setHeight(e.target.value));
+    dispatch(setHeight(parseInt(e.target.value)));
   };
   const handleInputLength = (e) => {
     dispatch(setLength(parseInt(e.target.value)));
@@ -41,6 +42,10 @@ export const AddBasicInformation = () => {
   const handleInputWidth = (e) => {
     dispatch(setWidth(parseInt(e.target.value)));
   };
+  const handleInputShortDescriptions = (e) =>{
+    dispatch(setShortDescriptions(e.target.value))
+  }
+  
   useFetchCategoryInAddProduct();
   return (
     <div className="p-10 border rounded-2xl space-y-6">
@@ -76,6 +81,17 @@ export const AddBasicInformation = () => {
           defaultValue="0"
           onChange={handleInputDiscount}
           label="Discount"
+        />
+      </div>
+      <div className="flex flex-row justify-between space-x-4 items-center">
+        <h1 className="font-semibold">Short Descriptions:</h1>
+        <TextField
+          sx={{ width: 0.75 }}
+          size="small"
+          id="outlined-required"
+          defaultValue="0"
+          onChange={handleInputShortDescriptions}
+          label="Short Descriptions"
         />
       </div>
       <div className="flex flex-row  justify-between space-x-4 items-center">

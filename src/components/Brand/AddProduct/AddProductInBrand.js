@@ -25,6 +25,7 @@ import {
   useName,
   useOptions,
   usePrice,
+  useShortDescriptionsAdd,
   useSpecificationName,
   useWeightInAdd,
   useWidthInAdd,
@@ -47,12 +48,15 @@ export const AddProductInBrand = () => {
   const length = useLengthInAdd();
   const weight = useWeightInAdd();
   const width = useWidthInAdd();
+  const short_descriptions = useShortDescriptionsAdd()
+
   const addNewProduct = async (e) => {
     if (checkValidAdd(name, category_id, price, specification_name, media)) {
       const body = await convertBodyAddProduct(
         category_id,
         name,
         discount,
+        short_descriptions,
         price,
         media,
         specification_name,

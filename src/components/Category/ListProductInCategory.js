@@ -19,9 +19,11 @@ export const ListProductInCategory = () => {
       ) : (
         <div>
           {listProduct.map((data) => (
-            <Link 
-            key={data.id}
-            to={`/product/${data.id}`} className="w-full my-5 p-4">
+            <Link
+              key={data.id}
+              to={`/product/${data.id}`}
+              className="w-full my-5 p-4"
+            >
               <div className="flex flex-row">
                 <img
                   src={data.media ? data.media[0].mediaPath : imageNotAvailable}
@@ -53,10 +55,7 @@ export const ListProductInCategory = () => {
                       }
                     />
                   </div>
-                  <h1 className="text-[#9295AA]">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Magna in est adipiscing in phasellus non in justo.
-                  </h1>
+                  <h1 className="text-[#9295AA]">{data.short_descriptions}</h1>
                 </div>
               </div>
             </Link>

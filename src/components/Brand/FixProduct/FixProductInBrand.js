@@ -32,12 +32,14 @@ import {
   useNameFix,
   useOptionsFix,
   usePriceFix,
+  useShortDescriptionsFix,
   useSpecificationNameFix,
   useWeightInFix,
   useWidthInFix,
 } from "../../../app/hook/ProductHook";
 import { useDispatch } from "react-redux";
 import { useUserID } from "../../../app/hook/UserHook";
+import { getSelectedIds } from "../../../app/hook/CommonHook";
 
 export const FixProductInBrand = () => {
   const { id } = useParams();
@@ -60,7 +62,7 @@ export const FixProductInBrand = () => {
   const length = useLengthInFix();
   const width = useWidthInFix();
   const descriptions_ids = useDescriptionsIds();
-  const images_ids = useImagesIds();
+  const short_descriptions = useShortDescriptionsFix()
 
   const handleUpdateProduct = async (e) => {
     if (
@@ -79,6 +81,7 @@ export const FixProductInBrand = () => {
         category_id,
         name,
         discount,
+        short_descriptions,
         price,
         media,
         specification_name,
@@ -93,7 +96,12 @@ export const FixProductInBrand = () => {
         dispatch
       );
       if (body) {
-        await deleteElement(id, userID, descriptions_ids, images_ids);
+        await deleteElement(
+          id,
+          userID,
+          descriptions_ids,
+          getSelectedIds(listMediaOld)
+        );
         updateProduct(id, body);
       }
     }

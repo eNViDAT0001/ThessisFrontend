@@ -31,6 +31,7 @@ import {
   setNameFix,
   setPriceFix,
   setSpecificationNameFix,
+  setShortDescriptionsFix,
   setWeightFix,
   setWidthFix,
   addDescriptionsIds,
@@ -215,6 +216,9 @@ export const useLengthInAdd = () =>
   useSelector((state) => state.addProduct.length);
 export const useWidthInAdd = () =>
   useSelector((state) => state.addProduct.width);
+export const useShortDescriptionsAdd = () =>
+  useSelector((state) => state.addProduct.short_descriptions);
+
 export const convertMediaToBody = (media) => {
   const listMedia = [];
   media.map((data) => {
@@ -273,36 +277,43 @@ const changeDescriptionToBody = async (descriptions) => {
 
 const mergeMediaToFix = (media, listMediaOld) => {
   const result = [];
-
-  const smallIndex =
-    media.length < listMediaOld.length ? media.length : listMediaOld.length;
-
-  for (let i = 0; i < smallIndex; i++) {
+  for (let i = 0; i < listMediaOld.length; i++) {
     const newObject = {
       id: listMediaOld[i].id,
-      media_path: media[i].url,
+      media_path: listMediaOld[i].media_path,
     };
-
     result.push(newObject);
   }
 
+  for (let i = 0; i < media.length; i++) {
+    const newObject = {
+      media_path: media[i].url,
+    };
+    result.push(newObject);
+  }
   return result;
 };
 export const convertBodyAddProduct = async (
   category_id,
   name,
   discount,
+  short_descriptions,
   price,
   media,
   specification_name,
   options,
-  descriptions
+  descriptions,
+  height,
+  length,
+  weight,
+  width
 ) => {
   const descriptionBody = await changeDescriptionToBody(descriptions);
   const body = {
     category_id: parseInt(category_id),
     name: name,
     discount: discount,
+    short_descriptions: short_descriptions,
     price: price,
     media: convertMediaToBody(media),
     specification: {
@@ -310,6 +321,10 @@ export const convertBodyAddProduct = async (
     },
     options: options,
     descriptions: descriptionBody,
+    height: height,
+    length: length,
+    weight: weight,
+    width: width,
   };
   return body;
 };
@@ -319,7 +334,7 @@ export const addProduct = async (idProvider, userID, body) => {
       type: "success",
       autoClose: 1000,
       onClose: setTimeout(() => {
-        window.location.reload();
+        window.location.replace("/");
       }, 2000),
     });
   });
@@ -436,6 +451,8 @@ export const useDescriptionsIds = () =>
   useSelector((state) => state.fixProduct.descriptions_ids);
 export const useImagesIds = () =>
   useSelector((state) => state.fixProduct.images_ids);
+export const useShortDescriptionsFix = () =>
+  useSelector((state) => state.fixProduct.short_descriptions);
 
 export const useFetchProductDetailToFix = (productID) => {
   const dispatch = useDispatch();
@@ -498,10 +515,43 @@ export const fetchProductMediaForUpdate = (productID) => async (dispatch) => {
   try {
     const res = await ProductApi.GetMedia(productID);
     if (res) {
-      dispatch(setListMediaOld(res.data.data));
+      const listMedia =
+        res.data.data &&
+        res.data.data.map((data) => {
+          return { ...data, isSelected: false };
+        });
+      dispatch(setListMediaOld(listMedia));
     }
   } catch (err) {}
 };
+
+export const selectMedia = (arr, mediaID) => {
+  if (!Array.isArray(arr)) return [];
+  return arr.map((media) => {
+    if (media.id === mediaID) {
+      return {
+        ...media,
+        isSelected: !media.isSelected,
+      };
+    }
+    return media;
+  });
+};
+
+export const changeImageInMedia = (arr, mediaID, resMedia) => {
+  if (!Array.isArray(arr)) return [];
+  return arr.map((media) => {
+    if (media.id == mediaID) {
+      return {
+        ...media,
+        public_id: resMedia.public_id,
+        media_path: resMedia.url,
+      };
+    }
+    return media;
+  });
+};
+
 export const fetchSpecificationInProductUpdate =
   (productID) => async (dispatch) => {
     try {
@@ -529,6 +579,7 @@ export const fetchProductDetailForUpdate = (productID) => async (dispatch) => {
       dispatch(setWeightFix(res.data.data.weight));
       dispatch(setLengthFix(res.data.data.length));
       dispatch(setWidthFix(res.data.data.width));
+      dispatch(setShortDescriptionsFix(res.data.data.short_descriptions));
     }
   } catch (err) {}
 };
@@ -607,6 +658,7 @@ export const convertBodyFixProduct = async (
   category_id,
   name,
   discount,
+  short_descriptions,
   price,
   media,
   specification_name,
@@ -624,19 +676,18 @@ export const convertBodyFixProduct = async (
     category_id: parseInt(category_id),
     name: name,
     discount: parseInt(discount),
+    short_descriptions: short_descriptions,
     price: price,
     specification: {
       properties: specification_name,
     },
+    media: mergeMediaToFix(media, listMediaOld),
     options: options,
     height: parseInt(height),
     length: parseInt(length),
     weight: parseInt(weight),
     width: parseInt(width),
   };
-  if (media.length !== 0) {
-    body.media = mergeMediaToFix(media, listMediaOld);
-  }
   await changeDescriptionToBody(descriptions).then((res) => {
     body.descriptions = mergeDescriptionToFix(res, descriptionOld, dispatch);
   });

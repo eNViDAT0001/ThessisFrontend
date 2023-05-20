@@ -8,6 +8,7 @@ import {
   useLengthInFix,
   useNameFix,
   usePriceFix,
+  useShortDescriptionsFix,
   useWeightInFix,
   useWidthInFix,
 } from "../../../app/hook/ProductHook";
@@ -20,6 +21,7 @@ import {
   setLengthFix,
   setNameFix,
   setPriceFix,
+  setShortDescriptionsFix,
   setWeightFix,
   setWidthFix,
 } from "../../../app/slices/FixProductSlice";
@@ -36,7 +38,7 @@ export const FixBasicInformation = () => {
   const weight = useWeightInFix() || 0;
   const length = useLengthInFix() || 0;
   const width = useWidthInFix() || 0;
-
+  const short_descriptions = useShortDescriptionsFix() || "";
   const handleInputName = (e) => {
     dispatch(setNameFix(e.target.value));
   };
@@ -58,7 +60,9 @@ export const FixBasicInformation = () => {
   const handleInputWidth = (e) => {
     dispatch(setWidthFix(e.target.value));
   };
-
+  const handleInputShortDescriptions = (e) => {
+    dispatch(setShortDescriptionsFix(e.target.value));
+  };
   useEffect(() => {
     if (name && category_id && discount && price) {
       setIsLoaded(true);
@@ -102,6 +106,17 @@ export const FixBasicInformation = () => {
               defaultValue={discount}
               onChange={handleInputDiscount}
               label="Discount"
+            />
+          </div>
+          <div className="flex flex-row justify-between space-x-4 items-center">
+            <h1 className="font-semibold">Short Descriptions:</h1>
+            <TextField
+              sx={{ width: 0.75 }}
+              size="small"
+              id="outlined-required"
+              defaultValue={short_descriptions}
+              onChange={handleInputShortDescriptions}
+              label="Short Descriptions"
             />
           </div>
           <div className="flex flex-row justify-between space-x-4 items-center">
