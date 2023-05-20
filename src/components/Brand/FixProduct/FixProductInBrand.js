@@ -90,16 +90,14 @@ export const FixProductInBrand = () => {
           weight,
           width,
           listMediaOld,
-          descriptionOld
+          descriptionOld,
+          dispatch
         )
       );
-      const bodyDelete = {
-        descriptions_ids: descriptions_ids,
-        images_ids: images_ids,
-      };
-      deleteElement(id, userID, bodyDelete).then(() => {
+      if (body) {
+        deleteElement(id, userID, descriptions_ids, images_ids, dispatch);
         updateProduct(id, body);
-      });
+      }
     }
   };
 

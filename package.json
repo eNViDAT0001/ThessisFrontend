@@ -49,7 +49,7 @@
     "reactjs-popup": "^2.0.5",
     "redux": "^4.2.0",
     "redux-saga": "^1.2.1",
-    "redux-thunk": "^2.4.1",
+    "redux-thunk": "^2.4.2",
     "remark-gfm": "^3.0.1",
     "slick-carousel": "^1.8.1",
     "source-map-loader": "^4.0.1",

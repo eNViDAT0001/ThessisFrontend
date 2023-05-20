@@ -602,99 +602,103 @@ export const checkValidFix = (
     return true;
   }
 };
-export const convertBodyFixProduct =
-  (
-    category_id,
-    name,
-    discount,
-    price,
-    media,
-    specification_name,
-    options,
-    descriptions,
-    height,
-    length,
-    weight,
-    width,
-    listMediaOld,
-    descriptionOld
-  ) =>
-  async (dispatch) => {
-    const body = {
-      category_id: parseInt(category_id),
-      name: name,
-      discount: parseInt(discount),
-      price: price,
-      specification: {
-        properties: specification_name,
-      },
-      options: options,
-      height: parseInt(height),
-      length: parseInt(length),
-      weight: parseInt(weight),
-      width: parseInt(width),
-    };
-    if (media.length !== 0) {
-      body.media = mergeMediaToFix(media, listMediaOld);
-    }
-    await changeDescriptionToBody(descriptions).then((res) => {
-      body.descriptions = dispatch(mergeDescriptionToFix(res, descriptionOld));
-    });
-    return body;
-  };
 
-const mergeDescriptionToFix =
-  (descriptionNew, descriptionOld) => (dispatch) => {
-    const result = [];
-    if (descriptionNew.length >= descriptionOld.length) {
-      for (let i = 0; i < descriptionOld.length; i++) {
-        const newObject = {
-          id: descriptionOld[i].id,
-          description: {
-            name: descriptionNew[i].name,
-            public_id: descriptionNew[i].public_id,
-            descriptions_path: descriptionNew[i].path,
-          },
-        };
-        result.push(newObject);
-      }
-      for (let i = descriptionOld.length; i < descriptionNew.length; i++) {
-        const newObject = {
-          description: {
-            name: descriptionNew[i].name,
-            public_id: descriptionNew[i].public_id,
-            descriptions_path: descriptionNew[i].path,
-          },
-        };
-        result.push(newObject);
-      }
-    } else {
-      for (let i = 0; i < descriptionNew.length; i++) {
-        const newObject = {
-          id: descriptionOld[i].id,
-          description: {
-            name: descriptionNew[i].name,
-            public_id: descriptionNew[i].public_id,
-            descriptions_path: descriptionNew[i].path,
-          },
-        };
-        result.push(newObject);
-      }
-      for (let i = descriptionNew.length; i < descriptionOld.length; i++) {
-        dispatch(addDescriptionsIds(descriptionOld[i].id));
-      }
-    }
-    return result;
+export const convertBodyFixProduct = async (
+  category_id,
+  name,
+  discount,
+  price,
+  media,
+  specification_name,
+  options,
+  descriptions,
+  height,
+  length,
+  weight,
+  width,
+  listMediaOld,
+  descriptionOld,
+  dispatch
+) => {
+  const body = {
+    category_id: parseInt(category_id),
+    name: name,
+    discount: parseInt(discount),
+    price: price,
+    specification: {
+      properties: specification_name,
+    },
+    options: options,
+    height: parseInt(height),
+    length: parseInt(length),
+    weight: parseInt(weight),
+    width: parseInt(width),
   };
+  if (media.length !== 0) {
+    body.media = mergeMediaToFix(media, listMediaOld);
+  }
+  await changeDescriptionToBody(descriptions).then((res) => {
+    body.descriptions = mergeDescriptionToFix(res, descriptionOld, dispatch);
+  });
+  return body;
+};
+const mergeDescriptionToFix = (descriptionNew, descriptionOld, dispatch) => {
+  const result = [];
+  if (descriptionNew.length >= descriptionOld.length) {
+    for (let i = 0; i < descriptionOld.length; i++) {
+      const newObject = {
+        id: descriptionOld[i].id,
+        description: {
+          name: descriptionNew[i].name,
+          public_id: descriptionNew[i].public_id,
+          descriptions_path: descriptionNew[i].path,
+        },
+      };
+      result.push(newObject);
+    }
+    for (let i = descriptionOld.length; i < descriptionNew.length; i++) {
+      const newObject = {
+        description: {
+          name: descriptionNew[i].name,
+          public_id: descriptionNew[i].public_id,
+          descriptions_path: descriptionNew[i].path,
+        },
+      };
+      result.push(newObject);
+    }
+  } else {
+    for (let i = 0; i < descriptionNew.length; i++) {
+      const newObject = {
+        id: descriptionOld[i].id,
+        description: {
+          name: descriptionNew[i].name,
+          public_id: descriptionNew[i].public_id,
+          descriptions_path: descriptionNew[i].path,
+        },
+      };
+      result.push(newObject);
+    }
+    for (let i = descriptionNew.length; i < descriptionOld.length; i++) {
+      dispatch(addDescriptionsIds(descriptionOld[i].id));
+    }
+  }
+  return result;
+};
 
-export const deleteElement = async (productID, userID, body) => {
-  try {
-    await ProductApi.DeleteElementInProduct(productID, userID, body)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  } catch (err) {}
+export const deleteElement = (productID, userID, description, image) => {
+  return async (dispatch) => {
+    try {
+      const body = {
+        descriptions_ids: description,
+        images_ids: image,
+      };
+      await ProductApi.DeleteElementInProduct(productID, userID, body)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (err) {}
+  };
 };
