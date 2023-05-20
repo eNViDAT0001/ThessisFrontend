@@ -75,27 +75,25 @@ export const FixProductInBrand = () => {
         width
       )
     ) {
-      const body = await dispatch(
-        convertBodyFixProduct(
-          category_id,
-          name,
-          discount,
-          price,
-          media,
-          specification_name,
-          options,
-          descriptions,
-          height,
-          length,
-          weight,
-          width,
-          listMediaOld,
-          descriptionOld,
-          dispatch
-        )
+      const body = await convertBodyFixProduct(
+        category_id,
+        name,
+        discount,
+        price,
+        media,
+        specification_name,
+        options,
+        descriptions,
+        height,
+        length,
+        weight,
+        width,
+        listMediaOld,
+        descriptionOld,
+        dispatch
       );
       if (body) {
-        deleteElement(id, userID, descriptions_ids, images_ids, dispatch);
+        await deleteElement(id, userID, descriptions_ids, images_ids);
         updateProduct(id, body);
       }
     }

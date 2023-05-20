@@ -685,20 +685,18 @@ const mergeDescriptionToFix = (descriptionNew, descriptionOld, dispatch) => {
   return result;
 };
 
-export const deleteElement = (productID, userID, description, image) => {
-  return async (dispatch) => {
-    try {
-      const body = {
-        descriptions_ids: description,
-        images_ids: image,
-      };
-      await ProductApi.DeleteElementInProduct(productID, userID, body)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } catch (err) {}
-  };
+export const deleteElement = async (productID, userID, description, image) => {
+  try {
+    const body = {
+      descriptions_ids: description,
+      images_ids: image,
+    };
+    await ProductApi.DeleteElementInProduct(productID, userID, body)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } catch (err) {}
 };
