@@ -14,6 +14,7 @@ const initialState = {
   listProductInCategory: [],
   metaProductInCategory: {},
   listBrandInFilterCategory: [],
+  metaBrandInCategory: {},
 };
 
 const categorySlice = createSlice({
@@ -56,6 +57,27 @@ const categorySlice = createSlice({
     setCategoryIDHandleInAddTree: (state, action) => {
       state.categoryIDHandleInAddTree = action.payload;
     },
+    setMetaBrandInCategory: (state, action) => {
+      state.metaBrandInCategory = action.payload;
+    },
+    addProductInCategoryPage: (state, action) => {
+      return {
+        ...state,
+        listProductInCategory: [
+          ...state.listProductInCategory,
+          ...action.payload,
+        ],
+      };
+    },
+    addBrandInCategory: (state, action) => {
+      return {
+        ...state,
+        listBrandInFilterCategory: [
+          ...state.listBrandInFilterCategory,
+          ...action.payload,
+        ],
+      };
+    },
   },
 });
 
@@ -73,6 +95,9 @@ export const {
 
   setListTreeCategoryLogic,
   setCategoryIDHandleInAddTree,
+  setMetaBrandInCategory,
+  addProductInCategoryPage,
+  addBrandInCategory,
 } = categorySlice.actions;
 
 export default categorySlice.reducer;

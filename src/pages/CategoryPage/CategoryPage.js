@@ -17,7 +17,6 @@ import debounce from "lodash.debounce";
 export const CategoryPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const queryString = window.location.search.substring(1);
   const location = useLocation();
   const filter = useFilterCategory();
   const sortCategory = useSortCategory();
@@ -45,7 +44,7 @@ export const CategoryPage = () => {
     window.scroll(0, 0);
   }, []);
 
-  useFetchAllInCategory(id, queryString);
+  useFetchAllInCategory(id, filter, sortCategory);
 
   return (
     <div>

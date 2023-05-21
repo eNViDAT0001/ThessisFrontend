@@ -2,6 +2,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRef } from "react";
 import { ProductApi } from "../../api/ProductApi";
 import {
+  addBrandInCategory,
+  addProductInCategoryPage,
   setCategoryHandle,
   setCategoryHandleInAdmin,
   setCategoryIDHandleInUpdateTree,
@@ -10,14 +12,18 @@ import {
   setListTreeCategory,
   setListTreeCategoryInUpdateProduct,
   setListTreeCategoryLogic,
+  setMetaBrandInCategory,
+  setMetaProductInCategory,
 } from "../slices/CategorySlice";
 import { toast } from "react-toastify";
 
-import { buildCategoryTree } from "./CommonHook";
+import { buildCategoryTree, convertObjectToStringQuery } from "./CommonHook";
 import { ProviderApi } from "../../api/ProviderApi";
 import { setListProductInCategory } from "../slices/CategorySlice";
 import { useLayoutEffect } from "react";
 import { CategoryApi } from "../../api/CategoryApi";
+import { setMarkerInFilterCategory } from "../slices/QuerySlice";
+import { useEffect } from "react";
 
 export const useCategoryRoof = () =>
   useSelector((state) => state.category.categoryRoot);
@@ -31,6 +37,8 @@ export const useCategoryHandle = () =>
   useSelector((state) => state.category.categoryHandle);
 export const useListBrandInFilterCategory = () =>
   useSelector((state) => state.category.listBrandInFilterCategory);
+export const useMetaInBrandInFilterCategory = () =>
+  useSelector((state) => state.category.metaBrandInCategory);
 export const useFilterCategory = () =>
   useSelector((state) => state.query.filterInCategoryPage);
 export const useSortCategory = () =>
@@ -39,26 +47,93 @@ export const useFilterBrand = () =>
   useSelector((state) => state.query.filterBrandInCategoryPage);
 export const useCategoryHandleInAdmin = () =>
   useSelector((state) => state.category.categoryHandleInAdmin);
+export const useMetaInProductInCategory = () =>
+  useSelector((state) => state.category.metaProductInCategory);
 
-export const useFetchAllInCategory = async (categoryID, filter) => {
+export const useFetchBrandInCategory = async (filterBrand) => {
+  const dispatch = useDispatch();
+  const prevFilter = useRef(filterBrand);
+  useEffect(() => {
+    const fetchData = async (filterBrand) => {
+      try {
+        if (filterBrand !== prevFilter.current) {
+          alert("run here");
+
+          if (filterBrand.marker.value !== prevFilter.current.marker.value) {
+            await dispatch(
+              fetchAddBrandFilterCategory(
+                convertObjectToStringQuery(filterBrand)
+              )
+            );
+          } else {
+            await dispatch(
+              fetchBrandFilterCategory(convertObjectToStringQuery(filterBrand))
+            );
+          }
+        }
+
+        prevFilter.current = filterBrand;
+      } catch (err) {}
+    };
+
+    fetchData(filterBrand);
+  }, [filterBrand, dispatch]);
+};
+
+export const fetchAddBrandFilterCategory = (filter) => async (dispatch) => {
+  try {
+    await ProviderApi.GetAllBrand(filter).then((res) => {
+      dispatch(addBrandInCategory(res.data.data));
+      dispatch(setMetaBrandInCategory(res.data.meta));
+    });
+  } catch (err) {}
+};
+
+export const fetchBrandFilterCategory = (filter) => async (dispatch) => {
+  try {
+    dispatch(setListBrandInFilterCategory([]));
+    dispatch(setMetaBrandInCategory({}));
+    await ProviderApi.GetAllBrand(filter).then((res) => {
+      dispatch(setListBrandInFilterCategory(res.data.data));
+      dispatch(setMetaBrandInCategory(res.data.meta));
+    });
+  } catch (err) {}
+};
+
+export const useFetchAllInCategory = async (
+  categoryID,
+  filter,
+  sortCategory
+) => {
   const dispatch = useDispatch();
   const prevFilterRef = useRef(filter);
   const prevIDRef = useRef(categoryID);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
+        const stringQuery =
+          convertObjectToStringQuery(filter) +
+          (convertObjectToStringQuery(sortCategory) &&
+            `&${convertObjectToStringQuery(sortCategory)}`);
         if (
-          filter !== prevFilterRef.current ||
-          categoryID !== prevIDRef.current
+          categoryID !== prevIDRef.current ||
+          filter !== prevFilterRef.current
         ) {
           await dispatch(fetchCategoryChildren(categoryID)).then(() => {
-            return dispatch(fetchProductInCategory(categoryID, filter));
+            if (
+              filter.marker.value !== prevFilterRef.current.marker.value &&
+              categoryID === prevIDRef.current
+            ) {
+              return dispatch(addProductInCategory(categoryID, stringQuery));
+            } else {
+              return dispatch(fetchProductInCategory(categoryID, stringQuery));
+            }
           });
         } else {
           await dispatch(fetchListTreeCategory())
             .then(() => {
-              return dispatch(fetchProductInCategory(categoryID, filter));
+              return dispatch(fetchProductInCategory(categoryID, stringQuery));
             })
             .then(() => {
               return dispatch(fetchCategoryChildren(categoryID));
@@ -72,7 +147,7 @@ export const useFetchAllInCategory = async (categoryID, filter) => {
       } catch (err) {}
     };
     fetchData();
-  }, [dispatch, categoryID, filter]);
+  }, [dispatch, categoryID, filter, sortCategory]);
 };
 
 const fetchCategoryChildren = (categoryID) => async (dispatch) => {
@@ -82,20 +157,28 @@ const fetchCategoryChildren = (categoryID) => async (dispatch) => {
     });
   } catch (err) {}
 };
-
-export const fetchBrandFilterCategory = (filter) => async (dispatch) => {
-  try {
-    await ProviderApi.GetAllBrand(filter).then((res) => {
-      dispatch(setListBrandInFilterCategory(res.data.data));
-    });
-  } catch (err) {}
-};
+export const addProductInCategory =
+  (categoryID, filter) => async (dispatch) => {
+    try {
+      await ProductApi.GetProductPreviewFromCategory(categoryID, filter).then(
+        (res) => {
+          dispatch(addProductInCategoryPage(res.data.data));
+          alert(JSON.stringify(res.data.meta));
+          dispatch(setMetaProductInCategory(res.data.meta));
+        }
+      );
+    } catch (err) {}
+  };
 
 const fetchProductInCategory = (categoryID, filter) => async (dispatch) => {
   try {
+    dispatch(setMarkerInFilterCategory(null));
+    dispatch(setListProductInCategory([]));
+    dispatch(setMetaProductInCategory({}));
     await ProductApi.GetProductPreviewFromCategory(categoryID, filter).then(
       (res) => {
         dispatch(setListProductInCategory(res.data.data));
+        dispatch(setMetaProductInCategory(res.data.meta));
       }
     );
   } catch (err) {}
@@ -165,7 +248,7 @@ const fetchListTreeCategoryInAdmin = () => async (dispatch) => {
       };
       result.push(newTree);
       dispatch(setListCategoryInAdmin(treeBuild));
-      dispatch(setListTreeCategoryLogic(result))
+      dispatch(setListTreeCategoryLogic(result));
     });
   } catch (err) {}
 };
@@ -192,7 +275,9 @@ export const fetchCategoryDetailInAdmin = (categoryID) => async (dispatch) => {
   try {
     await ProductApi.GetCategoryChildren(categoryID).then((res) => {
       dispatch(setCategoryHandleInAdmin(res.data.data));
-      dispatch(setCategoryIDHandleInUpdateTree(res.data.data.category_parent_id))
+      dispatch(
+        setCategoryIDHandleInUpdateTree(res.data.data.category_parent_id)
+      );
     });
   } catch (err) {}
 };

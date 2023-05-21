@@ -5,7 +5,6 @@ const initialState = {
   metaInProductInHome: {},
   listProductInAdmin: [],
   metaInProductInAdmin: {},
-  productInCategory: [],
   productDetail: {},
   productForyou: [],
   imageProduct: [],
@@ -25,9 +24,7 @@ const productSlice = createSlice({
     setMetaInProductInHome: (state, action) => {
       state.metaInProductInHome = action.payload;
     },
-    setProductInCategory: (state, action) => {
-      state.productInCategory = action.payload;
-    },
+
     setProductDetail: (state, action) => {
       state.productDetail = action.payload;
     },
@@ -61,7 +58,6 @@ const productSlice = createSlice({
 export const {
   setProductInHome,
   setMetaInProductInHome,
-  setProductInCategory,
   setProductDetail,
   setImageProduct,
   setDescriptionProduct,

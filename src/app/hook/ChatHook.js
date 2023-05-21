@@ -105,9 +105,10 @@ export const useFetchChat = (
           seen: false,
           type: "TEXT",
         };
-        beSentChat(body, handleChannel);
+        dispatch(beSentChat(body, handleChannel));
       }
     }
+
     prevFilterMessage.current = filterMessage;
     prevHandleChannel.current = handleChannel;
     prevWSEvent.current = wsEvent;

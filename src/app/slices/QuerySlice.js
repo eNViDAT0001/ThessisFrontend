@@ -67,9 +67,17 @@ const initialState = {
       type: null,
       value: 6,
     },
+    id: {
+      type: "sorts[]",
+      value: "DESC",
+    },
   },
 
   filterInCategoryPage: {
+    type: {
+      type: null,
+      value: "cursor",
+    },
     name: {
       type: "search[]",
       value: null,
@@ -83,10 +91,6 @@ const initialState = {
       value: null,
     },
     marker: {
-      type: null,
-      value: null,
-    },
-    type: {
       type: null,
       value: null,
     },
@@ -114,7 +118,7 @@ const initialState = {
     },
     limit: {
       type: null,
-      value: 10,
+      value: 5,
     },
     type: {
       type: null,
@@ -524,6 +528,7 @@ export const {
   setSortNameInSortCategory,
 
   setSearchInBrandInFilterCategory,
+  setMarkerInBrandInFilterCategory,
 
   setStatusInOrderInAccount,
   setPageInOrderInAccount,
@@ -556,7 +561,7 @@ export const {
   setPageInFilterBannerTabAdmin,
 
   setLimitInFilterProductInBannerDetail,
-  setPageInFilterProductInBannerDetail
+  setPageInFilterProductInBannerDetail,
 } = querySlice.actions;
 
 export default querySlice.reducer;
