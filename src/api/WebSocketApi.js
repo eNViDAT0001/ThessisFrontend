@@ -22,4 +22,8 @@ export const WebSocketApi = {
     const url = `/notifications/${notifyID}/user/${userID}`;
     return axiosClient.patch(url);
   },
+  SeenAllNotification: (userID) => {
+    const url = `/notifications/user/${userID}`;
+    return axiosClient.patch(url);
+  },
 };

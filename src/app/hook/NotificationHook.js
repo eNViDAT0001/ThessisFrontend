@@ -9,6 +9,7 @@ import {
 } from "../slices/NotificationSlice";
 import { useEffect } from "react";
 import { useRef } from "react";
+import { toast } from "react-toastify";
 
 export const useListNotification = () =>
   useSelector((state) => state.notification.listNotification);
@@ -115,6 +116,21 @@ export const seenNotificationInAccount = async (notifyID, userID) => {
   try {
     await WebSocketApi.SeenNotification(notifyID, userID)
       .then()
+      .catch((err) => console.log(err));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const seenAllNotificationInAccount = async (userID) => {
+  try {
+    await WebSocketApi.SeenAllNotification(userID)
+      .then(() => {
+        toast("You seen all notification success", {
+          type: "success",
+          autoClose: 1000,
+        });
+      })
       .catch((err) => console.log(err));
   } catch (error) {
     console.log(error);
