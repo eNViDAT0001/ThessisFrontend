@@ -13,8 +13,9 @@ import { MessageListCustom } from "./MessageListCustom";
 import { ItemChat } from "./ItemChat";
 import { useRef } from "react";
 import { setMarkerInFilterMessage } from "../../app/slices/QuerySlice";
+import { memo } from "react";
 
-export const MessageListComponent = (props) => {
+export const MessageListComponent = memo(() => {
   const dispatch = useDispatch();
   const userID = useUserID();
   const [inputValue, setInputValue] = useState("");
@@ -23,17 +24,23 @@ export const MessageListComponent = (props) => {
   const handleChannel = useHandleChannel();
 
   const handleButtonSend = (e) => {
+    e.preventDefault();
+    // Add your logic for sending the message here
     if (inputValue !== "") {
       const body = {
         chat_room_id: handleChannel.id,
         from_user_id: userID,
-        to_user_id: parseInt(handleChannel.to_user_id),
+        to_user_id:
+          parseInt(handleChannel.to_user_id) == userID
+            ? handleChannel.from_user_id
+            : handleChannel.to_user_id,
         content: inputValue,
         seen: false,
         type: "TEXT",
       };
       dispatch(sendChat(body));
     }
+    setInputValue("");
   };
 
   const handleScroll = () => {
@@ -60,16 +67,25 @@ export const MessageListComponent = (props) => {
         </div>
       </div>
 
-      <div className="border flex flex-row justify-between mb-2">
-        <div className="w-full">
-          <Input
-            onChange={handleChangeText}
-            placeholder="Type here..."
-            multiline={true}
-          />
+      <div className="flex flex-row justify-between mb-2">
+        <div className="bg-white rounded-lg shadow-md w-full h-full ">
+          <form className="flex items-center ">
+            <input
+              type="text"
+              onChange={handleChangeText}
+              placeholder="Type your message..."
+              className="flex-grow bg-gray-200 text-gray-700 rounded-full  p-2 overflow-y-scroll"
+            />
+            <button
+              type="submit"
+              onClick={handleButtonSend}
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full py-2 px-4 transition-colors duration-300"
+            >
+              Send
+            </button>
+          </form>
         </div>
-        <Button text={"Send"} onClick={handleButtonSend} title="Send" />
       </div>
     </div>
   );
-};
+});

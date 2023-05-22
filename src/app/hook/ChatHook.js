@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { useUserDetail } from "./UserHook";
 import { setMarkerInFilterMessage } from "../slices/QuerySlice";
 import { useCallback } from "react";
+import { useMemo } from "react";
 
 export const useListChannel = () =>
   useSelector((state) => state.chat.listChannel);
@@ -48,6 +49,8 @@ export const useFetchChat = (
 
   const fetchData = useCallback(async () => {
     try {
+      dispatch(setListMessage([]));
+      dispatch(setMarkerInFilterMessage(null));
       if (!handleChannel.to_user_id) {
         await dispatch(fetchListChannel(userID, filterChannel));
       } else {
@@ -56,7 +59,7 @@ export const useFetchChat = (
             userID,
             handleChannel.to_user_id === userID
               ? handleChannel.from_user_id
-              : userID,
+              : handleChannel.to_user_id,
             filterMessage,
             handleChannel
           )
@@ -75,7 +78,7 @@ export const useFetchChat = (
             userID,
             handleChannel.to_user_id === userID
               ? handleChannel.from_user_id
-              : userID,
+              : handleChannel.to_user_id,
             filterMessage,
             handleChannel
           )
@@ -88,11 +91,15 @@ export const useFetchChat = (
     }
 
     if (handleChannel !== prevHandleChannel.current) {
-      dispatch(setListMessage([]));
-      dispatch(setMarkerInFilterMessage(null));
       fetchData();
     }
 
+    prevFilterMessage.current = filterMessage;
+    prevHandleChannel.current = handleChannel;
+    prevUserID.current = userID;
+  }, [dispatch, userID, filterChannel, handleChannel, filterMessage]);
+
+  useEffect(() => {
     if (wsEvent !== prevWSEvent.current) {
       const newEvent = JSON.parse(wsEvent);
       if (newEvent.type === "ChatNewMessage") {
@@ -105,16 +112,11 @@ export const useFetchChat = (
           seen: false,
           type: "TEXT",
         };
-        dispatch(beSentChat(body, handleChannel));
+        beSentChat(body, handleChannel, dispatch);
       }
     }
-
-    prevFilterMessage.current = filterMessage;
-    prevHandleChannel.current = handleChannel;
     prevWSEvent.current = wsEvent;
-    prevUserID.current = userID;
-  }, [dispatch, userID, filterChannel, handleChannel, filterMessage, wsEvent]);
-
+  }, [wsEvent, dispatch, handleChannel]);
   useEffect(() => {
     fetchData(); // Call fetchData when the component is mounted
   }, []); // Empty dependency array ensures it runs only once on mount
@@ -215,22 +217,12 @@ export const sendChat = (body) => async (dispatch) => {
     });
 };
 
-export const beSentChat = (body, handleChannel) => async (dispatch) => {
-  await WebSocketApi.SendMessage(body)
-    .then((res) => {
-      const response = res.data.data;
-      const transformedData = {
-        position: "left",
-        type: "text",
-        text: response.content,
-        avatar: handleChannel.avatar,
-      };
-      dispatch(addMessageSuccess(transformedData));
-    })
-    .catch(() => {
-      toast("Send failed", {
-        type: "error",
-        autoClose: 1000,
-      });
-    });
+export const beSentChat = async (body, handleChannel, dispatch) => {
+  const transformedData = {
+    position: "left",
+    type: "text",
+    text: body.content,
+    avatar: handleChannel.avatar,
+  };
+  dispatch(addMessageSuccess(transformedData));
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Divider } from "@mui/material";
 import { MessageListComponent } from "./MessageListComponent";
 import SpeakerNotesOffIcon from "@mui/icons-material/SpeakerNotesOff";
@@ -19,7 +19,7 @@ export const ChatGeneral = () => {
   const filterChannel = useFilterChannel();
   const filterMessage = useFilterMessage();
   const wsEvent = useSelector((state) => state.webSocket.WSEvent);
-  
+
   useFetchChat(
     userID,
     convertObjectToStringQuery(filterChannel),
@@ -29,7 +29,7 @@ export const ChatGeneral = () => {
   );
   return (
     <div className="flex flex-row justify-between bg-white border space-x-2">
-      <div className="py-5 flex flex-1 overflow-y-scroll w-[45%] max-w-[250px]">
+      <div className="py-5 flex flex-1 overflow-y-scroll w-[250px] ">
         <ListChannel />
       </div>
       <Divider orientation="vertical" variant="middle" flexItem />
@@ -45,7 +45,7 @@ export const ChatGeneral = () => {
           </div>
         </div>
       ) : (
-        <div className="flex-1 flex w-[55%]">
+        <div className="w-[55%]">
           <MessageListComponent data={handleChannel} />
         </div>
       )}
