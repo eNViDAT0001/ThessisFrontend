@@ -32,8 +32,11 @@ import {
   setPriceFix,
   setSpecificationNameFix,
   setShortDescriptionsFix,
+  setSpecificationIdFix,
   setWeightFix,
   setWidthFix,
+  setOptionOld,
+  addOptionIds,
   addDescriptionsIds,
 } from "../slices/FixProductSlice";
 import { fetchListTreeCategoryInUpdateProduct } from "./CategoryHook";
@@ -280,14 +283,18 @@ const mergeMediaToFix = (media, listMediaOld) => {
   for (let i = 0; i < listMediaOld.length; i++) {
     const newObject = {
       id: listMediaOld[i].id,
-      media_path: listMediaOld[i].media_path,
+      media: {
+        media_path: listMediaOld[i].media_path,
+      },
     };
     result.push(newObject);
   }
 
   for (let i = 0; i < media.length; i++) {
     const newObject = {
-      media_path: media[i].url,
+      media: {
+        media_path: media[i].media_path,
+      },
     };
     result.push(newObject);
   }
@@ -453,7 +460,12 @@ export const useImagesIds = () =>
   useSelector((state) => state.fixProduct.images_ids);
 export const useShortDescriptionsFix = () =>
   useSelector((state) => state.fixProduct.short_descriptions);
-
+export const useSpecificationIDFix = () =>
+  useSelector((state) => state.fixProduct.specification_id);
+export const useOptionOld = () =>
+  useSelector((state) => state.fixProduct.optionOld);
+export const useOptionIds = () =>
+  useSelector((state) => state.fixProduct.option_ids);
 export const useFetchProductDetailToFix = (productID) => {
   const dispatch = useDispatch();
 
@@ -557,12 +569,17 @@ export const fetchSpecificationInProductUpdate =
     try {
       const res = await ProductApi.GetSpecification(productID);
       if (res) {
-        const options = res.data.data[0].options;
-        for (let i = 0; i < options.length; i++) {
-          options[i].id = i;
-        }
+        const options = [...res.data.data[0].options];
+        const newOption = [...res.data.data[0].options];
+
+        const updatedOptions = options.map((option, index) => {
+          return { ...option, id: index };
+        });
+
         dispatch(setSpecificationNameFix(res.data.data[0].properties));
-        dispatch(setDataOptionFix(options));
+        dispatch(setSpecificationIdFix(res.data.data[0].id));
+        dispatch(setDataOptionFix(updatedOptions));
+        dispatch(setOptionOld(newOption));
       }
     } catch (err) {}
   };
@@ -661,6 +678,7 @@ export const convertBodyFixProduct = async (
   short_descriptions,
   price,
   media,
+  specification_id,
   specification_name,
   options,
   descriptions,
@@ -670,6 +688,7 @@ export const convertBodyFixProduct = async (
   width,
   listMediaOld,
   descriptionOld,
+  optionOld,
   dispatch
 ) => {
   const body = {
@@ -682,7 +701,7 @@ export const convertBodyFixProduct = async (
       properties: specification_name,
     },
     media: mergeMediaToFix(media, listMediaOld),
-    options: options,
+    options: mergeOptionToFix(options, optionOld, specification_id, dispatch),
     height: parseInt(height),
     length: parseInt(length),
     weight: parseInt(weight),
@@ -693,6 +712,51 @@ export const convertBodyFixProduct = async (
   });
   return body;
 };
+
+const mergeOptionToFix = (optionNew, optionOld, specification_id, dispatch) => {
+  const result = [];
+  if (optionNew.length >= optionOld.length) {
+    for (let i = 0; i < optionOld.length; i++) {
+      const newObject = {
+        id: optionOld[i].id,
+        option: {
+          name: optionNew[i].name,
+          price: optionNew[i].price,
+          quantity: optionNew[i].quantity,
+        },
+      };
+      result.push(newObject);
+    }
+    for (let i = optionOld.length; i < optionNew.length; i++) {
+      const newObject = {
+        option: {
+          specification_id: specification_id,
+          name: optionNew[i].name,
+          price: optionNew[i].price,
+          quantity: optionNew[i].quantity,
+        },
+      };
+      result.push(newObject);
+    }
+  } else {
+    for (let i = 0; i < optionNew.length; i++) {
+      const newObject = {
+        id: optionOld[i].id,
+        option: {
+          name: optionNew[i].name,
+          price: optionNew[i].price,
+          quantity: optionNew[i].quantity,
+        },
+      };
+      result.push(newObject);
+    }
+    for (let i = optionNew.length; i < optionOld.length; i++) {
+      dispatch(addOptionIds(optionOld[i].id));
+    }
+  }
+  return result;
+};
+
 const mergeDescriptionToFix = (descriptionNew, descriptionOld, dispatch) => {
   const result = [];
   if (descriptionNew.length >= descriptionOld.length) {
@@ -736,11 +800,18 @@ const mergeDescriptionToFix = (descriptionNew, descriptionOld, dispatch) => {
   return result;
 };
 
-export const deleteElement = async (productID, userID, description, image) => {
+export const deleteElement = async (
+  productID,
+  userID,
+  description,
+  options,
+  image
+) => {
   try {
     const body = {
       descriptions_ids: description,
       images_ids: image,
+      option_ids: options,
     };
     await ProductApi.DeleteElementInProduct(productID, userID, body)
       .then((res) => {

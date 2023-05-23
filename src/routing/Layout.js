@@ -30,7 +30,7 @@ export const UserLayout = () => {
 
   const handleClickOutside = useCallback((event) => {
     if (chatRef.current && !chatRef.current.contains(event.target)) {
-      dispatch(setIsOpenButtonChat(!isOpenButtonChat));
+      dispatch(setIsOpenButtonChat(false));
     }
   });
 

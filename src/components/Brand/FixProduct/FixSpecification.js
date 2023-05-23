@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
+  useOptionOld,
   useOptionsFix,
   useSpecificationNameFix,
 } from "../../../app/hook/ProductHook";
@@ -19,12 +20,13 @@ export const FixSpecification = () => {
   const specification_name = useSpecificationNameFix();
   const [isLoaded, setIsLoaded] = useState(false);
 
+
   const handleInputName = (e) => {
     dispatch(setSpecificationNameFix(e.target.value));
   };
   const addOption = (e) => {
     const newOption = {
-      izd: options[options.length - 1].id + 1,
+      id: options[options.length - 1].id + 1,
       name: "",
       price: "",
       quantity: "",
@@ -102,12 +104,12 @@ export const FixSpecification = () => {
             </div>
           </div>
           <div className="space-y-3">
-            {options.map((data, index) => (
+            {options.map((data) => (
               <div
                 id={data.id}
                 className="flex flex-row items-center p-4 border space-x-6"
               >
-                <h1 className="font-semibold">Option {index + 1}:</h1>
+                <h1 className="font-semibold">Option {data.id + 1}:</h1>
                 <TextField
                   required
                   size="small"

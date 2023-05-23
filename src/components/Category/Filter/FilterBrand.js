@@ -14,6 +14,7 @@ import {
 } from "../../../app/slices/QuerySlice";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
+import { checkObjectEmpty } from "../../../app/hook/CommonHook";
 
 export const FilterBrand = () => {
   const listBrand = useListBrandInFilterCategory() || [];
@@ -69,7 +70,7 @@ export const FilterBrand = () => {
           <h1>{data.name}</h1>
         </div>
       ))}
-
+      {!checkObjectEmpty(metaInBrandInCategory) && (
         <div>
           <button
             className="text-blue-500 hover:text-blue-700 mb-4"
@@ -90,7 +91,7 @@ export const FilterBrand = () => {
             Load More
           </button>
         </div>
-      
+      )}
     </div>
   );
 };

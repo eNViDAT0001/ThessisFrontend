@@ -34,7 +34,6 @@ const chatSlice = createSlice({
     },
 
     addBeginningInMessage: (state, action) => {
-      //alert(state.listMessage.length)
       return {
         ...state,
         listMessage: [...action.payload, ...state.listMessage],

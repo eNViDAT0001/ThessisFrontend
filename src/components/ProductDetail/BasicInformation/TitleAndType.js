@@ -76,7 +76,7 @@ export const TitleAndType = () => {
             {specificationProduct.map((data) => (
               <div key={data.id} className="space-y-4">
                 <div className="flex flex-row space-x-4 whitespace-nowrap items-start">
-                  <h1 className="text-[#929292] text-lg ">
+                  <h1 className="text-[#929292] text-lg mt-1 ">
                     {data.properties}:{" "}
                   </h1>
                   {data.options.length === 0 ? (

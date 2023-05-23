@@ -6,6 +6,7 @@ const initialState = {
   discount: 0,
   price: 0,
   media: [],
+  specification_id: 0,
   specification_name: "",
   options: [
     {
@@ -28,9 +29,11 @@ const initialState = {
   width: 0,
   listMediaOld: [],
   descriptionOld: [],
-  short_descriptions:"",
+  short_descriptions: "",
+  optionOld: [],
   descriptions_ids: [],
   images_ids: [],
+  option_ids: [],
 };
 
 const FixProductSlice = createSlice({
@@ -61,6 +64,9 @@ const FixProductSlice = createSlice({
     setSpecificationNameFix: (state, action) => {
       state.specification_name = action.payload;
     },
+    setSpecificationIdFix: (state, action) => {
+      state.specification_id = action.payload;
+    },
     setDataOptionFix: (state, action) => {
       state.options = action.payload;
     },
@@ -85,6 +91,10 @@ const FixProductSlice = createSlice({
     setDescriptionOld: (state, action) => {
       state.descriptionOld = action.payload;
     },
+    setOptionOld: (state, action) => {
+      state.optionOld = action.payload;
+    },
+
     setDescriptionsIds: (state, action) => {
       state.descriptions_ids = action.payload;
     },
@@ -97,9 +107,15 @@ const FixProductSlice = createSlice({
     addImagesIds: (state, action) => {
       state.images_ids.push(action.payload);
     },
-    setShortDescriptionsFix:(state,action) =>{
-      state.short_descriptions = action.payload
-    }
+    setOptionIds: (state, action) => {
+      state.option_ids = action.payload;
+    },
+    addOptionIds: (state, action) => {
+      state.option_ids.push(action.payload);
+    },
+    setShortDescriptionsFix: (state, action) => {
+      state.short_descriptions = action.payload;
+    },
   },
 });
 
@@ -115,6 +131,7 @@ export const {
   addFileInDescriptionFix,
   setDataOptionFix,
   setDescriptionsFix,
+  setSpecificationIdFix,
 
   setHeightFix,
   setWeightFix,
@@ -123,12 +140,14 @@ export const {
 
   setListMediaOld,
   setDescriptionOld,
+  setOptionOld,
 
   setDescriptionsIds,
   addDescriptionsIds,
   setImagesIds,
   addImagesIds,
-
-  setShortDescriptionsFix
+  setOptionIds,
+  addOptionIds,
+  setShortDescriptionsFix,
 } = FixProductSlice.actions;
 export default FixProductSlice.reducer;

@@ -22,7 +22,10 @@ import { ProviderApi } from "../../api/ProviderApi";
 import { setListProductInCategory } from "../slices/CategorySlice";
 import { useLayoutEffect } from "react";
 import { CategoryApi } from "../../api/CategoryApi";
-import { setMarkerInFilterCategory } from "../slices/QuerySlice";
+import {
+  setMarkerInBrandInFilterCategory,
+  setMarkerInFilterCategory,
+} from "../slices/QuerySlice";
 import { useEffect } from "react";
 
 export const useCategoryRoof = () =>
@@ -53,27 +56,23 @@ export const useMetaInProductInCategory = () =>
 export const useFetchBrandInCategory = async (filterBrand) => {
   const dispatch = useDispatch();
   const prevFilter = useRef(filterBrand);
+
   useEffect(() => {
     const fetchData = async (filterBrand) => {
       try {
-        if (filterBrand !== prevFilter.current) {
-          alert("run here");
-
-          if (filterBrand.marker.value !== prevFilter.current.marker.value) {
-            await dispatch(
-              fetchAddBrandFilterCategory(
-                convertObjectToStringQuery(filterBrand)
-              )
-            );
-          } else {
-            await dispatch(
-              fetchBrandFilterCategory(convertObjectToStringQuery(filterBrand))
-            );
-          }
+        if (filterBrand.marker.value !== prevFilter.current.marker.value) {
+          await dispatch(
+            fetchAddBrandFilterCategory(convertObjectToStringQuery(filterBrand))
+          );
+        } else if (filterBrand.name.value !== prevFilter.current.name.value) {
+          await dispatch(
+            fetchBrandFilterCategory(convertObjectToStringQuery(filterBrand))
+          );
         }
-
         prevFilter.current = filterBrand;
-      } catch (err) {}
+      } catch (err) {
+        // Handle the error
+      }
     };
 
     fetchData(filterBrand);
@@ -93,6 +92,7 @@ export const fetchBrandFilterCategory = (filter) => async (dispatch) => {
   try {
     dispatch(setListBrandInFilterCategory([]));
     dispatch(setMetaBrandInCategory({}));
+    dispatch(setMarkerInBrandInFilterCategory(null));
     await ProviderApi.GetAllBrand(filter).then((res) => {
       dispatch(setListBrandInFilterCategory(res.data.data));
       dispatch(setMetaBrandInCategory(res.data.meta));
@@ -163,7 +163,6 @@ export const addProductInCategory =
       await ProductApi.GetProductPreviewFromCategory(categoryID, filter).then(
         (res) => {
           dispatch(addProductInCategoryPage(res.data.data));
-          alert(JSON.stringify(res.data.meta));
           dispatch(setMetaProductInCategory(res.data.meta));
         }
       );

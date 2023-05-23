@@ -25,9 +25,9 @@ import {
   useDiscountFix,
   useFetchProductDetailToFix,
   useHeightInFix,
-  useImagesIds,
   useLengthInFix,
   useListMediaOld,
+  setOptionOld,
   useMediaFix,
   useNameFix,
   useOptionsFix,
@@ -36,6 +36,9 @@ import {
   useSpecificationNameFix,
   useWeightInFix,
   useWidthInFix,
+  useSpecificationIDFix,
+  useOptionOld,
+  useOptionIds,
 } from "../../../app/hook/ProductHook";
 import { useDispatch } from "react-redux";
 import { useUserID } from "../../../app/hook/UserHook";
@@ -62,8 +65,10 @@ export const FixProductInBrand = () => {
   const length = useLengthInFix();
   const width = useWidthInFix();
   const descriptions_ids = useDescriptionsIds();
-  const short_descriptions = useShortDescriptionsFix()
-
+  const short_descriptions = useShortDescriptionsFix();
+  const specification_id = useSpecificationIDFix();
+  const optionOld = useOptionOld();
+  const optionIds = useOptionIds();
   const handleUpdateProduct = async (e) => {
     if (
       checkValidFix(
@@ -84,6 +89,7 @@ export const FixProductInBrand = () => {
         short_descriptions,
         price,
         media,
+        specification_id,
         specification_name,
         options,
         descriptions,
@@ -93,13 +99,16 @@ export const FixProductInBrand = () => {
         width,
         listMediaOld,
         descriptionOld,
+        optionOld,
         dispatch
       );
       if (body) {
+        console.log("body", body);
         await deleteElement(
           id,
           userID,
           descriptions_ids,
+          optionIds,
           getSelectedIds(listMediaOld)
         );
         updateProduct(id, body);
