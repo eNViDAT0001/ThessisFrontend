@@ -10,12 +10,20 @@ import Badge from "@mui/material/Badge";
 import { useState } from "react";
 import { Notification } from "../WebSocket/Notification";
 import { useUnSeen } from "../../app/hook/NotificationHook";
+import { checkObjectEmpty } from "../../app/hook/CommonHook";
+import Cookies from "js-cookie";
+import { useLoginGmail } from "../../app/hook/AuthHook";
 
 export const Header = () => {
   const userID = useUserID();
-  const userDetail = useUserDetail();
+  const userDetail = useUserDetail() || {};
   const unSeen = useUnSeen() || 0;
   const [showNotification, setShowNotification] = useState(false);
+  const userIdCookies = Cookies.get("user_id");
+  const access_token = Cookies.get("access_token");
+  const access_token_expiry = Cookies.get("access_token_expiry");
+  const refresh_token = Cookies.get("refresh_token");
+  const refresh_token_expiry = Cookies.get("refresh_token_expiry");
 
   const handleMouseEnter = () => {
     setShowNotification(true);
@@ -25,20 +33,31 @@ export const Header = () => {
     setShowNotification(false);
   };
 
+  useLoginGmail(
+    userIdCookies,
+    access_token,
+    access_token_expiry,
+    refresh_token,
+    refresh_token_expiry
+  );
+
   return (
     <div className="w-full bg-[#151875] flex justify-center border-b">
       <div className="w-[80%] py-2">
         <div className="flex justify-between items-center">
-          <div className="flex flex-row space-x-10 font-['Inter'] font-normal text-[#FFFFFF] text-sm uppercase ">
-            <div className="flex flex-row space-x-2 items-center">
-              <EmailIcon fontSize="small" />
-              <h1 className="">{userDetail.email}</h1>
+          {!checkObjectEmpty(userDetail) && (
+            <div className="flex flex-row space-x-10 font-['Inter'] font-normal text-[#FFFFFF] text-sm uppercase ">
+              <div className="flex flex-row space-x-2 items-center">
+                <EmailIcon fontSize="small" />
+                <h1 className="">{userDetail.email}</h1>
+              </div>
+
+              <div className="flex flex-row space-x-2 items-center">
+                <LocalPhoneIcon fontSize="small" />
+                <h1 className="">{userDetail.phone}</h1>
+              </div>
             </div>
-            <div className="flex flex-row space-x-2 items-center">
-              <LocalPhoneIcon fontSize="small" />
-              <h1 className="">{userDetail.phone}</h1>
-            </div>
-          </div>
+          )}
           <div className="flex flex-row space-x-4 items-center">
             <div className="relative h-[30px] visible">
               <Badge
@@ -60,27 +79,31 @@ export const Header = () => {
                 </div>
               )}
             </div>
-            {userDetail.type === "ADMIN" && (
-              <Link to={`admin/${userID}`} className="hover:cursor-pointer">
-                <AdminPanelSettingsIcon sx={{ color: "white" }} />
-              </Link>
+            {!checkObjectEmpty(userDetail) && (
+              <div className="flex flex-row space-x-5">
+                {userDetail.type === "ADMIN" && (
+                  <Link to={`admin/${userID}`} className="hover:cursor-pointer">
+                    <AdminPanelSettingsIcon sx={{ color: "white" }} />
+                  </Link>
+                )}
+                <Link
+                  to={`account-detail/${userID}`}
+                  className="hover:cursor-pointer"
+                >
+                  {userDetail.avatar ? (
+                    <img
+                      src={userDetail.avatar}
+                      alt="avatar"
+                      className="w-[30px] h-[30px] rounded-full"
+                    ></img>
+                  ) : (
+                    <AccountCircleIcon
+                      sx={{ width: 30, height: 30, color: "white" }}
+                    />
+                  )}
+                </Link>
+              </div>
             )}
-            <Link
-              to={`account-detail/${userID}`}
-              className="hover:cursor-pointer"
-            >
-              {userDetail.avatar ? (
-                <img
-                  src={userDetail.avatar}
-                  alt="avatar"
-                  className="w-[30px] h-[30px] rounded-full"
-                ></img>
-              ) : (
-                <AccountCircleIcon
-                  sx={{ width: 30, height: 30, color: "white" }}
-                />
-              )}
-            </Link>
           </div>
         </div>
       </div>

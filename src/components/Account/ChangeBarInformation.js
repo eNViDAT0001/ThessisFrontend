@@ -5,6 +5,7 @@ import LogOut from "../../asset/LogOut.png";
 import { Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useUserDetail } from "../../app/hook/UserHook";
+import { deleteAllCookies } from "../../app/hook/CommonHook";
 
 const slideBarData = [
   {
@@ -43,6 +44,7 @@ const ChangeBarInformation = (props) => {
 
   const ResetToken = (e) => {
     localStorage.clear();
+    deleteAllCookies();
     window.location.replace("/login");
   };
   return (

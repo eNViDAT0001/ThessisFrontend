@@ -11,7 +11,11 @@ import {
   useListItemInCartSelected,
   useTotalPrice,
 } from "../../../app/hook/CartHook";
-import { useFormAddressSelected } from "../../../app/hook/AddressHook";
+import {
+  useAddressInFormCreate,
+  useFormAddressSelected,
+  useIsSelectedCustom,
+} from "../../../app/hook/AddressHook";
 import { useUserID } from "../../../app/hook/UserHook";
 import {
   addNewOrder,
@@ -27,25 +31,27 @@ export const Bill = () => {
   const userID = useUserID();
   const listItem = useListItemInCartSelected();
   const addressForm = useFormAddressSelected();
+  const addressFormCreated = useAddressInFormCreate();
   const totalPrice = useTotalPrice();
   const paypalRef = useRef(null);
   const [totalShippingCost, setTotalShippingCost] = useState(0);
   const dataShippingCost = useDataShippingCost();
-  const [responseOrder, setResponseOrder] = useState(null);
+  const isSelectedCustom = useIsSelectedCustom() || false;
 
   const createNewOrder = async () => {
-    const currentAddressForm = addressForm; // Store the current value
-
-    if (!checkObjectEmpty(currentAddressForm)) {
+    const addressFormPayment = JSON.parse(
+      localStorage.getItem("addressInOrder")
+    );
+    if (!checkObjectEmpty(addressFormPayment)) {
       const body = {
         user_id: userID,
-        name: currentAddressForm.name,
-        gender: currentAddressForm.gender,
-        phone: currentAddressForm.phone,
-        province: currentAddressForm.province,
-        district: currentAddressForm.district,
-        ward: currentAddressForm.ward,
-        street: currentAddressForm.street,
+        name: addressFormPayment.name && "Đạt",
+        gender: addressFormPayment.gender && false,
+        phone: addressFormPayment.phone && "0945958952",
+        province: addressFormPayment.province,
+        district: addressFormPayment.district,
+        ward: addressFormPayment.ward,
+        street: addressFormPayment.street,
         total: parseInt(totalPrice),
         quantity: 30,
         status_description: "Provider Will call you soon",
@@ -53,37 +59,68 @@ export const Bill = () => {
         items: changePropListItem(listItem),
         cart_items_ids: getListIDCart(listItem),
       };
-
-      await addNewOrder(body).then((res) => {
-        setResponseOrder(res);
-      });
+      try {
+        const res = await addNewOrder(body);
+        return res;
+      } catch (err) {
+        console.log(err);
+        return null;
+      }
     }
   };
 
   useEffect(() => {
-    if (responseOrder) {
-      alert(responseOrder);
+    if (!isSelectedCustom) {
+      localStorage.removeItem("addressInOrder");
+      localStorage.setItem("addressInOrder", JSON.stringify(addressForm));
+    } else {
+      localStorage.removeItem("addressInOrder");
+      localStorage.setItem(
+        "addressInOrder",
+        JSON.stringify(addressFormCreated)
+      );
     }
-  }, [responseOrder]);
+  }, [addressForm, isSelectedCustom, addressFormCreated]);
+
   const handleButtonPaymentCOD = (e) => {
-    if (!checkObjectEmpty(addressForm)) {
-      const body = {
-        user_id: userID,
-        name: addressForm.name,
-        gender: addressForm.gender,
-        phone: addressForm.phone,
-        province: addressForm.province,
-        district: addressForm.district,
-        ward: addressForm.ward,
-        street: addressForm.street,
-        total: parseInt(totalPrice),
-        quantity: 30,
-        status_description: "Provider Will call you soon",
-        discount: 0,
-        items: changePropListItem(listItem),
-        cart_items_ids: getListIDCart(listItem),
-      };
-      addNewOrderCOD(body, userID);
+    if (isSelectedCustom) {
+      if (!checkObjectEmpty(addressForm)) {
+        const body = {
+          user_id: userID,
+          name: addressForm.name,
+          gender: addressForm.gender,
+          phone: addressForm.phone,
+          province: addressForm.province,
+          district: addressForm.district,
+          ward: addressForm.ward,
+          street: addressForm.street,
+          total: parseInt(totalPrice),
+          quantity: 30,
+          status_description: "Provider Will call you soon",
+          discount: 0,
+          items: changePropListItem(listItem),
+          cart_items_ids: getListIDCart(listItem),
+        };
+        addNewOrderCOD(body, userID);
+      } else {
+        const body = {
+          user_id: userID,
+          name: addressFormCreated.name,
+          gender: addressFormCreated.gender,
+          phone: addressFormCreated.phone,
+          province: addressFormCreated.province,
+          district: addressFormCreated.district,
+          ward: addressFormCreated.ward,
+          street: addressFormCreated.street,
+          total: parseInt(totalPrice),
+          quantity: 30,
+          status_description: "Provider Will call you soon",
+          discount: 0,
+          items: changePropListItem(listItem),
+          cart_items_ids: getListIDCart(listItem),
+        };
+        addNewOrderCOD(body, userID);
+      }
     }
   };
 
@@ -91,27 +128,25 @@ export const Bill = () => {
     if (window.myButton) window.myButton.close();
     window.myButton = window.paypal.Buttons({
       createOrder: (data, actions) => {
-        return createNewOrder().then(() => {
-          return actions.order.create({
-            purchase_units: [
-              {
-                description: "Ahihi",
-                amount: {
-                  currency_code: "USD",
-                  value: convertVNDToUSD(
-                    parseInt(totalPrice) + totalShippingCost
-                  ),
-                },
+        return actions.order.create({
+          purchase_units: [
+            {
+              description: "Ahihi",
+              amount: {
+                currency_code: "USD",
+                value: convertVNDToUSD(
+                  parseInt(totalPrice) + totalShippingCost
+                ),
               },
-            ],
-          });
+            },
+          ],
         });
       },
       onApprove: async (data, actions) => {
         const order = await actions.order.capture();
-        if (responseOrder) {
-          return afterProcessPayment(order, userID, responseOrder);
-        }
+        return createNewOrder().then((res) => {
+          return afterProcessPayment(order, userID, res);
+        });
       },
       onError: (err) => {
         console.log(err);

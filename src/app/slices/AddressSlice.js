@@ -10,6 +10,7 @@ const initialState = {
   addressInOrder: {
     name: "",
     phone: "",
+    gender: false,
     province: "",
     district: "",
     ward: "",
@@ -38,6 +39,9 @@ const AddressSlice = createSlice({
     },
     setPhoneInFormCreate: (state, action) => {
       state.addressInOrder.phone = action.payload;
+    },
+    setGenderInFormCreate: (state, action) => {
+      state.addressInOrder.gender = action.payload;
     },
     setProvinceInFormCreate: (state, action) => {
       state.addressInOrder.province = action.payload;
@@ -76,6 +80,7 @@ const AddressSlice = createSlice({
       state.addressInOrder = {
         name: "",
         phone: "",
+        gender: false,
         province: "",
         district: "",
         ward: "",
@@ -96,6 +101,7 @@ export const {
   setFormAddressSelected,
   setNameInFormCreate,
   setPhoneInFormCreate,
+  setGenderInFormCreate,
   setProvinceInFormCreate,
   setDistrictInFormCreate,
   setWardInFormCreate,

@@ -2,8 +2,35 @@ import { AuthApi } from "../../api/AuthApi";
 import { toast } from "react-toastify";
 import { UserApi } from "../../api/UserApi";
 import UserDetailModel from "../models/Read/User/UserDetailModel";
+import { useEffect } from "react";
 
-const saveUserDetailRegister = async (id) => {
+
+export const useLoginGmail = (userIdCookies,access_token,access_token_expiry,refresh_token,refresh_token_expiry) =>{
+  useEffect(() => {
+    if (userIdCookies) {
+      localStorage.setItem("UserID", userIdCookies);
+      saveUserDetailFromHome(userIdCookies);
+    }
+    if (access_token && refresh_token) {
+      localStorage.removeItem("AccessToken");
+      localStorage.removeItem("AccessTokenExpiry");
+      localStorage.removeItem("RefreshToken");
+      localStorage.removeItem("RefreshTokenExpiry");
+      localStorage.setItem("AccessToken", access_token);
+      localStorage.setItem("AccessTokenExpiry", access_token_expiry);
+      localStorage.setItem("RefreshToken", refresh_token);
+      localStorage.setItem("RefreshTokenExpiry", refresh_token_expiry);
+    }
+  }, [
+    userIdCookies,
+    access_token,
+    access_token_expiry,
+    refresh_token,
+    refresh_token_expiry,
+  ]);
+}
+
+export const saveUserDetailFromHome = async (id) => {
   await UserApi.DetailUser(id)
     .then((res) => {
       localStorage.removeItem("UserInWeb");
@@ -19,6 +46,34 @@ const saveUserDetailRegister = async (id) => {
         data.avatar,
         data.type
       );
+      localStorage.removeItem("UserInWeb");
+      localStorage.setItem("UserInWeb", JSON.stringify(userDetail));
+    })
+    .catch((error) => {
+      toast("Lỗi lưu thông tin", {
+        type: "error",
+        autoClose: 1000,
+      });
+    });
+};
+
+export const saveUserDetailRegister = async (id) => {
+  await UserApi.DetailUser(id)
+    .then((res) => {
+      localStorage.removeItem("UserInWeb");
+      const data = res.data.data;
+      const userDetail = new UserDetailModel(
+        data.id,
+        data.username,
+        data.name,
+        data.birthday,
+        data.gender,
+        data.email,
+        data.phone,
+        data.avatar,
+        data.type
+      );
+      localStorage.removeItem("UserInWeb");
       localStorage.setItem("UserInWeb", JSON.stringify(userDetail));
       toast("Register success", {
         type: "success",

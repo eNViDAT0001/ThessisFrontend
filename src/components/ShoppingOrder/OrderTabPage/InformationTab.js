@@ -8,20 +8,23 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import {
   resetFormAddressInOrder,
+  setDistrictIdInFormCreate,
   setDistrictInFormCreate,
   setFormAddressSelected,
+  setGenderInFormCreate,
   setIsSelectedCustom,
   setNameInFormCreate,
   setPhoneInFormCreate,
+  setProvinceIdInFormCreate,
   setProvinceInFormCreate,
   setStreetInFormCreate,
+  setWardIdInFormCreate,
   setWardInFormCreate,
 } from "../../../app/slices/AddressSlice";
 import {
   changeAttributeForOptionInDistrict,
   changeAttributeForOptionInProvince,
   changeAttributeForOptionInWard,
-  resetAddressSelected,
   useAddressInFormCreate,
   useDistrict,
   useFetchInformationAddressInOrder,
@@ -32,7 +35,6 @@ import {
   useWard,
 } from "../../../app/hook/AddressHook";
 import { useListItemInCartSelected } from "../../../app/hook/CartHook";
-import { useEffect } from "react";
 import { useShippingFee } from "../../../app/hook/OrderHook";
 
 export const InformationTab = () => {
@@ -40,7 +42,6 @@ export const InformationTab = () => {
   const addressForm = useFormAddressSelected();
   const dataAddressSave = useListAddress() || [];
   const isClickCustom = useIsSelectedCustom() || false;
-
   const formAddressCreated = useAddressInFormCreate() || {};
 
   const listProvince = useProvince() || [];
@@ -63,6 +64,7 @@ export const InformationTab = () => {
     dispatch(setPhoneInFormCreate(value.phone));
     dispatch(setStreetInFormCreate(value.street));
     dispatch(setProvinceInFormCreate(value.province));
+    dispatch(setGenderInFormCreate(value.gender));
     dispatch(setDistrictInFormCreate(value.district));
     dispatch(setWardInFormCreate(value.ward));
   };
@@ -72,6 +74,7 @@ export const InformationTab = () => {
   const changeUIWhenClickButton = (e) => {
     if (isClickCustom) {
       dispatch(setFormAddressSelected({}));
+    } else {
       dispatch(resetFormAddressInOrder());
     }
     dispatch(setIsSelectedCustom(!isClickCustom));
@@ -89,10 +92,21 @@ export const InformationTab = () => {
     dispatch(setStreetInFormCreate(e.target.value));
   };
 
-  const onChangeProvince = (e) => {};
+  const onChangeProvince = (e, value) => {
+    dispatch(setProvinceInFormCreate(value.label));
+    dispatch(setProvinceIdInFormCreate(value.id));
+    dispatch(setDistrictInFormCreate(""));
+    dispatch(setWardInFormCreate(""));
+  };
 
-  const onChangeDistrict = (e) => {};
-  const onChangeWard = (e) => {};
+  const onChangeDistrict = (e, value) => {
+    dispatch(setDistrictIdInFormCreate(value.id));
+    dispatch(setDistrictInFormCreate(value.label));
+  };
+  const onChangeWard = (e, value) => {
+    dispatch(setWardIdInFormCreate(value.id));
+    dispatch(setWardInFormCreate(value.label));
+  };
 
   useShippingFee(listItem, addressForm);
   useFetchInformationAddressInOrder(

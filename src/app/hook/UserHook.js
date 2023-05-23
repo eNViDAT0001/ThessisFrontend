@@ -15,9 +15,9 @@ export const useMetaUserInAdmin = () =>
   useSelector((state) => state.user.metaUserInAdmin);
 export const useFilterUserInAdmin = () =>
   useSelector((state) => state.query.filterUserTabAdmin);
+
 export const useFetchListUser = async (filters) => {
   const dispatch = useDispatch();
-
   await useEffect(() => {
     dispatch(fetchListUser(filters));
   }, [dispatch, filters]);

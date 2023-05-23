@@ -48,13 +48,8 @@ export const updateStatusDelivered = async (idOrder, body) => {
   });
 };
 export const addNewOrder = async (body) => {
-  await OrderApi.AddNewOrder(body)
-    .then((res) => {
-      return res.data.data[0];
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  const res = await OrderApi.AddNewOrder(body);
+  return res.data.data[0];
 };
 
 export const fetchOrderInProvider = (id, filters) => async (dispatch) => {
@@ -189,10 +184,11 @@ export const afterProcessPayment = async (order, userID, dataID) => {
     await OrderApi.AddNewPayment(body)
       .then(async (res) => {
         const body = {
-          order_ids: dataID,
+          order_ids: [dataID],
           payment_id: res.data.data.id,
           payment_url: order.links[0].href,
         };
+
         await updateOrder(body);
       })
       .catch((err) => {
@@ -220,6 +216,7 @@ export const addNewOrderCOD = async (body, userID) => {
 };
 const updateOrder = async (body) => {
   try {
+    console.log("body is", body);
     await OrderApi.UpdateOrder(body)
       .then(() => {
         toast("Your order created success", {
