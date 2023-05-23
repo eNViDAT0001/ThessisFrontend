@@ -24,20 +24,12 @@ export const useDistrict = () => useSelector((state) => state.address.district);
 export const useAddressDetail = () =>
   useSelector((state) => state.address.addressDetail);
 export const useWard = () => useSelector((state) => state.address.ward);
-export const useNameInFormCreate = () =>
-  useSelector((state) => state.address.nameInFormCreate);
-export const usePhoneInFormCreate = () =>
-  useSelector((state) => state.address.phoneInFormCreate);
-export const useProvinceInFormCreate = () =>
-  useSelector((state) => state.address.provinceInFormCreate);
-export const useDistrictInFormCreate = () =>
-  useSelector((state) => state.address.districtInFormCreate);
-export const useWardInFormCreate = () =>
-  useSelector((state) => state.address.wardInFormCreate);
-export const useStreetInFormCreate = () =>
-  useSelector((state) => state.address.streetInFormCreate);
+export const useAddressInFormCreate = () =>
+  useSelector((state) => state.address.addressInOrder);
 export const useFormAddressSelected = () =>
   useSelector((state) => state.address.formAddressSelected);
+export const useIsSelectedCustom = () =>
+  useSelector((state) => state.address.isSelectedCustom);
 
 export const deleteAddressSelect = async (userID, body) => {
   await AddressApi.DeleteAddress(userID, body)
@@ -77,6 +69,32 @@ export const useFetchListAddress = async (userID) => {
 };
 
 export const useFetchInformationInAddAddress = async (
+  provinceID,
+  districtID
+) => {
+  const dispatch = useDispatch();
+  const prevProvince = useRef(provinceID);
+  const prevDistrict = useRef(districtID);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchListProvince()).then(() => {
+          if (districtID !== prevDistrict.current) {
+            return dispatch(fetchListWard(districtID));
+          } else if (provinceID !== prevProvince.current) {
+            return dispatch(fetchListDistrict(provinceID));
+          }
+        });
+        prevProvince.current = provinceID;
+        prevDistrict.current = districtID;
+      } catch (error) {}
+    };
+    fetchData();
+  }, [dispatch, provinceID, districtID]);
+};
+
+export const useFetchInformationAddressInOrder = async (
   provinceID,
   districtID
 ) => {

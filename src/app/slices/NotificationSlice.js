@@ -4,6 +4,7 @@ const initialState = {
   listNotification: [],
   metaInNotification: {},
   listNotificationSmall: [],
+  c: 0,
 };
 
 const notificationSlice = createSlice({
@@ -34,6 +35,15 @@ const notificationSlice = createSlice({
         ],
       };
     },
+    setUnseen: (state, action) => {
+      state.totalUnseen = action.payload;
+    },
+    decreaseUnseen: (state, action) => {
+      state.totalUnseen -= 1;
+    },
+    increaseUnseen: (state, action) => {
+      state.totalUnseen += 1;
+    },
   },
 });
 
@@ -42,7 +52,10 @@ export const {
   setMetaInNotification,
   setListNotificationSmall,
   addNotification,
-  addBeginningInNotifySmall
+  addBeginningInNotifySmall,
+  setUnseen,
+  decreaseUnseen,
+  increaseUnseen,
 } = notificationSlice.actions;
 
 export default notificationSlice.reducer;

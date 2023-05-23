@@ -18,6 +18,10 @@ export const WebSocketApi = {
     const url = `/notifications/users/${userID}?${filter}`;
     return axiosClient.get(url);
   },
+  GetListNotificationFullView: (userID, filter) => {
+    const url = `/notifications/fullview/users/${userID}?${filter}`;
+    return axiosClient.get(url);
+  },
   SeenNotification: (notifyID, userID) => {
     const url = `/notifications/${notifyID}/user/${userID}`;
     return axiosClient.patch(url);

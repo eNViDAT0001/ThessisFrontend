@@ -50,7 +50,6 @@ export const FixAddressForm = (props) => {
 
   const onChangeProvince = (e, value) => {
     setProvinceName(value.label);
-
     setProvinceID(value.id);
     setDistrictName("");
     setWardName("");

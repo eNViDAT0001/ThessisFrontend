@@ -3,9 +3,11 @@ import { WebSocketApi } from "../../api/WebSocketApi";
 import {
   addBeginningInNotifySmall,
   addNotification,
+  increaseUnseen,
   setListNotification,
   setListNotificationSmall,
   setMetaInNotification,
+  setUnseen,
 } from "../slices/NotificationSlice";
 import { useEffect } from "react";
 import { useRef } from "react";
@@ -19,6 +21,9 @@ export const useMetaInNotification = () =>
   useSelector((state) => state.notification.metaInNotification);
 export const useNotificationSmall = () =>
   useSelector((state) => state.notification.listNotificationSmall);
+export const useUnSeen = () =>
+  useSelector((state) => state.notification.totalUnseen);
+
 export const useFetchNotification = (userID, filter) => {
   const dispatch = useDispatch();
   const prevFilter = useRef(filter);
@@ -66,6 +71,7 @@ export const useFetchNotificationSmall = (userID, wsSocket) => {
 
     if (wsSocket !== prevSocket.current) {
       if (wsSocket.type === "NotificationNew") {
+        dispatch(increaseUnseen());
         dispatch(addBeginningInNotifySmall(wsSocket.payload));
       }
     }
@@ -74,8 +80,12 @@ export const useFetchNotificationSmall = (userID, wsSocket) => {
 };
 const fetchListNotification = (userID, filter) => async (dispatch) => {
   try {
-    const response = await WebSocketApi.GetListNotification(userID, filter);
+    const response = await WebSocketApi.GetListNotificationFullView(
+      userID,
+      filter
+    );
     dispatch(setListNotification(response.data.data));
+    dispatch(setUnseen(response.data.extra_data.total_unseen));
     dispatch(setMetaInNotification(response.data.meta));
   } catch (error) {
     console.log(error);
@@ -84,11 +94,12 @@ const fetchListNotification = (userID, filter) => async (dispatch) => {
 
 const fetchListNotificationSmall = (userID) => async (dispatch) => {
   try {
-    const response = await WebSocketApi.GetListNotification(
+    const response = await WebSocketApi.GetListNotificationFullView(
       userID,
       "sorts[]=id_DESC&limit=6"
     );
     dispatch(setListNotificationSmall(response.data.data));
+    dispatch(setUnseen(response.data.extra_data.total_unseen));
   } catch (error) {
     console.log(error);
   }
@@ -129,6 +140,9 @@ export const seenAllNotificationInAccount = async (userID) => {
         toast("You seen all notification success", {
           type: "success",
           autoClose: 1000,
+          onClose: setTimeout(() => {
+            window.location.reload();
+          }, 2000),
         });
       })
       .catch((err) => console.log(err));
