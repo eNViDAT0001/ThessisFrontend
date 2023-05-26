@@ -11,6 +11,7 @@ const initialState = {
   descriptionProduct: [],
   specificationProduct: [],
   optionHandle: {},
+  brandInProductDetail: {},
 };
 
 const productSlice = createSlice({
@@ -52,6 +53,9 @@ const productSlice = createSlice({
     setMetaInProductInAdmin: (state, action) => {
       state.metaInProductInAdmin = action.payload;
     },
+    setBrandInProductDetail: (state, action) => {
+      state.brandInProductDetail = action.payload;
+    },
   },
 });
 
@@ -67,6 +71,7 @@ export const {
   setProductForYou,
   setListProductInAdmin,
   setMetaInProductInAdmin,
+  setBrandInProductDetail,
 } = productSlice.actions;
 
 export default productSlice.reducer;

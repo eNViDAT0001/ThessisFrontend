@@ -67,19 +67,19 @@ export const MessageListComponent = memo(() => {
         </div>
       </div>
 
-      <div className="flex flex-row justify-between mb-2">
-        <div className="bg-white rounded-lg shadow-md w-full h-full ">
-          <form className="flex items-center ">
+      <div className="flex flex-row justify-between mb-1">
+        <div className="bg-white rounded-lg w-full h-full ">
+          <form className="flex items-center flex-row space-x-5 ">
             <input
               type="text"
               onChange={handleChangeText}
               placeholder="Type your message..."
-              className="flex-grow bg-gray-200 text-gray-700 rounded-full  p-2 overflow-y-scroll"
+              className="flex-grow bg-gray-200 text-gray-700 rounded-md  p-2 overflow-y-scroll"
             />
             <button
               type="submit"
               onClick={handleButtonSend}
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full py-2 px-4 transition-colors duration-300"
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-md py-2 px-4 transition-colors duration-300 "
             >
               Send
             </button>

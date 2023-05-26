@@ -14,7 +14,7 @@ export const DetailOrder = ({ id }) => {
   return (
     <div className="flex flex-row flex-1 space-x-5 w-full">
       {!checkObjectEmpty(orderHandleDetail) && (
-        <div>
+        <div className="flex flex-row space-x-5">
           <div className="p-5 border rounded-md shadow-md">
             <h1 className=" font-semibold text-lg">Customer information :</h1>
             <h1>{orderHandleDetail.name}</h1>

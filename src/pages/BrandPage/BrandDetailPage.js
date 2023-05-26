@@ -5,12 +5,14 @@ import { OrderInDetailBrand } from "../../components/Brand/Detail/OrderInDetailB
 import { ProductInDetailBrand } from "../../components/Brand/Detail/ProductInDetailBrand/ProductInDetailBrand";
 import { useFetchFullInBrandDetailPage } from "../../app/hook/BrandHook";
 import { useDispatch } from "react-redux";
+import { useUserID } from "../../app/hook/UserHook";
 
 export const BrandDetailPage = () => {
   const { id } = useParams();
+  const userId = useUserID()
   const dispatch = useDispatch()
 
-  useFetchFullInBrandDetailPage(id)
+  useFetchFullInBrandDetailPage(id, userId)
   
 
   useEffect(() => {

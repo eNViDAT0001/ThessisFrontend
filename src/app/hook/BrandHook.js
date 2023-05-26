@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ProviderApi } from "../../api/ProviderApi";
 import {
+  setBrandDetail,
   setListBrand,
   setListProductInBrandDetail,
   setListShopInAdmin,
@@ -25,6 +26,8 @@ export const useListBrandInAdmin = () =>
   useSelector((state) => state.brand.listShopInAdmin);
 export const useMetaInShopInAdmin = () =>
   useSelector((state) => state.brand.metaInShopInAdmin);
+export const useBrandDetail = () =>
+  useSelector((state) => state.brand.brandDetail);
 export const useFilterInShopInAdmin = () =>
   useSelector((state) => state.query.filterShopTabAdmin);
 export const useFilterInProductInBrandDetail = () =>
@@ -72,7 +75,7 @@ export const fetchListBrand = (id, filter) => async (dispatch) => {
   }
 };
 
-export const useFetchFullInBrandDetailPage = async (id) => {
+export const useFetchFullInBrandDetailPage = async (id, userId) => {
   const dispatch = useDispatch();
   dispatch(setProviderIDInProductInDetailBrand(id));
   const filter = useFilterInProductInBrandDetail();
@@ -82,15 +85,22 @@ export const useFetchFullInBrandDetailPage = async (id) => {
       try {
         await dispatch(
           fetchListProductInBrandDetail(convertObjectToStringQuery(filter))
-        ).then(() => {
-          return dispatch(fetchOrderInProvider(id));
-        });
+        )
+          .then(() => {
+            return dispatch(fetchOrderInProvider(id));
+          })
+          .then(() => {
+            return dispatch(fetchBrandDetail(id, userId));
+          });
       } catch (error) {}
     };
     fetchData();
-  }, [id, dispatch, filter]);
+  }, [id, dispatch, filter, userId]);
 };
-
+const fetchBrandDetail = (providerId, userId) => async (dispatch) => {
+  const response = await ProviderApi.GetBrandDetail(providerId, userId);
+  dispatch(setBrandDetail(response.data.data));
+};
 export const fetchListProductInBrandDetail = (filter) => async (dispatch) => {
   try {
     const response = await ProductApi.GetProductPreview(filter);

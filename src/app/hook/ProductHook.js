@@ -5,6 +5,7 @@ import { setListBanner } from "../slices/BannerSlice";
 import { setCategoryRoot } from "../slices/CategorySlice";
 import { toast } from "react-toastify";
 import {
+  setBrandInProductDetail,
   setDescriptionProduct,
   setImageProduct,
   setListProductInAdmin,
@@ -46,6 +47,8 @@ import {
   containsOnlyNumbers,
 } from "./CommonHook";
 import { setTreeCategoryInAddProduct } from "../slices/AddProductSlice";
+import { ProviderApi } from "../../api/ProviderApi";
+import { useUserID } from "./UserHook";
 
 export const useProductInHome = () =>
   useSelector((state) => state.product.productInHome);
@@ -65,6 +68,8 @@ export const useQuantityHandle = () =>
   useSelector((state) => state.product.quantityHandle);
 export const useFilterProductInHome = () =>
   useSelector((state) => state.query.productInHome);
+export const useBrandInProductDetail = () =>
+  useSelector((state) => state.product.brandInProductDetail);
 export const useProductForyou = () =>
   useSelector((state) => state.product.productForyou);
 
@@ -120,6 +125,7 @@ const fetchBannerInHomePage = () => async (dispatch) => {
 };
 
 export const useFetchFullFromProductDetail = async (id, filter) => {
+  const userId = useUserID();
   const dispatch = useDispatch();
   const prevFilterRef = useRef(filter);
   useLayoutEffect(() => {
@@ -129,6 +135,14 @@ export const useFetchFullFromProductDetail = async (id, filter) => {
           await dispatch(fetchCommentInProductDetail(id, filter));
         } else {
           await dispatch(fetchBasicInformationInProductDetailPage(id))
+            .then(async (res) => {
+              if (res) {
+                await dispatch(
+                  fetchBrandInProductDetail(res.provider_id, userId)
+                );
+              }
+              return res;
+            })
             .then(() => {
               return dispatch(fetchMediaInProductDetailPage(id));
             })
@@ -152,15 +166,21 @@ export const useFetchFullFromProductDetail = async (id, filter) => {
       } catch (err) {}
     };
     fetchData();
-  }, [id, dispatch, filter, prevFilterRef]);
+  }, [id, dispatch, filter, prevFilterRef, userId]);
 };
 
 const fetchBasicInformationInProductDetailPage = (id) => async (dispatch) => {
   try {
-    await ProductApi.GetDetailProduct(id).then((res) => {
-      dispatch(setProductDetail(res.data.data));
-    });
+    const response = await ProductApi.GetDetailProduct(id);
+    const res = response.data.data;
+    dispatch(setProductDetail(res));
+    return res;
   } catch (error) {}
+};
+
+const fetchBrandInProductDetail = (providerId, userId) => async (dispatch) => {
+  const response = await ProviderApi.GetBrandDetail(providerId, userId);
+  dispatch(setBrandInProductDetail(response.data.data));
 };
 
 const fetchProductForyou = () => async (dispatch) => {

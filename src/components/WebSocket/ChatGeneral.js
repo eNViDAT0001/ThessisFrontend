@@ -33,22 +33,18 @@ export const ChatGeneral = () => {
         <ListChannel />
       </div>
       <Divider orientation="vertical" variant="middle" flexItem />
-      {!handleChannel.to_user_id ? (
-        <div className="flex-1 flex w-[55%] h-full">
-          <div className="flex justify-center items-center w-full h-full">
-            <div className="flex justify-center items-center">
-              <div>
-                <SpeakerNotesOffIcon />
-              </div>
-              <h1>You don't have any message</h1>
+      <div className="flex-1 flex w-[55%] justify-center items-center">
+        {!handleChannel.to_user_id ? (
+          <div className="flex justify-center items-center">
+            <div>
+              <SpeakerNotesOffIcon />
             </div>
+            <h1>You don't have any message</h1>
           </div>
-        </div>
-      ) : (
-        <div className="w-[55%]">
+        ) : (
           <MessageListComponent data={handleChannel} />
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

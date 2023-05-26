@@ -22,6 +22,10 @@ export const WebSocketApi = {
     const url = `/notifications/fullview/users/${userID}?${filter}`;
     return axiosClient.get(url);
   },
+  CheckChatRoom: (user1ID, user2ID) => {
+    const url = `/chats/channels/from/${user1ID}/to/${user2ID}`;
+    return axiosClient.get(url);
+  },
   SeenNotification: (notifyID, userID) => {
     const url = `/notifications/${notifyID}/user/${userID}`;
     return axiosClient.patch(url);
