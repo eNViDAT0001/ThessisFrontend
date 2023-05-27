@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { ProductNotAvailable } from "../../asset/ProductNotAvailable";
 import { useDispatch } from "react-redux";
 import { setMarkerInFilterCategory } from "../../app/slices/QuerySlice";
+import { Pagination } from "@mui/material";
 
 const imageNotAvailable =
   "https://st4.depositphotos.com/14953852/22772/v/600/depositphotos_227725020-stock-illustration-image-available-icon-flat-vector.jpg";
@@ -18,8 +19,8 @@ export const ListProductInCategory = () => {
   const listProduct = useListProductInCategory() || [];
   const metaInProductInCategory = useMetaInProductInCategory() || {};
 
-  const handleShowMore = (e) => {
-    dispatch(setMarkerInFilterCategory(metaInProductInCategory.paging.Current));
+  const handleChangePage = (e, value) => {
+    dispatch(setMarkerInFilterCategory(value));
   };
   return (
     <div>
@@ -75,24 +76,11 @@ export const ListProductInCategory = () => {
       )}
       {!checkObjectEmpty(metaInProductInCategory) && (
         <div className="flex justify-center">
-          <button
-            className="text-blue-500 hover:text-blue-700 mb-4"
-            onClick={handleShowMore}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 inline-block mr-1"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zM9 6h2v6H9V6zm2 8h1v1h-1v-1z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Load More
-          </button>
+          <Pagination
+            count={metaInProductInCategory.paging.Pages}
+            defaultPage={metaInProductInCategory.paging.Current}
+            onChange={handleChangePage}
+          />
         </div>
       )}
     </div>

@@ -9,6 +9,7 @@ import { useUserID } from "../../app/hook/UserHook";
 import { useDispatch, useSelector } from "react-redux";
 import { setListNotificationSmall } from "../../app/slices/NotificationSlice";
 import { truncateString } from "../../app/hook/CommonHook";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 export const Notification = () => {
   const handleMouseEnter = (e) => {
@@ -70,19 +71,7 @@ export const Notification = () => {
           className="text-blue-500 hover:text-blue-700 mb-4"
           onClick={handleShowMore}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 inline-block mr-1"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zM9 6h2v6H9V6zm2 8h1v1h-1v-1z"
-              clipRule="evenodd"
-            />
-          </svg>
-          Load More
+          <ArrowDownwardIcon />
         </button>
       </div>
     </div>

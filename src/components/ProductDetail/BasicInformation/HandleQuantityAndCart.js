@@ -79,20 +79,20 @@ export const HandleQuantityAndCart = (props) => {
         <ToastContainer position="top-right" newestOnTop />
         <div>
           <div className=" flex flex-row space-x-5 ">
-            <div className="flex flex-row space-x-6">
-              <h1 className=" font-bold ">Height:</h1>
+            <div className="flex flex-row space-x-2 items-center">
+              <h1 className=" text-[#929292] text-lg ">Height:</h1>
               <h1>{productDetail.height}</h1>
             </div>
-            <div className="flex flex-row space-x-6">
-              <h1 className=" font-bold ">Length:</h1>
+            <div className="flex flex-row space-x-2 items-center">
+              <h1 className=" text-[#929292] text-lg ">Length:</h1>
               <h1>{productDetail.length}</h1>
             </div>
-            <div className="flex flex-row space-x-5">
-              <h1 className=" font-bold ">Weight:</h1>
+            <div className="flex flex-row space-x-2 items-center">
+              <h1 className=" text-[#929292] text-lg">Weight:</h1>
               <h1>{productDetail.weight}</h1>
             </div>
-            <div className="flex flex-row space-x-7">
-              <h1 className=" font-bold ">Width:</h1>
+            <div className="flex flex-row space-x-2 items-center">
+              <h1 className=" text-[#929292] text-lg">Width:</h1>
               <h1>{productDetail.width}</h1>
             </div>
           </div>

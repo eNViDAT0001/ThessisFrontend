@@ -74,10 +74,6 @@ const initialState = {
   },
 
   filterInCategoryPage: {
-    type: {
-      type: null,
-      value: "cursor",
-    },
     name: {
       type: "search[]",
       value: null,

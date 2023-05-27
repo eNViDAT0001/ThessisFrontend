@@ -121,14 +121,7 @@ export const useFetchAllInCategory = async (
           filter !== prevFilterRef.current
         ) {
           await dispatch(fetchCategoryChildren(categoryID)).then(() => {
-            if (
-              filter.marker.value !== prevFilterRef.current.marker.value &&
-              categoryID === prevIDRef.current
-            ) {
-              return dispatch(addProductInCategory(categoryID, stringQuery));
-            } else {
-              return dispatch(fetchProductInCategory(categoryID, stringQuery));
-            }
+            return dispatch(fetchProductInCategory(categoryID, stringQuery));
           });
         } else {
           await dispatch(fetchListTreeCategory())
@@ -171,9 +164,6 @@ export const addProductInCategory =
 
 const fetchProductInCategory = (categoryID, filter) => async (dispatch) => {
   try {
-    dispatch(setMarkerInFilterCategory(null));
-    dispatch(setListProductInCategory([]));
-    dispatch(setMetaProductInCategory({}));
     await ProductApi.GetProductPreviewFromCategory(categoryID, filter).then(
       (res) => {
         dispatch(setListProductInCategory(res.data.data));

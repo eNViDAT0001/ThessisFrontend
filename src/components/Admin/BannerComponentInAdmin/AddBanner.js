@@ -39,7 +39,6 @@ export const AddBanner = () => {
 
   let timeoutId;
   const [title, setTitle] = useState(null);
-  const [collection, setCollection] = useState(null);
   const [discount, setDiscount] = useState(0);
   const [newImage, setNewImage] = useState(null);
   const [endTime, setEndTime] = useState(Date.now());
@@ -51,10 +50,6 @@ export const AddBanner = () => {
 
   const handleInputTitle = (e) => {
     setTitle(e.target.value);
-  };
-
-  const handleInputCollection = (e) => {
-    setCollection(e.target.value);
   };
 
   const handleSetDiscount = (e) => {
@@ -101,7 +96,6 @@ export const AddBanner = () => {
     const body = {
       user_id: userID,
       title: title,
-      collection: collection,
       discount: parseInt(discount),
       end_time: endTime,
       image: newImage,
@@ -115,7 +109,7 @@ export const AddBanner = () => {
     <div className="w-full p-10 border space-y-5">
       <ToastContainer position="top-right" newestOnTop />
 
-      <div className="flex flex-row  space-x-4 items-center">
+      <div className="flex flex-row  space-x-11 items-center">
         <h1 className="font-semibold whitespace-nowrap ">Title :</h1>
         <TextField
           required
@@ -126,18 +120,8 @@ export const AddBanner = () => {
           label="title"
         />
       </div>
-      <div className="flex flex-row  space-x-4 items-center">
-        <h1 className="font-semibold whitespace-nowrap ">Collection :</h1>
-        <TextField
-          required
-          sx={{ width: 0.75 }}
-          size="small"
-          id="outlined-required"
-          onChange={handleInputCollection}
-          label="collection"
-        />
-      </div>
-      <div className="flex flex-row  space-x-4 items-center">
+     
+      <div className="flex flex-row  space-x-5 items-center">
         <h1 className="font-semibold whitespace-nowrap ">Discount:</h1>
         <TextField
           required

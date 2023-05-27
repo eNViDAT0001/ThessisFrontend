@@ -4,7 +4,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
   resetFormAddressInOrder,
@@ -12,7 +12,7 @@ import {
   setDistrictInFormCreate,
   setFormAddressSelected,
   setGenderInFormCreate,
-  setIsSelectedCustom,
+  setIsCheckSelected,
   setNameInFormCreate,
   setPhoneInFormCreate,
   setProvinceIdInFormCreate,
@@ -29,7 +29,7 @@ import {
   useDistrict,
   useFetchInformationAddressInOrder,
   useFormAddressSelected,
-  useIsSelectedCustom,
+  useIsCheckSelected,
   useListAddress,
   useProvince,
   useWard,
@@ -41,7 +41,7 @@ export const InformationTab = () => {
   const dispatch = useDispatch();
   const addressForm = useFormAddressSelected();
   const dataAddressSave = useListAddress() || [];
-  const isClickCustom = useIsSelectedCustom() || false;
+  const isCheckSelected = useIsCheckSelected() || false;
   const formAddressCreated = useAddressInFormCreate() || {};
 
   const listProvince = useProvince() || [];
@@ -51,7 +51,6 @@ export const InformationTab = () => {
   const newDataProvince = changeAttributeForOptionInProvince(listProvince);
   const newDistrict = changeAttributeForOptionInDistrict(listDistrict);
   const newWard = changeAttributeForOptionInWard(listWard);
-
   const newAddressSave = dataAddressSave.map((data) => ({
     ...data,
     label:
@@ -72,12 +71,12 @@ export const InformationTab = () => {
   const listItem = useListItemInCartSelected();
 
   const changeUIWhenClickButton = (e) => {
-    if (isClickCustom) {
+    dispatch(setIsCheckSelected(!isCheckSelected));
+    if (!isCheckSelected) {
       dispatch(setFormAddressSelected({}));
     } else {
       dispatch(resetFormAddressInOrder());
     }
-    dispatch(setIsSelectedCustom(!isClickCustom));
   };
 
   const handleInputName = (e) => {
@@ -108,7 +107,8 @@ export const InformationTab = () => {
     dispatch(setWardInFormCreate(value.label));
   };
 
-  useShippingFee(listItem, addressForm);
+  useShippingFee(listItem, addressForm, isCheckSelected, formAddressCreated);
+
   useFetchInformationAddressInOrder(
     formAddressCreated.provinceId,
     formAddressCreated.districtId
@@ -120,15 +120,18 @@ export const InformationTab = () => {
       <div className="flex flex-row justify-start items-center">
         <FormControlLabel
           className="text-[#2D3748]"
-          control={<Checkbox size="small" color="default" />}
+          control={
+            <Checkbox size="small" color="default" value={isCheckSelected} />
+          }
           isOptionEqualToValue={(option, value) => option === value}
           label="Choose address save"
           onChange={changeUIWhenClickButton}
         />
+
         <Autocomplete
           disablePortal
           id="combo-box-demo"
-          disabled={!isClickCustom}
+          disabled={!isCheckSelected}
           options={newAddressSave}
           onChange={selectTheAddress}
           isOptionEqualToValue={(option, value) => option === value}
@@ -142,13 +145,13 @@ export const InformationTab = () => {
           <TextField
             id="outlined-basic"
             InputProps={{
-              readOnly: isClickCustom,
+              readOnly: isCheckSelected,
             }}
             label="Name"
             sx={{ width: 300 }}
             variant="outlined"
             value={formAddressCreated.name}
-            disabled={isClickCustom}
+            disabled={isCheckSelected}
             onChange={handleInputName}
             className="h-max-[5px] "
           />
@@ -159,9 +162,9 @@ export const InformationTab = () => {
             id="outlined-basic"
             label="Phone"
             InputProps={{
-              readOnly: isClickCustom,
+              readOnly: isCheckSelected,
             }}
-            disabled={isClickCustom}
+            disabled={isCheckSelected}
             value={formAddressCreated.phone}
             sx={{ width: 175 }}
             onChange={handleInputPhone}
@@ -178,7 +181,7 @@ export const InformationTab = () => {
             <Autocomplete
               disablePortal
               id="combo-box-demo"
-              disabled={isClickCustom}
+              disabled={isCheckSelected}
               options={newDataProvince}
               isOptionEqualToValue={(option, value) =>
                 value && option && option.id === value.id
@@ -195,7 +198,7 @@ export const InformationTab = () => {
             <Autocomplete
               disablePortal
               id="combo-box-demo"
-              disabled={isClickCustom}
+              disabled={isCheckSelected}
               value={formAddressCreated.district}
               options={newDistrict}
               isOptionEqualToValue={(option, value) =>
@@ -212,7 +215,7 @@ export const InformationTab = () => {
             <Autocomplete
               disablePortal
               id="combo-box-demo"
-              disabled={isClickCustom}
+              disabled={isCheckSelected}
               value={formAddressCreated.ward}
               options={newWard}
               isOptionEqualToValue={(option, value) =>
@@ -230,7 +233,7 @@ export const InformationTab = () => {
           label="Street"
           variant="outlined"
           value={formAddressCreated.street}
-          disabled={isClickCustom}
+          disabled={isCheckSelected}
           onChange={handleInputStreet}
           className="h-max-[5px] w-full"
         />

@@ -8,7 +8,6 @@ import {
   useListTreeCategoryLogic,
 } from "../../../app/hook/CategoryHook";
 import Button from "@mui/material/Button";
-
 import { TreeCategoryInUpdateInAdmin } from "./TreeCategoryInUpdateInAdmin";
 import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
@@ -103,7 +102,7 @@ export const UpdateCategory = () => {
           </div>
 
           <div className="flex flex-row space-x-4 items-start">
-            <h1 className="font-semibold whitespace-nowrap ">
+            <h1 className="font-semibold whitespace-nowrap mt-2">
               Select category parent:
             </h1>
             <TreeCategoryInUpdateInAdmin data={categoryTree} idHandle={0} />

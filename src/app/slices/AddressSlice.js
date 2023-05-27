@@ -20,7 +20,7 @@ const initialState = {
     street: "",
   },
   formAddressSelected: {},
-  isSelectedCustom: false,
+  isCheckSelected: false,
 };
 
 const AddressSlice = createSlice({
@@ -90,8 +90,8 @@ const AddressSlice = createSlice({
         street: "",
       };
     },
-    setIsSelectedCustom: (state, action) => {
-      state.isSelectedCustom = action.payload;
+    setIsCheckSelected: (state, action) => {
+      state.isCheckSelected = action.payload;
     },
   },
 });
@@ -114,6 +114,6 @@ export const {
   setWard,
   setUserAddress,
   resetFormAddressInOrder,
-  setIsSelectedCustom,
+  setIsCheckSelected,
 } = AddressSlice.actions;
 export default AddressSlice.reducer;

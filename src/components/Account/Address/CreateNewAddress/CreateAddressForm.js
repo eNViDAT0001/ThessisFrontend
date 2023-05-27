@@ -79,7 +79,7 @@ export const CreateAddressForm = () => {
       <ToastContainer position="top-right" newestOnTop />
 
       <h1 className="ml-4 text-xl text-[#1D3178] font-semibold">
-        Address Detail
+        Create new address 
       </h1>
       <TextField
         required

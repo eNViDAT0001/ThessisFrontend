@@ -28,8 +28,8 @@ export const useAddressInFormCreate = () =>
   useSelector((state) => state.address.addressInOrder);
 export const useFormAddressSelected = () =>
   useSelector((state) => state.address.formAddressSelected);
-export const useIsSelectedCustom = () =>
-  useSelector((state) => state.address.isSelectedCustom);
+export const useIsCheckSelected = () =>
+  useSelector((state) => state.address.isCheckSelected);
 
 export const deleteAddressSelect = async (userID, body) => {
   await AddressApi.DeleteAddress(userID, body)

@@ -40,7 +40,7 @@ export const SubInformation = () => {
   const handleChat = async (e) => {
     const toUserID = parseInt(e.currentTarget.id);
     const res = await WebSocketApi.CheckChatRoom(userID, toUserID);
-    if (res.status == 200) {
+    if (res.status === 200) {
       const chatRoomId = res.data.data.ChatRoom.id;
       const body = {
         chat_room_id: chatRoomId,
@@ -51,7 +51,7 @@ export const SubInformation = () => {
         type: "TEXT",
       };
       dispatch(sendChat(body));
-    } else if (res.status == 204) {
+    } else if (res.status === 204) {
       const body = {
         from_user_id: toUserID,
         to_user_id: userID,

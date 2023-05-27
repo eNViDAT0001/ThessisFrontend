@@ -17,7 +17,7 @@ export const Banner = () => {
   return (
     <div>
       {listBanner.length !== 0 ? (
-        <div className="flex justify-center items-center px-[15%] border hover:shadow-md ">
+        <div className="flex justify-center items-center px-[15%] hover:shadow-md ">
           <Link
             className="w-full h-[600px] hover:cursor-pointer"
             to={`/banner/${listBanner[indexBanner].id}`}

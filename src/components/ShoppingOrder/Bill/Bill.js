@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import {
@@ -14,6 +14,7 @@ import {
 import {
   useAddressInFormCreate,
   useFormAddressSelected,
+  useIsCheckSelected,
   useIsSelectedCustom,
 } from "../../../app/hook/AddressHook";
 import { useUserID } from "../../../app/hook/UserHook";
@@ -36,7 +37,7 @@ export const Bill = () => {
   const paypalRef = useRef(null);
   const [totalShippingCost, setTotalShippingCost] = useState(0);
   const dataShippingCost = useDataShippingCost();
-  const isSelectedCustom = useIsSelectedCustom() || false;
+  const isCheckSelected = useIsCheckSelected();
 
   const createNewOrder = async () => {
     const addressFormPayment = JSON.parse(
@@ -70,7 +71,7 @@ export const Bill = () => {
   };
 
   useEffect(() => {
-    if (!isSelectedCustom) {
+    if (isCheckSelected) {
       localStorage.removeItem("addressInOrder");
       localStorage.setItem("addressInOrder", JSON.stringify(addressForm));
     } else {
@@ -80,10 +81,10 @@ export const Bill = () => {
         JSON.stringify(addressFormCreated)
       );
     }
-  }, [addressForm, isSelectedCustom, addressFormCreated]);
+  }, [addressForm, isCheckSelected, addressFormCreated]);
 
   const handleButtonPaymentCOD = (e) => {
-    if (isSelectedCustom) {
+    if (isCheckSelected) {
       if (!checkObjectEmpty(addressForm)) {
         const body = {
           user_id: userID,
@@ -101,7 +102,7 @@ export const Bill = () => {
           items: changePropListItem(listItem),
           cart_items_ids: getListIDCart(listItem),
         };
-        addNewOrderCOD(body, userID);
+        //addNewOrderCOD(body, userID);
       } else {
         const body = {
           user_id: userID,
@@ -119,7 +120,8 @@ export const Bill = () => {
           items: changePropListItem(listItem),
           cart_items_ids: getListIDCart(listItem),
         };
-        addNewOrderCOD(body, userID);
+        alert(JSON.stringify(body));
+        //addNewOrderCOD(body, userID);
       }
     }
   };

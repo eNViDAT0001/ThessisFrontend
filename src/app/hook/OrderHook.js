@@ -258,30 +258,67 @@ const getApiShippingFee = (body) => async (dispatch) => {
     });
 };
 
-export const useShippingFee = async (listItem, address) => {
+export const useShippingFee = async (
+  listItem,
+  addressSelected,
+  isClickSelected,
+  addressFormCreated
+) => {
   const dispatch = useDispatch();
-  const prevAddress = useRef(address);
 
-  if (prevAddress.current !== address) {
+  const prevAddressCreated = useRef(addressFormCreated);
+  const prevAddressSelected = useRef(addressSelected);
+
+  if (
+    (!isClickSelected && prevAddressCreated.current !== addressFormCreated) ||
+    (isClickSelected && prevAddressSelected.current !== addressSelected)
+  ) {
     dispatch(setDataShippingCost([]));
   }
 
   useEffect(() => {
-    if (!checkObjectEmpty(address)) {
-      listItem.map(async (data) => {
-        const body = {
-          service_id: 53321,
-          insurance_value: 500000,
-          from_district_id: 1542,
-          to_district_id: address.district_id,
-          to_ward_code: address.ward_code,
-          height: data.height,
-          weight: data.weight,
-          length: data.length,
-          width: data.width,
-        };
-        return await dispatch(getApiShippingFee(body));
-      });
+    if (isClickSelected) {
+      if (!checkObjectEmpty(addressSelected)) {
+        listItem.map(async (data) => {
+          const body = {
+            service_id: 53321,
+            insurance_value: 500000,
+            from_district_id: 1542,
+            to_district_id: addressSelected.district_id,
+            to_ward_code: addressSelected.ward_code,
+            height: data.height,
+            weight: data.weight,
+            length: data.length,
+            width: data.width,
+          };
+          return await dispatch(getApiShippingFee(body));
+        });
+      }
+    } else {
+      if (!checkObjectEmpty(addressFormCreated)) {
+        listItem.map(async (data) => {
+          const body = {
+            service_id: 53321,
+            insurance_value: 500000,
+            from_district_id: 1542,
+            to_district_id: addressFormCreated.districtId,
+            to_ward_code: addressFormCreated.wardId,
+            height: data.height,
+            weight: data.weight,
+            length: data.length,
+            width: data.width,
+          };
+          return await dispatch(getApiShippingFee(body));
+        });
+      }
     }
-  }, [dispatch, listItem, address]);
+    prevAddressCreated.current = addressFormCreated;
+    prevAddressSelected.current = addressSelected;
+  }, [
+    dispatch,
+    listItem,
+    addressSelected,
+    addressFormCreated,
+    isClickSelected,
+  ]);
 };

@@ -6,10 +6,11 @@ import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
-import { Paper, TableHead } from "@mui/material";
+import { Paper, TableHead, IconButton } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import { Autocomplete, TextField } from "@mui/material";
 import "react-toastify/ReactToastify.min.css";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
 import {
   updateStatus,
@@ -19,7 +20,11 @@ import {
   useMetaInOrderInAdmin,
 } from "../../app/hook/OrderHook";
 import { useUserID } from "../../app/hook/UserHook";
-import { checkObjectEmpty, convertObjectToStringQuery } from "../../app/hook/CommonHook";
+import {
+  checkObjectEmpty,
+  convertObjectToStringQuery,
+  currencyFormat,
+} from "../../app/hook/CommonHook";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import {
@@ -84,6 +89,12 @@ export const OrderTab = () => {
     dispatch(setLimitInFilterOrderTabAdmin(e.target.value));
   };
 
+  const handleButtonDetail = (data) => {
+    localStorage.removeItem("orderHandle");
+    localStorage.setItem("orderHandle", JSON.stringify(data));
+    window.location.replace(`/admin/order/${data.id}`);
+  };
+
   useEffect(() => {
     dispatch(setPageInFilterOrderTabAdmin(page + 1));
   }, [page, dispatch]);
@@ -112,6 +123,7 @@ export const OrderTab = () => {
           >
             <TableHead>
               <TableRow>
+                <StyledTableCell align="left">Detail</StyledTableCell>
                 <StyledTableCell align="center">Name</StyledTableCell>
                 <StyledTableCell align="left">Gender</StyledTableCell>
                 <StyledTableCell align="left">Phone</StyledTableCell>
@@ -138,6 +150,15 @@ export const OrderTab = () => {
                   hover
                   key={row.id}
                 >
+                  <StyledTableCell align="left">
+                    <IconButton
+                      aria-label="delete"
+                      id={row.id}
+                      onClick={(e) => handleButtonDetail(row)}
+                    >
+                      <RemoveRedEyeIcon />
+                    </IconButton>
+                  </StyledTableCell>
                   <StyledTableCell id={row.id} align="center">
                     {row.name}
                   </StyledTableCell>
@@ -150,7 +171,9 @@ export const OrderTab = () => {
                   <StyledTableCell align="left">{row.ward}</StyledTableCell>
                   <StyledTableCell align="left">{row.street} </StyledTableCell>
                   <StyledTableCell align="left">{row.quantity}</StyledTableCell>
-                  <StyledTableCell align="left">{row.total}</StyledTableCell>
+                  <StyledTableCell align="left">
+                    {currencyFormat(row.total)}đ
+                  </StyledTableCell>
                   <StyledTableCell align="left">
                     {row.discount}%
                   </StyledTableCell>

@@ -24,13 +24,13 @@ export const BannerDetail = () => {
     <div>
       {!checkObjectEmpty(bannerDetail) && (
         <div>
-          <div className="flex justify-center items-center px-[15%] border hover:shadow-md ">
+          <div className="flex justify-center items-center px-[15%]  ">
             <div className="w-full h-full skew-y-3 md:transform-none">
               <img src={bannerDetail.image} alt="anh san pham"></img>
             </div>
           </div>
 
-          <div className="p-10 border my-20">
+          <div className="p-10 my-20">
             {listProducts.length === 0 ? (
               <h1>YOU DON'T HAVE PRODUCT IN THIS BANNER</h1>
             ) : (
@@ -39,7 +39,7 @@ export const BannerDetail = () => {
                   <Link
                     key={data.id}
                     id={data.id}
-                    to={`product/${data.id}`}
+                    to={`/product/${data.id}`}
                     className=" w-[20%] h-[300px] border my-5 mx-5 mb-10 hover:scale-105 p-2 hover:border hover:shadow-2xl hover:rounded-xl hover:cursor-pointer  "
                   >
                     {data.media ? (

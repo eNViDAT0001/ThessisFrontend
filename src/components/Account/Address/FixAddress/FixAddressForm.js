@@ -111,7 +111,7 @@ export const FixAddressForm = (props) => {
           <ToastContainer position="top-right" newestOnTop />
 
           <h1 className="ml-4 text-xl text-[#1D3178] font-semibold">
-            Address Detail
+            Update your address
           </h1>
           <TextField
             required

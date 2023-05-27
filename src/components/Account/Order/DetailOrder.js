@@ -1,7 +1,7 @@
 import React from "react";
 import { useOrderHandleDetail, verifyOrder } from "../../../app/hook/OrderHook";
 import { checkObjectEmpty, currencyFormat } from "../../../app/hook/CommonHook";
-import { Button } from "@mui/material";
+import { Button, Divider } from "@mui/material";
 import { useUserID } from "../../../app/hook/UserHook";
 
 export const DetailOrder = ({ id }) => {
@@ -12,16 +12,17 @@ export const DetailOrder = ({ id }) => {
     verifyOrder(orderID, userID);
   };
   return (
-    <div className="flex flex-row flex-1 space-x-5 w-full">
+    <div className="flex flex-row-reverse flex-1 space-x-5 w-full ">
       {!checkObjectEmpty(orderHandleDetail) && (
-        <div className="flex flex-row space-x-5">
-          <div className="p-5 border rounded-md shadow-md">
+        <div className="flex flex-row border rounded-md shadow-md ">
+          <div className="p-5 ">
             <h1 className=" font-semibold text-lg">Customer information :</h1>
             <h1>{orderHandleDetail.name}</h1>
             <h1 className=" text-slate-600">{orderHandleDetail.phone}</h1>
             <h1 className=" text-slate-500">{`${orderHandleDetail.street}, ${orderHandleDetail.ward}, ${orderHandleDetail.district}, ${orderHandleDetail.province}`}</h1>
           </div>
-          <div className=" p-5 border rounded-md shadow-md">
+          <Divider orientation="vertical" flexItem />
+          <div className=" p-5 ">
             <div className="flex justify-between">
               <h1 className=" font-semibold text-lg">Information line:</h1>
               {orderHandleDetail.status === "DELIVERED" && (
@@ -48,10 +49,16 @@ export const DetailOrder = ({ id }) => {
                 <h1>{currencyFormat(orderHandleDetail.total)}đ</h1>
               </div>
               <div>
-                {orderHandleDetail.payment_id ? (
-                  <h1>You have already paid</h1>
+                {orderHandleDetail.cod ? (
+                  <h1>COD</h1>
                 ) : (
-                  <h1>You have not pay yet</h1>
+                  <div>
+                    {orderHandleDetail.payment_id ? (
+                      <h1>Payment: Success</h1>
+                    ) : (
+                      <h1>Payment: Failed</h1>
+                    )}
+                  </div>
                 )}
               </div>
             </div>

@@ -99,13 +99,13 @@ export const ListViewProduct = (props) => {
             </Button>
           </div>
         </div>
-        <Divider />
+        <div className=" my-5">
+          <Divider />
+        </div>
         {listProductInBrand.length === 0 ? (
           <div className=" uppercase">This shop has no products</div>
         ) : (
           <div>
-            <h1 className="font-bold text-xl">Table product:</h1>
-
             <ToastContainer position="top-right" newestOnTop />
 
             <TableContainer component={Paper}>
