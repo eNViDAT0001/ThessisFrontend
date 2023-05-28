@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import { AddressApi } from "../../api/AddressApi";
 import { checkObjectEmpty } from "./CommonHook";
+import { setMetaOrderInBrandDetail } from "../slices/BrandSlice";
 
 export const useListOrderInProvider = () =>
   useSelector((state) => state.order.listOrderInProvider);
@@ -56,6 +57,7 @@ export const fetchOrderInProvider = (id, filters) => async (dispatch) => {
   try {
     const response = await OrderApi.GetOrderFromProvider(id, filters);
     dispatch(setListOrderInProvider(response.data.data));
+    dispatch(setMetaOrderInBrandDetail(response.data.meta))
   } catch (err) {
     console.log(err);
   }
@@ -189,7 +191,7 @@ export const afterProcessPayment = async (order, userID, dataID) => {
           payment_url: order.links[0].href,
         };
 
-        await updateOrder(body);
+        await updateOrder(body,userID);
       })
       .catch((err) => {
         console.log(err);
@@ -214,14 +216,16 @@ export const addNewOrderCOD = async (body, userID) => {
       alert(err);
     });
 };
-const updateOrder = async (body) => {
+const updateOrder = async (body,userID) => {
   try {
-    console.log("body is", body);
     await OrderApi.UpdateOrder(body)
       .then(() => {
         toast("Your order created success", {
           type: "success",
           autoClose: 1000,
+          onClose: setTimeout(() => {
+            window.location.replace(`/account-order/${userID}`);
+          }, 1000),
         });
       })
       .catch((err) => {

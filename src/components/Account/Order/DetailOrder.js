@@ -50,7 +50,7 @@ export const DetailOrder = ({ id }) => {
               </div>
               <div>
                 {orderHandleDetail.cod ? (
-                  <h1>COD</h1>
+                  <h1>Payment: COD</h1>
                 ) : (
                   <div>
                     {orderHandleDetail.payment_id ? (

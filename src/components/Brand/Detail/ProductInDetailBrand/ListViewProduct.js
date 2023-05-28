@@ -9,10 +9,18 @@ import TableContainer from "@mui/material/TableContainer";
 import Checkbox from "@mui/material/Checkbox";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import { IconButton, Paper, TableHead, Button, Divider } from "@mui/material";
+import {
+  IconButton,
+  Paper,
+  TableHead,
+  Button,
+  Divider,
+  TablePagination,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SettingsIcon from "@mui/icons-material/Settings";
 import {
+  checkObjectEmpty,
   currencyFormat,
   getSelectedIds,
 } from "../../../../app/hook/CommonHook";
@@ -23,6 +31,11 @@ import {
 import { useDispatch } from "react-redux";
 import { setListProductInBrandDetail } from "../../../../app/slices/BrandSlice";
 import { deleteListProduct } from "../../../../app/hook/ProductHook";
+import { useMetaInProductInBannerDetail } from "../../../../app/hook/BannerHook";
+import {
+  setLimitInProductInDetailBrand,
+  setPageInProductInDetailBrand,
+} from "../../../../app/slices/QuerySlice";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -46,9 +59,10 @@ const noImgAvailable =
 
 export const ListViewProduct = (props) => {
   const dispatch = useDispatch();
-
+  const [page, setPage] = useState(0);
   const listProductInBrand = useListProductInBrandDetail() || [];
   const [disableButtonDelete, setDisableButtonDelete] = useState(true);
+  const metaProduct = useMetaInProductInBannerDetail() || {};
 
   const handleButtonAdd = (e) => {
     window.location.replace(`/add-product-in-brand/${props.id}`);
@@ -63,8 +77,6 @@ export const ListViewProduct = (props) => {
     const body = {
       ids: listSelect,
     };
-    console.log(providerID);
-    console.log(listSelect);
     dispatch(deleteListProduct(providerID, body));
   };
 
@@ -76,11 +88,27 @@ export const ListViewProduct = (props) => {
   const handleClickImage = (id) => {
     window.location.replace(`/product/${id}/brand`);
   };
+
+  const handleChangePage = (e, newPage) => {
+    const nextPage = newPage;
+    setPage(nextPage);
+  };
+
+  const handleChangeRowsPerPage = (e) => {
+    setPage(0);
+    dispatch(setPageInProductInDetailBrand(1));
+    dispatch(setLimitInProductInDetailBrand(e.target.value));
+  };
+
   useEffect(() => {
     getSelectedIds(listProductInBrand).length === 0
       ? setDisableButtonDelete(true)
       : setDisableButtonDelete(false);
   }, [listProductInBrand]);
+
+  useEffect(() => {
+    dispatch(setPageInProductInDetailBrand(page + 1));
+  }, [page, dispatch]);
   return (
     <div className="space-y-3">
       <div>
@@ -174,6 +202,17 @@ export const ListViewProduct = (props) => {
               </Table>
             </TableContainer>
           </div>
+        )}
+        {!checkObjectEmpty(metaProduct) && (
+          <TablePagination
+            rowsPerPageOptions={[4, 8, 12, 16, 20]}
+            component="div"
+            count={metaProduct.paging.Count}
+            rowsPerPage={metaProduct.paging.PerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         )}
       </div>
     </div>

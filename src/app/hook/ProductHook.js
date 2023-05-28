@@ -179,7 +179,7 @@ const fetchBasicInformationInProductDetailPage = (id) => async (dispatch) => {
 };
 
 const fetchBrandInProductDetail = (providerId, userId) => async (dispatch) => {
-  const response = await ProviderApi.GetBrandDetail(providerId, userId);
+  let response = await ProviderApi.GetBrandDetail(providerId, userId)
   dispatch(setBrandInProductDetail(response.data.data));
 };
 
@@ -313,7 +313,7 @@ const mergeMediaToFix = (media, listMediaOld) => {
   for (let i = 0; i < media.length; i++) {
     const newObject = {
       media: {
-        media_path: media[i].media_path,
+        media_path: media[i].url,
       },
     };
     result.push(newObject);

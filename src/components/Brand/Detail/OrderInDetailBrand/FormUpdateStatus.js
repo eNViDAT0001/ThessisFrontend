@@ -31,7 +31,7 @@ export const FormUpdateStatus = ({ id }) => {
       {" "}
       <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
         <div className="bg-white p-4 rounded shadow">
-          <h2 className="text-xl font-bold mb-4">Form update order #{id}</h2>
+          <h2 className="text-xl font-bold mb-4">Update order #{id}</h2>
           <div className="flex flex-col space-y-4">
             <div className="flex flex-row space-x-4">
               <p>Status: </p>

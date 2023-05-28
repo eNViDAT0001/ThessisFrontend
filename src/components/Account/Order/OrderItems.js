@@ -101,8 +101,13 @@ export const OrderItems = (props) => {
                       <StyledTableCell align="left">
                         {row.quantity}
                       </StyledTableCell>
-                      <StyledTableCell align="left">
-                        {row.discount}%
+                      <StyledTableCell
+                        align="center"
+                        sx={{ width: 20, padding: 1 }}
+                      >
+                        <div className=" py-1 border border-[#C40201] text-[#C40201]">
+                          {`${row.discount}%`}
+                        </div>{" "}
                       </StyledTableCell>
                       {!(
                         type !== "user" ||

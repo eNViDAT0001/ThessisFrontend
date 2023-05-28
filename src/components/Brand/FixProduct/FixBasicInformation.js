@@ -164,7 +164,7 @@ export const FixBasicInformation = () => {
             />
           </div>
           <div className="flex flex-row space-x-8 items-start">
-            <h1 className="font-semibold">Select your Category:</h1>
+            <h1 className="font-semibold mt-1">Select your Category:</h1>
             <CategoryTreeFix />
           </div>
         </div>

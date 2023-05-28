@@ -103,7 +103,7 @@ export const FixProductInBrand = () => {
         dispatch
       );
       if (body) {
-        console.log("body", body);
+        //console.log("body", body);
         await deleteElement(
           id,
           userID,

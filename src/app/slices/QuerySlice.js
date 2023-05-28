@@ -16,25 +16,6 @@ const initialState = {
     },
   },
 
-  productInDetailBrand: {
-    name: {
-      type: "search[]",
-      value: "",
-    },
-    limit: {
-      type: null,
-      value: 8,
-    },
-    provider_id: {
-      type: "fields[]",
-      value: null,
-    },
-    marker: {
-      type: null,
-      value: null,
-    },
-  },
-
   filterBrand: {
     name: {
       type: "search[]",
@@ -138,6 +119,10 @@ const initialState = {
     marker: {
       type: null,
       value: 1,
+    },
+    id: {
+      type: "sorts[]",
+      value: "DESC",
     },
   },
 
@@ -296,10 +281,30 @@ const initialState = {
   },
 
   //bannerDetail
-  filterProductInBannerDetail: {
+
+  productInDetailBrand: {
+    name: {
+      type: "search[]",
+      value: "",
+    },
     limit: {
       type: null,
-      value: 12,
+      value: 4,
+    },
+    provider_id: {
+      type: "fields[]",
+      value: null,
+    },
+    marker: {
+      type: null,
+      value: 1,
+    },
+  },
+
+  filterOrderInBannerDetail: {
+    limit: {
+      type: null,
+      value: 4,
     },
     marker: {
       type: null,
@@ -347,20 +352,6 @@ const querySlice = createSlice({
     },
     setLimitInComment: (state, action) => {
       state.filterCommentInProductDetail.limit.value = action.payload;
-    },
-
-    //productInDetailBrand
-    setNameSearchInProductInDetailBrand: (state, action) => {
-      state.productInDetailBrand.name.value = action.payload;
-    },
-    setPageInProductInDetailBrand: (state, action) => {
-      state.productInDetailBrand.marker.value = action.payload;
-    },
-    setLimitInProductInDetailBrand: (state, action) => {
-      state.productInDetailBrand.limit.value = action.payload;
-    },
-    setProviderIDInProductInDetailBrand: (state, action) => {
-      state.productInDetailBrand.provider_id.value = action.payload;
     },
 
     //filter category
@@ -486,11 +477,24 @@ const querySlice = createSlice({
     },
 
     //bannerDetail
-    setLimitInFilterProductInBannerDetail: (state, action) => {
-      state.filterProductInBannerDetail.limit.value = action.payload;
+    setNameSearchInProductInDetailBrand: (state, action) => {
+      state.productInDetailBrand.name.value = action.payload;
     },
-    setPageInFilterProductInBannerDetail: (state, action) => {
-      state.filterProductInBannerDetail.marker.value = action.payload;
+    setPageInProductInDetailBrand: (state, action) => {
+      state.productInDetailBrand.marker.value = action.payload;
+    },
+    setLimitInProductInDetailBrand: (state, action) => {
+      state.productInDetailBrand.limit.value = action.payload;
+    },
+    setProviderIDInProductInDetailBrand: (state, action) => {
+      state.productInDetailBrand.provider_id.value = action.payload;
+    },
+
+    setLimitInFilterOrderInBrandDetail: (state, action) => {
+      state.filterOrderInBannerDetail.limit.value = action.payload;
+    },
+    setPageInFilterOrderInBrandDetail: (state, action) => {
+      state.filterOrderInBannerDetail.marker.value = action.payload;
     },
   },
 });
@@ -507,11 +511,6 @@ export const {
   setRatingInComment,
   setPageInComment,
   setLimitInComment,
-
-  setNameSearchInProductInDetailBrand,
-  setPageInProductInDetailBrand,
-  setLimitInProductInDetailBrand,
-  setProviderIDInProductInDetailBrand,
 
   resetFilterInCategory,
   setNameInFilterCategory,
@@ -558,6 +557,14 @@ export const {
 
   setLimitInFilterProductInBannerDetail,
   setPageInFilterProductInBannerDetail,
+
+  setNameSearchInProductInDetailBrand,
+  setPageInProductInDetailBrand,
+  setLimitInProductInDetailBrand,
+  setProviderIDInProductInDetailBrand,
+
+  setLimitInFilterOrderInBrandDetail,
+  setPageInFilterOrderInBrandDetail
 } = querySlice.actions;
 
 export default querySlice.reducer;

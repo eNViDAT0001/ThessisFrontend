@@ -12,21 +12,29 @@ import {
   IconButton,
   Paper,
   TableHead,
+  TablePagination,
   TextField,
 } from "@mui/material";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import { currencyFormat } from "../../../../app/hook/CommonHook";
+import {
+  checkObjectEmpty,
+  currencyFormat,
+} from "../../../../app/hook/CommonHook";
 import {
   updateStatus,
   useListOrderInProvider,
 } from "../../../../app/hook/OrderHook";
-import Popup from "reactjs-popup";
 import { FormUpdateStatus } from "./FormUpdateStatus.js";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsPopUpFormUpdate } from "../../../../app/slices/BrandSlice";
 import { useEffect } from "react";
 import { useRef } from "react";
+import {
+  setLimitInFilterOrderInBrandDetail,
+  setPageInFilterOrderInBrandDetail,
+} from "../../../../app/slices/QuerySlice";
+import { useMetaOrderInBrandDetail } from "../../../../app/hook/BrandHook";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -56,9 +64,11 @@ const listStatus = [
 export const ListViewOrders = () => {
   const listOrders = useListOrderInProvider() || [];
   const isPopup = useSelector((state) => state.brand.isPopUpFormUpdate);
-  const [orderID,setOrderID] = useState(null)
+  const [orderID, setOrderID] = useState(null);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
+  const [page, setPage] = useState(0);
+  const metaOrder = useMetaOrderInBrandDetail() || {};
 
   const handleButtonDetail = (data) => {
     localStorage.removeItem("orderHandle");
@@ -75,8 +85,19 @@ export const ListViewOrders = () => {
       updateStatus(idHandle, body);
     } else {
       dispatch(setIsPopUpFormUpdate(true));
-      setOrderID(idHandle)
+      setOrderID(idHandle);
     }
+  };
+
+  const handleChangePage = (e, newPage) => {
+    const nextPage = newPage;
+    setPage(nextPage);
+  };
+
+  const handleChangeRowsPerPage = (e) => {
+    setPage(0);
+    dispatch(setPageInFilterOrderInBrandDetail(1));
+    dispatch(setLimitInFilterOrderInBrandDetail(e.target.value));
   };
 
   const handleClickOutside = (event) => {
@@ -84,6 +105,10 @@ export const ListViewOrders = () => {
       dispatch(setIsPopUpFormUpdate(false));
     }
   };
+
+  useEffect(() => {
+    dispatch(setPageInFilterOrderInBrandDetail(page + 1));
+  }, [page, dispatch]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -101,7 +126,7 @@ export const ListViewOrders = () => {
           <ToastContainer position="top-right" newestOnTop />
           {isPopup && (
             <div ref={popupRef}>
-              <FormUpdateStatus id={orderID}/>
+              <FormUpdateStatus id={orderID} />
             </div>
           )}
           <TableContainer component={Paper}>
@@ -180,6 +205,17 @@ export const ListViewOrders = () => {
             </Table>
           </TableContainer>
         </div>
+      )}
+      {!checkObjectEmpty(metaOrder) && (
+        <TablePagination
+          rowsPerPageOptions={[4, 8, 12, 16, 20]}
+          component="div"
+          count={metaOrder.paging.Count}
+          rowsPerPage={metaOrder.paging.PerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       )}
     </div>
   );

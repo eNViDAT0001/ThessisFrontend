@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { ProductApi } from "../../api/ProductApi";
 import { fetchOrderInProvider } from "./OrderHook";
 import { setProviderIDInProductInDetailBrand } from "../slices/QuerySlice";
+import { setMetaInProductInBannerDetail } from "../slices/BannerSlice";
 
 export const useListBrand = () => useSelector((state) => state.brand.listBrand);
 export const useAddFormBrand = () =>
@@ -32,8 +33,14 @@ export const useFilterInShopInAdmin = () =>
   useSelector((state) => state.query.filterShopTabAdmin);
 export const useFilterInProductInBrandDetail = () =>
   useSelector((state) => state.query.productInDetailBrand);
+export const useFilterInOrderInBrandDetail = () =>
+  useSelector((state) => state.query.filterOrderInBannerDetail);
 export const useFilterInListBrand = () =>
   useSelector((state) => state.query.filterBrand);
+export const useMetaProductInBrandDetail = () =>
+  useSelector((state) => state.brand.metaProductInBrandDetail);
+export const useMetaOrderInBrandDetail = () =>
+  useSelector((state) => state.brand.metaOrderInBrandDetail);
 
 export const useFetchListBrand = async (id, filter) => {
   const dispatch = useDispatch();
@@ -78,16 +85,20 @@ export const fetchListBrand = (id, filter) => async (dispatch) => {
 export const useFetchFullInBrandDetailPage = async (id, userId) => {
   const dispatch = useDispatch();
   dispatch(setProviderIDInProductInDetailBrand(id));
-  const filter = useFilterInProductInBrandDetail();
-
+  const filterProduct = useFilterInProductInBrandDetail();
+  const filterOrder = useFilterInOrderInBrandDetail();
   useLayoutEffect(() => {
     const fetchData = async () => {
       try {
         await dispatch(
-          fetchListProductInBrandDetail(convertObjectToStringQuery(filter))
+          fetchListProductInBrandDetail(
+            convertObjectToStringQuery(filterProduct)
+          )
         )
           .then(() => {
-            return dispatch(fetchOrderInProvider(id));
+            return dispatch(
+              fetchOrderInProvider(id, convertObjectToStringQuery(filterOrder))
+            );
           })
           .then(() => {
             return dispatch(fetchBrandDetail(id, userId));
@@ -95,7 +106,7 @@ export const useFetchFullInBrandDetailPage = async (id, userId) => {
       } catch (error) {}
     };
     fetchData();
-  }, [id, dispatch, filter, userId]);
+  }, [id, dispatch, userId, filterProduct, filterOrder]);
 };
 const fetchBrandDetail = (providerId, userId) => async (dispatch) => {
   const response = await ProviderApi.GetBrandDetail(providerId, userId);
@@ -110,6 +121,7 @@ export const fetchListProductInBrandDetail = (filter) => async (dispatch) => {
         return { ...data, isSelected: false };
       });
     dispatch(setListProductInBrandDetail(listProducts));
+    dispatch(setMetaInProductInBannerDetail(response.data.meta));
   } catch (err) {
     console.log(err);
   }

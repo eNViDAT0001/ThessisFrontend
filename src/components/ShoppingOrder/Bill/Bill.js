@@ -93,6 +93,7 @@ export const Bill = () => {
           phone: addressForm.phone,
           province: addressForm.province,
           district: addressForm.district,
+          cod: true,
           ward: addressForm.ward,
           street: addressForm.street,
           total: parseInt(totalPrice),
@@ -102,27 +103,27 @@ export const Bill = () => {
           items: changePropListItem(listItem),
           cart_items_ids: getListIDCart(listItem),
         };
-        //addNewOrderCOD(body, userID);
-      } else {
-        const body = {
-          user_id: userID,
-          name: addressFormCreated.name,
-          gender: addressFormCreated.gender,
-          phone: addressFormCreated.phone,
-          province: addressFormCreated.province,
-          district: addressFormCreated.district,
-          ward: addressFormCreated.ward,
-          street: addressFormCreated.street,
-          total: parseInt(totalPrice),
-          quantity: 30,
-          status_description: "Provider Will call you soon",
-          discount: 0,
-          items: changePropListItem(listItem),
-          cart_items_ids: getListIDCart(listItem),
-        };
-        alert(JSON.stringify(body));
-        //addNewOrderCOD(body, userID);
+        addNewOrderCOD(body, userID);
       }
+    } else {
+      const body = {
+        user_id: userID,
+        name: addressFormCreated.name,
+        gender: addressFormCreated.gender,
+        cod: true,
+        phone: addressFormCreated.phone,
+        province: addressFormCreated.province,
+        district: addressFormCreated.district,
+        ward: addressFormCreated.ward,
+        street: addressFormCreated.street,
+        total: parseInt(totalPrice),
+        quantity: 30,
+        status_description: "Provider Will call you soon",
+        discount: 0,
+        items: changePropListItem(listItem),
+        cart_items_ids: getListIDCart(listItem),
+      };
+      addNewOrderCOD(body, userID);
     }
   };
 
@@ -143,6 +144,10 @@ export const Bill = () => {
             },
           ],
         });
+      },
+      style: {
+        layout: "horizontal",
+        fundingicons: false,
       },
       onApprove: async (data, actions) => {
         const order = await actions.order.capture();
