@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   useCategoryHandle,
   useListProductInCategory,
+  useMetaInProductInCategory,
 } from "../../../app/hook/CategoryHook";
 import { useDispatch } from "react-redux";
 import {
@@ -9,12 +10,13 @@ import {
   setSortNameInSortCategory,
   setSortPriceInSortCategory,
 } from "../../../app/slices/QuerySlice";
+import { checkObjectEmpty } from "../../../app/hook/CommonHook";
 
 export const TopFilter = (props) => {
   const dispatch = useDispatch();
 
   const categoryHandle = useCategoryHandle();
-  const listProduct = useListProductInCategory() || [];
+  const metaProductInCategory = useMetaInProductInCategory() || {};
 
   const handleChangePage = (e) => {
     dispatch(setLimitInFilterCategory(e.currentTarget.value));
@@ -60,7 +62,11 @@ export const TopFilter = (props) => {
           {props.id == 0 || !categoryHandle ? "All" : categoryHandle.name}
         </h1>
         <h1 className=" text-[#8A8FB9] text-base font-['Lato']">
-          About {listProduct.length} results
+          About{" "}
+          {!checkObjectEmpty(metaProductInCategory)
+            ? metaProductInCategory.paging.Count
+            : 0}{" "}
+          results
         </h1>
       </div>
       <div className="space-x-20 flex flex-row">

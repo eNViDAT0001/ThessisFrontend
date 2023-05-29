@@ -94,6 +94,58 @@ export const useFetchInformationInAddAddress = async (
   }, [dispatch, provinceID, districtID]);
 };
 
+export const useFetchInformationInAddAddressInAddBrand = async (
+  provinceID,
+  districtID
+) => {
+  const dispatch = useDispatch();
+  const prevProvince = useRef(provinceID);
+  const prevDistrict = useRef(districtID);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchListProvince()).then(() => {
+          if (districtID !== prevDistrict.current) {
+            return dispatch(fetchListWard(districtID));
+          } else if (provinceID !== prevProvince.current) {
+            return dispatch(fetchListDistrict(provinceID));
+          }
+        });
+        prevProvince.current = provinceID;
+        prevDistrict.current = districtID;
+      } catch (error) {}
+    };
+    fetchData();
+  }, [dispatch, provinceID, districtID]);
+};
+
+export const useFetchInformationInAddAddressInUpdateBrand = async (
+  provinceID,
+  districtID
+) => {
+  const dispatch = useDispatch();
+  const prevProvince = useRef(provinceID);
+  const prevDistrict = useRef(districtID);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchListProvince()).then(() => {
+          if (districtID !== prevDistrict.current) {
+            return dispatch(fetchListWard(districtID));
+          } else if (provinceID !== prevProvince.current) {
+            return dispatch(fetchListDistrict(provinceID));
+          }
+        });
+        prevProvince.current = provinceID;
+        prevDistrict.current = districtID;
+      } catch (error) {}
+    };
+    fetchData();
+  }, [dispatch, provinceID, districtID]);
+};
+
 export const useFetchInformationAddressInOrder = async (
   provinceID,
   districtID

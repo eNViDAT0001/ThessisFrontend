@@ -13,6 +13,7 @@ import { ProductTab } from "./ProductTab";
 import { BrandTab } from "./BrandTab";
 import { CategoryTab } from "./CategoryTab";
 import { BannerTab } from "./BannerTab";
+import { ReportTab } from "./ReportTab";
 
 export const Layout = () => {
   const [activeTab, setActiveTab] = useState(null);
@@ -76,37 +77,37 @@ export const Layout = () => {
         />
       </div>
       <div className="w-full bg-white rounded-xl">
-        {activeTab && activeTab.component}
+        {activeTab ? activeTab.component : <ReportTab />}
       </div>
     </div>
   );
 };
 
 const NavItem = ({ tab, active, onClick }) => {
-    const activeStyles = active
-      ? "bg-[#FB2E86] bg-opacity-10 text-[#FB2E86]"
-      : "hover:bg-[#FB2E86] hover:bg-opacity-10 text-gray-400 hover:text-[#FB2E86]";
-  
-    const handleClick = () => {
-      if (tab.title === "Log out") {
-        window.location.replace("/login");
-      } else {
-        onClick(tab);
-      }
-    };
-  
-    return (
-      <button
-        className={`flex justify-start py-2 px-4 my-2 rounded-md ${activeStyles} w-full`}
-        onClick={handleClick}
-      >
-        <div className="flex flex-row space-x-4 ">
-          {tab.img}
-          <h1>{tab.title}</h1>
-        </div>
-      </button>
-    );
+  const activeStyles = active
+    ? "bg-[#FB2E86] bg-opacity-10 text-[#FB2E86]"
+    : "hover:bg-[#FB2E86] hover:bg-opacity-10 text-gray-400 hover:text-[#FB2E86]";
+
+  const handleClick = () => {
+    if (tab.title === "Log out") {
+      window.location.replace("/login");
+    } else {
+      onClick(tab);
+    }
   };
+
+  return (
+    <button
+      className={`flex justify-start py-2 px-4 my-2 rounded-md ${activeStyles} w-full`}
+      onClick={handleClick}
+    >
+      <div className="flex flex-row space-x-4 ">
+        {tab.img}
+        <h1>{tab.title}</h1>
+      </div>
+    </button>
+  );
+};
 
 const Navigation = ({ tabs, activeTab, onTabClick }) => {
   return (

@@ -285,7 +285,7 @@ const initialState = {
   productInDetailBrand: {
     name: {
       type: "search[]",
-      value: "",
+      value: null,
     },
     limit: {
       type: null,
@@ -299,9 +299,17 @@ const initialState = {
       type: null,
       value: 1,
     },
+    id: {
+      type: "sorts[]",
+      value: "DESC",
+    },
   },
 
   filterOrderInBannerDetail: {
+    name: {
+      type: "search[]",
+      value: null,
+    },
     limit: {
       type: null,
       value: 4,
@@ -309,6 +317,10 @@ const initialState = {
     marker: {
       type: null,
       value: 1,
+    },
+    id: {
+      type: "sorts[]",
+      value: "DESC",
     },
   },
 };
@@ -496,6 +508,9 @@ const querySlice = createSlice({
     setPageInFilterOrderInBrandDetail: (state, action) => {
       state.filterOrderInBannerDetail.marker.value = action.payload;
     },
+    setNameInFilterOrderInBrandDetail: (state, action) => {
+      state.filterOrderInBannerDetail.name.value = action.payload;
+    },
   },
 });
 
@@ -564,7 +579,8 @@ export const {
   setProviderIDInProductInDetailBrand,
 
   setLimitInFilterOrderInBrandDetail,
-  setPageInFilterOrderInBrandDetail
+  setPageInFilterOrderInBrandDetail,
+  setNameInFilterOrderInBrandDetail,
 } = querySlice.actions;
 
 export default querySlice.reducer;

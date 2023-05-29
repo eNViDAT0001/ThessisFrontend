@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   listBrand: [],
   addFormBrand: {
-    name: "",
-    image_path: "",
+    name: null,
+    image_path: null,
   },
   listProductInBrandDetail: [],
   listShopInAdmin: [],
@@ -12,9 +12,11 @@ const initialState = {
   metaInListBrand: {},
   isPopUpFormUpdate: false,
   brandDetail: {},
-
   metaProductInBrandDetail: {},
   metaOrderInBrandDetail: {},
+
+  brandDetailInUpdate:{},
+
 };
 
 const brandSlice = createSlice({
@@ -57,6 +59,10 @@ const brandSlice = createSlice({
     setMetaOrderInBrandDetail: (state, action) => {
       state.metaOrderInBrandDetail = action.payload;
     },
+    setBrandDetailInUpdate:(state,action) =>{
+      state.brandDetailInUpdate = action.payload;
+
+    }
   },
 });
 
@@ -73,6 +79,7 @@ export const {
   setBrandDetail,
   setMetaProductInBrandDetail,
   setMetaOrderInBrandDetail,
+  setBrandDetailInUpdate
 } = brandSlice.actions;
 
 export default brandSlice.reducer;

@@ -27,6 +27,7 @@ import { BannerDetailPage } from "../pages/Home/BannerDetailPage";
 import { FixProductInBrand } from "../components/Brand/FixProduct/FixProductInBrand";
 import { UpdateBannerPage } from "../components/Admin/BannerComponentInAdmin/UpdateBannerPage";
 import { AccountNotificationPage } from "../pages/AccountPage/AccountNotificationPage";
+import { UpdateBrandPage } from "../pages/BrandPage/UpdateBrandPage";
 
 export const MainRoute = () => {
   return (
@@ -88,6 +89,7 @@ export const MainRoute = () => {
             element={<AddProductInBrand />}
           />
           <Route path="/product/:id/edit" element={<FixProductInBrand />} />
+          <Route path="/brand-detail/:id/edit" element={<UpdateBrandPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route element={<LoginLayOut />}>

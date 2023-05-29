@@ -20,6 +20,8 @@ export const ChatGeneral = () => {
   const filterMessage = useFilterMessage();
   const wsEvent = useSelector((state) => state.webSocket.WSEvent);
 
+  const handleChangeSearch = (e) => {};
+
   useFetchChat(
     userID,
     convertObjectToStringQuery(filterChannel),
@@ -29,11 +31,22 @@ export const ChatGeneral = () => {
   );
   return (
     <div className="flex flex-row justify-between bg-white border space-x-2">
-      <div className="py-5 flex flex-1 overflow-y-scroll w-[250px] ">
+      <div className="py-5 flex flex-auto flex-col max-w-[250px]  ">
+        <div className="pb-4 px-4 space-y-4 ">
+          <h1 className="text-lg font-bold">Chat</h1>
+          <input
+            type="text"
+            className="w-full py-2 px-2 border border-gray-300 rounded-full shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Search channel..."
+            onChange={handleChangeSearch}
+          />
+        </div>
+        <Divider />
+
         <ListChannel />
       </div>
       <Divider orientation="vertical" variant="middle" flexItem />
-      <div className="flex-1 flex w-[55%] justify-center items-center">
+      <div className="flex-auto flex w-[55%] justify-center items-center">
         {!handleChannel.to_user_id ? (
           <div className="flex justify-center items-center">
             <div>

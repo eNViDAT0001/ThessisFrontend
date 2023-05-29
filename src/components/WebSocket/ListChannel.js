@@ -12,7 +12,7 @@ export const ListChannel = () => {
     dispatch(setHandleChannel(data));
   };
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col overflow-y-scroll h-full">
       {listChannel.length !== 0 &&
         listChannel.map((data) => (
           <div

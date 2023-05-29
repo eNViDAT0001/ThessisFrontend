@@ -100,12 +100,12 @@ const saveUserDetailLogin = async (id) => {
         onClose: setTimeout(() => window.location.replace("/"), 1000),
       });
     })
-    .catch((error) => {
-      toast("Lỗi lưu thông tin", {
-        type: "error",
-        autoClose: 1000,
-      });
-    });
+    // .catch((error) => {
+    //   toast("Lỗi lưu thông tin", {
+    //     type: "error",
+    //     autoClose: 1000,
+    //   });
+    // });
 };
 
 export const loginHook = async (body) => {

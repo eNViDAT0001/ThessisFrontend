@@ -1,18 +1,60 @@
-import React from "react";
-import { useOrderHandleDetail, verifyOrder } from "../../../app/hook/OrderHook";
-import { checkObjectEmpty, currencyFormat } from "../../../app/hook/CommonHook";
+import React, { useRef } from "react";
+import {
+  afterProcessPayment,
+  useOrderHandleDetail,
+  verifyOrder,
+} from "../../../app/hook/OrderHook";
+import {
+  checkObjectEmpty,
+  convertVNDToUSD,
+  currencyFormat,
+} from "../../../app/hook/CommonHook";
 import { Button, Divider } from "@mui/material";
 import { useUserID } from "../../../app/hook/UserHook";
+import { useEffect } from "react";
 
 export const DetailOrder = ({ id }) => {
   const orderHandleDetail = useOrderHandleDetail();
   const orderID = id;
   const userID = useUserID();
+  const paypalRef = useRef(null);
   const handleButtonConfirm = (e) => {
     verifyOrder(orderID, userID);
   };
+
+  useEffect(() => {
+    if (window.myButton) window.myButton.close();
+    window.myButton = window.paypal.Buttons({
+      createOrder: (data, actions) => {
+        return actions.order.create({
+          purchase_units: [
+            {
+              description: "Ahihi",
+              amount: {
+                currency_code: "USD",
+                value: convertVNDToUSD(parseInt(orderHandleDetail.total)),
+              },
+            },
+          ],
+        });
+      },
+      style: {
+        layout: "horizontal",
+        fundingicons: false,
+      },
+      onApprove: async (data, actions) => {
+        const order = await actions.order.capture();
+        return afterProcessPayment(order, userID, orderID);
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    });
+    window.myButton.render(paypalRef.current);
+  }, [userID]);
+
   return (
-    <div className="flex flex-row-reverse flex-1 space-x-5 w-full ">
+    <div className="flex flex-row-reserve flex-1 space-x-5 w-full ">
       {!checkObjectEmpty(orderHandleDetail) && (
         <div className="flex flex-row border rounded-md shadow-md ">
           <div className="p-5 ">
@@ -50,13 +92,25 @@ export const DetailOrder = ({ id }) => {
               </div>
               <div>
                 {orderHandleDetail.cod ? (
-                  <h1>Payment: COD</h1>
+                  <div className="space-x-6 flex flex-row">
+                    <h1>Payment: </h1>
+                    <h1>COD</h1>
+                  </div>
                 ) : (
                   <div>
                     {orderHandleDetail.payment_id ? (
-                      <h1>Payment: Success</h1>
+                      <div className="space-x-6 flex flex-row">
+                        <h1>Payment: </h1>
+                        <h1>Success</h1>
+                      </div>
                     ) : (
-                      <h1>Payment: Failed</h1>
+                      <div className="space-y-5">
+                        <div className="space-x-6 flex flex-row">
+                          <h1>Payment: </h1>
+                          <h1>Failed</h1>
+                        </div>
+                        <div ref={paypalRef}></div>
+                      </div>
                     )}
                   </div>
                 )}

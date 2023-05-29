@@ -4,17 +4,17 @@ import productReducer from "./slices/ProductSlice";
 import categoryReducer from "./slices/CategorySlice";
 import brandReducer from "./slices/BrandSlice";
 import orderReducer from "./slices/OrderSlice";
-import AddProductReducer from './slices/AddProductSlice'
-import FixProductReducer from './slices/FixProductSlice'
-import NotificationReducer from './slices/NotificationSlice'
-import ChatReducer from './slices/ChatSlice'
-import AddressReducer from './slices/AddressSlice'
-import CartReducer from './slices/CartSlice'
-import QueryReducer from './slices/QuerySlice'
-import CommentReducer from './slices/CommentSlice'
-import UserReducer from './slices/UserSlice'
-import WSReducer from './slices/WSSlice'
-
+import AddProductReducer from "./slices/AddProductSlice";
+import FixProductReducer from "./slices/FixProductSlice";
+import NotificationReducer from "./slices/NotificationSlice";
+import ChatReducer from "./slices/ChatSlice";
+import AddressReducer from "./slices/AddressSlice";
+import CartReducer from "./slices/CartSlice";
+import QueryReducer from "./slices/QuerySlice";
+import CommentReducer from "./slices/CommentSlice";
+import UserReducer from "./slices/UserSlice";
+import WSReducer from "./slices/WSSlice";
+import ReportReducer from "./slices/ReportSlice";
 export const store = configureStore({
   reducer: {
     banner: bannerReducer,
@@ -31,7 +31,8 @@ export const store = configureStore({
     user: UserReducer,
     notification: NotificationReducer,
     chat: ChatReducer,
-    webSocket: WSReducer
+    webSocket: WSReducer,
+    report: ReportReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

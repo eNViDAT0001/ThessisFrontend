@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, IconButton, TextField } from "@mui/material";
+import { Autocomplete, Button, IconButton, TextField } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -15,6 +15,17 @@ import {
   setNameInAddForm,
 } from "../../../../app/slices/BrandSlice";
 import { useUserID } from "../../../../app/hook/UserHook";
+import { toast } from "react-toastify";
+
+import {
+  changeAttributeForOptionInDistrict,
+  changeAttributeForOptionInProvince,
+  changeAttributeForOptionInWard,
+  useDistrict,
+  useFetchInformationInAddAddressInAddBrand,
+  useProvince,
+  useWard,
+} from "../../../../app/hook/AddressHook";
 
 const OPTION = {
   input: "input",
@@ -24,9 +35,41 @@ const OPTION = {
 export const FormAddBrand = () => {
   const dispatch = useDispatch();
 
-  const userID = useUserID()
+  const userID = useUserID();
   const [optionButton, setOptionButton] = useState(OPTION.input);
   const addFormBrand = useAddFormBrand();
+  const [provinceName, setProvinceName] = useState(null);
+  const [provinceID, setProvinceID] = useState(null);
+  const [districtName, setDistrictName] = useState(null);
+  const [districtID, setDistrictID] = useState(null);
+  const [wardName, setWardName] = useState(null);
+  const [wardID, setWardID] = useState(null);
+  const [street, setStreet] = useState(null);
+
+  const dataProvince = useProvince() || [];
+  const dataDistrict = useDistrict() || [];
+  const dataWard = useWard() || [];
+
+  const newDataProvince = changeAttributeForOptionInProvince(dataProvince);
+  const newDataDistrict = changeAttributeForOptionInDistrict(dataDistrict);
+  const newDataWard = changeAttributeForOptionInWard(dataWard);
+
+  const onChangeProvince = (e, value) => {
+    setProvinceName(value.label);
+    setProvinceID(value.id);
+    setDistrictName("");
+    setWardName("");
+  };
+
+  const onChangeDistrict = (e, value) => {
+    setDistrictID(value.id);
+    setDistrictName(value.label);
+    setWardName("");
+  };
+  const onChangeWard = (e, value) => {
+    setWardID(value.id);
+    setWardName(value.label);
+  };
 
   const handleNameText = (e) => {
     dispatch(setNameInAddForm(e.target.value));
@@ -44,31 +87,57 @@ export const FormAddBrand = () => {
     dispatch(setFileUploadInAddForm(e.target.value));
   };
 
+  const handleInputStreet = (e) => {
+    setStreet(e.target.value);
+  };
+
   const handleButtonUploadFile = (e) => {
     const file = e.target.files[0];
     if (file) {
       const formData = new FormData();
       formData.append("files", file, file.name);
-      uploadFile(formData).then(res=>{
+      uploadFile(formData).then((res) => {
         dispatch(setFileUploadInAddForm(res.data[0].url));
-      })
+      });
     }
   };
 
   const handleButtonAdd = (e) => {
-    const body={
-      name: addFormBrand.name,
-      image_path: addFormBrand.image_path
+    if (
+      !addFormBrand.name ||
+      !addFormBrand.image_path ||
+      !provinceID ||
+      !districtID ||
+      !wardID
+    ) {
+      toast("Must fill all information", {
+        type: "warning",
+        autoClose: 1000,
+      });
+    } else {
+      const body = {
+        name: addFormBrand.name,
+        image_path: addFormBrand.image_path,
+        province_id: parseInt(JSON.stringify(provinceID)),
+        district_id: parseInt(JSON.stringify(districtID)),
+        ward_code: wardID,
+        province: provinceName,
+        district: districtName,
+        ward: wardName,
+        street: street,
+      };
+      addNewBrand(userID, body);
     }
-    addNewBrand(userID,body)
   };
+
+  useFetchInformationInAddAddressInAddBrand(provinceID, districtID);
   return (
     <div className="flex flex-col space-y-5 px-5 w-full min-w-[350px] my-10">
       <ToastContainer position="top-right" newestOnTop />
       <h1 className=" text-xl font-bold">Add your brand:</h1>
       <div className="border space-y-6 p-4 rounded-md shadow-md">
         <div className="flex flex-row justify-around  items-center">
-          <h1 className=" text-xl font-bold mr-2 ">Name:</h1>
+          <h1 className=" text-lg font-bold mr-2 ">Name:</h1>
           <div className="w-full px-10">
             <TextField
               sx={{
@@ -83,10 +152,59 @@ export const FormAddBrand = () => {
             />
           </div>
         </div>
+        <div className="flex flex-row space-x-5 items-center">
+          <h1 className=" text-lg font-bold mr-2 ">Address:</h1>
+          <div className="flex flex-col">
+            <div className="flex flex-row  space-x-4">
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={newDataProvince}
+                onChange={onChangeProvince}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                sx={{ width: 200 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Province" />
+                )}
+              />
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={newDataDistrict}
+                value={districtName}
+                onChange={onChangeDistrict}
+                sx={{ width: 150 }}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={(params) => (
+                  <TextField {...params} label="District" />
+                )}
+              />
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                value={wardName}
+                onChange={onChangeWard}
+                options={newDataWard}
+                sx={{ width: 200 }}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={(params) => <TextField {...params} label="Ward" />}
+              />
+            </div>
+          </div>
+          <div className="w-full pr-10">
+            <TextField
+              required
+              id="outlined-required"
+              onChange={handleInputStreet}
+              label="Street"
+              sx={{ width: 1 }}
+            />
+          </div>
+        </div>
 
         {optionButton === OPTION.input ? (
           <div className="flex flex-row justify-around space-y-2 items-center">
-            <h1 className=" text-xl font-bold  whitespace-nowrap">Image :</h1>
+            <h1 className="text-lg font-bold  whitespace-nowrap">Image :</h1>
             <div className="w-full px-10">
               <TextField
                 sx={{
@@ -138,12 +256,13 @@ export const FormAddBrand = () => {
             />
           </RadioGroup>
         </FormControl>
-        <img
-          src={addFormBrand?.image_path}
-          alt="Anh upload"
-          className="w-[200px] h-[200px]"
-        ></img>
-
+        {addFormBrand.image_path && (
+          <img
+            src={addFormBrand?.image_path}
+            alt="Anh upload"
+            className="w-[200px] h-[200px]"
+          ></img>
+        )}
         <div className="flex flex-row-reverse pr-10">
           <Button variant="contained" onClick={handleButtonAdd}>
             {" "}

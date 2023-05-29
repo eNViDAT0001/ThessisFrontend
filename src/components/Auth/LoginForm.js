@@ -11,11 +11,9 @@ export const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  localStorage.setItem("a", 2);
   const handleChangePassword = (e) => {
     setPassword(e.target.value);
   };
-  console.log(localStorage.getItem("a"));
   const handleChangeUsername = (e) => {
     setUsername(e.target.value);
   };

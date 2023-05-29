@@ -3,18 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { ProviderApi } from "../../api/ProviderApi";
 import {
   setBrandDetail,
+  setBrandDetailInUpdate,
   setListBrand,
   setListProductInBrandDetail,
   setListShopInAdmin,
   setMetaInListBrand,
   setMetaInShopInAdmin,
+  setMetaProductInBrandDetail,
 } from "../slices/BrandSlice";
 import { convertObjectToStringQuery } from "./CommonHook";
 import { toast } from "react-toastify";
 import { ProductApi } from "../../api/ProductApi";
 import { fetchOrderInProvider } from "./OrderHook";
 import { setProviderIDInProductInDetailBrand } from "../slices/QuerySlice";
-import { setMetaInProductInBannerDetail } from "../slices/BannerSlice";
 
 export const useListBrand = () => useSelector((state) => state.brand.listBrand);
 export const useAddFormBrand = () =>
@@ -41,6 +42,35 @@ export const useMetaProductInBrandDetail = () =>
   useSelector((state) => state.brand.metaProductInBrandDetail);
 export const useMetaOrderInBrandDetail = () =>
   useSelector((state) => state.brand.metaOrderInBrandDetail);
+export const useBrandDetailInUpdate = () =>
+  useSelector((state) => state.brand.brandDetailInUpdate);
+
+export const updateBrand = async (providerId, userId, body) => {
+  await ProviderApi.UpdateBrand(providerId, userId, body).then(() => {
+    toast("Update Brand Success", {
+      type: "success",
+      autoClose: 1000,
+      onClose: setTimeout(() => {
+        window.location.replace(`/brand-detail/${providerId}`);
+      }, 2000),
+    });
+  });
+};
+export const useFetchBrandDetailInUpdate = async (providerId, userId) => {
+  const dispatch = useDispatch();
+  await useEffect(() => {
+    dispatch(fetchBrandDetailForUpdate(providerId, userId));
+  }, [dispatch, providerId, userId]);
+};
+
+const fetchBrandDetailForUpdate = (providerId, userId) => async (dispatch) => {
+  try {
+    const response = await ProviderApi.GetBrandDetail(providerId, userId);
+    dispatch(setBrandDetailInUpdate(response.data.data.provider));
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const useFetchListBrand = async (id, filter) => {
   const dispatch = useDispatch();
@@ -121,7 +151,7 @@ export const fetchListProductInBrandDetail = (filter) => async (dispatch) => {
         return { ...data, isSelected: false };
       });
     dispatch(setListProductInBrandDetail(listProducts));
-    dispatch(setMetaInProductInBannerDetail(response.data.meta));
+    dispatch(setMetaProductInBrandDetail(response.data.meta));
   } catch (err) {
     console.log(err);
   }
@@ -142,7 +172,6 @@ export const selectProductInBrandDetail = (arr, productID) => {
 
 export const addNewBrand = (userId, body) => {
   return ProviderApi.AddNewBrand(userId, body).then(() => {
-    console.log("Status add new brand");
     toast("Add new Brand Success", {
       type: "success",
       autoClose: 1000,

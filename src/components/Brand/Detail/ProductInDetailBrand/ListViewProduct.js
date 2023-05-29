@@ -27,11 +27,11 @@ import {
 import {
   selectProductInBrandDetail,
   useListProductInBrandDetail,
+  useMetaProductInBrandDetail,
 } from "../../../../app/hook/BrandHook";
 import { useDispatch } from "react-redux";
 import { setListProductInBrandDetail } from "../../../../app/slices/BrandSlice";
 import { deleteListProduct } from "../../../../app/hook/ProductHook";
-import { useMetaInProductInBannerDetail } from "../../../../app/hook/BannerHook";
 import {
   setLimitInProductInDetailBrand,
   setPageInProductInDetailBrand,
@@ -62,7 +62,7 @@ export const ListViewProduct = (props) => {
   const [page, setPage] = useState(0);
   const listProductInBrand = useListProductInBrandDetail() || [];
   const [disableButtonDelete, setDisableButtonDelete] = useState(true);
-  const metaProduct = useMetaInProductInBannerDetail() || {};
+  const metaProduct = useMetaProductInBrandDetail() || {};
 
   const handleButtonAdd = (e) => {
     window.location.replace(`/add-product-in-brand/${props.id}`);
