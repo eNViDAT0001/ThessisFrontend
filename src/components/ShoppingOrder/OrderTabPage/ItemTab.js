@@ -29,6 +29,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 export const ItemTab = () => {
   const listItem = useListItemInCartSelected();
+
+  //console.log("listItem", JSON.stringify(listItem));
   return (
     <div className="w-full">
       <TableContainer component={Paper}>

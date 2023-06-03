@@ -39,6 +39,12 @@ const chatSlice = createSlice({
         listMessage: [...action.payload, ...state.listMessage],
       };
     },
+    addBeginningInChannel: (state, action) => {
+      return {
+        ...state,
+        listChannel: [...action.payload, ...state.listMessage],
+      };
+    },
   },
 });
 
@@ -51,6 +57,7 @@ export const {
   setMetaInListChannel,
 
   addBeginningInMessage,
+  addBeginningInChannel,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

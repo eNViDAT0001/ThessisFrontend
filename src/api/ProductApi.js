@@ -44,6 +44,10 @@ export const ProductApi = {
     const url = `/categories/list`;
     return axiosClient.get(url);
   },
+  GetListInAdmin: (filters) => {
+    const url = `/products?${filters}`;
+    return axiosClient.get(url);
+  },
   GetDescriptionFromProduct: (id) => {
     const url = `/products/${id}/description`;
     return axiosClient.get(url);
@@ -58,6 +62,10 @@ export const ProductApi = {
   },
   GetProductFromCategorySelected: (id) => {
     const url = `/products/category/${id}/preview`;
+    return axiosClient.get(url);
+  },
+  GetPreviewRecommend: (userId, filter) => {
+    const url = `/products/recommend/user/${userId}?${filter}`;
     return axiosClient.get(url);
   },
   //for add product

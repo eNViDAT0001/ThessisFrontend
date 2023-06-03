@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import { Input } from "react-chat-elements";
-import { Button } from "react-chat-elements";
-import "react-chat-elements/dist/main.css";
 import {
   sendChat,
   useHandleChannel,

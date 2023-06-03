@@ -5,6 +5,8 @@ const initialState = {
   metaInProductInHome: {},
   listProductInAdmin: [],
   metaInProductInAdmin: {},
+  listProductRecommend: [],
+  metaInProductInRecommend: {},
   productDetail: {},
   productForyou: [],
   imageProduct: [],
@@ -56,6 +58,12 @@ const productSlice = createSlice({
     setBrandInProductDetail: (state, action) => {
       state.brandInProductDetail = action.payload;
     },
+    setListProductRecommend: (state, action) => {
+      state.listProductRecommend = action.payload;
+    },
+    setMetaInProductInRecommend: (state, action) => {
+      state.metaInProductInRecommend = action.payload;
+    },
   },
 });
 
@@ -72,6 +80,8 @@ export const {
   setListProductInAdmin,
   setMetaInProductInAdmin,
   setBrandInProductDetail,
+  setListProductRecommend,
+  setMetaInProductInRecommend,
 } = productSlice.actions;
 
 export default productSlice.reducer;

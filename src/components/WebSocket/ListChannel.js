@@ -1,18 +1,32 @@
-import React from "react";
-import { useListChannel } from "../../app/hook/ChatHook";
+import React, { useRef } from "react";
+import { useListChannel, useMetaInListChannel } from "../../app/hook/ChatHook";
 import { useDispatch } from "react-redux";
 import { setHandleChannel } from "../../app/slices/ChatSlice";
 import { truncateString } from "../../app/hook/CommonHook";
+import { setMarkerInFilterChannel } from "../../app/slices/QuerySlice";
 
 export const ListChannel = () => {
   const dispatch = useDispatch();
   const listChannel = useListChannel() || [];
+  const channelListRef = useRef(null);
+
+  const metaChannel = useMetaInListChannel() || {};
 
   const handleClick = (data) => {
     dispatch(setHandleChannel(data));
   };
+
+  const handleScroll = () => {
+    if (channelListRef.current.scrollTop === 0) {
+      dispatch(setMarkerInFilterChannel(metaChannel.paging.Current));
+    }
+  };
   return (
-    <div className="flex flex-col overflow-y-scroll h-full">
+    <div
+      className="flex flex-col overflow-y-scroll h-full"
+      ref={channelListRef}
+      onScroll={handleScroll}
+    >
       {listChannel.length !== 0 &&
         listChannel.map((data) => (
           <div

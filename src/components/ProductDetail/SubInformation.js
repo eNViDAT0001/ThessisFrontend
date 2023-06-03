@@ -39,7 +39,7 @@ export const SubInformation = () => {
 
   const handleChat = async (e) => {
     const toUserID = parseInt(e.currentTarget.id);
-    const res = await WebSocketApi.CheckChatRoom(userID, toUserID);
+    const res = await WebSocketApi.CheckChatRoom(toUserID, userID);
     if (res.status === 200) {
       const chatRoomId = res.data.data.ChatRoom.id;
       const body = {
@@ -62,7 +62,7 @@ export const SubInformation = () => {
       dispatch(sendChat(body));
     }
   };
-  console.log("brandDetail", brandDetail);
+  //console.log("brandDetail", brandDetail);
   return (
     <div className="flex flex-row justify-around bg-white p-10">
       <div className=" mr-20">

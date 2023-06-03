@@ -14,7 +14,7 @@ import {
 import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import { AddressApi } from "../../api/AddressApi";
-import { checkObjectEmpty } from "./CommonHook";
+import { checkObjectEmpty, findMinimumVolumeBox } from "./CommonHook";
 import { setMetaOrderInBrandDetail } from "../slices/BrandSlice";
 
 export const useListOrderInProvider = () =>
@@ -23,6 +23,8 @@ export const useListOrderInAccountDetail = () =>
   useSelector((state) => state.order.listOrderInAccount);
 export const useOrderHandleDetail = () =>
   JSON.parse(localStorage.getItem("orderHandle"));
+export const useCartForShipping = () =>
+  JSON.parse(localStorage.getItem("cartForShipping"));
 export const useDataShippingCost = () =>
   useSelector((state) => state.order.dataShippingCost);
 export const updateStatus = async (idOrder, body) => {
@@ -57,7 +59,7 @@ export const fetchOrderInProvider = (id, filters) => async (dispatch) => {
   try {
     const response = await OrderApi.GetOrderFromProvider(id, filters);
     dispatch(setListOrderInProvider(response.data.data));
-    dispatch(setMetaOrderInBrandDetail(response.data.meta))
+    dispatch(setMetaOrderInBrandDetail(response.data.meta));
   } catch (err) {
     console.log(err);
   }
@@ -191,7 +193,7 @@ export const afterProcessPayment = async (order, userID, dataID) => {
           payment_url: order.links[0].href,
         };
 
-        await updateOrder(body,userID);
+        await updateOrder(body, userID);
       })
       .catch((err) => {
         console.log(err);
@@ -216,7 +218,7 @@ export const addNewOrderCOD = async (body, userID) => {
       alert(err);
     });
 };
-const updateOrder = async (body,userID) => {
+const updateOrder = async (body, userID) => {
   try {
     await OrderApi.UpdateOrder(body)
       .then(() => {
@@ -262,8 +264,42 @@ const getApiShippingFee = (body) => async (dispatch) => {
     });
 };
 
+const convertDataToShipping = (data) => {
+  const transformedData = data.map((item) => {
+    const transformedItems = item.items.map((innerItem) => {
+      return {
+        width: innerItem.width,
+        height: innerItem.height,
+        length: innerItem.length,
+        weight: innerItem.weight,
+      };
+    });
+
+    const minimumVolume = findMinimumVolumeBox(transformedItems);
+
+    return {
+      id: item.id,
+      provider_id: item.provider_id,
+      provider_district_id: item.provider_district_id,
+      items: minimumVolume,
+    };
+  });
+
+  return transformedData;
+};
+
+const getServiceId = async (from_district, to_district) => {
+  const body = {
+    shop_id: 4074093,
+    from_district: from_district,
+    to_district: to_district,
+  };
+  const response = await AddressApi.GetServiceAvailable(body);
+  return response.data.data[0].service_id;
+};
+
 export const useShippingFee = async (
-  listItem,
+  cartForShipping,
   addressSelected,
   isClickSelected,
   addressFormCreated
@@ -272,7 +308,7 @@ export const useShippingFee = async (
 
   const prevAddressCreated = useRef(addressFormCreated);
   const prevAddressSelected = useRef(addressSelected);
-
+  const newDataShipping = convertDataToShipping(cartForShipping);
   if (
     (!isClickSelected && prevAddressCreated.current !== addressFormCreated) ||
     (isClickSelected && prevAddressSelected.current !== addressSelected)
@@ -280,38 +316,47 @@ export const useShippingFee = async (
     dispatch(setDataShippingCost([]));
   }
 
+  //console.log("cartForShipping", newDataShipping);
   useEffect(() => {
     if (isClickSelected) {
       if (!checkObjectEmpty(addressSelected)) {
-        listItem.map(async (data) => {
+        newDataShipping.map(async (data) => {
           const body = {
-            service_id: 53321,
+            service_id: await getServiceId(
+              data.provider_district_id,
+              addressSelected.district_id
+            ),
             insurance_value: 500000,
-            from_district_id: 1542,
+            from_district_id: data.provider_district_id,
             to_district_id: addressSelected.district_id,
             to_ward_code: addressSelected.ward_code,
-            height: data.height,
-            weight: data.weight,
-            length: data.length,
-            width: data.width,
+            height: data.items.height,
+            weight: data.items.weight,
+            length: data.items.length,
+            width: data.items.width,
           };
+          console.log("body", body);
           return await dispatch(getApiShippingFee(body));
         });
       }
     } else {
       if (!checkObjectEmpty(addressFormCreated)) {
-        listItem.map(async (data) => {
+        newDataShipping.map(async (data) => {
           const body = {
-            service_id: 53321,
+            service_id: await getServiceId(
+              data.provider_district_id,
+              addressSelected.district_id
+            ),
             insurance_value: 500000,
-            from_district_id: 1542,
-            to_district_id: addressFormCreated.districtId,
-            to_ward_code: addressFormCreated.wardId,
-            height: data.height,
-            weight: data.weight,
-            length: data.length,
-            width: data.width,
+            from_district_id: data.provider_district_id,
+            to_district_id: addressSelected.district_id,
+            to_ward_code: addressSelected.ward_code,
+            height: data.items.height,
+            weight: data.items.weight,
+            length: data.items.length,
+            width: data.items.width,
           };
+          console.log("body", body);
           return await dispatch(getApiShippingFee(body));
         });
       }
@@ -320,7 +365,7 @@ export const useShippingFee = async (
     prevAddressSelected.current = addressSelected;
   }, [
     dispatch,
-    listItem,
+    newDataShipping,
     addressSelected,
     addressFormCreated,
     isClickSelected,

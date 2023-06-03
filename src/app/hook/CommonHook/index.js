@@ -156,3 +156,38 @@ export const deleteAllCookies = () => {
     document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
   }
 };
+
+function calculateContainerVolume(container) {
+  return container.length * container.width * container.height;
+}
+
+export const findMinimumVolumeBox = (data) => {
+  // Sort the data in non-increasing order of height
+  data.sort((a, b) => b.height - a.height);
+
+  // Initialize the dimensions of the larger box
+  let maxLength = 0;
+  let maxWidth = 0;
+  let maxHeight = 0;
+  let totalWeight = 0;
+  // Iterate over each box and place it in the larger box
+  for (let i = 0; i < data.length; i++) {
+    const box = data[i];
+
+    // Update the dimensions of the larger box if necessary
+    maxLength = Math.max(maxLength, box.length);
+    maxWidth = Math.max(maxWidth, box.width);
+    maxHeight += box.height;
+    totalWeight += box.weight;
+  }
+
+  // Create the larger box
+  const largerBox = {
+    length: maxLength,
+    width: maxWidth,
+    height: maxHeight,
+    weight: totalWeight,
+  };
+
+  return largerBox;
+};

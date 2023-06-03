@@ -4,7 +4,10 @@ import { reset } from "../../app/slices/ProductSlice";
 import { Comment } from "../../components/ProductDetail/Comment/Comment";
 import { TabDescription } from "../../components/ProductDetail/Description/TabDescription";
 import { ProductDetail } from "../../components/ProductDetail/ProductDetail";
-import { useFetchFullFromProductDetail } from "../../app/hook/ProductHook";
+import {
+  useFetchFullFromProductDetail,
+  useFilterProductRecommend,
+} from "../../app/hook/ProductHook";
 import { useFilterInCommentInProductDetail } from "../../app/hook/CommentHook";
 import { convertObjectToStringQuery } from "../../app/hook/CommonHook";
 import { ProductForyou } from "../../components/ProductDetail/ProductForyou";
@@ -14,14 +17,19 @@ export const ProductDetailPage = (props) => {
   const { id } = useParams();
 
   const filter = useFilterInCommentInProductDetail();
+  const filterRecommend = useFilterProductRecommend() || {};
 
-  useFetchFullFromProductDetail(id, convertObjectToStringQuery(filter));
+  useFetchFullFromProductDetail(
+    id,
+    convertObjectToStringQuery(filter),
+    convertObjectToStringQuery(filterRecommend)
+  );
   useEffect(() => {
     window.scroll(0, 0);
     return () => {
       reset();
     };
-  }, []);
+  }, [id]);
 
   return (
     <div>
@@ -37,10 +45,8 @@ export const ProductDetailPage = (props) => {
             <TabDescription id={id} />
             <Comment id={id} type={props.type} />
           </div>
-          <div className="flex justify-center font-['Josefin_Sans'] ">
-            <div className="w-[75%] mb-[200px]  ">
-              <ProductForyou />
-            </div>
+          <div className=" px-[170px] py-[50px] my-6 bg-[#F5F8FE] ">
+            <ProductForyou />
           </div>
         </div>
       </div>

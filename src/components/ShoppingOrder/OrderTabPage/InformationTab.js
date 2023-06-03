@@ -35,7 +35,7 @@ import {
   useWard,
 } from "../../../app/hook/AddressHook";
 import { useListItemInCartSelected } from "../../../app/hook/CartHook";
-import { useShippingFee } from "../../../app/hook/OrderHook";
+import { useCartForShipping, useShippingFee } from "../../../app/hook/OrderHook";
 
 export const InformationTab = () => {
   const dispatch = useDispatch();
@@ -47,6 +47,7 @@ export const InformationTab = () => {
   const listProvince = useProvince() || [];
   const listDistrict = useDistrict() || [];
   const listWard = useWard() || [];
+  const cartForShipping = useCartForShipping() || []
 
   const newDataProvince = changeAttributeForOptionInProvince(listProvince);
   const newDistrict = changeAttributeForOptionInDistrict(listDistrict);
@@ -67,8 +68,6 @@ export const InformationTab = () => {
     dispatch(setDistrictInFormCreate(value.district));
     dispatch(setWardInFormCreate(value.ward));
   };
-
-  const listItem = useListItemInCartSelected();
 
   const changeUIWhenClickButton = (e) => {
     dispatch(setIsCheckSelected(!isCheckSelected));
@@ -107,7 +106,7 @@ export const InformationTab = () => {
     dispatch(setWardInFormCreate(value.label));
   };
 
-  useShippingFee(listItem, addressForm, isCheckSelected, formAddressCreated);
+  useShippingFee(cartForShipping, addressForm, isCheckSelected, formAddressCreated);
 
   useFetchInformationAddressInOrder(
     formAddressCreated.provinceId,

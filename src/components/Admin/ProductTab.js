@@ -96,6 +96,8 @@ export const ProductTab = () => {
               <TableRow>
                 <StyledTableCell align="left">Id</StyledTableCell>
                 <StyledTableCell align="left">Name</StyledTableCell>
+                <StyledTableCell align="left">Option</StyledTableCell>
+
                 <StyledTableCell align="left">Price</StyledTableCell>
                 <StyledTableCell align="left">Discount</StyledTableCell>
                 <StyledTableCell align="left">Update</StyledTableCell>
@@ -116,6 +118,19 @@ export const ProductTab = () => {
                 >
                   <StyledTableCell align="left">{row.id}</StyledTableCell>
                   <StyledTableCell align="left">{row.name}</StyledTableCell>
+                  <StyledTableCell align="left">
+                    <div className="space-y-2 ">
+                      {row.options.map((data) => (
+                        <div
+                          key={data.name}
+                          className="px-2 py-1 bg-[#FF9062] shadow-md rounded-sm w-[50%]"
+                        >
+                          <h1 className="text-white">{data.name}</h1>
+                        </div>
+                      ))}
+                    </div>
+                  </StyledTableCell>
+
                   <StyledTableCell align="left">
                     {currencyFormat(row.price)}đ
                   </StyledTableCell>

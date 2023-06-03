@@ -178,11 +178,15 @@ const initialState = {
     },
     marker: {
       type: null,
-      value: 1,
+      value: null,
     },
     limit: {
       type: null,
-      value: 5,
+      value: null,
+    },
+    name: {
+      type: "search[]",
+      value: null,
     },
   },
 
@@ -323,6 +327,17 @@ const initialState = {
       value: "DESC",
     },
   },
+
+  filterRecommendProduct: {
+    limit: {
+      type: null,
+      value: 8,
+    },
+    marker: {
+      type: null,
+      value: 1,
+    },
+  },
 };
 
 const querySlice = createSlice({
@@ -445,6 +460,9 @@ const querySlice = createSlice({
     setMarkerInFilterChannel: (state, action) => {
       state.filterChannel.marker.value = action.payload;
     },
+    setNameSearchInFilterChannel: (state, action) => {
+      state.filterChannel.name.value = action.payload;
+    },
     setMarkerInFilterMessage: (state, action) => {
       state.filterMessage.marker.value = action.payload;
     },
@@ -511,6 +529,10 @@ const querySlice = createSlice({
     setNameInFilterOrderInBrandDetail: (state, action) => {
       state.filterOrderInBannerDetail.name.value = action.payload;
     },
+
+    setMarkerInFilterRecommendProduct: (state, action) => {
+      state.filterRecommendProduct.marker.value = action.payload;
+    },
   },
 });
 
@@ -556,6 +578,7 @@ export const {
   setPageInProductOutUpdateBanner,
 
   setMarkerInFilterChannel,
+  setNameSearchInFilterChannel,
   setMarkerInFilterMessage,
   setMarkerInFilterNotify,
 
@@ -581,6 +604,8 @@ export const {
   setLimitInFilterOrderInBrandDetail,
   setPageInFilterOrderInBrandDetail,
   setNameInFilterOrderInBrandDetail,
+
+  setMarkerInFilterRecommendProduct,
 } = querySlice.actions;
 
 export default querySlice.reducer;

@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { WebSocketApi } from "../../api/WebSocketApi";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import {
+  addBeginningInChannel,
   addBeginningInMessage,
   addMessageSuccess,
   setListChannel,
@@ -13,7 +14,7 @@ import { toast } from "react-toastify";
 import { useUserDetail } from "./UserHook";
 import { setMarkerInFilterMessage } from "../slices/QuerySlice";
 import { useCallback } from "react";
-import { useMemo } from "react";
+import { convertObjectToStringQuery } from "./CommonHook";
 
 export const useListChannel = () =>
   useSelector((state) => state.chat.listChannel);
@@ -42,6 +43,7 @@ export const useFetchChat = (
   handleChannel
 ) => {
   const dispatch = useDispatch();
+  const prevFilterChannel = useRef(filterChannel);
   const prevFilterMessage = useRef(filterMessage);
   const prevWSEvent = useRef(wsEvent);
   const prevUserID = useRef(userID);
@@ -70,33 +72,52 @@ export const useFetchChat = (
     }
   });
 
-  useEffect(() => {
-    const fetchMessageMerge = async () => {
-      try {
-        await dispatch(
-          fetchListMessageMerge(
-            userID,
-            handleChannel.to_user_id === userID
-              ? handleChannel.from_user_id
-              : handleChannel.to_user_id,
-            filterMessage,
-            handleChannel
-          )
-        );
-      } catch (err) {}
-    };
+  const fetchMessageMerge = async () => {
+    try {
+      await dispatch(
+        fetchListMessageMerge(
+          userID,
+          handleChannel.to_user_id === userID
+            ? handleChannel.from_user_id
+            : handleChannel.to_user_id,
+          filterMessage,
+          handleChannel
+        )
+      );
+    } catch (err) {}
+  };
+  useLayoutEffect(() => {
+    if (filterChannel !== prevFilterChannel.current) {
+      if (filterChannel.name.value !== prevFilterChannel.current.name.value) {
+        dispatch(fetchListChannel(userID, filterChannel));
+      } else if (
+        filterChannel.marker.value !== prevFilterChannel.current.marker.value
+      ) {
+        dispatch(fetchMergeListChannel(userID, filterChannel));
+      }
+    }
 
     if (filterMessage !== prevFilterMessage.current) {
       fetchMessageMerge();
     }
 
     if (handleChannel !== prevHandleChannel.current) {
-      fetchData();
+      dispatch(
+        fetchListMessage(
+          userID,
+          handleChannel.to_user_id === userID
+            ? handleChannel.from_user_id
+            : handleChannel.to_user_id,
+          filterMessage,
+          handleChannel
+        )
+      );
     }
 
     prevFilterMessage.current = filterMessage;
     prevHandleChannel.current = handleChannel;
     prevUserID.current = userID;
+    prevFilterChannel.current = filterChannel;
   }, [dispatch, userID, filterChannel, handleChannel, filterMessage]);
 
   useEffect(() => {
@@ -122,6 +143,37 @@ export const useFetchChat = (
   }, []); // Empty dependency array ensures it runs only once on mount
 };
 
+const fetchMergeListChannel = (userID, filter) => async (dispatch) => {
+  try {
+    const response = await WebSocketApi.GetListChannel(
+      userID,
+      convertObjectToStringQuery(filter)
+    );
+    const originalData = response.data.data;
+    const meta = response.data.meta;
+
+    dispatch(addBeginningInChannel(originalData));
+    dispatch(setMetaInListChannel(meta));
+  } catch (error) {
+    console.log(error);
+  }
+};
+const fetchListChannel = (userID, filter) => async (dispatch) => {
+  try {
+    const response = await WebSocketApi.GetListChannel(
+      userID,
+      convertObjectToStringQuery(filter)
+    );
+    const originalData = response.data.data;
+    const meta = response.data.meta;
+
+    dispatch(setListChannel(originalData));
+    dispatch(setMetaInListChannel(meta));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const fetchListMessageMerge =
   (user1ID, user2ID, filter, handleChannel) => async (dispatch) => {
     try {
@@ -129,7 +181,7 @@ const fetchListMessageMerge =
       const response = await WebSocketApi.GetListMessage(
         user1ID,
         user2ID,
-        filter
+        convertObjectToStringQuery(filter)
       );
       const originalData = response.data.data;
       const transformedData = originalData.map((message) => ({
@@ -159,7 +211,7 @@ const fetchListMessage =
       const response = await WebSocketApi.GetListMessage(
         user1ID,
         user2ID,
-        filter
+        convertObjectToStringQuery(filter)
       );
       const originalData = response.data.data;
       const transformedData = originalData.map((message) => ({
@@ -182,19 +234,6 @@ const fetchListMessage =
       console.log(error);
     }
   };
-
-const fetchListChannel = (userID, filter) => async (dispatch) => {
-  try {
-    const response = await WebSocketApi.GetListChannel(userID, filter);
-    const originalData = response.data.data;
-    const meta = response.data.meta;
-
-    dispatch(setListChannel(originalData));
-    dispatch(setMetaInListChannel(meta));
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 export const sendChat = (body) => async (dispatch) => {
   const userDetail = useUserDetail();

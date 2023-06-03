@@ -27,6 +27,10 @@ export const AddressApi = {
     const url = `/v2/shipping-order/fee`;
     return axiosAddressClient.get(url, { params: body });
   },
+  GetServiceAvailable: (body) => {
+    const url = `/v2/shipping-order/available-services`;
+    return axiosAddressClient.get(url, { params: body });
+  },
   AddressList: () => {
     const url = "/addresses";
     return axiosClient.get(url);

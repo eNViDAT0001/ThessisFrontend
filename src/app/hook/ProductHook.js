@@ -9,8 +9,10 @@ import {
   setDescriptionProduct,
   setImageProduct,
   setListProductInAdmin,
+  setListProductRecommend,
   setMetaInProductInAdmin,
   setMetaInProductInHome,
+  setMetaInProductInRecommend,
   setProductDetail,
   setProductForYou,
   setProductInHome,
@@ -72,6 +74,12 @@ export const useBrandInProductDetail = () =>
   useSelector((state) => state.product.brandInProductDetail);
 export const useProductForyou = () =>
   useSelector((state) => state.product.productForyou);
+export const useProductRecommend = () =>
+  useSelector((state) => state.product.listProductRecommend);
+export const useMetaProductRecommend = () =>
+  useSelector((state) => state.product.metaInProductInRecommend);
+export const useFilterProductRecommend = () =>
+  useSelector((state) => state.query.filterRecommendProduct);
 
 export const useFetchFullFromHomePage = async (filter) => {
   const dispatch = useDispatch();
@@ -94,9 +102,10 @@ export const useFetchFullFromHomePage = async (filter) => {
             });
         }
       } catch (err) {}
+      prevFilterRef.current = filter;
     };
     fetchData();
-  }, [dispatch, filter, prevFilterRef]);
+  }, [dispatch, filter]);
 };
 
 const fetchProductInHomePage = (filter) => async (dispatch) => {
@@ -124,15 +133,23 @@ const fetchBannerInHomePage = () => async (dispatch) => {
   } catch (err) {}
 };
 
-export const useFetchFullFromProductDetail = async (id, filter) => {
+export const useFetchFullFromProductDetail = async (
+  id,
+  filter,
+  filterRecommend
+) => {
   const userId = useUserID();
   const dispatch = useDispatch();
   const prevFilterRef = useRef(filter);
+  const prevFilterRecommendRef = useRef(filterRecommend);
+
   useLayoutEffect(() => {
     const fetchData = async () => {
       try {
         if (filter !== prevFilterRef.current) {
           await dispatch(fetchCommentInProductDetail(id, filter));
+        } else if (filterRecommend !== prevFilterRecommendRef.current) {
+          return dispatch(fetchProductRecommend(userId, filterRecommend));
         } else {
           await dispatch(fetchBasicInformationInProductDetailPage(id))
             .then(async (res) => {
@@ -156,17 +173,30 @@ export const useFetchFullFromProductDetail = async (id, filter) => {
               return dispatch(fetchCommentInProductDetail(id, filter));
             })
             .then(() => {
-              return dispatch(fetchProductForyou());
+              return dispatch(fetchProductRecommend(userId, filterRecommend));
             })
             .catch((error) => {
               console.log(error);
             });
         }
         prevFilterRef.current = filter;
+        prevFilterRecommendRef.current = filterRecommend;
       } catch (err) {}
     };
     fetchData();
-  }, [id, dispatch, filter, prevFilterRef, userId]);
+  }, [id, dispatch, filter, filterRecommend, userId]);
+};
+
+const fetchProductRecommend = (id, filterRecommend) => async (dispatch) => {
+  try {
+    const response = await ProductApi.GetPreviewRecommend(id, filterRecommend);
+    const res = response.data.data;
+    const meta = response.data.meta;
+    dispatch(setListProductRecommend(res));
+    dispatch(setMetaInProductInRecommend(meta));
+
+    return res;
+  } catch (error) {}
 };
 
 const fetchBasicInformationInProductDetailPage = (id) => async (dispatch) => {
@@ -179,7 +209,7 @@ const fetchBasicInformationInProductDetailPage = (id) => async (dispatch) => {
 };
 
 const fetchBrandInProductDetail = (providerId, userId) => async (dispatch) => {
-  let response = await ProviderApi.GetBrandDetail(providerId, userId)
+  let response = await ProviderApi.GetBrandDetail(providerId, userId);
   dispatch(setBrandInProductDetail(response.data.data));
 };
 
@@ -427,7 +457,7 @@ export const useFetchProductInAdmin = async (filter) => {
 
 const fetchProductInAdmin = (filter) => async (dispatch) => {
   try {
-    await ProductApi.GetProductPreview(filter).then((res) => {
+    await ProductApi.GetListInAdmin(filter).then((res) => {
       dispatch(setListProductInAdmin(res.data.data));
       dispatch(setMetaInProductInAdmin(res.data.meta));
     });

@@ -24,7 +24,6 @@ export const addToCart = async (
     toast("You don't select the option in product", {
       type: "warning",
       autoClose: 2000,
-
     });
   } else {
     await CartShoppingApi.AddNewCartShopping(
@@ -187,6 +186,9 @@ const getListInfoFromListCartToOrder = (listCart) => {
         const obj = {
           ...item,
           provider_id: data.provider_id,
+          provider_district_id: data.provider_district_id,
+          provider_name: data.provider_name,
+          provider_image_path: data.provider_image_path,
         };
         result.push(obj);
       }
@@ -197,6 +199,7 @@ const getListInfoFromListCartToOrder = (listCart) => {
 
 export const addCartToOrder = async (listCart, totalPrice, userID) => {
   const info = getListInfoFromListCartToOrder(listCart);
+  localStorage.setItem("cartForShipping",JSON.stringify(listCart));
   localStorage.setItem("itemInOrder", JSON.stringify(info));
   localStorage.setItem("totalPrice", totalPrice);
   window.location.replace(`/shopping-order/${userID}`);
