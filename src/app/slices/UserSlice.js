@@ -4,6 +4,8 @@ const initialState = {
   userInformation: {},
   listUserInAdmin: [],
   metaUserInAdmin: {},
+  tabInLayout: {},
+  searchInAdmin: "",
 };
 
 const userSlice = createSlice({
@@ -19,10 +21,21 @@ const userSlice = createSlice({
     setMetaUserInAdmin: (state, action) => {
       state.metaUserInAdmin = action.payload;
     },
+    setTabInLayout: (state, action) => {
+      state.tabInLayout = action.payload;
+    },
+    setSearchInAdmin: (state, action) => {
+      state.searchInAdmin = action.payload;
+    },
   },
 });
 
-export const { setUserInformation, setListUserInAdmin, setMetaUserInAdmin } =
-  userSlice.actions;
+export const {
+  setUserInformation,
+  setListUserInAdmin,
+  setMetaUserInAdmin,
+  setTabInLayout,
+  setSearchInAdmin,
+} = userSlice.actions;
 
 export default userSlice.reducer;

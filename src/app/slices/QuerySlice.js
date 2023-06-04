@@ -230,6 +230,10 @@ const initialState = {
 
   //admin
   filterUserTabAdmin: {
+    name: {
+      type: "search[]",
+      value: null,
+    },
     limit: {
       type: null,
       value: 4,
@@ -241,6 +245,10 @@ const initialState = {
   },
 
   filterOrderTabAdmin: {
+    name: {
+      type: "search[]",
+      value: null,
+    },
     limit: {
       type: null,
       value: 4,
@@ -252,6 +260,10 @@ const initialState = {
   },
 
   filterProductTabAdmin: {
+    name: {
+      type: "search[]",
+      value: null,
+    },
     limit: {
       type: null,
       value: 4,
@@ -263,6 +275,10 @@ const initialState = {
   },
 
   filterShopTabAdmin: {
+    name: {
+      type: "search[]",
+      value: null,
+    },
     limit: {
       type: null,
       value: 4,
@@ -274,6 +290,10 @@ const initialState = {
   },
 
   filterBannerTabAdmin: {
+    name: {
+      type: "search[]",
+      value: null,
+    },
     limit: {
       type: null,
       value: 4,
@@ -281,6 +301,25 @@ const initialState = {
     marker: {
       type: null,
       value: 1,
+    },
+  },
+
+  filterRequestTabAdmin: {
+    name: {
+      type: "search[]",
+      value: null,
+    },
+    limit: {
+      type: null,
+      value: 4,
+    },
+    marker: {
+      type: null,
+      value: 1,
+    },
+    type: {
+      type: "fields[]",
+      value: null,
     },
   },
 
@@ -477,12 +516,18 @@ const querySlice = createSlice({
     setPageInFilterUserTabAdmin: (state, action) => {
       state.filterUserTabAdmin.marker.value = action.payload;
     },
+    setNameInFilterUserTabAdmin: (state, action) => {
+      state.filterUserTabAdmin.name.value = action.payload;
+    },
 
     setLimitInFilterProductTabAdmin: (state, action) => {
       state.filterProductTabAdmin.limit.value = action.payload;
     },
     setPageInFilterProductTabAdmin: (state, action) => {
       state.filterProductTabAdmin.marker.value = action.payload;
+    },
+    setNameInFilterProductTabAdmin: (state, action) => {
+      state.filterProductTabAdmin.name.value = action.payload;
     },
 
     setLimitInFilterOrderTabAdmin: (state, action) => {
@@ -491,12 +536,18 @@ const querySlice = createSlice({
     setPageInFilterOrderTabAdmin: (state, action) => {
       state.filterOrderTabAdmin.marker.value = action.payload;
     },
+    setNameInFilterOrderTabAdmin: (state, action) => {
+      state.filterOrderTabAdmin.name.value = action.payload;
+    },
 
     setLimitInFilterShopTabAdmin: (state, action) => {
       state.filterShopTabAdmin.limit.value = action.payload;
     },
     setPageInFilterShopTabAdmin: (state, action) => {
       state.filterShopTabAdmin.marker.value = action.payload;
+    },
+    setNameInFilterShopTabAdmin: (state, action) => {
+      state.filterShopTabAdmin.name.value = action.payload;
     },
 
     setLimitInFilterBannerTabAdmin: (state, action) => {
@@ -505,7 +556,22 @@ const querySlice = createSlice({
     setPageInFilterBannerTabAdmin: (state, action) => {
       state.filterBannerTabAdmin.marker.value = action.payload;
     },
+    setNameInFilterBannerTabAdmin: (state, action) => {
+      state.filterBannerTabAdmin.name.value = action.payload;
+    },
 
+    setLimitInFilterRequestTabAdmin: (state, action) => {
+      state.filterRequestTabAdmin.limit.value = action.payload;
+    },
+    setPageInFilterRequestTabAdmin: (state, action) => {
+      state.filterRequestTabAdmin.marker.value = action.payload;
+    },
+    setNameInFilterRequestTabAdmin: (state, action) => {
+      state.filterRequestTabAdmin.name.value = action.payload;
+    },
+    setTypeInFilterRequestTabAdmin: (state, action) => {
+      state.filterRequestTabAdmin.type.value = action.payload;
+    },
     //bannerDetail
     setNameSearchInProductInDetailBrand: (state, action) => {
       state.productInDetailBrand.name.value = action.payload;
@@ -584,14 +650,22 @@ export const {
 
   setLimitInFilterUserTabAdmin,
   setPageInFilterUserTabAdmin,
+  setNameInFilterUserTabAdmin,
   setLimitInFilterOrderTabAdmin,
   setPageInFilterOrderTabAdmin,
+  setNameInFilterOrderTabAdmin,
   setLimitInFilterProductTabAdmin,
   setPageInFilterProductTabAdmin,
+  setNameInFilterProductTabAdmin,
   setLimitInFilterShopTabAdmin,
   setPageInFilterShopTabAdmin,
+  setNameInFilterShopTabAdmin,
   setLimitInFilterBannerTabAdmin,
   setPageInFilterBannerTabAdmin,
+  setLimitInFilterRequestTabAdmin,
+  setPageInFilterRequestTabAdmin,
+  setNameInFilterRequestTabAdmin,
+  setTypeInFilterRequestTabAdmin,
 
   setLimitInFilterProductInBannerDetail,
   setPageInFilterProductInBannerDetail,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import PersonIcon from "@mui/icons-material/Person";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
@@ -7,6 +7,8 @@ import StorefrontIcon from "@mui/icons-material/Storefront";
 import CategoryIcon from "@mui/icons-material/Category";
 import AdUnitsIcon from "@mui/icons-material/AdUnits";
 import LogoutIcon from "@mui/icons-material/Logout";
+import RequestPageIcon from "@mui/icons-material/RequestPage";
+
 import { UserTab } from "./UserTab";
 import { OrderTab } from "./OrderTab";
 import { ProductTab } from "./ProductTab";
@@ -14,6 +16,9 @@ import { BrandTab } from "./BrandTab";
 import { CategoryTab } from "./CategoryTab";
 import { BannerTab } from "./BannerTab";
 import { ReportTab } from "./ReportTab";
+import { RequestTab } from "./RequestTab";
+import { useDispatch } from "react-redux";
+import { setTabInLayout } from "../../app/slices/UserSlice";
 
 export const Layout = () => {
   const [activeTab, setActiveTab] = useState(null);
@@ -21,6 +26,8 @@ export const Layout = () => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
+  const dispatch = useDispatch();
 
   const tabs = [
     {
@@ -61,12 +68,22 @@ export const Layout = () => {
     },
     {
       id: 7,
+      title: "Request",
+      img: <RequestPageIcon />,
+      component: <RequestTab />,
+    },
+    {
+      id: 8,
       title: "Log out",
       img: <LogoutIcon />,
       component: null,
     },
   ];
-
+  useEffect(() => {
+    if (activeTab) {
+      dispatch(setTabInLayout(activeTab.title));
+    }
+  }, [activeTab, dispatch]);
   return (
     <div className="flex space-x-4">
       <div className="w-[20%] bg-white">

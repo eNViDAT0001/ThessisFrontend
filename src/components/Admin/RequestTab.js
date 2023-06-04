@@ -26,8 +26,16 @@ import {
 import { useState } from "react";
 import {
   setLimitInFilterProductTabAdmin,
+  setLimitInFilterRequestTabAdmin,
   setPageInFilterProductTabAdmin,
+  setPageInFilterRequestTabAdmin,
 } from "../../app/slices/QuerySlice";
+import {
+  useFetchRequest,
+  useFilterInRequestInAdmin,
+  useListRequestInAdmin,
+  useMetaInRequestInAdmin,
+} from "../../app/hook/AdminHook";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -48,13 +56,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export const ProductTab = () => {
+export const RequestTab = () => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
 
-  const meta = useMetaInProductInAdmin() || {};
-  const filter = useFilterInProductInAdmin() || {};
-  const listProducts = useListProductInAdmin() || [];
+  const meta = useMetaInRequestInAdmin() || {};
+  const filter = useFilterInRequestInAdmin() || {};
+  const listRequestInAdmin = useListRequestInAdmin() || [];
 
   const handleChangePage = (e, newPage) => {
     const nextPage = newPage;
@@ -63,25 +71,25 @@ export const ProductTab = () => {
 
   const handleChangeRowsPerPage = (e) => {
     setPage(0);
-    dispatch(setPageInFilterProductTabAdmin(1));
-    dispatch(setLimitInFilterProductTabAdmin(e.target.value));
+    dispatch(setPageInFilterRequestTabAdmin(1));
+    dispatch(setLimitInFilterRequestTabAdmin(e.target.value));
   };
 
   useEffect(() => {
-    dispatch(setPageInFilterProductTabAdmin(page + 1));
+    dispatch(setPageInFilterRequestTabAdmin(page + 1));
   }, [page, dispatch]);
-  useFetchProductInAdmin(convertObjectToStringQuery(filter));
+  useFetchRequest(convertObjectToStringQuery(filter));
 
   const handleUpdateButton = (e) => {
     window.location.replace(`/product/${e.currentTarget.id}/edit`);
   };
   return (
     <div className="p-6 space-y-5">
-      <h1 class=" text-lg font-bold">List products: </h1>
+      <h1 class=" text-lg font-bold">List Requests: </h1>
       <ToastContainer position="top-right" newestOnTop />
-      {listProducts.length === 0 ? (
+      {listRequestInAdmin.length === 0 ? (
         <div>
-          <h1>Don't have any product</h1>
+          <h1>Don't have any request</h1>
         </div>
       ) : (
         <TableContainer component={Paper}>
@@ -94,17 +102,15 @@ export const ProductTab = () => {
           >
             <TableHead>
               <TableRow>
-                <StyledTableCell align="left">Id</StyledTableCell>
-                <StyledTableCell align="left">Name</StyledTableCell>
-                <StyledTableCell align="left">Option</StyledTableCell>
+                <StyledTableCell align="left">Subject</StyledTableCell>
+                <StyledTableCell align="left">Content</StyledTableCell>
+                <StyledTableCell align="left">Attached file</StyledTableCell>
 
-                <StyledTableCell align="left">Price</StyledTableCell>
-                <StyledTableCell align="left">Discount</StyledTableCell>
-                <StyledTableCell align="left">Update</StyledTableCell>
+                <StyledTableCell align="left">Type</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {listProducts.map((row) => (
+              {listRequestInAdmin.map((row) => (
                 <StyledTableRow
                   className={{
                     hover: {
@@ -116,38 +122,10 @@ export const ProductTab = () => {
                   hover
                   key={row.id}
                 >
-                  <StyledTableCell align="left">{row.id}</StyledTableCell>
-                  <StyledTableCell align="left">{row.name}</StyledTableCell>
-                  <StyledTableCell align="left">
-                    <div className="space-y-2 ">
-                      {row.options.map((data) => (
-                        <div
-                          key={data.name}
-                          className="px-2 py-1 bg-[#2F1AC4] shadow-md rounded-sm w-[50%]"
-                        >
-                          <h1 className="text-white">{data.name}</h1>
-                        </div>
-                      ))}
-                    </div>
-                  </StyledTableCell>
-
-                  <StyledTableCell align="left">
-                    {currencyFormat(row.price)}đ
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {row.discount}%
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    <IconButton
-                      id={row.id}
-                      color="primary"
-                      aria-label="upload picture"
-                      component="label"
-                      onClick={handleUpdateButton}
-                    >
-                      <SettingsIcon />
-                    </IconButton>
-                  </StyledTableCell>
+                  <StyledTableCell align="left">{row.subject}</StyledTableCell>
+                  <StyledTableCell align="left">{row.content}</StyledTableCell>
+                  <StyledTableCell align="left"> {row.content}</StyledTableCell>
+                  <StyledTableCell align="left">{row.type}</StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>

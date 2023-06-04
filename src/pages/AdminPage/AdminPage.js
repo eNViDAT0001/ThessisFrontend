@@ -3,17 +3,65 @@ import { Layout } from "../../components/Admin/Layout";
 import { useUserDetail } from "../../app/hook/UserHook";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
+import { useSearchInAdmin, useTabInAdmin } from "../../app/hook/AdminHook";
+import { useDispatch } from "react-redux";
+import { setSearchInAdmin } from "../../app/slices/UserSlice";
+import { useEffect } from "react";
+import { useRef } from "react";
+import {
+  setNameInFilterOrderTabAdmin,
+  setNameInFilterProductTabAdmin,
+  setNameInFilterShopTabAdmin,
+  setNameInFilterUserTabAdmin,
+} from "../../app/slices/QuerySlice";
 
 export const AdminPage = () => {
-  const userDetail = useUserDetail();
+  const dispatch = useDispatch();
 
+  const userDetail = useUserDetail();
+  const searchText = useSearchInAdmin();
+  const tabLayout = useTabInAdmin();
+
+  const prevTabLayout = useRef(tabLayout);
+  const prevSearchText = useRef(searchText);
+
+  const handleChangeSearchText = (e) => {
+    dispatch(setSearchInAdmin(e.target.value));
+  };
+
+  useEffect(() => {
+    if (prevTabLayout.current !== tabLayout) {
+      dispatch(setSearchInAdmin(""));
+    }
+    if (prevSearchText.current !== searchText) {
+      switch (tabLayout) {
+        case "User":
+          dispatch(setNameInFilterUserTabAdmin(searchText));
+          break;
+        case "Order":
+          dispatch(setNameInFilterOrderTabAdmin(searchText));
+          break;
+        case "Product":
+          dispatch(setNameInFilterProductTabAdmin(searchText));
+          break;
+        case "Shop":
+          dispatch(setNameInFilterShopTabAdmin(searchText));
+          break;
+        case "Request":
+          break;
+        default:
+          break;
+      }
+    }
+    prevSearchText.current = searchText;
+    prevTabLayout.current = tabLayout;
+  }, [tabLayout, searchText, dispatch]);
   return (
     <div className="flex flex-col font-['Josefin_Sans'] font-medium	 space-y-6">
       <div className=" flex flex-row px-6 py-2 space-x-6 items-end">
-        <div className="flex flex-row justify-between px-5 w-full">
+        <div className="flex flex-row justify-between items-center px-5 w-full">
           <div className="flex flex-row items-center">
             <img
               src={userDetail.avatar}
@@ -27,6 +75,25 @@ export const AdminPage = () => {
               <h1 className="text-[#8E8E93]">{userDetail.email}</h1>
             </div>
           </div>
+          <Paper
+            component="form"
+            sx={{
+              p: "2px 4px",
+              display: "flex",
+              alignItems: "center",
+              width: 400,
+            }}
+          >
+            <InputBase
+              sx={{ ml: 1, flex: 1 }}
+              value={searchText}
+              onChange={handleChangeSearchText}
+              placeholder="Search product"
+            />
+            <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+              <SearchIcon />
+            </IconButton>
+          </Paper>
         </div>
       </div>
 

@@ -15,6 +15,8 @@ import CommentReducer from "./slices/CommentSlice";
 import UserReducer from "./slices/UserSlice";
 import WSReducer from "./slices/WSSlice";
 import ReportReducer from "./slices/ReportSlice";
+import RequestReducer from "./slices/RequestSlice";
+
 export const store = configureStore({
   reducer: {
     banner: bannerReducer,
@@ -33,6 +35,7 @@ export const store = configureStore({
     chat: ChatReducer,
     webSocket: WSReducer,
     report: ReportReducer,
+    request: RequestReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
