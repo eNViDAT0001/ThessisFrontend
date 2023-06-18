@@ -1,5 +1,4 @@
 import React from "react";
-import { Divider } from "@mui/material";
 import { MessageListComponent } from "./MessageListComponent";
 import SpeakerNotesOffIcon from "@mui/icons-material/SpeakerNotesOff";
 import {
@@ -8,6 +7,8 @@ import {
   useFilterMessage,
   useHandleChannel,
 } from "../../app/hook/ChatHook";
+import { ToastContainer } from "react-toastify";
+
 import { useUserID } from "../../app/hook/UserHook";
 import { useDispatch, useSelector } from "react-redux";
 import { ListChannel } from "./ListChannel";
@@ -28,13 +29,15 @@ export const ChatGeneral = () => {
   useFetchChat(userID, filterChannel, filterMessage, wsEvent, handleChannel);
   return (
     <div className="flex flex-row justify-between bg-white border space-x-2">
-      <div className="py-5 flex flex-auto flex-col max-w-[250px]  ">
+      <ToastContainer position="top-right" newestOnTop />
+
+      <div className="py-5 flex flex-auto flex-col max-w-[250px] ">
         <div className="pb-4 px-4 space-y-4 ">
           <h1 className="text-lg font-bold">Chat</h1>
           <input
             type="text"
             className="w-full py-2 px-2 border border-gray-300 rounded-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Search channel..."
+            placeholder="Search user..."
             onChange={handleChangeSearch}
           />
         </div>

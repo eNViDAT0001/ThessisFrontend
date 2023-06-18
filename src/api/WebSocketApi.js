@@ -33,4 +33,8 @@ export const WebSocketApi = {
     const url = `/notifications/user/${userID}`;
     return axiosClient.patch(url);
   },
+  SeenMessage: (messageId, userA, userB) => {
+    const url = `/chats/${messageId}/user/${userA}/to/${userB}`;
+    return axiosClient.patch(url);
+  },
 };

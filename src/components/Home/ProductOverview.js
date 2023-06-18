@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import { setPageInProductInHome } from "../../app/slices/QuerySlice";
 import { useDispatch } from "react-redux";
 import Pagination from "@mui/material/Pagination";
-import { addSuffixToPrice } from "../../app/hook/CommonHook";
+import { addSuffixToPrice, truncateString } from "../../app/hook/CommonHook";
 
 export const ProductOverview = () => {
   const dispatch = useDispatch();
@@ -64,8 +64,8 @@ export const ProductOverview = () => {
                       )}
 
                       <div className="flex flex-row mt-2">
-                        <h1 className="font-['Poppins_Regular'] text-gray-400 hover:text-blue-400 text-base font-bold">
-                          {data.name}
+                        <h1 className="font-['Poppins_Regular'] hover:text-blue-400 text-base font-bold">
+                          {truncateString(data.name, 20)}
                         </h1>
                       </div>
                       <div className="flex flex-col">

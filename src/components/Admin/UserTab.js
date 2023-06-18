@@ -56,7 +56,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const listType = ["ADMIN", "BUYER"];
+const listType = ["ADMIN", "BUYER", "SHOP"];
 
 export const UserTab = () => {
   const dispatch = useDispatch();

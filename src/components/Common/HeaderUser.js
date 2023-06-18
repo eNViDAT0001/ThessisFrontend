@@ -1,13 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import { Link, useNavigate } from "react-router-dom";
-import { useUserID } from "../../app/hook/UserHook";
+import { useUserDetail, useUserID } from "../../app/hook/UserHook";
 import { useDispatch } from "react-redux";
 import {
   resetFilterInCategory,
   setNameInFilterCategory,
-  setNameSearchInBrand,
-  setNameSearchInProductInHome,
 } from "../../app/slices/QuerySlice";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
@@ -29,18 +27,14 @@ const LinkInHeader = [
     name: "Contact",
     link: "/contact",
   },
-  {
-    name: "Shop",
-    link: "/shop",
-  },
 ];
 export const HeaderUser = () => {
   const userID = useUserID();
+  const userDetail = useUserDetail();
   const dispatch = useDispatch();
   let timeoutId;
   const [searchText, setSearchText] = useState("");
-  const [messages, setMessages] = useState([]);
-  const socketRef = useRef(null);
+
   const navigate = useNavigate();
 
   const handleClickHeader = (e) => {
@@ -90,11 +84,6 @@ export const HeaderUser = () => {
   }, [userID, dispatch]);
   return (
     <div className="w-full bg-[#FFFFFF] flex justify-center border-b">
-      <ul>
-        {messages.map((message, index) => (
-          <li key={index}>{message}</li>
-        ))}
-      </ul>
       <div className="w-[80%] py-2">
         <div className="flex justify-between items-center">
           <div className="font-['Inter'] font-bold text-[#131313] text-lg uppercase ">
@@ -110,6 +99,15 @@ export const HeaderUser = () => {
                   </h1>{" "}
                 </Link>
               ))}
+              {userDetail && userDetail.type === "BUYER" ? (
+                <div></div>
+              ) : (
+                <Link to="/shop">
+                  <h1 className="hover:underline underline-offset-8 hover:cursor-pointer">
+                    Shop
+                  </h1>{" "}
+                </Link>
+              )}
             </div>
           </div>
           <div className="flex flex-row items-center space-x-5">

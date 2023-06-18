@@ -6,6 +6,7 @@ import {
   setListRequestInAdmin,
   setMetaRequestInAdmin,
 } from "../slices/RequestSlice";
+import { toast } from "react-toastify";
 
 export const useReportAdmin = () =>
   useSelector((state) => state.report.adminReport);
@@ -49,6 +50,22 @@ const fetchReportAdmin = () => async (dispatch) => {
   try {
     const response = await AdminApi.GetReport();
     dispatch(setAdminReport(response.data.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateRequest = async (requestId, body) => {
+  try {
+    await AdminApi.SeenRequest(requestId, body).then(() =>
+      toast("Update request success", {
+        type: "success",
+        autoClose: 1000,
+        onClose: setTimeout(() => {
+          window.location.reload();
+        }, 2000),
+      })
+    );
   } catch (error) {
     console.log(error);
   }

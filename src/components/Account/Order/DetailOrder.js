@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import {
   afterProcessPayment,
+  useDetailOrder,
   useOrderHandleDetail,
   verifyOrder,
 } from "../../../app/hook/OrderHook";
@@ -14,7 +15,7 @@ import { useUserID } from "../../../app/hook/UserHook";
 import { useEffect } from "react";
 
 export const DetailOrder = ({ id }) => {
-  const orderHandleDetail = useOrderHandleDetail();
+  const orderHandleDetail = useDetailOrder() || {};
   const orderID = id;
   const userID = useUserID();
   const paypalRef = useRef(null);
@@ -98,7 +99,7 @@ export const DetailOrder = ({ id }) => {
                   </div>
                 ) : (
                   <div>
-                    {orderHandleDetail.payment_id ? (
+                    {orderHandleDetail.payment ? (
                       <div className="space-x-6 flex flex-row">
                         <h1>Payment: </h1>
                         <h1>Success</h1>

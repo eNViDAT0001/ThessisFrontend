@@ -32,45 +32,46 @@ export const Layout = () => {
   const tabs = [
     {
       id: 1,
+      title: "Request",
+      img: <RequestPageIcon />,
+      component: <RequestTab />,
+    },
+
+    {
+      id: 2,
       title: "User",
       img: <PersonIcon />,
       component: <UserTab />,
     },
     {
-      id: 2,
+      id: 3,
       title: "Order",
       img: <MonetizationOnIcon />,
       component: <OrderTab />,
     },
     {
-      id: 3,
+      id: 4,
       title: "Product",
       img: <InventoryIcon />,
       component: <ProductTab />,
     },
     {
-      id: 4,
+      id: 5,
       title: "Shop",
       img: <StorefrontIcon />,
       component: <BrandTab />,
     },
     {
-      id: 5,
+      id: 6,
       title: "Category",
       img: <CategoryIcon />,
       component: <CategoryTab />,
     },
     {
-      id: 6,
+      id: 7,
       title: "Banner",
       img: <AdUnitsIcon />,
       component: <BannerTab />,
-    },
-    {
-      id: 7,
-      title: "Request",
-      img: <RequestPageIcon />,
-      component: <RequestTab />,
     },
     {
       id: 8,

@@ -53,7 +53,7 @@ export const UserLayout = () => {
         {!isOpenButtonChat && (
           <div className=" flex justify-end ">
             <div
-              className=" flex flex-row-reverse px-5 items-center border bg-pink-500  mr-[200px] shadow-xl hover:cursor-pointer "
+              className=" flex flex-row-reverse px-5 items-center border bg-[#151875]  mr-[200px] shadow-xl hover:cursor-pointer "
               onClick={toggleChat}
             >
               <h1 className=" text-white">Chat</h1>

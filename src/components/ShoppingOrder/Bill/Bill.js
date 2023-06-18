@@ -38,6 +38,7 @@ export const Bill = () => {
   const dataShippingCost = useDataShippingCost();
   const isCheckSelected = useIsCheckSelected();
 
+  //console.log("listItem", listItem);
   const createNewOrder = async () => {
     const addressFormPayment = JSON.parse(
       localStorage.getItem("addressInOrder")
@@ -96,12 +97,13 @@ export const Bill = () => {
           ward: addressForm.ward,
           street: addressForm.street,
           total: parseInt(totalPrice),
-          quantity: 30,
+          quantity: 5,
           status_description: "Provider Will call you soon",
           discount: 0,
           items: changePropListItem(listItem),
           cart_items_ids: getListIDCart(listItem),
         };
+        //console.log("body", body);
         addNewOrderCOD(body, userID);
       }
     } else {
@@ -122,6 +124,7 @@ export const Bill = () => {
         items: changePropListItem(listItem),
         cart_items_ids: getListIDCart(listItem),
       };
+      //console.log("body", body);
       addNewOrderCOD(body, userID);
     }
   };

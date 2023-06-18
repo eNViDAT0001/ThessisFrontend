@@ -24,6 +24,10 @@ export const OrderApi = {
     const url = `/orders/${id}/items`;
     return axiosClient.get(url);
   },
+  GetOrderDetail: (id) => {
+    const url = `/orders/${id}`;
+    return axiosClient.get(url);
+  },
   AddNewPayment: (body) => {
     const url = `/payments`;
     return axiosClient.post(url, body);

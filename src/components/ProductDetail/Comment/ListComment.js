@@ -62,7 +62,7 @@ export const ListComment = () => {
 
                 <h1 className="mt-4 text-[#808080]">"{data.description}"</h1>
                 <div className="flex flex-row space-x-1">
-                  {data.media ? (
+                  {data.media &&
                     data.media.map((media) => (
                       <div key={media.id}>
                         <img
@@ -71,10 +71,7 @@ export const ListComment = () => {
                           className="max-w-[200px] max-h-[200px]"
                         ></img>
                       </div>
-                    ))
-                  ) : (
-                    <div></div>
-                  )}
+                    ))}
                 </div>
               </div>
             </div>

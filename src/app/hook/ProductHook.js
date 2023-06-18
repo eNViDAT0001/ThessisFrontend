@@ -746,7 +746,7 @@ export const convertBodyFixProduct = async (
     name: name,
     discount: parseInt(discount),
     short_descriptions: short_descriptions,
-    price: price,
+    price: parseInt(price),
     specification: {
       properties: specification_name,
     },
@@ -804,6 +804,8 @@ const mergeOptionToFix = (optionNew, optionOld, specification_id, dispatch) => {
       dispatch(addOptionIds(optionOld[i].id));
     }
   }
+  //alert(JSON.stringify(result));
+
   return result;
 };
 

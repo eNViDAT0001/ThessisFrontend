@@ -4,6 +4,7 @@ const initialState = {
   listOrderInProvider: [],
   listOrderInAccount: [],
   listOrderInAdmin: [],
+  detailOrder:{},
   metaInOrderInAdmin: {},
   listItemsInOrder: [],
   metaInOrderInAccount: {},
@@ -23,6 +24,9 @@ const orderSlice = createSlice({
     },
     setListOrderInAdmin: (state, action) => {
       state.listOrderInAdmin = action.payload;
+    },
+    setDetailOrder: (state, action) => {
+      state.detailOrder = action.payload;
     },
     setMetaInOrderInAdmin: (state, action) => {
       state.metaInOrderInAdmin = action.payload;
@@ -53,7 +57,7 @@ export const {
   setMetaInOrderInAccount,
   setListItemsInOrder,
   setOrderHandleDetail,
-
+  setDetailOrder,
   setDataShippingCost,
   addDataToShippingCost,
 } = orderSlice.actions;

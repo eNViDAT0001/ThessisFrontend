@@ -104,13 +104,20 @@ export const FixProductInBrand = () => {
       );
       if (body) {
         //console.log("body", body);
-        await deleteElement(
-          id,
-          userID,
-          descriptions_ids,
-          optionIds,
-          getSelectedIds(listMediaOld)
-        );
+        if (
+          descriptions_ids.length === 0 &&
+          optionIds.length === 0 &&
+          getSelectedIds(listMediaOld).length === 0
+        ) {
+        } else {
+          await deleteElement(
+            id,
+            userID,
+            descriptions_ids,
+            optionIds,
+            getSelectedIds(listMediaOld)
+          );
+        }
         updateProduct(id, body);
       }
     }

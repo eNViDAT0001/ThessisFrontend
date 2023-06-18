@@ -50,7 +50,7 @@ export const MessageListComponent = memo(() => {
     setInputValue(e.target.value);
   };
   return (
-    <div className="w-full flex flex-col justify-between h-[350px]">
+    <div className="w-full flex flex-col justify-between h-[450px] min-w-[700px]">
       <div className="flex-grow">
         <div>
           <ItemChat />
@@ -65,7 +65,7 @@ export const MessageListComponent = memo(() => {
       </div>
 
       <div className="flex flex-row justify-between mb-1">
-        <div className="bg-white rounded-lg w-full h-full ">
+        <div className="bg-white rounded-lg w-full h-full p-5 ">
           <form className="flex items-center flex-row space-x-5 ">
             <input
               type="text"

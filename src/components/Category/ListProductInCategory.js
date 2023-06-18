@@ -3,7 +3,11 @@ import {
   useListProductInCategory,
   useMetaInProductInCategory,
 } from "../../app/hook/CategoryHook";
-import { checkObjectEmpty, currencyFormat } from "../../app/hook/CommonHook";
+import {
+  checkObjectEmpty,
+  currencyFormat,
+  truncateString,
+} from "../../app/hook/CommonHook";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import { Link } from "react-router-dom";
@@ -67,7 +71,9 @@ export const ListProductInCategory = () => {
                       }
                     />
                   </div>
-                  <h1 className="text-[#9295AA]">{data.short_descriptions}</h1>
+                  <h1 className="text-[#9295AA]">
+                    {truncateString(data.short_descriptions, 100)}
+                  </h1>
                 </div>
               </div>
             </Link>

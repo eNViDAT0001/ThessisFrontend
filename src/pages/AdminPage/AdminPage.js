@@ -13,9 +13,11 @@ import { useRef } from "react";
 import {
   setNameInFilterOrderTabAdmin,
   setNameInFilterProductTabAdmin,
+  setNameInFilterRequestTabAdmin,
   setNameInFilterShopTabAdmin,
   setNameInFilterUserTabAdmin,
 } from "../../app/slices/QuerySlice";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 export const AdminPage = () => {
   const dispatch = useDispatch();
@@ -50,6 +52,7 @@ export const AdminPage = () => {
           dispatch(setNameInFilterShopTabAdmin(searchText));
           break;
         case "Request":
+          dispatch(setNameInFilterRequestTabAdmin(searchText));
           break;
         default:
           break;
@@ -63,11 +66,15 @@ export const AdminPage = () => {
       <div className=" flex flex-row px-6 py-2 space-x-6 items-end">
         <div className="flex flex-row justify-between items-center px-5 w-full">
           <div className="flex flex-row items-center">
-            <img
-              src={userDetail.avatar}
-              alt="avatar"
-              className="w-[60px] h-[60px] rounded-full"
-            ></img>
+            {userDetail.avatar ? (
+              <img
+                src={userDetail.avatar}
+                alt="avatar"
+                className="w-[55px] h-[55px] rounded-full"
+              ></img>
+            ) : (
+              <AccountCircleIcon sx={{ width: 55, height: 55 }} />
+            )}
             <div className="flex flex-col">
               <h1 className="font-bold text-lg leading-30 tracking-wider text-black">
                 {userDetail.name}

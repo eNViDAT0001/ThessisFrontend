@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -6,36 +6,32 @@ import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
-import { Paper, TableHead, IconButton } from "@mui/material";
+import { Paper, TableHead, IconButton, Button } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
-import SettingsIcon from "@mui/icons-material/Settings";
-
-import {
-  useFetchProductInAdmin,
-  useFilterInProductInAdmin,
-  useListProductInAdmin,
-  useMetaInProductInAdmin,
-} from "../../app/hook/ProductHook";
+import CheckIcon from "@mui/icons-material/Check";
+import CustomAlert from "./CustomAlert";
 import { useDispatch } from "react-redux";
 import {
   checkObjectEmpty,
   convertObjectToStringQuery,
-  currencyFormat,
+  truncateString,
 } from "../../app/hook/CommonHook";
 import { useState } from "react";
 import {
-  setLimitInFilterProductTabAdmin,
   setLimitInFilterRequestTabAdmin,
-  setPageInFilterProductTabAdmin,
   setPageInFilterRequestTabAdmin,
+  setTypeInFilterRequestTabAdmin,
 } from "../../app/slices/QuerySlice";
 import {
+  updateRequest,
   useFetchRequest,
   useFilterInRequestInAdmin,
   useListRequestInAdmin,
   useMetaInRequestInAdmin,
 } from "../../app/hook/AdminHook";
+import { useNavigate } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -63,6 +59,11 @@ export const RequestTab = () => {
   const meta = useMetaInRequestInAdmin() || {};
   const filter = useFilterInRequestInAdmin() || {};
   const listRequestInAdmin = useListRequestInAdmin() || [];
+  const [showAlert, setShowAlert] = useState(false);
+  const popupRef = useRef(null);
+
+  const [alertMessage, setAlertMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleChangePage = (e, newPage) => {
     const nextPage = newPage;
@@ -75,17 +76,78 @@ export const RequestTab = () => {
     dispatch(setLimitInFilterRequestTabAdmin(e.target.value));
   };
 
+  const handleChangeOption = (e) => {
+    switch (e.target.value) {
+      case "all":
+        dispatch(setTypeInFilterRequestTabAdmin(null));
+        break;
+      case "shop":
+        dispatch(setTypeInFilterRequestTabAdmin("SHOP"));
+        break;
+      case "payment":
+        dispatch(setTypeInFilterRequestTabAdmin("PAYMENT"));
+        break;
+      case "order":
+        dispatch(setTypeInFilterRequestTabAdmin("ORDER"));
+        break;
+      case "feedback":
+        dispatch(setTypeInFilterRequestTabAdmin("FEEDBACK"));
+        break;
+      default:
+        return;
+    }
+  };
+
+  const handleClickDetail = (e) => {
+    setAlertMessage(e.currentTarget.id);
+    setShowAlert(true);
+  };
+
+  const handleClickConfirm = (e) => {
+    const body = {
+      seen: true,
+    };
+    updateRequest(e.currentTarget.id, body);
+  };
+
   useEffect(() => {
     dispatch(setPageInFilterRequestTabAdmin(page + 1));
   }, [page, dispatch]);
   useFetchRequest(convertObjectToStringQuery(filter));
 
-  const handleUpdateButton = (e) => {
-    window.location.replace(`/product/${e.currentTarget.id}/edit`);
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setShowAlert(false);
+    }
   };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <div className="p-6 space-y-5">
-      <h1 class=" text-lg font-bold">List Requests: </h1>
+      <div className="flex flex-row space-x-5">
+        {showAlert && (
+          <div ref={popupRef}>
+            <CustomAlert message={alertMessage} />
+          </div>
+        )}
+        <select
+          id="sort-options"
+          className="border px-2 py-1"
+          onChange={handleChangeOption}
+        >
+          <option value="all">All</option>
+          <option value="shop">Shop</option>
+          <option value="payment">Payment</option>
+          <option value="order">Order</option>
+          <option value="feedback">Feedback</option>
+        </select>
+      </div>
+
       <ToastContainer position="top-right" newestOnTop />
       {listRequestInAdmin.length === 0 ? (
         <div>
@@ -102,11 +164,12 @@ export const RequestTab = () => {
           >
             <TableHead>
               <TableRow>
+                <StyledTableCell align="left">Detail</StyledTableCell>
                 <StyledTableCell align="left">Subject</StyledTableCell>
                 <StyledTableCell align="left">Content</StyledTableCell>
                 <StyledTableCell align="left">Attached file</StyledTableCell>
-
                 <StyledTableCell align="left">Type</StyledTableCell>
+                <StyledTableCell align="left">Solved</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -122,10 +185,57 @@ export const RequestTab = () => {
                   hover
                   key={row.id}
                 >
-                  <StyledTableCell align="left">{row.subject}</StyledTableCell>
-                  <StyledTableCell align="left">{row.content}</StyledTableCell>
-                  <StyledTableCell align="left"> {row.content}</StyledTableCell>
-                  <StyledTableCell align="left">{row.type}</StyledTableCell>
+                  <StyledTableCell align="left">
+                    <IconButton id={row.content} onClick={handleClickDetail}>
+                      <VisibilityIcon />
+                    </IconButton>
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    <h1 className={`${!row.seen && " font-bold"}`}>
+                      {row.subject}
+                    </h1>
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    <h1 className={`${!row.seen && " font-bold"}`}>
+                      {truncateString(row.content, 40)}
+                    </h1>{" "}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    {row.attached_file !== "" ? (
+                      row.attached_file
+                        .trim()
+                        .split(", ")
+                        .map((element) => element.trim())
+                        .map((data) => (
+                          <h1
+                            className="hover:text-[#2F1AC4] hover:underline cursor-pointer"
+                            key={data}
+                            onClick={() => window.open(`${data}`)}
+                          >
+                            {truncateString(data, 40)}
+                          </h1>
+                        ))
+                    ) : (
+                      <h1>No attached file</h1>
+                    )}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    <h1 className={`${!row.seen && " font-bold"}`}>
+                      {row.type}
+                    </h1>{" "}
+                  </StyledTableCell>
+
+                  <StyledTableCell align="left">
+                    <Button
+                      variant="contained"
+                      id={row.id}
+                      disabled={row.seen}
+                      endIcon={<CheckIcon />}
+                      onClick={handleClickConfirm}
+                    >
+                      Confirm
+                    </Button>
+                  </StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>

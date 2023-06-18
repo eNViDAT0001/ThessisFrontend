@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { setMarkerInFilterCategory } from "../../../app/slices/QuerySlice";
 
 export const CategoryTree = ({ data, idHandle }) => {
   const [expanded, setExpanded] = useState([]);
   const navigate = useNavigate();
-  const location = useLocation()
-
+  const location = useLocation();
   const handleTreeClickSpan = (id) => {
     const searchParams = new URLSearchParams(location.search);
     const queryString = searchParams.toString();
 
-    const pathname = `/category/${id}`
+    const pathname = `/category/${id}`;
     navigate({ pathname: pathname, search: queryString });
   };
 

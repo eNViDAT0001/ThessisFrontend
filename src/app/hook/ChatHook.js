@@ -213,23 +213,33 @@ const fetchListMessage =
         user2ID,
         convertObjectToStringQuery(filter)
       );
-      const originalData = response.data.data;
-      const transformedData = originalData.map((message) => ({
-        position: user1ID === message.from_user_id ? "right" : "left",
-        type: "text",
-        text: message.content,
-        title:
-          user1ID === message.from_user_id
-            ? userDetail.name
-            : handleChannel.name,
-        avatar:
-          user1ID === message.from_user_id
-            ? userDetail.avatar
-            : handleChannel.avatar,
-      }));
-      const meta = response.data.meta;
-      dispatch(setListMessage(transformedData.reverse()));
-      dispatch(setMetaInListMessage(meta));
+      const messageIdSeen = response.data.data[0].id;
+      await WebSocketApi.SeenMessage(messageIdSeen, user2ID, user1ID)
+        .then(() => {
+          const originalData = response.data.data;
+          const transformedData = originalData.map((message) => ({
+            position: user1ID === message.from_user_id ? "right" : "left",
+            type: "text",
+            text: message.content,
+            title:
+              user1ID === message.from_user_id
+                ? userDetail.name
+                : handleChannel.name,
+            avatar:
+              user1ID === message.from_user_id
+                ? userDetail.avatar
+                : handleChannel.avatar,
+          }));
+          const meta = response.data.meta;
+          dispatch(setListMessage(transformedData.reverse()));
+          dispatch(setMetaInListMessage(meta));
+        })
+        .catch(() => {
+          toast("Update seen failed", {
+            type: "error",
+            autoClose: 1000,
+          });
+        });
     } catch (error) {
       console.log(error);
     }

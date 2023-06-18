@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Rating from "@mui/material/Rating";
 import { Box, Button, IconButton, TextField } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";

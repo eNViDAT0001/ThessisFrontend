@@ -42,10 +42,10 @@ export const AddBasicInformation = () => {
   const handleInputWidth = (e) => {
     dispatch(setWidth(parseInt(e.target.value)));
   };
-  const handleInputShortDescriptions = (e) =>{
-    dispatch(setShortDescriptions(e.target.value))
-  }
-  
+  const handleInputShortDescriptions = (e) => {
+    dispatch(setShortDescriptions(e.target.value));
+  };
+
   useFetchCategoryInAddProduct();
   return (
     <div className="p-10 border rounded-2xl space-y-6">
@@ -138,8 +138,8 @@ export const AddBasicInformation = () => {
           label="Width"
         />
       </div>
-      <div className="flex flex-row space-x-8 items-center">
-        <h1 className="font-semibold">Select your Category:</h1>
+      <div className="flex flex-row space-x-[70px] items-start">
+        <h1 className="font-semibold mt-1">Select your Category:</h1>
         <TreeCategoryInAddProduct data={treeCategory} />
       </div>
     </div>

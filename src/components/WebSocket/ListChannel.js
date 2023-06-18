@@ -23,7 +23,7 @@ export const ListChannel = () => {
   };
   return (
     <div
-      className="flex flex-col overflow-y-scroll h-full"
+      className="flex flex-col overflow-y-scroll h-[300px]"
       ref={channelListRef}
       onScroll={handleScroll}
     >
@@ -46,8 +46,8 @@ export const ListChannel = () => {
               ></img>
               <div className="flex flex-col border-b py-2">
                 <h1 className=" font-semibold">{data.name}</h1>
-                {data.seen ? (
-                  <h1 className=" text-[#000000] truncate">
+                {!data.seen ? (
+                  <h1 className=" text-[#000000] font-bold truncate">
                     {truncateString(data.content, 20)}
                   </h1>
                 ) : (

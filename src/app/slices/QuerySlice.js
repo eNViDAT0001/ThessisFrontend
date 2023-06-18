@@ -305,7 +305,7 @@ const initialState = {
   },
 
   filterRequestTabAdmin: {
-    name: {
+    subject: {
       type: "search[]",
       value: null,
     },
@@ -567,7 +567,7 @@ const querySlice = createSlice({
       state.filterRequestTabAdmin.marker.value = action.payload;
     },
     setNameInFilterRequestTabAdmin: (state, action) => {
-      state.filterRequestTabAdmin.name.value = action.payload;
+      state.filterRequestTabAdmin.subject.value = action.payload;
     },
     setTypeInFilterRequestTabAdmin: (state, action) => {
       state.filterRequestTabAdmin.type.value = action.payload;

@@ -1,14 +1,19 @@
 import React from "react";
-import { useFetchListBrand, useFilterInListBrand } from "../../app/hook/BrandHook";
+import {
+  useFetchListBrand,
+  useFilterInListBrand,
+} from "../../app/hook/BrandHook";
 import { GeneralBrand } from "../../components/Brand/General/GeneralBrand";
 import { BrandContain } from "../../components/Brand/General/ListBrand/BrandContain";
-import { useUserID } from "../../app/hook/UserHook";
+import { useUserDetail, useUserID } from "../../app/hook/UserHook";
 import { convertObjectToStringQuery } from "../../app/hook/CommonHook";
+import { redirect } from "react-router-dom";
 export const BrandPage = () => {
-  const userID = useUserID()
-  const filterBrand = useFilterInListBrand()
+  const userID = useUserID();
+  const userDetail = useUserDetail();
+  const filterBrand = useFilterInListBrand();
 
-  useFetchListBrand(userID, convertObjectToStringQuery(filterBrand))
+  useFetchListBrand(userID, convertObjectToStringQuery(filterBrand));
 
   return (
     <div className=" w-screen bg-[#F2F6F9] p-10">

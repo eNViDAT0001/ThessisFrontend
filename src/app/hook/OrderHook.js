@@ -4,6 +4,7 @@ import { OrderApi } from "../../api/OrderApi";
 import {
   addDataToShippingCost,
   setDataShippingCost,
+  setDetailOrder,
   setListItemsInOrder,
   setListOrderInAccount,
   setListOrderInAdmin,
@@ -131,14 +132,17 @@ const fetchOrderInAccount = (userID, filters) => async (dispatch) => {
 };
 
 //order detail
-
+export const useDetailOrder = () =>
+  useSelector((state) => state.order.detailOrder);
 export const useListItemsInOrder = () =>
   useSelector((state) => state.order.listItemsInOrder);
 
 export const useFetchItemInOrder = async (orderID) => {
   const dispatch = useDispatch();
   await useEffect(() => {
-    dispatch(fetchItemInOrderDetail(orderID));
+    dispatch(fetchItemInOrderDetail(orderID)).then(() =>
+      dispatch(fetchOrderDetail(orderID))
+    );
   }, [dispatch, orderID]);
 };
 
@@ -151,6 +155,14 @@ const fetchItemInOrderDetail = (orderID) => async (dispatch) => {
   }
 };
 
+const fetchOrderDetail = (orderID) => async (dispatch) => {
+  try {
+    const response = await OrderApi.GetOrderDetail(orderID);
+    dispatch(setDetailOrder(response.data.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
 //admin
 export const useListOrderInAdmin = () =>
   useSelector((state) => state.order.listOrderInAdmin);
@@ -341,16 +353,17 @@ export const useShippingFee = async (
       }
     } else {
       if (!checkObjectEmpty(addressFormCreated)) {
+        //alert(JSON.stringify(addressFormCreated));
         newDataShipping.map(async (data) => {
           const body = {
             service_id: await getServiceId(
               data.provider_district_id,
-              addressSelected.district_id
+              addressFormCreated.districtId
             ),
             insurance_value: 500000,
             from_district_id: data.provider_district_id,
-            to_district_id: addressSelected.district_id,
-            to_ward_code: addressSelected.ward_code,
+            to_district_id: addressFormCreated.districtId,
+            to_ward_code: addressFormCreated.wardId,
             height: data.items.height,
             weight: data.items.weight,
             length: data.items.length,

@@ -48,7 +48,7 @@ export const AddProductInBrand = () => {
   const length = useLengthInAdd();
   const weight = useWeightInAdd();
   const width = useWidthInAdd();
-  const short_descriptions = useShortDescriptionsAdd()
+  const short_descriptions = useShortDescriptionsAdd();
 
   const addNewProduct = async (e) => {
     if (checkValidAdd(name, category_id, price, specification_name, media)) {
@@ -67,6 +67,7 @@ export const AddProductInBrand = () => {
         weight,
         width
       );
+      //console.log("body", body);
       addProduct(id, userID, body);
     }
   };

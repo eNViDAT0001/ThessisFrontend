@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useFetchListBanner, useListBanner } from "../../app/hook/BannerHook";
+import { useListBanner } from "../../app/hook/BannerHook";
 import { AiOutlineVerticalLeft, AiOutlineVerticalRight } from "react-icons/ai";
 
 export const Banner = () => {
   const [indexBanner, setIndexBanner] = useState(0);
 
-  const listBanner = useListBanner();
+  const listBanner = useListBanner() || [];
 
   const onPrevClickHandler = (e) => {
     if (indexBanner > 0) setIndexBanner(indexBanner - 1);

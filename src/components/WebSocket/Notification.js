@@ -33,7 +33,7 @@ export const Notification = () => {
   useFetchNotificationSmall(id, wsEvent);
   return (
     <div onMouseEnter={handleMouseEnter} className="border bg-white w-full">
-      {Array.isArray(listNotification) && (
+      {listNotification.length !== 0 ? (
         <div className="px-5 py-4">
           {listNotification.map((notice) => (
             <Link
@@ -64,16 +64,20 @@ export const Notification = () => {
               </div>
             </Link>
           ))}
+          <div className="flex justify-center">
+            <button
+              className="text-blue-500 hover:text-blue-700 mb-4"
+              onClick={handleShowMore}
+            >
+              <ArrowDownwardIcon />
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex justify-center px-4 py-2">
+          You Don't have notification
         </div>
       )}
-      <div className="flex justify-center">
-        <button
-          className="text-blue-500 hover:text-blue-700 mb-4"
-          onClick={handleShowMore}
-        >
-          <ArrowDownwardIcon />
-        </button>
-      </div>
     </div>
   );
 };

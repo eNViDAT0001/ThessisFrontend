@@ -97,7 +97,6 @@ export const ProductTab = () => {
                 <StyledTableCell align="left">Id</StyledTableCell>
                 <StyledTableCell align="left">Name</StyledTableCell>
                 <StyledTableCell align="left">Option</StyledTableCell>
-
                 <StyledTableCell align="left">Price</StyledTableCell>
                 <StyledTableCell align="left">Discount</StyledTableCell>
                 <StyledTableCell align="left">Update</StyledTableCell>
@@ -120,14 +119,19 @@ export const ProductTab = () => {
                   <StyledTableCell align="left">{row.name}</StyledTableCell>
                   <StyledTableCell align="left">
                     <div className="space-y-2 ">
-                      {row.options.map((data) => (
-                        <div
-                          key={data.name}
-                          className="px-2 py-1 bg-[#2F1AC4] shadow-md rounded-sm w-[50%]"
-                        >
-                          <h1 className="text-white">{data.name}</h1>
-                        </div>
-                      ))}
+                      {row.options &&
+                        row.options.map((data, index) => (
+                          <div
+                            key={data.name}
+                            className={
+                              index % 2 === 0
+                                ? `bg-[#FF9062]  px-2 py-1 shadow-md rounded-sm w-[50%]`
+                                : `bg-[#3ACBE8] px-2 py-1 shadow-md rounded-sm w-[50%]`
+                            }
+                          >
+                            <h1 className="text-white">{data.name}</h1>
+                          </div>
+                        ))}
                     </div>
                   </StyledTableCell>
 
