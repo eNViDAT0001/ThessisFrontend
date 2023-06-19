@@ -105,6 +105,11 @@ export const Header = () => {
               </div>
             )}
           </div>
+          {!localStorage.getItem("AccessToken") && (
+            <div className="flex flex-row-reverse font-['Inter'] font-normal text-[#FFFFFF] text-sm uppercase">
+              <Link to="/login">Login</Link>
+            </div>
+          )}
         </div>
       </div>
     </div>
