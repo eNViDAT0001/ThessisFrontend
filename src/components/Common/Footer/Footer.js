@@ -7,44 +7,45 @@ import { Link } from "react-router-dom";
 const layoutFirstFooter = [
   {
     id: 1,
-    name: "Men's Fashion",
+    name: "Computer",
     url: "/category/1",
   },
   {
     id: 2,
-    name: "Women's Fashion",
-    url: "/category/2",
-  },
-  {
-    id: 3,
-    name: "Accessories",
+    name: "Fashion",
     url: "/category/3",
   },
   {
+    id: 3,
+    name: "Furniture",
+    url: "/category/4",
+  },
+  {
     id: 4,
-    name: "CategoryTest",
-    url: "/category/32",
+    name: "Books",
+    url: "/category/5",
   },
 ];
 export const Footer = () => {
   return (
-    <div className="bg-gray-800 py-12 lg:py-16 px-7">
-      <div className="container mx-auto px-4 lg:px-8 flex justify-center">
-        <div className="w-[70%] flex justify-between ">
-          <div className="text-gray-400 flex  flex-col items-center">
-            <h2 className="text-xl font-bold mb-4">Our new category</h2>
-            <ul className="text-sm flex items-center flex-col">
-              {layoutFirstFooter.map((data) => (
-                <Link key={data.id} to={data.url}>
-                  <h1>{data.name}</h1>
-                </Link>
-              ))}
-            </ul>
-          </div>
-          <div className="text-gray-400 flex  flex-col items-center">
-            <h2 className="text-xl font-bold mb-4">Support</h2>
-            <ul className="text-sm flex items-center flex-col">
-              {/* <li className=" hover:text-white hover:underline">FAQ</li>
+    <div className="flex flex-col">
+      <div className="bg-gray-800 py-12 lg:py-16 px-7">
+        <div className="container mx-auto px-4 lg:px-8 flex justify-center">
+          <div className="w-[70%] flex justify-between ">
+            <div className="text-gray-400 flex  flex-col items-center">
+              <h2 className="text-xl font-bold mb-4">Our new category</h2>
+              <ul className="text-sm flex items-center flex-col">
+                {layoutFirstFooter.map((data) => (
+                  <Link key={data.id} to={data.url}>
+                    <h1>{data.name}</h1>
+                  </Link>
+                ))}
+              </ul>
+            </div>
+            <div className="text-gray-400 flex  flex-col items-center">
+              <h2 className="text-xl font-bold mb-4">Support</h2>
+              <ul className="text-sm flex items-center flex-col">
+                {/* <li className=" hover:text-white hover:underline">FAQ</li>
               <li className=" hover:text-white hover:underline">
                 Warranty Policy
               </li>
@@ -55,41 +56,49 @@ export const Footer = () => {
                 Theme's Guide
               </li>
               <li className=" hover:text-white hover:underline">About Us</li> */}
-              <Link to="/contact" className=" hover:text-white hover:underline">
-                Contact Us
-              </Link>
-            </ul>
-          </div>
-          <div className="text-gray-400 mb-8 flex flex-col items-center">
-            <h2 className="text-xl font-bold mb-4">Social</h2>
-            <ul className="text-sm flex space-x-4">
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition duration-300"
+                <Link
+                  to="/contact"
+                  className=" hover:text-white hover:underline"
                 >
-                  <FacebookIcon />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition duration-300"
-                >
-                  <TwitterIcon />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition duration-300"
-                >
-                  <InstagramIcon />
-                </a>
-              </li>
-            </ul>
+                  Contact Us
+                </Link>
+              </ul>
+            </div>
+            <div className="text-gray-400 mb-8 flex flex-col items-center">
+              <h2 className="text-xl font-bold mb-4">Social</h2>
+              <ul className="text-sm flex space-x-4">
+                <li>
+                  <a
+                    href="#"
+                    className="text-gray-400 hover:text-white transition duration-300"
+                  >
+                    <FacebookIcon />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="text-gray-400 hover:text-white transition duration-300"
+                  >
+                    <TwitterIcon />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="text-gray-400 hover:text-white transition duration-300"
+                  >
+                    <InstagramIcon />
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
+      </div>
+      <div className="flex justify-center py-3 bg-gray-700 text-white">
+        Copyright 2023 The Faculty of Software Engineering - Powered by
+        Innorient
       </div>
     </div>
   );

@@ -15,7 +15,10 @@ import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import { ToastContainer } from "react-toastify";
 import { addToCart } from "../../../app/hook/CartHook";
 import { useUserID } from "../../../app/hook/UserHook";
-import { checkObjectEmpty } from "../../../app/hook/CommonHook";
+import {
+  checkObjectEmpty,
+  checkTokenToLogin,
+} from "../../../app/hook/CommonHook";
 import ChatIcon from "@mui/icons-material/Chat";
 import { useDispatch } from "react-redux";
 import { sendChat } from "../../../app/hook/ChatHook";
@@ -44,6 +47,7 @@ export const HandleQuantityAndCart = (props) => {
   const optionHandle = useOptionHandle();
 
   const handleAddToCart = (e) => {
+    checkTokenToLogin();
     const body = {
       product_option_id: optionHandle.id,
       quantity: quantity,
@@ -59,6 +63,7 @@ export const HandleQuantityAndCart = (props) => {
   };
 
   const handleBuyNow = (e) => {
+    checkTokenToLogin();
     const body = {
       product_option_id: optionHandle.id,
       quantity: quantity,

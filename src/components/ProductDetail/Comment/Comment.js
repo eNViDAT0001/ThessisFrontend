@@ -21,27 +21,31 @@ export const Comment = (props) => {
 
         <div className="flex flex-row space-x-5 items-center">
           <h1 className="text-xl font-semibold">List reviews:</h1>
-          {listComment.length !== 0 && (
-            <Box
-              sx={{
-                width: 200,
-                display: "flex",
+          <Box
+            sx={{
+              width: 200,
+              display: "flex",
+            }}
+          >
+            <Rating
+              name="hover-feedback"
+              precision={1}
+              onChange={(event, newValue) => {
+                handleClickRating(newValue);
               }}
-            >
-              <Rating
-                name="hover-feedback"
-                precision={1}
-                onChange={(event, newValue) => {
-                  handleClickRating(newValue);
-                }}
-              ></Rating>
-            </Box>
-          )}
+            ></Rating>
+          </Box>
         </div>
         <div className="my-5">
           <Divider />
         </div>
-        {listComment.length === 0 ?<h1 className=" uppercase text-xl">There are no reviews for this product yet</h1> : <ListComment id={props.id} />}
+        {listComment.length === 0 ? (
+          <h1 className=" uppercase text-xl">
+            There are no reviews for this product yet
+          </h1>
+        ) : (
+          <ListComment id={props.id} />
+        )}
       </div>
     </div>
   );

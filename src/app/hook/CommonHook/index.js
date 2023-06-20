@@ -191,3 +191,11 @@ export const findMinimumVolumeBox = (data) => {
 
   return largerBox;
 };
+
+export const checkTokenToLogin = () => {
+  if (checkNotLogin()) window.location.replace("/login");
+};
+
+export const checkNotLogin = () => {
+  return !localStorage.getItem("AccessToken");
+};

@@ -14,6 +14,8 @@ import { useCallback, useEffect, useRef } from "react";
 export const LoginLayOut = () => {
   return (
     <div>
+      <Header />
+      <HeaderUser />
       <Outlet></Outlet>
       <Footer />
     </div>

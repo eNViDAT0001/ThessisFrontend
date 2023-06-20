@@ -13,6 +13,7 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import { setWSEvent } from "../../app/slices/WSSlice";
+import { checkNotLogin } from "../../app/hook/CommonHook";
 
 const LinkInHeader = [
   {
@@ -99,7 +100,8 @@ export const HeaderUser = () => {
                   </h1>{" "}
                 </Link>
               ))}
-              {userDetail && userDetail.type === "BUYER" ? (
+              {(userDetail && userDetail.type === "BUYER") ||
+              checkNotLogin() ? (
                 <div></div>
               ) : (
                 <Link to="/shop">

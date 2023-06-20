@@ -10,7 +10,7 @@ import Badge from "@mui/material/Badge";
 import { useState } from "react";
 import { Notification } from "../WebSocket/Notification";
 import { useUnSeen } from "../../app/hook/NotificationHook";
-import { checkObjectEmpty } from "../../app/hook/CommonHook";
+import { checkNotLogin, checkObjectEmpty } from "../../app/hook/CommonHook";
 import Cookies from "js-cookie";
 import { useLoginGmail } from "../../app/hook/AuthHook";
 
@@ -60,14 +60,16 @@ export const Header = () => {
           )}
           <div className="flex flex-row space-x-4 items-center">
             <div className="relative h-[30px] visible">
-              <Badge
-                badgeContent={unSeen}
-                color="primary"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-              >
-                <NotificationsIcon sx={{ color: "white" }} />
-              </Badge>
+              {!checkNotLogin() && (
+                <Badge
+                  badgeContent={unSeen}
+                  color="primary"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <NotificationsIcon sx={{ color: "white" }} />
+                </Badge>
+              )}
               {showNotification && (
                 <div
                   className="absolute z-10 w-[400px]"
@@ -105,7 +107,7 @@ export const Header = () => {
               </div>
             )}
           </div>
-          {!localStorage.getItem("AccessToken") && (
+          {checkNotLogin() && (
             <div className="flex flex-row-reverse font-['Inter'] font-normal text-[#FFFFFF] text-sm uppercase">
               <Link to="/login">Login</Link>
             </div>
