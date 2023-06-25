@@ -1,7 +1,7 @@
 import axios from "axios";
-const state = process.env.STATE || "dev";
-const baseURL = state === "dev" ? "http://localhost:3000/api/v1" : "ecommerce-service/api/v1";
+import { domain } from "../config";
 
+const baseURL = domain();
 const axiosClient = axios.create({
   baseURL,
   headers: {

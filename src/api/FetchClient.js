@@ -1,9 +1,13 @@
-const baseURL = "http://localhost:8082/api/v1";
+import { domain } from "../config";
+
+const baseURL = domain();
 
 const fetchClient = (url, options = {}) => {
   const token = localStorage.getItem("AccessToken");
   const expireAccessToken = parseInt(localStorage.getItem("AccessTokenExpiry"));
-  const expireRefreshToken = parseInt(localStorage.getItem("RefreshTokenExpiry"));
+  const expireRefreshToken = parseInt(
+    localStorage.getItem("RefreshTokenExpiry")
+  );
   const now = Date.now() / 1000;
 
   if (now > expireRefreshToken) {
@@ -35,11 +39,17 @@ const fetchClient = (url, options = {}) => {
         localStorage.removeItem("AccessToken");
         localStorage.setItem("AccessToken", data.data.access_token);
         localStorage.removeItem("AccessTokenExpiry");
-        localStorage.setItem("AccessTokenExpiry", data.data.access_token_expiry);
+        localStorage.setItem(
+          "AccessTokenExpiry",
+          data.data.access_token_expiry
+        );
         localStorage.removeItem("RefreshToken");
         localStorage.setItem("RefreshToken", data.data.refresh_token);
         localStorage.removeItem("RefreshTokenExpiry");
-        localStorage.setItem("RefreshTokenExpiry", data.data.refresh_token_expiry);
+        localStorage.setItem(
+          "RefreshTokenExpiry",
+          data.data.refresh_token_expiry
+        );
 
         const headers = {
           Authorization: `Bearer ${data.data.access_token}`,

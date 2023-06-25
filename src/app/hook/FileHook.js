@@ -1,8 +1,9 @@
 import { toast } from "react-toastify";
+import { domain } from "../../config";
 
 export const uploadFile = async (body) => {
   try {
-    const response = await fetch("http://localhost:8082/api/v1/files", {
+    const response = await fetch(`${domain()}/files`, {
       method: "POST",
       body: body,
     });
@@ -20,7 +21,7 @@ export const uploadFile = async (body) => {
 
 export const uploadFileNotNotify = async (body) => {
   try {
-    const response = await fetch("http://localhost:8082/api/v1/files", {
+    const response = await fetch(`${domain()}/files`, {
       method: "POST",
       body: body,
     });
