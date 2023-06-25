@@ -14,6 +14,7 @@ import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import { setWSEvent } from "../../app/slices/WSSlice";
 import { checkNotLogin } from "../../app/hook/CommonHook";
+import { API_BASE_URL_WEBSOCKET } from "../../config";
 
 const LinkInHeader = [
   {
@@ -73,7 +74,7 @@ export const HeaderUser = () => {
   useEffect(() => {
     if (userID) {
       const accessToken = localStorage.getItem("AccessToken");
-      const WS_URL = `ws://localhost:8082/api/v1/ws/user/${userID}/token/${accessToken}`;
+      const WS_URL = `${API_BASE_URL_WEBSOCKET}/ws/user/${userID}/token/${accessToken}`;
       const ws = new WebSocket(WS_URL);
       ws.onopen = () => {};
       ws.onmessage = (event) => {

@@ -1,7 +1,9 @@
 import axios from "axios";
+import { domain } from "../config";
+const state = process.env.STATE || "DEV";
 
-const baseURL = "http://localhost:8082/api/v1";
 
+const baseURL = domain(state);
 const axiosClient = axios.create({
   baseURL,
   headers: {

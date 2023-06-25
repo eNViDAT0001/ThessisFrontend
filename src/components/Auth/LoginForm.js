@@ -6,6 +6,7 @@ import "react-toastify/ReactToastify.min.css";
 import LoginBody from "../../app/models/Create/Auth/LoginBody";
 import { loginHook } from "../../app/hook/AuthHook";
 import { GoogleLoginButton } from "react-social-login-buttons";
+import { API_BASE_URL_DEV } from "../../config";
 
 export const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -30,7 +31,7 @@ export const LoginForm = () => {
   };
 
   const handleGmailLoginButton = async (e) => {
-    window.location.replace("http://localhost:8082/api/v1/app/login/google");
+    window.location.replace(`${API_BASE_URL_DEV}/app/login/google`);
   };
   return (
     <div className="w-[60%] w-max-[200px] shadow-lg border p-[50px] mb-20 min-w-[300px] ">
