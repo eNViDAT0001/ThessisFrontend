@@ -6,7 +6,9 @@ export const API_BASE_URL_PRO = `http://ecommerce-service:${PORT}/api/v1`;
 
 export const API_BASE_URL_WEBSOCKET = "ws://localhost:8082/api/v1/";
 
-export const domain = (state) => {
+export const domain = () => {
+  const state = process.env.STATE || "DEV";
+
   switch (state) {
     case "DEV":
       return API_BASE_URL_DEV;

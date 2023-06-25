@@ -1,7 +1,6 @@
 import { domain } from "../config";
-const state = process.env.STATE || "DEV";
 
-const baseURL = domain(state);
+const baseURL = domain();
 
 const fetchClient = (url, options = {}) => {
   const token = localStorage.getItem("AccessToken");

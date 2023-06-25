@@ -1,9 +1,9 @@
 import { toast } from "react-toastify";
-import { API_BASE_URL_DEV } from "../../config";
+import { domain } from "../../config";
 
 export const uploadFile = async (body) => {
   try {
-    const response = await fetch(`${API_BASE_URL_DEV}/files`, {
+    const response = await fetch(`${domain()}/files`, {
       method: "POST",
       body: body,
     });
@@ -21,7 +21,7 @@ export const uploadFile = async (body) => {
 
 export const uploadFileNotNotify = async (body) => {
   try {
-    const response = await fetch(`${API_BASE_URL_DEV}/files`, {
+    const response = await fetch(`${domain()}/files`, {
       method: "POST",
       body: body,
     });
