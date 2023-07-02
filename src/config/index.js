@@ -1,5 +1,5 @@
 const PORT = 8082;
-const state = process.env.STATE;
+const state = process.env.REACT_APP_STATE;
 
 export const API_BASE_URL_DEV = `http://localhost:${PORT}/api/v1`;
 export const API_BASE_URL_SUT = `http://server:${PORT}/api/v1`;
@@ -18,7 +18,7 @@ export const domain = () => {
     case "SUT":
       return baseURL("server");
     case "PRO":
-      return baseURL("ecommerce-service");
+      return baseURL("ecommerce");
     default:
       return baseURL("localhost");
   }
@@ -31,7 +31,7 @@ export const webSocket = () => {
     case "SUT":
       return baseWebsocket("server");
     case "PRO":
-      return baseWebsocket("ecommerce-service");
+      return baseWebsocket("ecommerce");
     default:
       return baseWebsocket("localhost");
   }
