@@ -20,6 +20,7 @@ export const BannerDetail = () => {
   const handleChangePage = (e, value) => {
     dispatch(setPageInFilterProductInBannerDetail(value));
   };
+  
   return (
     <div>
       {!checkObjectEmpty(bannerDetail) && (

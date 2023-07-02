@@ -193,7 +193,7 @@ export const findMinimumVolumeBox = (data) => {
 };
 
 export const checkTokenToLogin = () => {
-  if (checkNotLogin()) window.location.replace("/login");
+  if (checkNotLogin()) window.location.href = "/login";
 };
 
 export const checkNotLogin = () => {
