@@ -31,7 +31,7 @@ export const webSocket = () => {
     case "test":
       return baseWebsocket("localhost");
     case "production":
-      return "http://thesis.info/api/v1";
+      return "ws://thesis.info/api/v1";
     default:
       return baseWebsocket("localhost");
   }
