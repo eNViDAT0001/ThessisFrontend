@@ -10,7 +10,7 @@ export const domain = () => {
   console.log("now", "REACT_APP_STATE")
   console.log("state:", state())
 
-  if (sut() === "SUT") {
+  if (sut() == "SUT") {
     return baseURL("localhost");
   }
 
@@ -29,7 +29,7 @@ export const domain = () => {
 
 export const webSocket = () => {
 
-  if (sut() === "SUT") {
+  if (sut() == "SUT") {
     return baseWebsocket("localhost");
   }
 
