@@ -9,7 +9,6 @@ const baseWebsocket = host => `ws://${host}:${PORT}/api/v1`
 export const domain = () => {
   console.log("now", "REACT_APP_STATE")
   console.log("state:", state())
-  console.log("env:", process.env)
 
   if (sut() === "SUT") {
     return baseURL("localhost");
