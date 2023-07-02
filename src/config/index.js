@@ -15,7 +15,7 @@ export const domain = () => {
     case "dev":
       return baseURL("localhost");
     case "test":
-      return baseURL("server");
+      return baseWebsocket("localhost");
     case "production":
       return "http://thesis.info/api/v1";
     default:
@@ -29,7 +29,7 @@ export const webSocket = () => {
     case "dev":
       return baseWebsocket("localhost");
     case "test":
-      return baseWebsocket("server");
+      return baseWebsocket("localhost");
     case "production":
       return "http://thesis.info/api/v1";
     default:
