@@ -1,36 +1,36 @@
 const PORT = 8082;
-const state = process.env.REACT_APP_STATE;
-
-export const API_BASE_URL_DEV = `http://localhost:${PORT}/api/v1`;
-export const API_BASE_URL_SUT = `http://server:${PORT}/api/v1`;
-export const API_BASE_URL_PRO = `http://ecommerce-service:${PORT}/api/v1`;
+const state = () => process.env.NODE_ENV;
 
 export const API_BASE_URL_WEBSOCKET = "ws://localhost:8082/api/v1/";
 
 const baseURL = host => `http://${host}:${PORT}/api/v1`
 const baseWebsocket = host => `ws://${host}:${PORT}/api/v1`
 export const domain = () => {
-  console.log("state:", state)
+  console.log("now", "REACT_APP_STATE")
+  console.log("state:", state())
   console.log("env:", process.env)
-  switch (state) {
-    case "DEV":
+
+  const now = state();
+  switch (now) {
+    case "dev":
       return baseURL("localhost");
-    case "SUT":
+    case "test":
       return baseURL("server");
-    case "PRO":
+    case "production":
       return baseURL("ecommerce");
     default:
       return baseURL("localhost");
   }
 };
+
 export const webSocket = () => {
-  console.log("env:", process.env)
-  switch (state) {
-    case "DEV":
+  const now = state();
+  switch (now) {
+    case "dev":
       return baseWebsocket("localhost");
-    case "SUT":
+    case "test":
       return baseWebsocket("server");
-    case "PRO":
+    case "production":
       return baseWebsocket("ecommerce");
     default:
       return baseWebsocket("localhost");
