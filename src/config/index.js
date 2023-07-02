@@ -1,5 +1,6 @@
 const PORT = 8082;
 const state = () => process.env.NODE_ENV;
+const sut = () => process.env.REACT_APP_STATE;
 
 export const API_BASE_URL_WEBSOCKET = "ws://localhost:8082/api/v1/";
 
@@ -9,6 +10,10 @@ export const domain = () => {
   console.log("now", "REACT_APP_STATE")
   console.log("state:", state())
   console.log("env:", process.env)
+
+  if (sut() === "SUT") {
+    return baseURL("localhost");
+  }
 
   const now = state();
   switch (now) {
@@ -24,6 +29,11 @@ export const domain = () => {
 };
 
 export const webSocket = () => {
+
+  if (sut() === "SUT") {
+    return baseWebsocket("localhost");
+  }
+
   const now = state();
   switch (now) {
     case "dev":
