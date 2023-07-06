@@ -164,7 +164,20 @@ const fetchListChannel = (userID, filter) => async (dispatch) => {
       userID,
       convertObjectToStringQuery(filter)
     );
+
+    const channelBot = {
+      "id": "bot",
+      "from_user_id": "bot",
+      "to_user_id": 1,
+      "content": "Chào bạn, bạn có sử dụng dịch vụ gì của trang web ạ?",
+      "seen": true,
+      "type": "TEXT",
+      "created_at": "2023-06-26T02:50:56Z",
+      "name": "Bot",
+      "avatar": "https://media.istockphoto.com/id/1010001882/vector/%C3%B0%C3%B0%C2%B5%C3%B1%C3%B0%C3%B1%C3%B1.jpg?s=612x612&w=0&k=20&c=1jeAr9KSx3sG7SKxUPR_j8WPSZq_NIKL0P-MA4F1xRw="
+    }
     const originalData = response.data.data;
+    originalData.push(channelBot)
     const meta = response.data.meta;
 
     dispatch(setListChannel(originalData));

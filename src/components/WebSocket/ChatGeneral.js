@@ -13,6 +13,7 @@ import { useUserID } from "../../app/hook/UserHook";
 import { useDispatch, useSelector } from "react-redux";
 import { ListChannel } from "./ListChannel";
 import { setNameSearchInFilterChannel } from "../../app/slices/QuerySlice";
+import { MessageListChatBot } from "./MessageListChatBot";
 
 export const ChatGeneral = () => {
   const dispatch = useDispatch();
@@ -53,7 +54,13 @@ export const ChatGeneral = () => {
             <h1>You don't have any message</h1>
           </div>
         ) : (
-          <MessageListComponent data={handleChannel} />
+          <div>
+            {handleChannel.from_user_id !== "bot" ? (
+              <MessageListComponent data={handleChannel} />
+            ) : (
+              <MessageListChatBot data={handleChannel} />
+            )}
+          </div>
         )}
       </div>
     </div>
