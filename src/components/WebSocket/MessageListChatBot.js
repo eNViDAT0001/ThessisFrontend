@@ -6,10 +6,8 @@ import {
 } from "../../app/hook/ChatHook";
 import { useUserID } from "../../app/hook/UserHook";
 import { useDispatch } from "react-redux";
-import { MessageListCustom } from "./MessageListCustom";
 import { ItemChat } from "./ItemChat";
 import { useRef } from "react";
-import { setMarkerInFilterMessage } from "../../app/slices/QuerySlice";
 import { memo } from "react";
 import { MessageListChatBotCustom } from "./MessageListChatBotCustom";
 
@@ -44,7 +42,7 @@ export const MessageListChatBot = () => {
       <div className="flex flex-row justify-between mb-1">
         <div className="bg-white rounded-lg w-full h-full p-5 ">
           <form className="flex items-center flex-row space-x-5 ">
-            <input
+            {/* <input
               type="text"
               onChange={handleChangeText}
               placeholder="Type your message..."
@@ -56,7 +54,7 @@ export const MessageListChatBot = () => {
               className="bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-md py-2 px-4 transition-colors duration-300 "
             >
               Send
-            </button>
+            </button> */}
           </form>
         </div>
       </div>

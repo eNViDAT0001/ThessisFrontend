@@ -8,7 +8,6 @@ const initialState = {
   listMessage: [],
   metaInListMessage: {},
   metaInListChannel: {},
-
   listMessageChatbot: [],
 };
 
@@ -44,7 +43,7 @@ const chatSlice = createSlice({
     addBeginningInChannel: (state, action) => {
       return {
         ...state,
-        listChannel: [...action.payload, ...state.listMessage],
+        listChannel: [...action.payload, ...state.listChannel],
       };
     },
 
@@ -52,10 +51,7 @@ const chatSlice = createSlice({
       state.listMessageChatbot = action.payload;
     },
     addEndInMessageChatBot: (state, action) => {
-      return {
-        ...state,
-        listMessageChatbot: [...state.listMessage, ...action.payload],
-      };
+      state.listMessageChatbot.push(action.payload);
     },
   },
 });

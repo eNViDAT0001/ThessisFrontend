@@ -31,7 +31,6 @@ export const useFilterMessage = () =>
   useSelector((state) => state.query.filterMessage);
 export const useListMessageChatbot = () =>
   useSelector((state) => state.chat.listMessageChatbot);
-
 export const useMetaInListMessage = () =>
   useSelector((state) => state.chat.metaInListMessage);
 export const useMetaInListChannel = () =>
@@ -224,38 +223,40 @@ const fetchListMessage =
   (user1ID, user2ID, filter, handleChannel) => async (dispatch) => {
     try {
       const userDetail = useUserDetail();
-      const response = await WebSocketApi.GetListMessage(
-        user1ID,
-        user2ID,
-        convertObjectToStringQuery(filter)
-      );
-      const messageIdSeen = response.data.data[0].id;
-      await WebSocketApi.SeenMessage(messageIdSeen, user2ID, user1ID)
-        .then(() => {
-          const originalData = response.data.data;
-          const transformedData = originalData.map((message) => ({
-            position: user1ID === message.from_user_id ? "right" : "left",
-            type: "text",
-            text: message.content,
-            title:
-              user1ID === message.from_user_id
-                ? userDetail.name
-                : handleChannel.name,
-            avatar:
-              user1ID === message.from_user_id
-                ? userDetail.avatar
-                : handleChannel.avatar,
-          }));
-          const meta = response.data.meta;
-          dispatch(setListMessage(transformedData.reverse()));
-          dispatch(setMetaInListMessage(meta));
-        })
-        .catch(() => {
-          toast("Update seen failed", {
-            type: "error",
-            autoClose: 1000,
+      if (user1ID !== "bot" && user2ID !== "bot") {
+        const response = await WebSocketApi.GetListMessage(
+          user1ID,
+          user2ID,
+          convertObjectToStringQuery(filter)
+        );
+        const messageIdSeen = response.data.data[0].id;
+        await WebSocketApi.SeenMessage(messageIdSeen, user2ID, user1ID)
+          .then(() => {
+            const originalData = response.data.data;
+            const transformedData = originalData.map((message) => ({
+              position: user1ID === message.from_user_id ? "right" : "left",
+              type: "text",
+              text: message.content,
+              title:
+                user1ID === message.from_user_id
+                  ? userDetail.name
+                  : handleChannel.name,
+              avatar:
+                user1ID === message.from_user_id
+                  ? userDetail.avatar
+                  : handleChannel.avatar,
+            }));
+            const meta = response.data.meta;
+            dispatch(setListMessage(transformedData.reverse()));
+            dispatch(setMetaInListMessage(meta));
+          })
+          .catch(() => {
+            toast("Update seen failed", {
+              type: "error",
+              autoClose: 1000,
+            });
           });
-        });
+      }
     } catch (error) {
       console.log(error);
     }

@@ -1,7 +1,10 @@
 import React, { useRef } from "react";
 import { useListChannel, useMetaInListChannel } from "../../app/hook/ChatHook";
 import { useDispatch } from "react-redux";
-import { setHandleChannel } from "../../app/slices/ChatSlice";
+import {
+  setHandleChannel,
+  setListMessageChatbot,
+} from "../../app/slices/ChatSlice";
 import { truncateString } from "../../app/hook/CommonHook";
 import { setMarkerInFilterChannel } from "../../app/slices/QuerySlice";
 
@@ -13,6 +16,7 @@ export const ListChannel = () => {
   const metaChannel = useMetaInListChannel() || {};
 
   const handleClick = (data) => {
+    dispatch(setListMessageChatbot([]));
     dispatch(setHandleChannel(data));
   };
 
