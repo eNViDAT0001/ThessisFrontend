@@ -12,7 +12,11 @@ import Button from "@mui/material/Button";
 import { useUserID } from "../../app/hook/UserHook";
 import { useDispatch } from "react-redux";
 import { sendChat } from "../../app/hook/ChatHook";
-import { checkObjectEmpty } from "../../app/hook/CommonHook";
+import {
+  checkNotLogin,
+  checkObjectEmpty,
+  checkTokenToLogin,
+} from "../../app/hook/CommonHook";
 import { WebSocketApi } from "../../api/WebSocketApi";
 
 const ChatButton = styled(Button)(({ theme }) => ({
@@ -38,6 +42,7 @@ export const SubInformation = () => {
   const dispatch = useDispatch();
 
   const handleChat = async (e) => {
+    checkTokenToLogin();
     const toUserID = parseInt(e.currentTarget.id);
     const res = await WebSocketApi.CheckChatRoom(toUserID, userID);
     if (res.status === 200) {

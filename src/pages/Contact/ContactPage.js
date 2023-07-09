@@ -143,7 +143,7 @@ export const ContactPage = () => {
                 Send Mail
               </button>
             </div>
-            <div className=" bg-[#151875] w-[50%] rounded-md p-10 text-white flex flex-col space-y-10">
+            <div className=" bg-[#1976D2] w-[50%] rounded-md p-10 text-white flex flex-col space-y-10">
               <div className="text-3xl">Contact us</div>
               <div className="flex flex-row space-x-5 items-start">
                 <PlaceIcon />
