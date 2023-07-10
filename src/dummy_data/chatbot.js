@@ -1,4 +1,3 @@
-const ID_CHAT_RETURN_ROOT = -1;
 const ID_CHAT_ROOT = 0;
 
 const ID_CHAT_GUIDE = 1;
@@ -11,10 +10,9 @@ export const guideContact = {
   id: ID_GUIDE_CONTACT,
   type: "OPTION",
   textHelp: `Bước để tạo contact:
-    - Bước 1: Truy cập vào link Contact trên Header
-    - Bước 2: Nhập biểu mẫu liên lạc đầy đủ thông tin để Admin dễ tìm hơn
-    - Bước 3: Nhấn nút gửi
-    `,
+  - Bước 1: Truy cập vào link Contact trên Header
+  - Bước 2: Nhập biểu mẫu liên lạc đầy đủ thông tin để Admin dễ tìm hơn
+  - Bước 3: Nhấn nút gửi`,
   option: [
     {
       textOption: "Tôi đã hiểu rồi",

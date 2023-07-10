@@ -11,7 +11,7 @@ import { truncateString } from "../../app/hook/CommonHook";
 export const ContactPage = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [type, setType] = useState(null);
+  const [type, setType] = useState("SHOP");
   const [subject, setSubject] = useState("");
   const [descriptions, setDescriptions] = useState("");
   const [listUrl, setListUrl] = useState([]);

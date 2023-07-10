@@ -4,12 +4,7 @@ import {
   useListMessageChatbot,
 } from "../../app/hook/ChatHook";
 import { useState } from "react";
-import {
-  dataChatBotGuide,
-  dataChatBotRoot,
-  guideContact,
-  guideSellProduct,
-} from "../../dummy_data/chatbot";
+import { dataChatBotRoot } from "../../dummy_data/chatbot";
 import { useUserDetail } from "../../app/hook/UserHook";
 import { useEffect } from "react";
 import { addEndInMessageChatBot } from "../../app/slices/ChatSlice";
@@ -18,7 +13,7 @@ import { useDispatch } from "react-redux";
 export const MessageListChatBotCustom = () => {
   const handleChannel = useHandleChannel() || {};
   const userDetail = useUserDetail() || {};
-  const [handleClick, setHandleClick] = useState({});
+  const [handleClick, setHandleClick] = useState(null);
   const listMessageChatbot = useListMessageChatbot() || [];
 
   const dispatch = useDispatch();
@@ -30,7 +25,9 @@ export const MessageListChatBotCustom = () => {
       position: "right",
     };
     dispatch(addEndInMessageChatBot(message));
-    setHandleClick(data.data);
+    if (data.textOption === "Tôi đã hiểu rồi") {
+      setHandleClick(dataChatBotRoot);
+    } else setHandleClick(data.data);
   };
 
   useEffect(() => {
