@@ -15,22 +15,11 @@ import { useState } from "react";
 import { setWSEvent } from "../../app/slices/WSSlice";
 import { checkNotLogin } from "../../app/hook/CommonHook";
 import { webSocket } from "../../config";
+import BarLanguage from "./BarLanguage";
+import { useLanguage } from "../../app/hook/LanguageHook";
 
-const LinkInHeader = [
-  {
-    name: "Home",
-    link: "/",
-  },
-  {
-    name: "Category",
-    link: "/category/0",
-  },
-  {
-    name: "Contact",
-    link: "/contact",
-  },
-];
 export const HeaderUser = () => {
+  const language = useLanguage();
   const userID = useUserID();
   const userDetail = useUserDetail();
   const dispatch = useDispatch();
@@ -84,6 +73,21 @@ export const HeaderUser = () => {
       ws.onclose = () => {};
     }
   }, [userID, dispatch]);
+
+  const LinkInHeader = [
+    {
+      name: language ? "Trang chủ" : "Home",
+      link: "/",
+    },
+    {
+      name: language ? "Danh mục" : "Category",
+      link: "/category/0",
+    },
+    {
+      name: language ? "Liên hệ" : "Contact",
+      link: "/contact",
+    },
+  ];
   return (
     <div className="w-full bg-[#FFFFFF] flex justify-center border-b">
       <div className="w-[80%] py-2">
@@ -107,7 +111,7 @@ export const HeaderUser = () => {
               ) : (
                 <Link to="/shop">
                   <h1 className="hover:underline underline-offset-8 hover:cursor-pointer">
-                    Shop
+                    {language ? "Cửa hàng" : "Shop"}
                   </h1>{" "}
                 </Link>
               )}
@@ -127,7 +131,7 @@ export const HeaderUser = () => {
                 sx={{ ml: 1, flex: 1 }}
                 value={searchText}
                 onChange={handleChangeSearchText}
-                placeholder="Search product"
+                placeholder="Search"
               />
               <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
                 <SearchIcon />
@@ -136,6 +140,7 @@ export const HeaderUser = () => {
             <Link to={`/cart/${userID}`} className="hover:cursor-pointer ">
               <StorefrontIcon />
             </Link>
+            <BarLanguage />
           </div>
         </div>
       </div>

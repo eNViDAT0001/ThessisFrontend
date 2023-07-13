@@ -124,7 +124,7 @@ export const FixProductInBrand = () => {
   };
 
   return (
-    <div className="flex justify-center bg-[#F5F5F5] font-[Montserrat]">
+    <div className="flex justify-center bg-[#F5F5F5] font-['Josefin_Sans']">
       <ToastContainer position="top-right" newestOnTop />
       <div className="w-[65%] my-10 p-10 border rounded-2xl shadow-xl bg-white space-y-6">
         <div className="flex flex-col justify-center items-center space-y-4">

@@ -52,13 +52,13 @@ export const TitleAndType = () => {
             )}
           </div>
           <div className="flex flex-row items-center space-x-3">
-            <div className="py-5 pl-5 flex flex-row space-x-1 font-[Helvetica] text-[#929292] items-center line-through">
+            <div className="py-5 pl-5 flex flex-row space-x-1 font-['Josefin_Sans'] text-[#929292] items-center line-through">
               <h1 className=" text-base ">
                 {currencyFormat(priceTotal || productDetail.price)}
               </h1>
               <h1 className=" text-xs">đ</h1>
             </div>
-            <div className="py-5 flex flex-row space-x-1 font-[Helvetica] text-[#EE4D2D]">
+            <div className="py-5 flex flex-row space-x-1 font-['Josefin_Sans'] text-[#EE4D2D]">
               <h1 className=" text-2xl">
                 {currencyFormat(
                   ((priceTotal || productDetail.price) *
@@ -68,11 +68,11 @@ export const TitleAndType = () => {
               </h1>
               <h1 className=" text-xl">đ</h1>
             </div>
-            <div className=" px-2 bg-[#EE4D2D] flex flex-row space-x-1 font-[Helvetica] text-[#FFFFFF] items-center ">
+            <div className=" px-2 bg-[#EE4D2D] flex flex-row space-x-1 font-['Josefin_Sans'] text-[#FFFFFF] items-center ">
               <h1 className=" text-sm ">- {productDetail.discount}%</h1>
             </div>
           </div>
-          <div className="space-y-4 font-[Helvetica]">
+          <div className="space-y-4 font-['Josefin_Sans']">
             {specificationProduct.map((data) => (
               <div key={data.id} className="space-y-4">
                 <div className="flex flex-row space-x-4 whitespace-nowrap items-start">

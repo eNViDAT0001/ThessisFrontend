@@ -14,7 +14,7 @@ export const GeneralBrandDetail = (props) => {
   };
   return (
     <div className="flex justify-center">
-      <div className="w-[80%] min-h-[200px] bg-white shadow-lg rounded-2xl p-5 font-[Inter]">
+      <div className="w-[80%] min-h-[200px] bg-white shadow-lg rounded-2xl p-5 font-['Josefin_Sans']">
         <div className="flex flex-row items-center space-x-2">
           <InventoryIcon sx={{ width: 20, height: 20 }} />
           <div className="space-x-5 flex flex-row">

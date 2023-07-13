@@ -11,10 +11,12 @@ import { setPageInProductInHome } from "../../app/slices/QuerySlice";
 import { useDispatch } from "react-redux";
 import Pagination from "@mui/material/Pagination";
 import { addSuffixToPrice, truncateString } from "../../app/hook/CommonHook";
+import { useLanguage } from "../../app/hook/LanguageHook";
 
 export const ProductOverview = () => {
   const dispatch = useDispatch();
 
+  const language = useLanguage();
   const metaInProductInHome = useMetaInProductInHome();
   const productInHome = useProductInHome() || [];
 
@@ -27,8 +29,8 @@ export const ProductOverview = () => {
       <div className="flex justify-center my-[100px]">
         <div className="min-w-[80%] w-[80%] border p-10 bg-white rounded-2xl">
           <div className="flex flex-row justify-between items-center">
-            <h1 className=" text-xl font-['Poppins_Bold'] font-extrabold text-[#000000] uppercase">
-              New product launch
+            <h1 className=" text-xl font-['Josefin_Sans'] font-extrabold text-[#000000] uppercase">
+              {language ? "Sản phẩm mới nhất" : "New product launch"}
             </h1>
           </div>
           {productInHome.length == 0 ? (
@@ -64,19 +66,19 @@ export const ProductOverview = () => {
                       )}
 
                       <div className="flex flex-row mt-2">
-                        <h1 className="font-['Poppins_Regular'] hover:text-blue-400 text-base font-bold">
+                        <h1 className="font-['Josefin_Sans'] hover:text-blue-400 text-base font-bold">
                           {truncateString(data.name, 20)}
                         </h1>
                       </div>
                       <div className="flex flex-col">
                         <div className="flex flex-row space-x-4">
-                          <div className="flex flex-row space-x-1 font-[Helvetica] text-[#929292] items-center line-through">
+                          <div className="flex flex-row space-x-1 font-['Josefin_Sans'] text-[#929292] items-center line-through">
                             <h1 className=" text-sm">
                               {addSuffixToPrice(parseInt(data.price))}
                             </h1>
                             <h1 className=" text-xs">$</h1>
                           </div>
-                          <div className="flex flex-row space-x-1 font-[Helvetica] text-[#EE4D2D]">
+                          <div className="flex flex-row space-x-1 font-['Josefin_Sans'] text-[#EE4D2D]">
                             <h1 className=" text-2xl">
                               {addSuffixToPrice(
                                 (data.price * (100 - data.discount)) / 100

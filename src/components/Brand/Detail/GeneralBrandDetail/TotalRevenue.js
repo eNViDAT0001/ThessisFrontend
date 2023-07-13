@@ -9,7 +9,7 @@ export const TotalRevenue = (props) => {
         <CreditScoreIcon sx={{ width: 40, height: 40 }} />
         <div className="flex flex-col justify-between">
           <h1 className=" text-base text-[#B1B5B5]">Revenue</h1>
-          <h1 className=" text-3xl font-[Verdana]">
+          <h1 className=" text-3xl font-['Josefin_Sans']">
             {currencyFormat(parseInt(props.revenue)) + "đ"}
           </h1>
         </div>

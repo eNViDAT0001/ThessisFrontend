@@ -216,7 +216,7 @@ export const AddBanner = () => {
                   />
                 </div>
                 <div className="flex flex-row mt-2">
-                  <h1 className="font-['Poppins_Regular'] text-gray-400 hover:text-blue-400 text-base font-bold">
+                  <h1 className="font-['Josefin_Sans'] text-gray-400 hover:text-blue-400 text-base font-bold">
                     {data.name}
                   </h1>
                 </div>

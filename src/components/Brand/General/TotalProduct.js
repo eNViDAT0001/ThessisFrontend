@@ -9,7 +9,7 @@ export const TotalProduct = () => {
           <h1 className=" text-base text-[#B1B5B5]">
             Number of products on sale
           </h1>
-          <h1 className=" text-3xl font-[Verdana]">100</h1>
+          <h1 className=" text-3xl font-['Josefin_Sans']">100</h1>
         </div>
       </div>
     </div>

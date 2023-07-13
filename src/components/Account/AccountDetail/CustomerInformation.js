@@ -93,7 +93,7 @@ const CustomerInformation = (props) => {
         </div>
       </div>
       <div className="space-y-5">
-        <div className="flex flex-row justify-start space-x-7  font-['Lato']">
+        <div className="flex flex-row justify-start space-x-7  font-['Josefin_Sans']">
           <TextField
             id="date"
             label="Birthday"

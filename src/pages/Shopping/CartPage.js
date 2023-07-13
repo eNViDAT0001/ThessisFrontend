@@ -11,7 +11,7 @@ export const CartPage = () => {
     <div>
       <HeaderBar name1="Home" name2=" . Cart" />
       <div className="mb-20">
-        <div className="flex justify-center mt-10 font-['Poppins_Bold']">
+        <div className="flex justify-center mt-10 font-['Josefin_Sans']">
           <div className="w-[80%] flex justify-start flex-col">
             <div className="flex flex-row justify-between mt-14">
               <ListCart />

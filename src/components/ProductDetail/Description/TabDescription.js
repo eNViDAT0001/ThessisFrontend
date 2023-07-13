@@ -52,7 +52,7 @@ export const TabDescription = () => {
   };
   return (
     <div>
-      <div className="flex flex-col space-y-5 font-[Satoshi] bg-white">
+      <div className="flex flex-col space-y-5 font-['Josefin_Sans'] bg-white">
         <h1 className="text-xl font-semibold ">Descriptions:</h1>
         <div className="my-5">
           <Divider />

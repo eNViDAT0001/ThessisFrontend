@@ -22,7 +22,7 @@ export const ProductForyou = () => {
     dispatch(setMarkerInFilterRecommendProduct(value));
   };
   return (
-    <div className="flex flex-col space-y-5 font-[Satoshi]">
+    <div className="flex flex-col space-y-5 font-['Josefin_Sans']">
       <h1 className="text-xl font-semibold ">Can get you excited :</h1>
       <div className="my-5">
         <Divider />
@@ -61,19 +61,19 @@ export const ProductForyou = () => {
                     )}
 
                     <div className="flex flex-row mt-2">
-                      <h1 className="font-['Poppins_Regular'] text-gray-400 hover:text-blue-400 text-base font-bold truncate">
+                      <h1 className="font-['Josefin_Sans'] text-gray-400 hover:text-blue-400 text-base font-bold truncate">
                         {data.name}
                       </h1>
                     </div>
 
                     <div className="flex flex-row space-x-4">
-                      <div className="flex flex-row space-x-1 font-[Helvetica] text-[#929292] items-center line-through">
+                      <div className="flex flex-row space-x-1 font-['Josefin_Sans'] text-[#929292] items-center line-through">
                         <h1 className=" text-sm">
                           {addSuffixToPrice(parseInt(data.price))}
                         </h1>
                         <h1 className=" text-xs">$</h1>
                       </div>
-                      <div className="py-5 flex flex-row space-x-1 font-[Helvetica] text-[#EE4D2D]">
+                      <div className="py-5 flex flex-row space-x-1 font-['Josefin_Sans'] text-[#EE4D2D]">
                         <h1 className=" text-2xl">
                           {addSuffixToPrice(
                             (data.price * (100 - data.discount)) / 100

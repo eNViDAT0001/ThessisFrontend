@@ -15,7 +15,7 @@ export const Comment = (props) => {
     dispatch(setRatingInComment(newValue));
   };
   return (
-    <div className=" font-[Satoshi] my-20">
+    <div className=" font-['Josefin_Sans'] my-20">
       <div>
         {props.type === "brand" && <AddComment id={props.id} />}
 

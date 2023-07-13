@@ -14,7 +14,7 @@ export const TotalProduct = () => {
           <h1 className=" text-base text-[#B1B5B5]">
             Total products in this brand
           </h1>
-          <h1 className=" text-3xl font-[Verdana]">
+          <h1 className=" text-3xl font-['Josefin_Sans']">
             {!checkObjectEmpty(metaProduct) ? metaProduct.paging.Count : 0}
           </h1>
         </div>

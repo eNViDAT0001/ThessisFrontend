@@ -1,28 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit'
-
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    WSEvent:{},
-    isOpenButtonChat: false,
-}
+  WSEvent: {},
+  isOpenButtonChat: false,
+  language: true,
+};
 
 const WSSlice = createSlice({
-    name: "webSocket",
-    initialState,
-    reducers: {
-      setWSEvent: (state, action) => {
-        state.WSEvent = action.payload;
-      },
-      setIsOpenButtonChat: (state,action) => {
-        state.isOpenButtonChat = action.payload;
-      },  
-
+  name: "webSocket",
+  initialState,
+  reducers: {
+    setWSEvent: (state, action) => {
+      state.WSEvent = action.payload;
     },
-})
+    setIsOpenButtonChat: (state, action) => {
+      state.isOpenButtonChat = action.payload;
+    },
+    setLanguage: (state, action) => {
+      state.language = action.payload;
+    },
+  },
+});
 
-export const {
-    setWSEvent,
-    setIsOpenButtonChat
-} = WSSlice.actions
+export const { setWSEvent, setIsOpenButtonChat, setLanguage } = WSSlice.actions;
 
-export default WSSlice.reducer
+export default WSSlice.reducer;

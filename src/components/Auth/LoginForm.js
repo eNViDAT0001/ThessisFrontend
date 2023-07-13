@@ -37,8 +37,8 @@ export const LoginForm = () => {
     <div className="w-[60%] w-max-[200px] shadow-lg border p-[50px] mb-20 min-w-[300px] ">
       <ToastContainer position="top-right" newestOnTop />
       <div className="flex justify-center items-center flex-col">
-        <h1 className=" font-[Josefin_Sans] text-[32px]">Login</h1>
-        <h1 className="font-[Lato] mt-2 text-[#9096B2]">
+        <h1 className=" font-['Josefin_Sans'] text-[32px]">Login</h1>
+        <h1 className="font-['Lato'] mt-2 text-[#9096B2]">
           Please login using account detail below
         </h1>
       </div>

@@ -13,7 +13,7 @@ export const BrandContain = () => {
   return (
     <div className="flex flex-col">
       <div className="flex justify-center">
-        <div className="w-[80%] min-h-[200px] bg-white shadow-lg rounded-2xl px-5 pt-5 font-[Inter]">
+        <div className="w-[80%] min-h-[200px] bg-white shadow-lg rounded-2xl px-5 pt-5 font-['Josefin_Sans']">
           <div className="flex flex-row justify-between  pr-4">
             <div className="flex flex-row items-center space-x-2">
               <ListIcon sx={{ width: 20, height: 20 }} />

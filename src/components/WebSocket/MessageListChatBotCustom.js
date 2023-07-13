@@ -74,7 +74,13 @@ export const MessageListChatBotCustom = () => {
                 <h1 className=" max-w-[200px]">{message.text}</h1>
               ) : (
                 <div className="space-y-4 flex flex-col max-w-[300px]">
-                  <h1>{message.text}</h1>
+                  {message.text.length !== 0 && (
+                    <div className="flex flex-col">
+                      {message.text.map((row) => (
+                        <h1>{row}</h1>
+                      ))}
+                    </div>
+                  )}
                   {message.option &&
                     message.option.map((data) => (
                       <button

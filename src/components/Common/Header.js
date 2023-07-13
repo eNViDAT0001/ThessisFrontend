@@ -13,6 +13,7 @@ import { useUnSeen } from "../../app/hook/NotificationHook";
 import { checkNotLogin, checkObjectEmpty } from "../../app/hook/CommonHook";
 import Cookies from "js-cookie";
 import { useLoginGmail } from "../../app/hook/AuthHook";
+import BarLanguage from "./BarLanguage";
 
 export const Header = () => {
   const userID = useUserID();
@@ -108,7 +109,7 @@ export const Header = () => {
             )}
           </div>
           {checkNotLogin() && (
-            <div className="flex flex-row-reverse font-['Inter'] font-normal text-[#FFFFFF] text-sm uppercase">
+            <div className="flex flex-row-reverse font-['Josefin_Sans'] font-normal text-[#FFFFFF] text-sm uppercase">
               <Link to="/login">Login</Link>
             </div>
           )}
