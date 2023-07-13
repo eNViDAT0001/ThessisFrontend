@@ -35,6 +35,7 @@ import {
   setPageInFilterOrderInBrandDetail,
 } from "../../../../app/slices/QuerySlice";
 import { useMetaOrderInBrandDetail } from "../../../../app/hook/BrandHook";
+import { useLanguage } from "../../../../app/hook/LanguageHook";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -64,6 +65,7 @@ const listStatus = [
 export const ListViewOrders = () => {
   const listOrders = useListOrderInProvider() || [];
   const isPopup = useSelector((state) => state.brand.isPopUpFormUpdate);
+  const language = useLanguage();
   const [orderID, setOrderID] = useState(null);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
@@ -139,14 +141,30 @@ export const ListViewOrders = () => {
             >
               <TableHead>
                 <TableRow>
-                  <StyledTableCell align="left">Detail</StyledTableCell>
-                  <StyledTableCell align="left">Name</StyledTableCell>
-                  <StyledTableCell align="left">Phone</StyledTableCell>
-                  <StyledTableCell align="left">Address</StyledTableCell>
-                  <StyledTableCell align="left">Quantity</StyledTableCell>
-                  <StyledTableCell align="left">TotalCost</StyledTableCell>
-                  <StyledTableCell align="left">Status</StyledTableCell>
-                  <StyledTableCell align="left">Discount</StyledTableCell>
+                  <StyledTableCell align="left">
+                    {language ? "Cụ thể" : "Detail"}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    {language ? "Tên" : "Name"}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    {language ? "Điện thoại" : "Phone"}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    {language ? "Địa chỉ" : "Address"}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    {language ? "Số lượng" : "Quantity"}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    {language ? "Giá" : "TotalCost"}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    {language ? "Trạng thái" : "Status"}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    {language ? "Giảm giá" : "Discount"}
+                  </StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

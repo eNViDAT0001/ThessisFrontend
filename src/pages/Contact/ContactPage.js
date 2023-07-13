@@ -152,7 +152,7 @@ export const ContactPage = () => {
               )}
               <button
                 onClick={handleButtonSendMail}
-                className="px-5 py-2 w-[35%] h-[10%] max-h-[15%] mt-20  text-white rounded-md transition-all duration-300 hover:bg-[#FF0573] bg-[#FF0573] focus:outline-none focus:ring-2 focus:ring-[#FF0573] focus:ring-opacity-50"
+                className="px-5 py-2 w-[35%] h-[10%] max-h-[15%] mt-20  text-white rounded-md transition-all duration-300 hover:bg-[#1976D2] bg-[#1976D2] focus:outline-none focus:ring-2 focus:ring-[#FF0573] focus:ring-opacity-50"
               >
                 {language ? "Gửi" : "Send"}
               </button>

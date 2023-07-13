@@ -26,6 +26,7 @@ import {
   useProvince,
   useWard,
 } from "../../../../app/hook/AddressHook";
+import { useLanguage } from "../../../../app/hook/LanguageHook";
 
 const OPTION = {
   input: "input",
@@ -36,6 +37,7 @@ export const FormAddBrand = () => {
   const dispatch = useDispatch();
 
   const userID = useUserID();
+  const language = useLanguage();
   const [optionButton, setOptionButton] = useState(OPTION.input);
   const addFormBrand = useAddFormBrand();
   const [provinceName, setProvinceName] = useState(null);
@@ -134,10 +136,14 @@ export const FormAddBrand = () => {
   return (
     <div className="flex flex-col space-y-5 px-5 w-full min-w-[350px] my-10">
       <ToastContainer position="top-right" newestOnTop />
-      <h1 className=" text-xl font-bold">Add your brand:</h1>
+      <h1 className=" text-xl font-bold">
+        {language ? "Thêm cửa hàng của bạn:" : "Add your brand:"}
+      </h1>
       <div className="border space-y-6 p-4 rounded-md shadow-md">
         <div className="flex flex-row justify-around  items-center">
-          <h1 className=" text-lg font-bold mr-2 ">Name:</h1>
+          <h1 className=" text-lg font-bold mr-2 ">
+            {language ? "Tên:" : "Name:"}
+          </h1>
           <div className="w-full px-10">
             <TextField
               sx={{
@@ -153,7 +159,9 @@ export const FormAddBrand = () => {
           </div>
         </div>
         <div className="flex flex-row space-x-5 items-center">
-          <h1 className=" text-lg font-bold mr-2 ">Address:</h1>
+          <h1 className=" text-lg font-bold mr-2 ">
+            {language ? "Địa chỉ:" : " Address:"}
+          </h1>
           <div className="flex flex-col">
             <div className="flex flex-row  space-x-4">
               <Autocomplete
@@ -204,7 +212,9 @@ export const FormAddBrand = () => {
 
         {optionButton === OPTION.input ? (
           <div className="flex flex-row justify-around space-y-2 items-center">
-            <h1 className="text-lg font-bold  whitespace-nowrap">Image :</h1>
+            <h1 className="text-lg font-bold  whitespace-nowrap">
+              {language ? "Ảnh :" : "  Image :"}
+            </h1>
             <div className="w-full px-10">
               <TextField
                 sx={{
@@ -222,7 +232,7 @@ export const FormAddBrand = () => {
         ) : (
           <div className="flex flex-row items-center">
             <h1 className=" text-xl font-bold  whitespace-nowrap">
-              Upload your file:
+              {language ? "Tải ảnh từ máy bạn" : "Upload your file:"}
             </h1>
             <IconButton
               color="primary"
@@ -237,7 +247,7 @@ export const FormAddBrand = () => {
         )}
         <FormControl>
           <FormLabel id="demo-row-radio-buttons-group-label">
-            Option about image
+            {language ? "Lựa chọn" : " Option about image"}
           </FormLabel>
           <RadioGroup row name="row-radio-buttons-group">
             <FormControlLabel
@@ -245,14 +255,14 @@ export const FormAddBrand = () => {
               checked={optionButton === OPTION.input}
               onClick={handleButtonInput}
               control={<Radio />}
-              label="Input url"
+              label={language ? "Nhập url" : "Input url"}
             />
             <FormControlLabel
               value={OPTION.upload}
               checked={optionButton === OPTION.upload}
               onClick={handleButtonUpload}
               control={<Radio />}
-              label="Upload file"
+              label={language ? "Tải ảnh từ máy" : "Upload"}
             />
           </RadioGroup>
         </FormControl>
@@ -266,7 +276,7 @@ export const FormAddBrand = () => {
         <div className="flex flex-row-reverse pr-10">
           <Button variant="contained" onClick={handleButtonAdd}>
             {" "}
-            Add
+            {language ? "Thêm" : "Add"}
           </Button>
         </div>
       </div>

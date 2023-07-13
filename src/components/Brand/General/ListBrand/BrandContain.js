@@ -3,8 +3,10 @@ import ListIcon from "@mui/icons-material/List";
 import { Button, Divider } from "@mui/material";
 import { FormAddBrand } from "./FormAddBrand";
 import { ListViewBrand } from "./ListViewBrand";
+import { useLanguage } from "../../../../app/hook/LanguageHook";
 
 export const BrandContain = () => {
+  const language = useLanguage();
   const [openBrand, setOpenAddBrand] = useState(false);
   const handleButtonAdd = (e) => {
     if (!openBrand) setOpenAddBrand(true);
@@ -17,15 +19,17 @@ export const BrandContain = () => {
           <div className="flex flex-row justify-between  pr-4">
             <div className="flex flex-row items-center space-x-2">
               <ListIcon sx={{ width: 20, height: 20 }} />
-              <h1 className="font-bold text-2xl ">List Brand</h1>{" "}
+              <h1 className="font-bold text-2xl ">
+                {language ? "Danh sách cửa hàng" : "List Brand"}
+              </h1>{" "}
             </div>
             {!openBrand ? (
               <Button variant="contained" onClick={handleButtonAdd}>
-                + Add new Brand
+                {language ? "Thêm cửa hàng" : "+ Add new Brand"}
               </Button>
             ) : (
               <Button variant="outlined" onClick={handleButtonAdd}>
-                Hide Form
+                {language ? "Ẩn" : "Hide form"}
               </Button>
             )}
           </div>

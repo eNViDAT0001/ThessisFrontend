@@ -4,6 +4,7 @@ import { uploadFile } from "../../../../app/hook/FileHook";
 import { PhotoCamera } from "@mui/icons-material";
 import { IconButton, Button } from "@mui/material";
 import { updateStatusDelivered } from "../../../../app/hook/OrderHook";
+import { useLanguage } from "../../../../app/hook/LanguageHook";
 
 export const FormUpdateStatus = ({ id }) => {
   const [image, setImage] = useState(null);
@@ -26,15 +27,19 @@ export const FormUpdateStatus = ({ id }) => {
     };
     updateStatusDelivered(id, body);
   };
+
+  const language = useLanguage();
   return (
     <div className=" px-6">
       {" "}
       <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
         <div className="bg-white p-4 rounded shadow">
-          <h2 className="text-xl font-bold mb-4">Update order #{id}</h2>
+          <h2 className="text-xl font-bold mb-4">
+            {language ? "Cập nhật đơn hàng" : "Update order"}
+          </h2>
           <div className="flex flex-col space-y-4">
             <div className="flex flex-row space-x-4">
-              <p>Status: </p>
+              <p>{language ? "Trạng thái: " : "Status: "} </p>
               <h1>Delivered</h1>
             </div>
             <div className="flex flex-row space-x-4 items-center">
@@ -57,7 +62,7 @@ export const FormUpdateStatus = ({ id }) => {
             </div>
             <div className="flex flex-row-reverse pr-10">
               <Button variant="contained" onClick={handleButtonUpdate}>
-                Update
+                {language ? "Cập nhật" : "Update"}
               </Button>
             </div>
           </div>

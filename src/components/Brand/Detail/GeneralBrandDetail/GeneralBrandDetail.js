@@ -5,10 +5,11 @@ import { TotalProduct } from "./TotalProduct";
 import { TotalOrder } from "./TotalOrder";
 import { TotalRevenue } from "./TotalRevenue";
 import { useBrandDetail } from "../../../../app/hook/BrandHook";
+import { useLanguage } from "../../../../app/hook/LanguageHook";
 
 export const GeneralBrandDetail = (props) => {
   const brandDetail = useBrandDetail() || {};
-
+  const language = useLanguage();
   const handleButtonUpdate = (e) => {
     window.location.replace(`${props.id}/edit`);
   };
@@ -18,9 +19,11 @@ export const GeneralBrandDetail = (props) => {
         <div className="flex flex-row items-center space-x-2">
           <InventoryIcon sx={{ width: 20, height: 20 }} />
           <div className="space-x-5 flex flex-row">
-            <h1 className=" text-2xl font-bold">Detail Brand</h1>
+            <h1 className=" text-2xl font-bold">
+              {language ? "Thông tin cụ thể" : "Detail Brand"}
+            </h1>
             <Button variant="contained" onClick={handleButtonUpdate}>
-              Edit 
+              {language ? "Chỉnh sửa" : "Edit"}
             </Button>
           </div>
         </div>

@@ -36,6 +36,7 @@ import {
   setLimitInProductInDetailBrand,
   setPageInProductInDetailBrand,
 } from "../../../../app/slices/QuerySlice";
+import { useLanguage } from "../../../../app/hook/LanguageHook";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -60,6 +61,7 @@ const noImgAvailable =
 export const ListViewProduct = (props) => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
+  const language = useLanguage();
   const listProductInBrand = useListProductInBrandDetail() || [];
   const [disableButtonDelete, setDisableButtonDelete] = useState(true);
   const metaProduct = useMetaProductInBrandDetail() || {};
@@ -109,12 +111,13 @@ export const ListViewProduct = (props) => {
   useEffect(() => {
     dispatch(setPageInProductInDetailBrand(page + 1));
   }, [page, dispatch]);
+
   return (
     <div className="space-y-3">
       <div>
         <div className="flex flex-row my-5 space-x-8">
           <Button variant="contained" onClick={handleButtonAdd}>
-            + Add new Product
+            {language ? "Thêm sản phẩm" : "+ Add new Product"}
           </Button>
           <div>
             <Button
@@ -123,7 +126,7 @@ export const ListViewProduct = (props) => {
               startIcon={<DeleteIcon />}
               onClick={handleDeleteListProduct}
             >
-              Delete
+              {language ? "Xóa" : "Delete"}
             </Button>
           </div>
         </div>
@@ -140,12 +143,24 @@ export const ListViewProduct = (props) => {
               <Table aria-label="customized table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell align="left"> Selected</StyledTableCell>
-                    <StyledTableCell v>Image</StyledTableCell>
-                    <StyledTableCell align="left">Name Product</StyledTableCell>
-                    <StyledTableCell align="left">Price</StyledTableCell>
-                    <StyledTableCell align="left">Discount</StyledTableCell>
-                    <StyledTableCell align="center">Action</StyledTableCell>
+                    <StyledTableCell align="left">
+                      {language ? "Chọn" : "Selected"}
+                    </StyledTableCell>
+                    <StyledTableCell v>
+                      {language ? "Ảnh" : "Image"}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {language ? "Tên sản phẩm" : "Name Product"}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {language ? "Giá" : "Price"}
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      {language ? "Giảm giá" : "Discount"}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {language ? "Hoạt động" : "Action"}
+                    </StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -179,7 +194,7 @@ export const ListViewProduct = (props) => {
                       </StyledTableCell>
                       <StyledTableCell
                         align="center"
-                        sx={{ width: 20, padding: 1 }}
+                        sx={{ width: 100, padding: 1 }}
                       >
                         <div className=" py-1 border border-[#C40201] text-[#C40201]">
                           {`${row.discount}%`}

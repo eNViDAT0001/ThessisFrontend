@@ -11,10 +11,11 @@ import {
   setPageInFilterBrand,
 } from "../../../../app/slices/QuerySlice";
 import { useDispatch } from "react-redux";
+import { useLanguage } from "../../../../app/hook/LanguageHook";
 
 export const ListViewBrand = () => {
   const dispatch = useDispatch();
-
+  const language = useLanguage();
   const metaInBrand = useMetaInListBrand();
 
   const listBrand = useListBrand() || [];
@@ -29,19 +30,23 @@ export const ListViewBrand = () => {
   return (
     <div className="px-5">
       <div className="flex flex-row justify-start space-x-5 items-center">
-        <h1 className=" text-xl font-bold">List your brand: </h1>
+        <h1 className=" text-xl font-bold">
+          {language ? "Cửa hàng của bạn:" : "List your brand: "}
+        </h1>
         <div className="relative">
           <input
             type="text"
             className="w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Search your brand..."
+            placeholder={language ? "Tìm cửa hàng" : "Search your brand..."}
             onChange={handleChangeSearch}
           />
         </div>
       </div>
       <div className="my-10 pl-10 border flex flex-row ">
         {listBrand.length == 0 ? (
-          <h1 className=" text-xl uppercase">you don't have a brand</h1>
+          <h1 className=" text-xl uppercase">
+            {language ? "Bạn không có cửa hàng" : "You don't have brand"}
+          </h1>
         ) : (
           <div className="flex flex-row flex-wrap justify-start w-full">
             {listBrand.map((data) => (
