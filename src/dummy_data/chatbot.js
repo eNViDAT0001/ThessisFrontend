@@ -4,8 +4,6 @@ const ID_CHAT_GUIDE = 1;
 const ID_GUIDE_CONTACT = 3;
 const ID_GUIDE_SELL_PRODUCT = 4;
 
-const ID_CHAT_FORM = 2;
-
 export const guideContact = {
   id: ID_GUIDE_CONTACT,
   type: "OPTION",
@@ -37,6 +35,37 @@ export const guideSellProduct = {
   ],
 };
 
+export const guideResetPassword = {
+  id: ID_GUIDE_SELL_PRODUCT,
+  type: "OPTION",
+  textHelp: [
+    "Để đổi mật khẩu bạn có 2 phương thức đổi",
+    "- Nếu nhớ mật khẩu, vào avatar => resetpassword",
+    "- Nếu không nhớ mật khẩu => vào login => forget password",
+    " (Lưu ý: mật khẩu phải theo format của web)",
+  ],
+  option: [
+    {
+      textOption: "Tôi đã hiểu rồi",
+    },
+  ],
+};
+
+export const guideResetPayment = {
+  id: ID_GUIDE_SELL_PRODUCT,
+  type: "OPTION",
+  textHelp: [
+    "Trong phương thức thanh toán, có 2 phương thức:",
+    "- Paypal nếu thanh toán trực tuyến.",
+    "- COD nếu thanh toán tiền mặt",
+  ],
+  option: [
+    {
+      textOption: "Tôi đã hiểu rồi",
+    },
+  ],
+};
+
 export const dataChatBotGuide = {
   id: ID_CHAT_GUIDE,
   type: "OPTION",
@@ -47,11 +76,9 @@ export const dataChatBotGuide = {
       data: guideContact,
     },
     { textOption: "Về bán sản phẩm", data: guideSellProduct },
+    { textOption: "Về đổi mật khẩu", data: guideResetPassword },
+    { textOption: "Về thanh toán", data: guideResetPayment },
   ],
-};
-
-const dataChatBotForm = {
-  id: ID_CHAT_FORM,
 };
 
 export const dataChatBotRoot = {
@@ -62,10 +89,6 @@ export const dataChatBotRoot = {
     {
       textOption: "Tìm hiểu hơn về trang web",
       data: dataChatBotGuide,
-    },
-    {
-      textOption: "Sử dụng dịch vụ của trang web",
-      data: dataChatBotForm,
     },
   ],
 };

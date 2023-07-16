@@ -1,4 +1,3 @@
-import { Divider } from "@mui/material";
 import React from "react";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -27,6 +26,17 @@ const layoutFirstFooter = [
   },
 ];
 export const Footer = () => {
+  const handleClickFacebook = (e) => {
+    window.open("https://www.facebook.com/profile.php?id=100011815680408");
+  };
+
+  const handleClickTwitter = () => {
+    window.open("https://www.facebook.com/eNViDAT");
+  };
+
+  const handleClickIns = () => {
+    window.open("https://www.facebook.com/eNViDAT");
+  };
   return (
     <div className="flex flex-col">
       <div className="bg-gray-800 py-12 lg:py-16 px-7">
@@ -68,24 +78,24 @@ export const Footer = () => {
               <h2 className="text-xl font-bold mb-4">Social</h2>
               <ul className="text-sm flex space-x-4">
                 <li>
-                  <a
-                    href="#"
+                  <div
+                    onClick={handleClickFacebook}
                     className="text-gray-400 hover:text-white transition duration-300"
                   >
                     <FacebookIcon />
-                  </a>
+                  </div>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <div
+                    onClick={handleClickIns}
                     className="text-gray-400 hover:text-white transition duration-300"
                   >
                     <TwitterIcon />
-                  </a>
+                  </div>
                 </li>
                 <li>
                   <a
-                    href="#"
+                    onClick={handleClickTwitter}
                     className="text-gray-400 hover:text-white transition duration-300"
                   >
                     <InstagramIcon />
