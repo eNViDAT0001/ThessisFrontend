@@ -7,9 +7,19 @@ import "react-toastify/ReactToastify.min.css";
 import { uploadFile } from "../../../app/hook/FileHook";
 import { useUserID } from "../../../app/hook/UserHook";
 import { useDispatch } from "react-redux";
-import { addFileInCommentFormInProductDetail, setDescriptionsInCommentAddFormInProductDetail } from "../../../app/slices/CommentSlice";
-import { useFilesInAddCommentInProductDetail,useDescriptionsInAddCommentInProductDetail, addNewComment } from "../../../app/hook/CommentHook";
+import {
+  addFileInCommentFormInProductDetail,
+  setDescriptionsInCommentAddFormInProductDetail,
+} from "../../../app/slices/CommentSlice";
+import {
+  useFilesInAddCommentInProductDetail,
+  useDescriptionsInAddCommentInProductDetail,
+  addNewComment,
+} from "../../../app/hook/CommentHook";
 import { convertMediaToBody } from "../../../app/hook/ProductHook";
+import { banString } from "../../../dummy_data/banString";
+import { containStringBan } from "../../../app/hook/CommonHook";
+import { toast } from "react-toastify";
 
 const labels = {
   1: "Very bad",
@@ -23,17 +33,19 @@ const getLabelText = (valueRating) => {
   return labels[valueRating];
 };
 export const AddComment = (props) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [disableButton, setDisableButton] = useState(false);
-  const userID = useUserID()
+  const userID = useUserID();
   const [valueRating, setValueRating] = useState(0);
   const [hover, setHover] = useState(-1);
-  const description = useDescriptionsInAddCommentInProductDetail()
-  const files = useFilesInAddCommentInProductDetail() || []
+  const description = useDescriptionsInAddCommentInProductDetail();
+  const files = useFilesInAddCommentInProductDetail() || [];
 
   const handleTextComment = (e) => {
-    dispatch(setDescriptionsInCommentAddFormInProductDetail(e.currentTarget.value))
+    dispatch(
+      setDescriptionsInCommentAddFormInProductDetail(e.currentTarget.value)
+    );
   };
 
   const handleButtonUploadFile = (e) => {
@@ -41,20 +53,30 @@ export const AddComment = (props) => {
     if (file) {
       const formData = new FormData();
       formData.append("files", file, file.name);
-      uploadFile(formData).then(res=>{
-        dispatch(addFileInCommentFormInProductDetail(res.data[0]))
-      })
+      uploadFile(formData).then((res) => {
+        dispatch(addFileInCommentFormInProductDetail(res.data[0]));
+      });
     }
   };
 
   const handleButtonSend = (e) => {
-    const body={
-      "rating": valueRating,
-      "description": description,
-      "media": convertMediaToBody(files)
+    if (containStringBan(description, banString)) {
+      toast("Adding a comment failed because of using forbidden language", {
+        type: "warning",
+        autoClose: 1000,
+        onClose: setTimeout(() => {
+          window.location.reload();
+        }, 2000),
+      });
+    } else {
+      const body = {
+        rating: valueRating,
+        description: description,
+        media: convertMediaToBody(files),
+      };
+      const productID = props.id;
+      addNewComment(productID, userID, body);
     }
-    const productID = props.id
-    addNewComment(productID,userID,body)
   };
   return (
     <div className="flex flex-col space-y-5 px-5 w-full min-w-[350px] my-10">
@@ -115,14 +137,13 @@ export const AddComment = (props) => {
           </IconButton>
         </div>
         <div className="flex justify-start space-x-2">
-          {(files.map((data) => (
-              <img
-                src={data.url}
-                alt="anh comment"
-                className="w-[150px] h-[150px]"
-              ></img>
-            ))
-          )}
+          {files.map((data) => (
+            <img
+              src={data.url}
+              alt="anh comment"
+              className="w-[150px] h-[150px]"
+            ></img>
+          ))}
         </div>
         <div className="flex flex-row-reverse">
           <Button

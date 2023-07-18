@@ -199,3 +199,12 @@ export const checkTokenToLogin = () => {
 export const checkNotLogin = () => {
   return !localStorage.getItem("AccessToken");
 };
+
+export const containStringBan = (string, listBan) => {
+  for (let i = 0; i < listBan.length; i++) {
+    if (string.includes(listBan[i])) {
+      return true;
+    }
+  }
+  return false;
+};
