@@ -1,16 +1,15 @@
 import React from "react";
-import { useFetchReportAdmin, useReportAdmin } from "../../app/hook/AdminHook";
-import { checkObjectEmpty } from "../../app/hook/CommonHook";
+import { checkObjectEmpty } from "../../../app/hook/CommonHook";
 import { Divider } from "@mui/material";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
+import { useReportAdmin } from "../../../app/hook/AdminHook";
 
-export const ReportTab = () => {
+export const GeneralDB = () => {
   const reportTab = useReportAdmin() || {};
 
-  useFetchReportAdmin();
   return (
     <div className="p-10">
       {!checkObjectEmpty(reportTab) && (

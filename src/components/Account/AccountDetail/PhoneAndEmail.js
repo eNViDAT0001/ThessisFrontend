@@ -14,9 +14,11 @@ import {
   useUserDetail,
 } from "../../../app/hook/UserHook";
 import { checkEmailFormat, checkTextPhone } from "../../../app/hook/CommonHook";
-import { useEffect } from "react";
+import { useLanguage } from "../../../app/hook/LanguageHook";
 
 const PhoneAndEmail = (props) => {
+  const language = useLanguage();
+
   const [isUpdatePhone, setIsUpdatePhone] = useState(false);
   const [isUpdateEmail, setIsUpdateEmail] = useState(false);
   const userDetail = useUserDetail();
@@ -38,7 +40,7 @@ const PhoneAndEmail = (props) => {
   };
   const handleButtonUpdatePhone = (e) => {
     if (!isUpdatePhone) {
-      setIsValidPhone(true)
+      setIsValidPhone(true);
       setIsUpdatePhone(true);
     } else {
       if (isValidPhone) {
@@ -52,7 +54,7 @@ const PhoneAndEmail = (props) => {
 
   const handleButtonUpdateEmail = (e) => {
     if (!isUpdateEmail) {
-      setIsValidEmail(true)
+      setIsValidEmail(true);
       setIsUpdateEmail(true);
     } else {
       if (isValidEmail) {
@@ -68,14 +70,18 @@ const PhoneAndEmail = (props) => {
       <ToastContainer position="top-right" newestOnTop />
 
       <div className="ml-2 w-full bg-[#F8F8FD] h-full border-l py-10 px-7">
-        <h1 className="text-xl text-[#1D1378]">Phone number and email</h1>
+        <h1 className="text-xl text-[#1D1378]">
+          {language ? "Số điện thoại và email" : "Phone number and email"}
+        </h1>
         <div>
           <div className="flex flex-row justify-between mt-3">
             <FormControl
               helperText="Contains only numbers with length 10"
               variant="standard"
             >
-              <InputLabel htmlFor="input-with-icon-adornment">Phone</InputLabel>
+              <InputLabel htmlFor="input-with-icon-adornment">
+                {language ? "Điện thoại" : "Phone"}
+              </InputLabel>
               <Input
                 id="input-with-icon-adornment"
                 disabled={!isUpdatePhone}
@@ -94,13 +100,15 @@ const PhoneAndEmail = (props) => {
               className="w-[76px] h-[34px] border-[#151875] text-[#1D3178] border rounded-xl mt-2"
               onClick={handleButtonUpdatePhone}
             >
-              Update
+              {language ? "Cập nhật" : "Update"}
             </button>
           </div>
 
           <div className="flex flex-row justify-between mt-3">
             <FormControl helperText="Follow email format" variant="standard">
-              <InputLabel htmlFor="input-with-icon-adornment">Email</InputLabel>
+              <InputLabel htmlFor="input-with-icon-adornment">
+                {language ? "Email" : "Email"}
+              </InputLabel>
               <Input
                 id="input-with-icon-adornment"
                 disabled={!isUpdateEmail}
@@ -119,22 +127,24 @@ const PhoneAndEmail = (props) => {
               className="w-[76px] h-[34px] border-[#151875] text-[#1D3178] border rounded-xl mt-2"
               onClick={handleButtonUpdateEmail}
             >
-              Update
+              {language ? "Cập nhật" : "Update"}
             </button>
           </div>
         </div>
-        <h1 className="mt-6 text-xl text-[#1D1378]">Password</h1>
+        <h1 className="mt-6 text-xl text-[#1D1378]">
+          {language ? "Mật khẩu" : "Password"}
+        </h1>
         <div>
           <div className="mt-4 flex flex-row justify-between">
             <img src={Lock} className="w-[32px] h-[32px] " alt="password"></img>
             <div className="flex flex-col ml-2">
-              <h1>Password</h1>
+              <h1>{language ? "Mật khẩu" : "Password"}</h1>
               <h1>*********</h1>
             </div>
             <Popup
               trigger={
                 <button className="w-[76px] h-[34px] border-[#151875] text-[#1D3178] border rounded-xl mt-2">
-                  Update
+                  {language ? "Cập nhật" : "Update"}
                 </button>
               }
               position="left bottom"

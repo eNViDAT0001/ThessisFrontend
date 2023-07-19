@@ -15,7 +15,7 @@ import { ProductTab } from "./ProductTab";
 import { BrandTab } from "./BrandTab";
 import { CategoryTab } from "./CategoryTab";
 import { BannerTab } from "./BannerTab";
-import { ReportTab } from "./ReportTab";
+import { ReportTab } from "./Dashboard/ReportTab";
 import { RequestTab } from "./RequestTab";
 import { useDispatch } from "react-redux";
 import { setTabInLayout } from "../../app/slices/UserSlice";

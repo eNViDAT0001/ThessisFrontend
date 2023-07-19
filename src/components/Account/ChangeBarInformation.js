@@ -8,36 +8,39 @@ import { Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useUserDetail } from "../../app/hook/UserHook";
 import { deleteAllCookies } from "../../app/hook/CommonHook";
+import { useLanguage } from "../../app/hook/LanguageHook";
 
-const slideBarData = [
-  {
-    id: 1,
-    title: "Account",
-    img: Account,
-    url: "/account-detail",
-  },
-  {
-    id: 2,
-    title: "Notification",
-    img: Notification,
-    url: "/user/notification",
-  },
-  {
-    id: 3,
-    title: "Order",
-    img: Order,
-    url: "/account-order",
-  },
-  {
-    id: 4,
-    title: "Address",
-    img: Address,
-    url: "/account-address",
-  },
-];
 const ChangeBarInformation = (props) => {
   const userID = props.id;
   const userDetail = useUserDetail();
+  const language = useLanguage();
+
+  const slideBarData = [
+    {
+      id: 1,
+      title: language ? "Tài khoản" : "Account",
+      img: Account,
+      url: "/account-detail",
+    },
+    {
+      id: 2,
+      title: language ? "Thông báo" : "Notification",
+      img: Notification,
+      url: "/user/notification",
+    },
+    {
+      id: 3,
+      title: language ? "Đặt hàng" : "Order",
+      img: Order,
+      url: "/account-order",
+    },
+    {
+      id: 4,
+      title: language ? "Địa chỉ" : "Address",
+      img: Address,
+      url: "/account-address",
+    },
+  ];
 
   const userInfo = {
     nickName: userDetail.username,

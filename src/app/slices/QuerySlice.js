@@ -75,6 +75,14 @@ const initialState = {
       type: null,
       value: null,
     },
+    "price_>=": {
+      type: "compare[]",
+      value: null,
+    },
+    "price_<=": {
+      type: "compare[]",
+      value: null,
+    },
   },
 
   sortInCategoryPage: {
@@ -436,6 +444,12 @@ const querySlice = createSlice({
     setNameInFilterCategory: (state, action) => {
       state.filterInCategoryPage.name.value = action.payload;
     },
+    setPricePrevInCategory: (state, action) => {
+      state.filterInCategoryPage["price_>="].value = action.payload;
+    },
+    setPriceAfterInCategory: (state, action) => {
+      state.filterInCategoryPage["price_<="].value = action.payload;
+    },
 
     //sort in category
     setSortPriceInSortCategory: (state, action) => {
@@ -621,6 +635,8 @@ export const {
   setMarkerInFilterCategory,
   setLimitInFilterCategory,
   setRatingInFilterCategory,
+  setPricePrevInCategory,
+  setPriceAfterInCategory,
 
   setSortPriceInSortCategory,
   setSortNameInSortCategory,

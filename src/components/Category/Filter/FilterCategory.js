@@ -7,6 +7,8 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import { FilterBasicInformation } from "./FilterBasicInformation";
 import GradeIcon from "@mui/icons-material/Grade";
 import { useLanguage } from "../../../app/hook/LanguageHook";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import { FilterPrice } from "./FilterPrice";
 
 export const FilterCategory = (props) => {
   const language = useLanguage();
@@ -27,6 +29,11 @@ export const FilterCategory = (props) => {
         </h1>
       </div>
       <FilterBasicInformation />
+      <div className="flex flex-row space-x-5">
+        <AttachMoneyIcon />
+        <h1 className="text-xl font-bold ">{language ? "Giá cả" : "Price"}</h1>
+      </div>
+      <FilterPrice />
       <div className="flex flex-row space-x-5">
         <LocalMallIcon />
         <h1 className="text-xl font-bold ">
