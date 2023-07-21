@@ -25,22 +25,37 @@ export const CategoryTab = () => {
     setOpenAddCategory(!openAddCategory);
   };
 
+  const handleButtonDelete = () => {
+    //bien la categoryHandleInAdmin, console log la biet a =))
+  };
+
   useEffect(() => {
     // Whenever categoryHandleInAdmin changes, update the state variable to force UpdateCategory to rerender
     setUpdateCategoryKey((prevKey) => prevKey + 1);
   }, [categoryHandleInAdmin]);
   return (
     <div className="p-4 space-y-5">
-      {!openAddCategory ? (
-        <Button variant="contained" onClick={handleButtonAdd}>
-          + Add new category
+      <div className="flex flex-row space-x-4">
+        {!openAddCategory ? (
+          <Button variant="contained" onClick={handleButtonAdd}>
+            + Add new category
+          </Button>
+        ) : (
+          <Button variant="outlined" onClick={handleButtonAdd}>
+            Hide Form
+          </Button>
+        )}
+
+        {openAddCategory && <AddCategory />}
+        <Button
+          variant="contained"
+          onClick={handleButtonDelete}
+          disabled={checkObjectEmpty(categoryHandleInAdmin)}
+        >
+          Delete
         </Button>
-      ) : (
-        <Button variant="outlined" onClick={handleButtonAdd}>
-          Hide Form
-        </Button>
-      )}
-      {openAddCategory && <AddCategory />}
+      </div>
+
       <Divider />
       {!checkObjectEmpty(categoryHandleInAdmin) && (
         <div className="w-full">

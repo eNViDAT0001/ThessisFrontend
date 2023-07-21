@@ -50,7 +50,7 @@ export const DetailDashboard = () => {
       },
       title: {
         display: true,
-        text: "Dashboard in Products",
+        text: "Products",
       },
     },
   };
@@ -63,7 +63,7 @@ export const DetailDashboard = () => {
       },
       title: {
         display: true,
-        text: "Dashboard in Providers",
+        text: "Providers",
       },
     },
   };
@@ -78,7 +78,7 @@ export const DetailDashboard = () => {
     plugins: {
       title: {
         display: true,
-        text: "Dashboard in Orders",
+        text: "Orders",
       },
     },
     scales: {
@@ -146,14 +146,14 @@ export const DetailDashboard = () => {
       <div className="space-y-4">
         <div className="flex justify-between">
           <div className="w-[50%]">
-            <Line options={optionsProduct} data={dataProducts} />;
+            <Line options={optionsProduct} data={dataProducts} />
           </div>
           <div className="w-[50%]">
-            <Line options={optionsProvider} data={dataProviders} />;
+            <Line options={optionsProvider} data={dataProviders} />
           </div>
         </div>
         <div>
-          <Line options={optionOrder} data={dataOrders} />;
+          <Line options={optionOrder} data={dataOrders} />
         </div>
       </div>
     </div>

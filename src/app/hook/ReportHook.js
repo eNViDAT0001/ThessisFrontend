@@ -5,6 +5,7 @@ import {
   setAdminReport,
   setOrderReport,
   setProductReport,
+  setProviderReport,
 } from "../slices/ReportSlice";
 import { AdminApi } from "../../api/AdminApi";
 
@@ -44,7 +45,7 @@ const fetchProductReportInAdmin = () => async (dispatch) => {
 const fetchProviderReportInAdmin = () => async (dispatch) => {
   try {
     const res = await ReportApi.GetReportProviders();
-    dispatch(setOrderReport(res.data.data));
+    dispatch(setProviderReport(res.data.data));
   } catch (err) {
     console.log(err);
   }
