@@ -1,15 +1,15 @@
 import axiosClient from "./Client";
 export const ReportApi = {
-  GetReportProducts: () => {
-    const url = "/admin/report/products";
+  GetReportProducts: (filter) => {
+    const url = `/admin/report/products?${filter}`;
     return axiosClient.get(url);
   },
-  GetReportProviders: () => {
-    const url = "/admin/report/providers";
+  GetReportProviders: (filter) => {
+    const url = `/admin/report/providers?${filter}`;
     return axiosClient.get(url);
   },
-  GetReportOrders: () => {
-    const url = "/admin/report/orders";
+  GetReportOrders: (filter) => {
+    const url = `/admin/report/orders?${filter}`;
     return axiosClient.get(url);
   },
 };

@@ -385,6 +385,39 @@ const initialState = {
       value: 1,
     },
   },
+
+  filterProductDB: {
+    "create_at_>=": {
+      type: "compare[]",
+      value: null,
+    },
+    "create_at_<=": {
+      type: "compare[]",
+      value: null,
+    },
+  },
+
+  filterOrderDB: {
+    "create_at_>=": {
+      type: "compare[]",
+      value: null,
+    },
+    "create_at_<=": {
+      type: "compare[]",
+      value: null,
+    },
+  },
+
+  filterProviderDB: {
+    "create_at_>=": {
+      type: "compare[]",
+      value: null,
+    },
+    "create_at_<=": {
+      type: "compare[]",
+      value: null,
+    },
+  },
 };
 
 const querySlice = createSlice({
@@ -613,6 +646,27 @@ const querySlice = createSlice({
     setMarkerInFilterRecommendProduct: (state, action) => {
       state.filterRecommendProduct.marker.value = action.payload;
     },
+
+    setCreateAtPrevProductDb: (state, action) => {
+      state.filterProductDB["create_at_>="].value = action.payload;
+    },
+    setCreateAtAfterProductDb: (state, action) => {
+      state.filterProductDB["create_at_<="].value = action.payload;
+    },
+
+    setCreateAtPrevProviderDb: (state, action) => {
+      state.filterProviderDB["create_at_>="].value = action.payload;
+    },
+    setCreateAtAfterProviderDb: (state, action) => {
+      state.filterProviderDB["create_at_<="].value = action.payload;
+    },
+
+    setCreateAtPrevOrderDb: (state, action) => {
+      state.filterOrderDB["create_at_>="].value = action.payload;
+    },
+    setCreateAtAfterOrderDb: (state, action) => {
+      state.filterOrderDB["create_at_<="].value = action.payload;
+    },
   },
 });
 
@@ -696,6 +750,13 @@ export const {
   setNameInFilterOrderInBrandDetail,
 
   setMarkerInFilterRecommendProduct,
+
+  setCreateAtPrevProductDb,
+  setCreateAtAfterProductDb,
+  setCreateAtPrevProviderDb,
+  setCreateAtAfterProviderDb,
+  setCreateAtPrevOrderDb,
+  setCreateAtAfterOrderDb,
 } = querySlice.actions;
 
 export default querySlice.reducer;
