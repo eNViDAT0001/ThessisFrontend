@@ -35,6 +35,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-chat-elements": "^12.0.8",
     "react-chat-engine": "^1.11.28",
+    "react-date-range": "^1.4.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
     "react-markdown": "^8.0.7",

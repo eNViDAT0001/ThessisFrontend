@@ -30,7 +30,6 @@ export const CategoryTab = () => {
   };
 
   useEffect(() => {
-    // Whenever categoryHandleInAdmin changes, update the state variable to force UpdateCategory to rerender
     setUpdateCategoryKey((prevKey) => prevKey + 1);
   }, [categoryHandleInAdmin]);
   return (

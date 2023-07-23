@@ -17,6 +17,8 @@ import { ProductApi } from "../../api/ProductApi";
 import { fetchOrderInProvider } from "./OrderHook";
 import { setProviderIDInProductInDetailBrand } from "../slices/QuerySlice";
 import { fetchListCouponInBrand } from "./CouponHook";
+import { ReportApi } from "../../api/ReportApi";
+import { setOrderDBInBrandDetail } from "../slices/ReportSlice";
 
 export const useListBrand = () => useSelector((state) => state.brand.listBrand);
 export const useAddFormBrand = () =>
@@ -115,11 +117,12 @@ export const fetchListBrand = (id, filter) => async (dispatch) => {
   }
 };
 
-export const useFetchFullInBrandDetailPage = async (id, userId) => {
+export const useFetchFullInBrandDetailPage = async (id, userId, filterDB) => {
   const dispatch = useDispatch();
   dispatch(setProviderIDInProductInDetailBrand(id));
   const filterProduct = useFilterInProductInBrandDetail();
   const filterOrder = useFilterInOrderInBrandDetail();
+
   useLayoutEffect(() => {
     const fetchData = async () => {
       try {
@@ -135,12 +138,22 @@ export const useFetchFullInBrandDetailPage = async (id, userId) => {
           })
           .then(() => {
             return dispatch(fetchBrandDetail(id, userId));
+          })
+          .then(() => {
+            return dispatch(fetchOrderDashboardInBrandDetail(filterDB, id));
           });
       } catch (error) {}
     };
     fetchData();
-  }, [id, dispatch, userId, filterProduct, filterOrder]);
+  }, [id, dispatch, userId, filterProduct, filterOrder, filterDB]);
 };
+
+const fetchOrderDashboardInBrandDetail =
+  (filter, providerId) => async (dispatch) => {
+    const newFilter = filter + `&fields[]=provider_id_${providerId}`;
+    const res = await ReportApi.GetReportOrders(newFilter);
+    dispatch(setOrderDBInBrandDetail(res.data.data));
+  };
 const fetchBrandDetail = (providerId, userId) => async (dispatch) => {
   const response = await ProviderApi.GetBrandDetail(providerId, userId);
   dispatch(setBrandDetail(response.data.data));

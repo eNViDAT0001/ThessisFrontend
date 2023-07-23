@@ -8,6 +8,7 @@ import {
   setProviderReport,
 } from "../slices/ReportSlice";
 import { AdminApi } from "../../api/AdminApi";
+import { useRef } from "react";
 
 export const useProductReport = () =>
   useSelector((state) => state.report.productReport);
@@ -21,6 +22,10 @@ export const useFilterProviderDB = () =>
   useSelector((state) => state.query.filterProviderDB);
 export const useFilterOrderDB = () =>
   useSelector((state) => state.query.filterOrderDB);
+export const useOrderDBInBrandDetail = () =>
+  useSelector((state) => state.report.orderReportInBrandDetail);
+export const useFilterOrderDBInBrandDetail = () =>
+  useSelector((state) => state.query.filterOrderDBInBrandDetail);
 
 export const useFetchReportInAdmin = async (
   filterProduct,
@@ -28,13 +33,22 @@ export const useFetchReportInAdmin = async (
   filterOrder
 ) => {
   const dispatch = useDispatch();
+  const prevProduct = useRef(filterProduct);
+  const prevProvider = useRef(filterProvider);
+  const prevOrder = useRef(filterOrder);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await dispatch(fetchProductReportInAdmin(filterProduct));
-        await dispatch(fetchProviderReportInAdmin(filterProvider));
-        await dispatch(fetchOrderReportInAdmin(filterOrder));
-        await dispatch(fetchReportAdmin());
+        await dispatch(fetchProductReportInAdmin(filterProduct))
+          .then(() => {
+            return dispatch(fetchProviderReportInAdmin(filterProvider));
+          })
+          .then(() => {
+            return dispatch(fetchOrderReportInAdmin(filterOrder));
+          })
+          .then(() => {
+            return dispatch(fetchReportAdmin());
+          });
       } catch (err) {
         console.log(err);
       }

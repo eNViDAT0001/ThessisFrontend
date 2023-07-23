@@ -1,5 +1,5 @@
 import { Divider } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import {
   useOrderReport,
   useProductReport,
@@ -18,6 +18,9 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { convertDate } from "../../../app/hook/CommonHook";
+import { DateProduct } from "./DateProduct";
+import { DateProvider } from "./DateProvider";
+import { DateOrder } from "./DateOrder";
 
 ChartJS.register(
   CategoryScale,
@@ -143,16 +146,22 @@ export const DetailDashboard = () => {
   };
   return (
     <div className="p-10">
-      <div className="space-y-4">
-        <div className="flex justify-between">
-          <div className="w-[50%]">
+      <div className="space-y-[50px]">
+        <div className="flex flex-col">
+          <div className="flex flex-col">
+            <h1 className="font-bold">Product</h1>
+            <DateProduct />
             <Line options={optionsProduct} data={dataProducts} />
           </div>
-          <div className="w-[50%]">
+          <div className="flex flex-col space-y-[50px]">
+            <h1 className="font-bold">Provider</h1>
+            <DateProvider />
             <Line options={optionsProvider} data={dataProviders} />
           </div>
         </div>
-        <div>
+        <div className="flex flex-col">
+          <h1 className="font-bold">Order</h1>
+          <DateOrder />
           <Line options={optionOrder} data={dataOrders} />
         </div>
       </div>

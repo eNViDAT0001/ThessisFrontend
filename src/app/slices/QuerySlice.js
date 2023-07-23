@@ -387,33 +387,44 @@ const initialState = {
   },
 
   filterProductDB: {
-    "create_at_>=": {
+    "created_at_>=": {
       type: "compare[]",
       value: null,
     },
-    "create_at_<=": {
+    "created_at_<=": {
       type: "compare[]",
       value: null,
     },
   },
 
   filterOrderDB: {
-    "create_at_>=": {
+    "created_at_>=": {
       type: "compare[]",
       value: null,
     },
-    "create_at_<=": {
+    "created_at_<=": {
       type: "compare[]",
       value: null,
     },
   },
 
   filterProviderDB: {
-    "create_at_>=": {
+    "created_at_>=": {
       type: "compare[]",
       value: null,
     },
-    "create_at_<=": {
+    "created_at_<=": {
+      type: "compare[]",
+      value: null,
+    },
+  },
+
+  filterOrderDBInBrandDetail: {
+    "created_at_>=": {
+      type: "compare[]",
+      value: null,
+    },
+    "created_at_<=": {
       type: "compare[]",
       value: null,
     },
@@ -667,24 +678,31 @@ const querySlice = createSlice({
     },
 
     setCreateAtPrevProductDb: (state, action) => {
-      state.filterProductDB["create_at_>="].value = action.payload;
+      state.filterProductDB["created_at_>="].value = action.payload;
     },
     setCreateAtAfterProductDb: (state, action) => {
-      state.filterProductDB["create_at_<="].value = action.payload;
+      state.filterProductDB["created_at_<="].value = action.payload;
     },
 
     setCreateAtPrevProviderDb: (state, action) => {
-      state.filterProviderDB["create_at_>="].value = action.payload;
+      state.filterProviderDB["created_at_>="].value = action.payload;
     },
     setCreateAtAfterProviderDb: (state, action) => {
-      state.filterProviderDB["create_at_<="].value = action.payload;
+      state.filterProviderDB["created_at_<="].value = action.payload;
     },
 
     setCreateAtPrevOrderDb: (state, action) => {
-      state.filterOrderDB["create_at_>="].value = action.payload;
+      state.filterOrderDB["created_at_>="].value = action.payload;
     },
     setCreateAtAfterOrderDb: (state, action) => {
-      state.filterOrderDB["create_at_<="].value = action.payload;
+      state.filterOrderDB["created_at_<="].value = action.payload;
+    },
+
+    setCreateAtPrevOrderDbInBrandDetail: (state, action) => {
+      state.filterOrderDBInBrandDetail["created_at_>="].value = action.payload;
+    },
+    setCreateAtAfterOrderDbInBrandDetail: (state, action) => {
+      state.filterOrderDBInBrandDetail["created_at_<="].value = action.payload;
     },
 
     //filterCouponInBrand
@@ -787,6 +805,9 @@ export const {
   setCreateAtAfterProviderDb,
   setCreateAtPrevOrderDb,
   setCreateAtAfterOrderDb,
+
+  setCreateAtPrevOrderDbInBrandDetail,
+  setCreateAtAfterOrderDbInBrandDetail,
 
   setNameInCouponInBrand,
   setLimitInCouponInBrand,

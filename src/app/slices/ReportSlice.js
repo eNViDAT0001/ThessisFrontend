@@ -5,6 +5,7 @@ const initialState = {
   productReport: [],
   providerReport: [],
   orderReport: [],
+  orderReportInBrandDetail: [],
 };
 
 const ReportSlice = createSlice({
@@ -23,6 +24,9 @@ const ReportSlice = createSlice({
     setOrderReport: (state, action) => {
       state.orderReport = action.payload;
     },
+    setOrderDBInBrandDetail: (state, action) => {
+      state.orderReportInBrandDetail = action.payload;
+    },
   },
 });
 
@@ -31,5 +35,6 @@ export const {
   setProductReport,
   setProviderReport,
   setOrderReport,
+  setOrderDBInBrandDetail,
 } = ReportSlice.actions;
 export default ReportSlice.reducer;
