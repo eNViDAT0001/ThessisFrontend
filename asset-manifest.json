@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/ThessisFrontend/static/css/main.edcdea1d.css",
-    "main.js": "/ThessisFrontend/static/js/main.30a607ed.js",
+    "main.js": "/ThessisFrontend/static/js/main.994a0307.js",
     "static/js/988.421f1980.chunk.js": "/ThessisFrontend/static/js/988.421f1980.chunk.js",
     "static/media/LoginImage.png": "/ThessisFrontend/static/media/LoginImage.3500541585e02f723def.png",
     "index.html": "/ThessisFrontend/index.html",
     "main.edcdea1d.css.map": "/ThessisFrontend/static/css/main.edcdea1d.css.map",
-    "main.30a607ed.js.map": "/ThessisFrontend/static/js/main.30a607ed.js.map",
+    "main.994a0307.js.map": "/ThessisFrontend/static/js/main.994a0307.js.map",
     "988.421f1980.chunk.js.map": "/ThessisFrontend/static/js/988.421f1980.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.edcdea1d.css",
-    "static/js/main.30a607ed.js"
+    "static/js/main.994a0307.js"
   ]
 }
