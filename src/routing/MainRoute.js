@@ -28,6 +28,7 @@ import { FixProductInBrand } from "../components/Brand/FixProduct/FixProductInBr
 import { UpdateBannerPage } from "../components/Admin/BannerComponentInAdmin/UpdateBannerPage";
 import { AccountNotificationPage } from "../pages/AccountPage/AccountNotificationPage";
 import { UpdateBrandPage } from "../pages/BrandPage/UpdateBrandPage";
+import { UpdateCouponPage } from "../pages/CouponPage/UpdateCouponPage";
 
 export const MainRoute = () => {
   return (
@@ -90,6 +91,7 @@ export const MainRoute = () => {
           />
           <Route path="/product/:id/edit" element={<FixProductInBrand />} />
           <Route path="/brand-detail/:id/edit" element={<UpdateBrandPage />} />
+          <Route path="/coupon/:id/edit" element={<UpdateCouponPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route element={<LoginLayOut />}>

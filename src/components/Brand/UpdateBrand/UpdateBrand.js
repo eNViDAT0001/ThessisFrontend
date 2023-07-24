@@ -2,11 +2,7 @@ import React, { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import Paper from "@mui/material/Paper";
-import InputBase from "@mui/material/InputBase";
-import Divider from "@mui/material/Divider";
-import SearchIcon from "@mui/icons-material/Search";
+
 import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";

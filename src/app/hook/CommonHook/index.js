@@ -131,6 +131,21 @@ export const getSelectedIds = (arr) => {
   return selectedIds;
 };
 
+export const getSelectedIdsAndQuantity = (arr) => {
+  if (!Array.isArray(arr)) return [];
+  const selectedIds = [];
+  for (const obj of arr) {
+    if (obj.isSelected) {
+      const newObj = {
+        product_id: obj.id,
+        total: obj.quantity,
+      };
+      selectedIds.push(newObj);
+    }
+  }
+  return selectedIds;
+};
+
 export const convertVNDToUSD = (price) => {
   return (price * 0.0000426257).toFixed(1);
 };

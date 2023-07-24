@@ -448,6 +448,25 @@ const initialState = {
       value: "DESC",
     },
   },
+
+  filterProductInAddCoupon: {
+    name: {
+      type: "search[]",
+      value: null,
+    },
+    limit: {
+      type: null,
+      value: 8,
+    },
+    marker: {
+      type: null,
+      value: 1,
+    },
+    id: {
+      type: "sorts[]",
+      value: "DESC",
+    },
+  },
 };
 
 const querySlice = createSlice({
@@ -715,6 +734,14 @@ const querySlice = createSlice({
     setMarkerInCouponInBrand: (state, action) => {
       state.filterCouponInBrand.marker.value = action.payload;
     },
+
+    //filterProductInAddCoupon
+    setNameInProductInAddCoupon: (state, action) => {
+      state.filterProductInAddCoupon.name.value = action.payload;
+    },
+    setMarkerInProductInAddCoupon: (state, action) => {
+      state.filterProductInAddCoupon.marker.value = action.payload;
+    },
   },
 });
 
@@ -812,6 +839,9 @@ export const {
   setNameInCouponInBrand,
   setLimitInCouponInBrand,
   setMarkerInCouponInBrand,
+
+  setNameInProductInAddCoupon,
+  setMarkerInProductInAddCoupon,
 } = querySlice.actions;
 
 export default querySlice.reducer;
