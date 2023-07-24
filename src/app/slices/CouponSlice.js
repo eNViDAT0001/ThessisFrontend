@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   listCoupon: [],
-  metaInListCoupon:{},
+  metaInListCoupon: {},
+
   couponDetail: {},
   couponDetailInUpdate: {},
   listProductInAddCoupon: [],
@@ -25,8 +26,8 @@ const couponSlice = createSlice({
     setListCoupon: (state, action) => {
       state.listCoupon = action.payload;
     },
-    setMetaInListCoupon:(state,action) =>{
-        state.metaInListCoupon = action.payload
+    setMetaInListCoupon: (state, action) => {
+      state.metaInListCoupon = action.payload;
     },
     setCouponDetail: (state, action) => {
       state.couponDetail = action.payload;

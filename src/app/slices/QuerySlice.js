@@ -387,33 +387,33 @@ const initialState = {
   },
 
   filterProductDB: {
-    "created_at_>=": {
+    "create_at_>=": {
       type: "compare[]",
       value: null,
     },
-    "created_at_<=": {
+    "create_at_<=": {
       type: "compare[]",
       value: null,
     },
   },
 
   filterOrderDB: {
-    "created_at_>=": {
+    "create_at_>=": {
       type: "compare[]",
       value: null,
     },
-    "created_at_<=": {
+    "create_at_<=": {
       type: "compare[]",
       value: null,
     },
   },
 
   filterProviderDB: {
-    "created_at_>=": {
+    "create_at_>=": {
       type: "compare[]",
       value: null,
     },
-    "created_at_<=": {
+    "create_at_<=": {
       type: "compare[]",
       value: null,
     },
@@ -678,24 +678,24 @@ const querySlice = createSlice({
     },
 
     setCreateAtPrevProductDb: (state, action) => {
-      state.filterProductDB["created_at_>="].value = action.payload;
+      state.filterProductDB["create_at_>="].value = action.payload;
     },
     setCreateAtAfterProductDb: (state, action) => {
-      state.filterProductDB["created_at_<="].value = action.payload;
+      state.filterProductDB["create_at_<="].value = action.payload;
     },
 
     setCreateAtPrevProviderDb: (state, action) => {
-      state.filterProviderDB["created_at_>="].value = action.payload;
+      state.filterProviderDB["create_at_>="].value = action.payload;
     },
     setCreateAtAfterProviderDb: (state, action) => {
-      state.filterProviderDB["created_at_<="].value = action.payload;
+      state.filterProviderDB["create_at_<="].value = action.payload;
     },
 
     setCreateAtPrevOrderDb: (state, action) => {
-      state.filterOrderDB["created_at_>="].value = action.payload;
+      state.filterOrderDB["create_at_>="].value = action.payload;
     },
     setCreateAtAfterOrderDb: (state, action) => {
-      state.filterOrderDB["created_at_<="].value = action.payload;
+      state.filterOrderDB["create_at_<="].value = action.payload;
     },
 
     setCreateAtPrevOrderDbInBrandDetail: (state, action) => {
