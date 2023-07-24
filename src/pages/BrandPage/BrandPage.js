@@ -7,6 +7,7 @@ import { GeneralBrand } from "../../components/Brand/General/GeneralBrand";
 import { BrandContain } from "../../components/Brand/General/ListBrand/BrandContain";
 import { useUserID } from "../../app/hook/UserHook";
 import { convertObjectToStringQuery } from "../../app/hook/CommonHook";
+import { CouponInBrand } from "../../components/Brand/General/Coupon/CouponInBrand";
 export const BrandPage = () => {
   const userID = useUserID();
   const filterBrand = useFilterInListBrand();
@@ -17,6 +18,7 @@ export const BrandPage = () => {
     <div className=" w-screen bg-[#F2F6F9] p-10">
       <div className="flex flex-col space-y-9">
         <GeneralBrand />
+        <CouponInBrand />
         <BrandContain />
       </div>
     </div>
