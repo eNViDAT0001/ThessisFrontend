@@ -16,7 +16,7 @@ import UserReducer from "./slices/UserSlice";
 import WSReducer from "./slices/WSSlice";
 import ReportReducer from "./slices/ReportSlice";
 import RequestReducer from "./slices/RequestSlice";
-
+import CouponReducer from "./slices/CouponSlice";
 export const store = configureStore({
   reducer: {
     banner: bannerReducer,
@@ -36,6 +36,7 @@ export const store = configureStore({
     webSocket: WSReducer,
     report: ReportReducer,
     request: RequestReducer,
+    coupon: CouponReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

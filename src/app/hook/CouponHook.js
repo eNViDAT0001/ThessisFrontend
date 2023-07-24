@@ -1,6 +1,3 @@
-import { toast } from "react-toastify";
-import { ProductApi } from "../../api/ProductApi";
-import { checkObjectEmpty } from "./CommonHook";
 import { CouponApi } from "../../api/CouponApi";
 import { setListCoupon, setMetaInListCoupon } from "../slices/CouponSlice";
 import { useSelector } from "react-redux";

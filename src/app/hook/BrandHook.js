@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { ProductApi } from "../../api/ProductApi";
 import { fetchOrderInProvider } from "./OrderHook";
 import { setProviderIDInProductInDetailBrand } from "../slices/QuerySlice";
+import { fetchListCouponInBrand } from "./CouponHook";
 
 export const useListBrand = () => useSelector((state) => state.brand.listBrand);
 export const useAddFormBrand = () =>
@@ -72,11 +73,13 @@ const fetchBrandDetailForUpdate = (providerId, userId) => async (dispatch) => {
   }
 };
 
-export const useFetchListBrand = async (id, filter) => {
+export const useFetchListBrand = async (id, filter, filterCoupon) => {
   const dispatch = useDispatch();
   await useEffect(() => {
-    dispatch(fetchListBrand(id, filter));
-  }, [dispatch, id, filter]);
+    dispatch(fetchListBrand(id, filter)).then(() => {
+      return dispatch(fetchListCouponInBrand(filterCoupon, id));
+    });
+  }, [dispatch, id, filter, filterCoupon]);
 };
 
 export const useFetchListBrandInAdmin = async (filter) => {

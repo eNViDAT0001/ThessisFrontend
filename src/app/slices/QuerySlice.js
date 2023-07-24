@@ -418,6 +418,25 @@ const initialState = {
       value: null,
     },
   },
+
+  filterCouponInBrand: {
+    name: {
+      type: "search[]",
+      value: null,
+    },
+    limit: {
+      type: null,
+      value: 4,
+    },
+    marker: {
+      type: null,
+      value: 1,
+    },
+    id: {
+      type: "sorts[]",
+      value: "DESC",
+    },
+  },
 };
 
 const querySlice = createSlice({
@@ -668,7 +687,16 @@ const querySlice = createSlice({
       state.filterOrderDB["create_at_<="].value = action.payload;
     },
 
-    
+    //filterCouponInBrand
+    setNameInCouponInBrand: (state, action) => {
+      state.filterCouponInBrand.name.value = action.payload;
+    },
+    setLimitInCouponInBrand: (state, action) => {
+      state.filterCouponInBrand.limit.value = action.payload;
+    },
+    setMarkerInCouponInBrand: (state, action) => {
+      state.filterCouponInBrand.marker.value = action.payload;
+    },
   },
 });
 
@@ -759,6 +787,10 @@ export const {
   setCreateAtAfterProviderDb,
   setCreateAtPrevOrderDb,
   setCreateAtAfterOrderDb,
+
+  setNameInCouponInBrand,
+  setLimitInCouponInBrand,
+  setMarkerInCouponInBrand,
 } = querySlice.actions;
 
 export default querySlice.reducer;
