@@ -1,4 +1,5 @@
 {
+  "homepage": "http://eNViDAT0001.github.io/ThessisFrontend",
   "name": "web_mes",
   "version": "0.1.0",
   "private": true,
@@ -25,6 +26,7 @@
     "chart.js": "^4.3.0",
     "daisyui": "^2.31.0",
     "dayjs": "^1.11.6",
+    "gh-pages": "^5.0.0",
     "highlight.js": "^11.7.0",
     "http": "^0.0.1-security",
     "https": "^1.0.0",
@@ -63,6 +65,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
