@@ -45,7 +45,6 @@ export const CategoryTab = () => {
           </Button>
         )}
 
-        {openAddCategory && <AddCategory />}
         <Button
           variant="contained"
           onClick={handleButtonDelete}
@@ -54,6 +53,7 @@ export const CategoryTab = () => {
           Delete
         </Button>
       </div>
+      {openAddCategory && <AddCategory />}
 
       <Divider />
       {!checkObjectEmpty(categoryHandleInAdmin) && (

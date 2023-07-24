@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import {
   checkObjectEmpty,
   convertVNDToUSD,
   currencyFormat,
+  getFullIdInArray,
 } from "../../../app/hook/CommonHook";
-
+import SendIcon from "@mui/icons-material/Send";
 import {
   useListItemInCartSelected,
   useTotalPrice,
@@ -25,9 +26,12 @@ import {
   getListIDCart,
   useDataShippingCost,
 } from "../../../app/hook/OrderHook";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { CouponApi } from "../../../api/CouponApi";
 
 export const Bill = () => {
+  const dispatch = useDispatch();
   const userID = useUserID();
   const listItem = useListItemInCartSelected();
   const addressForm = useFormAddressSelected();
@@ -37,6 +41,8 @@ export const Bill = () => {
   const [totalShippingCost, setTotalShippingCost] = useState(0);
   const dataShippingCost = useDataShippingCost();
   const isCheckSelected = useIsCheckSelected();
+
+  const [stringCoupon, setStringCoupon] = useState(null);
 
   //console.log("listItem", listItem);
   const createNewOrder = async () => {
@@ -164,6 +170,34 @@ export const Bill = () => {
     window.myButton.render(paypalRef.current);
   }, [userID]);
 
+  const handleInputCoupon = (e) => {
+    setStringCoupon(e.target.value);
+  };
+
+  const handleSendCode = async (e) => {
+    const listId = getFullIdInArray(listItem);
+    const body = {
+      code: stringCoupon,
+      product_ids: listId,
+    };
+    const res = await CouponApi.TestValidCoupon(body);
+
+    if (res.data.data.length !== 0) {
+      const newListItem = listItem.map((item) => {
+        return {
+          ...item,
+          price: item.price - res.data.data[0].total,
+        };
+      });
+      localStorage.setItem("itemInOrder", newListItem);
+    } else {
+      toast("Apply Wrong Coupon", {
+        type: "warning",
+        autoClose: 1000,
+      });
+    }
+  };
+
   useEffect(() => {
     if (dataShippingCost) {
       const totalSum = dataShippingCost.reduce(
@@ -176,7 +210,19 @@ export const Bill = () => {
   return (
     <div className=" bg-[#F4F4FC] p-6 space-y-10">
       <ToastContainer position="top-right" newestOnTop />
-
+      <div className="flex flex-col">
+        <div className="flex flex-row space-x-4 items-center">
+          <h1 className=" text-[#1D3178] text-lg">Coupon :</h1>
+          <TextField onChange={handleInputCoupon} size="small" />
+          <Button
+            variant="contained"
+            endIcon={<SendIcon />}
+            onClick={handleSendCode}
+          >
+            Send
+          </Button>
+        </div>
+      </div>
       <div className=" border-b-2 border-[#E8E6F1] flex justify-between">
         <div className="flex flex-col">
           <h1 className=" text-[#1D3178] text-lg">Shipping :</h1>

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   WSEvent: {},
   isOpenButtonChat: false,
-  language: true,
+  language: false,
 };
 
 const WSSlice = createSlice({

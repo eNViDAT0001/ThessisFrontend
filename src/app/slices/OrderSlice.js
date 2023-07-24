@@ -4,12 +4,13 @@ const initialState = {
   listOrderInProvider: [],
   listOrderInAccount: [],
   listOrderInAdmin: [],
-  detailOrder:{},
+  detailOrder: {},
   metaInOrderInAdmin: {},
   listItemsInOrder: [],
   metaInOrderInAccount: {},
   orderHandleDetail: {},
   dataShippingCost: [],
+  couponInOrder: null,
 };
 
 const orderSlice = createSlice({
@@ -46,6 +47,9 @@ const orderSlice = createSlice({
     addDataToShippingCost: (state, action) => {
       state.dataShippingCost.push(action.payload);
     },
+    setCouponInOrder: (state, action) => {
+      state.couponInOrder = action.payload;
+    },
   },
 });
 
@@ -60,6 +64,7 @@ export const {
   setDetailOrder,
   setDataShippingCost,
   addDataToShippingCost,
+  setCouponInOrder,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

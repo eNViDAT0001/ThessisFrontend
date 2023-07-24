@@ -19,7 +19,7 @@ const ShoppingOrderPage = () => {
         name2=" . Payment"
       />
       <div className="mt-20 mb-20 flex justify-center">
-        <div className="w-[70%] flex justify-between flex-row flex-wrap">
+        <div className="w-[90%] flex justify-between flex-row flex-wrap">
           <OrderTabPage />
           <Bill />
         </div>

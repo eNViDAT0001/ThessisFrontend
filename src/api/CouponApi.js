@@ -28,4 +28,8 @@ export const CouponApi = {
     const url = `/coupons/user/${userId}`;
     return axiosClient.delete(url, { data: body });
   },
+  TestValidCoupon: (body) => {
+    const url = `/coupons/validate`;
+    return axiosClient.post(url, body);
+  },
 };

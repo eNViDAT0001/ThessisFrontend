@@ -131,6 +131,15 @@ export const getSelectedIds = (arr) => {
   return selectedIds;
 };
 
+export const getFullIdInArray = (arr) => {
+  if (!Array.isArray(arr)) return [];
+  const selectedIds = [];
+  for (const obj of arr) {
+    selectedIds.push(obj.id);
+  }
+  return selectedIds;
+};
+
 export const getSelectedIdsAndQuantity = (arr) => {
   if (!Array.isArray(arr)) return [];
   const selectedIds = [];
