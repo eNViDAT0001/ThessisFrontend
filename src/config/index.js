@@ -18,7 +18,7 @@ export const domain = () => {
     case "test":
       return baseWebsocket("localhost");
     case "production":
-      return `http://${proHost()}/be/api/v1`;
+      return `http://${proHost()}/api/v1`;
     default:
       return baseURL("localhost");
   }
@@ -32,7 +32,7 @@ export const webSocket = () => {
     case "test":
       return baseWebsocket("localhost");
     case "production":
-      return `ws://${proHost()}/be/api/v1`;
+      return `ws://${proHost()}/api/v1`;
     default:
       return baseWebsocket("localhost");
   }
