@@ -16,6 +16,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 
 import "react-toastify/ReactToastify.min.css";
 import {
+  deleteListCoupon,
   selectCoupon,
   useListCouponInBrand,
   useMetaCouponInBrand,
@@ -31,6 +32,7 @@ import {
 } from "../../../../app/hook/CommonHook";
 import { setListCoupon } from "../../../../app/slices/CouponSlice";
 import { useLanguage } from "../../../../app/hook/LanguageHook";
+import { useUserID } from "../../../../app/hook/UserHook";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -56,6 +58,7 @@ export const ListCouponInBrand = () => {
   const language = useLanguage();
   const listCoupon = useListCouponInBrand() || [];
   const metaCoupon = useMetaCouponInBrand() || {};
+  const userId = useUserID();
 
   const [page, setPage] = useState(0);
   const [disableButtonDelete, setDisableButtonDelete] = useState(true);
@@ -75,7 +78,13 @@ export const ListCouponInBrand = () => {
     dispatch(setLimitInCouponInBrand(e.target.value));
   };
 
-  const handleDeleteCoupon = (e) => {};
+  const handleDeleteCoupon = (e) => {
+    const listSelect = getSelectedIds(listCoupon);
+    const body = {
+      ids: listSelect,
+    };
+    dispatch(deleteListCoupon(userId, body));
+  };
 
   const handleCheckCoupon = (couponId) => {
     const newCoupon = selectCoupon(listCoupon, couponId);

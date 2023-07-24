@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { CouponApi } from "../../api/CouponApi";
 import { setListCoupon, setMetaInListCoupon } from "../slices/CouponSlice";
 import { useSelector } from "react-redux";
@@ -34,3 +35,14 @@ export const fetchListCouponInBrand = (filter, userId) => async (dispatch) => {
   dispatch(setListCoupon(listCoupon));
   dispatch(setMetaInListCoupon(res.data.meta));
 };
+
+
+export const deleteListCoupon = (userId,body) => async(dispatch) =>{
+  await CouponApi.DeleteCoupon(userId,body).then(() => {
+    toast("Ban list coupon successfully", {
+      type: "success",
+      autoClose: 1000,
+      Close: setTimeout(() => window.location.reload(), 1000),
+    });
+  });
+}
